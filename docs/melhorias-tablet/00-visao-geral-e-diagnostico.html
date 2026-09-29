@@ -145,15 +145,15 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
 </style>
 </head>
 <body>
-<nav class="topbar" aria-label="Partes"><a class="on" href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a></nav>
+<nav class="topbar" aria-label="Partes"><a href="CONTEXTO-PARA-AGENTE.html">C · Contexto para o agente</a><a class="on" href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a><a href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a></nav>
 <div class="shell">
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
-    <ul class="parts"><li><a class="on" href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li></ul>
+    <ul class="parts"><li><a href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a class="on" href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li></ul>
     <div class="toc"><p class="toc-title">Nesta página</p><ul><li><a href="#01-o-pedido-em-uma-frase-por-item">0.1 O pedido, em uma frase por item</a></li><li><a href="#02-a-equipe-e-o-que-cada-papel-olhou">0.2 A equipe e o que cada papel olhou</a></li><li><a href="#03-como-o-tasknexus-funciona-hoje-resumo-técnico">0.3 Como o TaskNexus funciona hoje (resumo técnico)</a></li><li><a href="#04-por-que-o-terminal-é-ruim-no-tablet-causa-raiz">0.4 Por que o terminal é ruim no tablet (causa raiz)</a></li><li><a href="#05-a-solução-em-uma-imagem">0.5 A solução em uma imagem</a></li><li><a href="#06-decisões-importantes-e-o-que-foi-descartado">0.6 Decisões importantes e o que foi descartado</a></li><li><a href="#07-glossário-rápido">0.7 Glossário rápido</a></li><li><a href="#08-como-ler-e-usar-estes-documentos-com-um-agente">0.8 Como ler e usar estes documentos com um agente</a></li></ul></div>
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
-  <main id="top"><article class="doc"><p class="eyebrow">Parte 0 de 5</p><h1 id="parte-0-visão-geral-e-diagnóstico">Parte 0 — Visão geral e diagnóstico</h1>
+  <main id="top"><article class="doc"><p class="eyebrow">Parte 0 de 6</p><h1 id="parte-0-visão-geral-e-diagnóstico">Parte 0 — Visão geral e diagnóstico</h1>
 <blockquote>
 <p><strong>Para quem é este documento:</strong> para você (Bruno) entender o problema e as
 decisões, e para o agente que vai implementar entender <em>por que</em> cada
@@ -170,8 +170,13 @@ decisão foi tomada antes de mexer no código. Leia esta parte antes das outras.
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td>Ver arquivos <code>.html</code>, <code>.md</code> e de código no tablet e poder baixá-los, com o TaskNexus rodando no PC</td>
+<td>1a</td>
+<td><strong>Primeira entrega:</strong> como links no terminal não são clicáveis, o próprio agente faz o arquivo aparecer na tela, cada abertura vira uma aba nova, com botão de tela cheia</td>
+<td><a href="06-planejamento-fase-v.html">Parte 6 — Planejamento da Fase V</a></td>
+</tr>
+<tr>
+<td>1b</td>
+<td>Ver arquivos <code>.html</code>, <code>.md</code> e de código no tablet e poder baixá-los, com o TaskNexus rodando no PC (navegador de arquivos completo)</td>
 <td><a href="01-visualizador-de-arquivos.html">Parte 1 — Visualizador de arquivos</a></td>
 </tr>
 <tr>
@@ -193,6 +198,11 @@ decisão foi tomada antes de mexer no código. Leia esta parte antes das outras.
 <td>—</td>
 <td>Como executar tudo isso com um agente</td>
 <td><a href="05-plano-de-execucao-e-prompts.html">Parte 5 — Plano de execução e prompts</a></td>
+</tr>
+<tr>
+<td>—</td>
+<td>Retomar o trabalho numa janela nova</td>
+<td><a href="CONTEXTO-PARA-AGENTE.html">Contexto para o agente</a></td>
 </tr>
 </tbody>
 </table></div>
@@ -335,8 +345,13 @@ em cima disso.</p>
 </tr>
 <tr>
 <td>Autenticação</td>
-<td><strong>Obrigatória antes da Parte 1</strong> (token de acesso + cookie)</td>
-<td>Continuar sem auth: com a API de arquivos, qualquer um na sua rede baixaria seu <code>~/.ssh</code> se um caminho escapasse. Ver Parte 4, item 4.1.</td>
+<td><strong>Obrigatória antes do navegador de arquivos completo</strong> (Parte 1 / fase F1). A Fase V pode vir antes porque só serve arquivos que o agente (ou você) abriu, por um id aleatório, com denylist</td>
+<td>Continuar sem auth: com a API de arquivos livre, qualquer um na sua rede baixaria seu <code>~/.ssh</code> se um caminho escapasse. Ver Parte 4, item 4.1.</td>
+</tr>
+<tr>
+<td>Primeira entrega</td>
+<td><strong>Fase V:</strong> tool MCP <code>abrir_no_visualizador</code> + visualizador em dropdown com abas e tela cheia (Parte 6)</td>
+<td>Começar pelo chat estruturado: resolve mais, mas demora muito mais; o problema imediato é não conseguir abrir arquivos</td>
 </tr>
 </tbody>
 </table></div>
@@ -354,11 +369,12 @@ em cima disso.</p>
 <ol>
 <li>Leia as Partes 1 a 4 na ordem, olhando os mockups.</li>
 <li>Marque o que você não quer (cada melhoria tem id, ex.: <code>4.3</code>).</li>
-<li>Abra a <a href="05-plano-de-execucao-e-prompts.html">Parte 5</a> e copie o prompt da fase
+<li>Comece pela <strong>Fase V</strong> (<a href="06-planejamento-fase-v.html">Parte 6</a>). Para as
+   fases seguintes, abra a <a href="05-plano-de-execucao-e-prompts.html">Parte 5</a> e copie o prompt da fase
    que quer executar. Cada prompt já manda o agente ler as partes relevantes
    deste diretório, então <strong>mantenha a pasta <code>docs/melhorias-tablet/</code> no repositório</strong>.</li>
 <li>Execute uma fase por PR. Cada fase foi desenhada para funcionar sozinha.</li>
-</ol><div class="pager"><a class="next" href="01-visualizador-de-arquivos.html"><small>Próxima</small>Parte 1 · Visualizador de arquivos</a></div></article></main>
+</ol><div class="pager"><a href="CONTEXTO-PARA-AGENTE.html"><small>Anterior</small>C · Contexto para o agente</a><a class="next" href="01-visualizador-de-arquivos.html"><small>Próxima</small>1 · Visualizador de arquivos</a></div></article></main>
 </div>
 <script>
 document.querySelectorAll('.copy').forEach(function(btn){

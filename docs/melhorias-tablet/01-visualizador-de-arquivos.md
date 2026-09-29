@@ -6,12 +6,49 @@
 >
 > **Pré-requisito obrigatório:** autenticação (Parte 4, item 4.1). Sem ela,
 > esta API expõe arquivos do seu PC para qualquer aparelho da rede.
+>
+> **Atualização:** esta parte virou a **segunda** etapa do visualizador. A
+> primeira é a **Fase V** (seção 1.0 e [Parte 6](06-planejamento-fase-v.md)):
+> o próprio agente abre o arquivo na tela, porque hoje não dá para clicar em
+> links no terminal.
 
 ![Mockup do visualizador no iPad](img/04-mockup-arquivos-ipad.svg)
 
 Legenda do mockup: **A** ações do arquivo (baixar, compartilhar, citar no
 chat) · **B** abas Preview / Código / Diff · **C** filtros "Alterados"
 (git) e "Recentes" · **D** bloco de código com botão Copiar.
+
+---
+
+## 1.0 Primeira entrega: o agente abre o arquivo na tela (Fase V)
+
+Hoje o chat é um terminal e os links não são clicáveis. Por isso, antes da
+árvore de pastas e da busca, vem uma entrega menor e mais urgente:
+
+- **O agente mostra o arquivo:** uma ferramenta MCP nova,
+  `abrir_no_visualizador(caminho, titulo?, linha?)`, registrada para o
+  `claude` e o `codex` do mesmo jeito que as ferramentas de card e tarefa. A
+  descrição da ferramenta orienta o agente a usá-la sempre que criar ou
+  alterar um arquivo que você deva ver.
+- **Cada abertura é uma aba nova** num **visualizador em dropdown**, que fica no
+  cabeçalho do chat, ao lado de "Anexos". O mesmo arquivo pedido de novo
+  reaproveita a aba e recarrega o conteúdo.
+- **Botão Tela cheia:** o dropdown vira um **modal de tela cheia** na página,
+  com as mesmas abas e um botão **✕ Fechar**. No celular abre sempre em tela cheia.
+- **Aviso ao vivo** pelo WebSocket do terminal que já está aberto (frame de
+  controle `viewer_open`). As abas ficam salvas no banco, então nada se perde
+  se a tela estiver fechada.
+- **Baixar, copiar e abrir no navegador** em cada aba. Markdown como no GitHub,
+  HTML isolado em `iframe` sandbox e código com destaque de sintaxe.
+- **Bônus:** links `https://` e caminhos de arquivo no terminal ficam
+  clicáveis (addon de links do xterm) e abrem no visualizador.
+
+![Dropdown e tela cheia](img/10-mockup-visualizador-dropdown.svg)
+
+O plano completo, com contratos, arquivos, testes e aceite, está na
+[Parte 6 — Planejamento da Fase V](06-planejamento-fase-v.md). O código dessa
+fase (`file_access.py`, renderers, `DiffRenderer` futuro) é reaproveitado pelo
+restante desta Parte 1.
 
 ---
 

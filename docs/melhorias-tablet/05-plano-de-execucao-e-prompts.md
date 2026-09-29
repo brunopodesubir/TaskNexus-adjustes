@@ -34,11 +34,24 @@ prompts abaixo, resumidas):
 
 | Fase | Entrega | Partes | Pode rodar em paralelo com |
 |------|---------|--------|----------------------------|
-| **F0** Fundações | Auth (4.1), routers (4.3), quick wins do terminal (4.2) | 4 | — |
+| **FV** Agente abre arquivo | Tool MCP `abrir_no_visualizador`, visualizador em dropdown com abas e tela cheia, links clicáveis no terminal | 6 (e 1.0) | — (vem primeiro) |
+| **F0** Fundações | Auth (4.1), routers (4.3), restante dos quick wins do terminal (4.2) | 4 | — |
 | **F1** Arquivos | API `/api/fs`, tela e painel de arquivos, download/compartilhar, links de arquivo | 1 | F2 |
 | **F2** Chat claude | `/ws/chat`, adapter stream-json, aprovações via MCP, ChatView, histórico, troca de modo | 2 | F1 |
 | **F3** Layout v3 | Tokens, primitivos `ui/`, rotas reais, lista estilo WhatsApp, 3 painéis, ⌘K | 3 | — (usa F1 e F2) |
 | **F4** Codex + extras | CodexAdapter, 4.4, 4.5, 4.7–4.11, 4.13 | 2, 4 | itens independentes entre si |
+
+## 5.2.1 Fase FV — O agente abre o arquivo na tela (primeira)
+
+Planejamento completo, com requisitos, UX, arquitetura, contratos, ordem de
+commits, testes e aceite: **[Parte 6](06-planejamento-fase-v.md)**. O prompt
+de desenvolvimento desta fase é entregue sob pedido, para ser usado numa
+janela de contexto limpa, e aponta para a Parte 6 e para o
+[`CONTEXTO-PARA-AGENTE.md`](CONTEXTO-PARA-AGENTE.md).
+
+Como o visualizador passa a existir na FV, a F0 fica com autenticação,
+routers e o modo "Selecionar texto"/fonte na rotação; a F1 amplia o
+visualizador para navegador de arquivos (árvore, busca, diff, zip).
 
 ## 5.3 Fase F0 — Fundações
 
@@ -47,8 +60,8 @@ prompts abaixo, resumidas):
 1. Extrair routers do `main.py` (4.3), um domínio por commit, suíte verde a cada passo.
 2. Autenticação (4.1): segredo, login, cookie, middleware, WebSocket, CORS,
    tela de login, lista de dispositivos, QR code.
-3. Terminal: `@xterm/addon-web-links`, link provider de caminhos, modo
-   "Selecionar texto", fonte reativa à rotação (4.2).
+3. Terminal: modo "Selecionar texto" e fonte reativa à rotação (4.2). Os links
+   clicáveis já saem na FV.
 
 **Pronto quando:** nenhuma rota `/api` ou `/ws` responde sem login (exceto as
 listadas em 4.1); o login no iPad dura 90 dias; links no terminal abrem; dá
@@ -73,9 +86,9 @@ Faça, nesta ordem e em commits separados:
    middleware com as exceções listadas, validação no handshake dos WebSockets com close 4401, CORS restrito,
    hooks só de loopback, tela de login no frontend, lista e revogação de dispositivos, QR code na Configuração,
    token impresso por deploy.sh e deploy.ps1). Escreva os testes listados em 4.1.
-3) Quick wins 4.2 no frontend/src/components/TerminalPanel.jsx: WebLinksAddon, link provider para caminhos de
-   arquivo (por enquanto só copia o caminho e mostra um toast, o visualizador vem na F1), modo "Selecionar texto"
-   com o buffer como texto real e botões de copiar, e fonte reativa à rotação.
+3) Quick wins 4.2 que a Fase FV não cobriu, em frontend/src/components/TerminalPanel.jsx: modo "Selecionar
+   texto" com o buffer como texto real e botões de copiar, e fonte reativa à rotação. (Links clicáveis já
+   foram entregues na FV.)
 
 Restrições: Python 3.9, sem shell=True, sem TypeScript, sem biblioteca de UI, estilos com tokens --v2-*.
 Não quebre deploy.sh nem deploy.ps1. Todos os testes (pytest e `cd frontend && npm test`) passando.
@@ -262,6 +275,7 @@ no modo chat. Adicione a importação de histórico de ~/.codex/sessions. Testes
 
 - [ ] Li as Partes 0–4 e risquei o que não quero.
 - [ ] Confirmei que o acesso pelo iPad é por `https://…ts.net` (necessário para push e compartilhar).
+- [ ] Rodei a FV e testei os 12 passos de aceite da Parte 6 no iPad.
 - [ ] Rodei a F0 e guardei o token de acesso num gerenciador de senhas.
 - [ ] F1 e F2 aprovadas com os checklists de aceite no iPad.
 - [ ] F3 aprovada nos três tamanhos (celular, iPad em pé, iPad deitado).

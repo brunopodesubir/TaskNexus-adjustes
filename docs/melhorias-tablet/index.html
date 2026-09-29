@@ -145,11 +145,11 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
 </style>
 </head>
 <body>
-<nav class="topbar" aria-label="Partes"><a href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a></nav>
+<nav class="topbar" aria-label="Partes"><a href="CONTEXTO-PARA-AGENTE.html">C · Contexto para o agente</a><a href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a><a href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a></nav>
 <div class="shell">
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
-    <ul class="parts"><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li></ul>
+    <ul class="parts"><li><a href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li></ul>
     <div class="toc"><p class="toc-title">Nesta página</p><ul><li><a href="#partes">Partes</a></li><li><a href="#imagens">Imagens</a></li><li><a href="#como-regenerar-os-html">Como regenerar os HTML</a></li></ul></div>
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
@@ -197,13 +197,24 @@ Claude, fase por fase.</p>
 </tr>
 <tr>
 <td><a href="05-plano-de-execucao-e-prompts.html">5 · Plano de execução e prompts</a></td>
-<td>Fases F0–F4, critérios de pronto e prompts prontos para colar num agente</td>
+<td>Fases FV e F0–F4, critérios de pronto e prompts prontos para colar num agente</td>
 <td><a href="05-plano-de-execucao-e-prompts.html">html</a></td>
+</tr>
+<tr>
+<td><a href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a></td>
+<td><strong>Primeira entrega:</strong> o agente abre arquivos na tela, em abas, num dropdown com tela cheia. Requisitos, UX, contratos, ordem de commits, testes e aceite</td>
+<td><a href="06-planejamento-fase-v.html">html</a></td>
+</tr>
+<tr>
+<td><a href="CONTEXTO-PARA-AGENTE.html">Contexto para o agente</a></td>
+<td>Resumo de tudo (decisões, estado, próximos passos) para retomar numa janela de contexto nova</td>
+<td><a href="CONTEXTO-PARA-AGENTE.html">html</a></td>
 </tr>
 </tbody>
 </table></div>
-<p>Versão em página única, com todas as partes e imagens embutidas:
-<a href="documentacao-completa.html"><code>documentacao-completa.html</code></a> (boa para abrir no iPad).</p>
+<p>Versão em página única, com todas as partes:
+<a href="documentacao-completa.html"><code>documentacao-completa.html</code></a> (imagens embutidas, boa para abrir no iPad) e
+<a href="documentacao-completa.html"><code>documentacao-completa.md</code></a> (um único Markdown para entregar a um agente).</p>
 <h2 id="imagens">Imagens</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -249,6 +260,14 @@ Claude, fase por fase.</p>
 <td><code>img/09-roadmap.svg</code></td>
 <td>Ordem das fases</td>
 </tr>
+<tr>
+<td><code>img/10-mockup-visualizador-dropdown.svg</code></td>
+<td>Visualizador em dropdown com abas e em tela cheia (Fase V)</td>
+</tr>
+<tr>
+<td><code>img/11-fluxo-agente-abre-arquivo.svg</code></td>
+<td>Caminho da tool MCP até a aba aparecer na tela (Fase V)</td>
+</tr>
 </tbody>
 </table></div>
 <h2 id="como-regenerar-os-html">Como regenerar os HTML</h2>
@@ -256,8 +275,8 @@ Claude, fase por fase.</p>
 <div class="code"><div class="code-head"><span>bash</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>markdown<span class="w"> </span>pygments<span class="w"> </span>pymdown-extensions
 python3<span class="w"> </span>docs/melhorias-tablet/build_html.py
 </code></pre></div>
-<p>O script gera um <code>.html</code> por parte e o <code>documentacao-completa.html</code> com as
-imagens embutidas.</p></article></main>
+<p>O script gera um <code>.html</code> por parte, o <code>documentacao-completa.html</code> com as
+imagens embutidas e o <code>documentacao-completa.md</code> (todas as partes num arquivo só).</p></article></main>
 </div>
 <script>
 document.querySelectorAll('.copy').forEach(function(btn){

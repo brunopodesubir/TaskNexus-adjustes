@@ -17,10 +17,13 @@ Claude, fase por fase.
 | [2 · Chat conversacional](02-chat-conversacional.md) | Conversa estilo WhatsApp com markdown, código, links e aprovações; protocolo, banco, código, testes | [html](02-chat-conversacional.html) |
 | [3 · Layout amigável](03-layout-amigavel.md) | Diagnóstico de UX, tokens, layouts por tamanho de tela, rotas, lista de conversas, atalhos, acessibilidade | [html](03-layout-amigavel.html) |
 | [4 · Melhorias adicionais](04-melhorias-adicionais.md) | 14 melhorias com o quê, por quê, como, esforço e prioridade (inclui autenticação obrigatória) | [html](04-melhorias-adicionais.html) |
-| [5 · Plano de execução e prompts](05-plano-de-execucao-e-prompts.md) | Fases F0–F4, critérios de pronto e prompts prontos para colar num agente | [html](05-plano-de-execucao-e-prompts.html) |
+| [5 · Plano de execução e prompts](05-plano-de-execucao-e-prompts.md) | Fases FV e F0–F4, critérios de pronto e prompts prontos para colar num agente | [html](05-plano-de-execucao-e-prompts.html) |
+| [6 · Planejamento da Fase V](06-planejamento-fase-v.md) | **Primeira entrega:** o agente abre arquivos na tela, em abas, num dropdown com tela cheia. Requisitos, UX, contratos, ordem de commits, testes e aceite | [html](06-planejamento-fase-v.html) |
+| [Contexto para o agente](CONTEXTO-PARA-AGENTE.md) | Resumo de tudo (decisões, estado, próximos passos) para retomar numa janela de contexto nova | [html](CONTEXTO-PARA-AGENTE.html) |
 
-Versão em página única, com todas as partes e imagens embutidas:
-[`documentacao-completa.html`](documentacao-completa.html) (boa para abrir no iPad).
+Versão em página única, com todas as partes:
+[`documentacao-completa.html`](documentacao-completa.html) (imagens embutidas, boa para abrir no iPad) e
+[`documentacao-completa.md`](documentacao-completa.md) (um único Markdown para entregar a um agente).
 
 ## Imagens
 
@@ -35,6 +38,8 @@ Versão em página única, com todas as partes e imagens embutidas:
 | `img/07-fluxo-visualizador.svg` | Escolha do renderizador e fluxo de download/compartilhar |
 | `img/08-navegacao-responsiva.svg` | Três layouts por largura de tela |
 | `img/09-roadmap.svg` | Ordem das fases |
+| `img/10-mockup-visualizador-dropdown.svg` | Visualizador em dropdown com abas e em tela cheia (Fase V) |
+| `img/11-fluxo-agente-abre-arquivo.svg` | Caminho da tool MCP até a aba aparecer na tela (Fase V) |
 
 ## Como regenerar os HTML
 
@@ -45,5 +50,5 @@ pip install markdown pygments pymdown-extensions
 python3 docs/melhorias-tablet/build_html.py
 ```
 
-O script gera um `.html` por parte e o `documentacao-completa.html` com as
-imagens embutidas.
+O script gera um `.html` por parte, o `documentacao-completa.html` com as
+imagens embutidas e o `documentacao-completa.md` (todas as partes num arquivo só).

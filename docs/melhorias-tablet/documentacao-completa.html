@@ -145,11 +145,11 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
 </style>
 </head>
 <body>
-<nav class="topbar" aria-label="Partes"><a href="#parte-00">0 · Visão geral e diagnóstico</a><a href="#parte-01">1 · Visualizador de arquivos</a><a href="#parte-02">2 · Chat conversacional</a><a href="#parte-03">3 · Layout amigável</a><a href="#parte-04">4 · Melhorias adicionais</a><a href="#parte-05">5 · Plano e prompts</a></nav>
+<nav class="topbar" aria-label="Partes"><a href="#parte-CO">C · Contexto para o agente</a><a href="#parte-00">0 · Visão geral e diagnóstico</a><a href="#parte-01">1 · Visualizador de arquivos</a><a href="#parte-02">2 · Chat conversacional</a><a href="#parte-03">3 · Layout amigável</a><a href="#parte-04">4 · Melhorias adicionais</a><a href="#parte-05">5 · Plano e prompts</a><a href="#parte-06">6 · Planejamento da Fase V</a></nav>
 <div class="shell">
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
-    <ul class="parts"><li><a href="#parte-00"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="#parte-01"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="#parte-02"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="#parte-03"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="#parte-04"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="#parte-05"><span class="n">5</span><span>Plano e prompts</span></a></li></ul>
+    <ul class="parts"><li><a href="#parte-CO"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="#parte-00"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="#parte-01"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="#parte-02"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="#parte-03"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="#parte-04"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="#parte-05"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="#parte-06"><span class="n">6</span><span>Planejamento da Fase V</span></a></li></ul>
     
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
@@ -159,7 +159,259 @@ TaskNexus confortável no iPad e no celular: <strong>chat no lugar do terminal</
 <strong>visualizador e download de arquivos</strong>, <strong>layout pensado para toque</strong> e
 melhorias extras. Escrita para ser lida por você e executada por um agente
 Claude, fase por fase.</p>
-<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHZpZXdCb3g9IjAgMCAxMjAwIDg0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNb2NrdXAgZG8gY2hhdCBubyBpUGFkIG5hIGhvcml6b250YWw6IGxpc3RhIGRlIGNvbnZlcnNhcyDDoCBlc3F1ZXJkYSwgY29udmVyc2EgY29tIGJvbGhhcywgYmxvY28gZGUgY8OzZGlnbywgY2FydMO1ZXMgZGUgZmVycmFtZW50YSBlIHBlZGlkbyBkZSBhcHJvdmHDp8OjbyBubyBjZW50cm8sIGNvbXBvc2VyIGVtYmFpeG8iPgogIDxzdHlsZT4KICAgIHRleHR7Zm9udC1mYW1pbHk6RmlndHJlZSwtYXBwbGUtc3lzdGVtLCJTZWdvZSBVSSIsUm9ib3RvLHNhbnMtc2VyaWY7ZmlsbDojM2IzNTMwfQogICAgLm17d2hpdGUtc3BhY2U6cHJlO2ZvbnQtZmFtaWx5OiJJQk0gUGxleCBNb25vIix1aS1tb25vc3BhY2UsTWVubG8sbW9ub3NwYWNlfQogICAgLmh7Zm9udC1zaXplOjE1cHg7Zm9udC13ZWlnaHQ6NzAwfQogICAgLmJ7Zm9udC1zaXplOjEzcHh9CiAgICAuc3tmb250LXNpemU6MTEuNXB4O2ZpbGw6IzhhODM3OH0KICAgIC53e2ZpbGw6I2ZmZmZmZn0KICAgIC5sa3tmaWxsOiMzZDU2YjA7dGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZX0KICAgIC5je2ZvbnQtc2l6ZToxMnB4O2ZpbGw6I2U2ZTNkZH0KICAgIC5ja3tmaWxsOiM5ZmQ5YzV9CiAgICAuY3N7ZmlsbDojZTdjMDdifQogICAgLmFubntmb250LXNpemU6MTJweDtmb250LXdlaWdodDo3MDA7ZmlsbDojYjQ1MzFmfQogIDwvc3R5bGU+CiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODQwIiByeD0iMTgiIGZpbGw9IiNlOWU1ZGMiLz4KICA8IS0tIGRldmljZSAtLT4KICA8cmVjdCB4PSIzMCIgeT0iMjQiIHdpZHRoPSIxMTQwIiBoZWlnaHQ9Ijc5MCIgcng9IjM0IiBmaWxsPSIjMWYyMDI0Ii8+CiAgPHJlY3QgeD0iNDYiIHk9IjQwIiB3aWR0aD0iMTEwOCIgaGVpZ2h0PSI3NTgiIHJ4PSIyMiIgZmlsbD0iI2Y3ZjVmMCIvPgoKICA8IS0tIGNoYXRzIGxpc3QgLS0+CiAgPHJlY3QgeD0iNDYiIHk9IjQwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9Ijc1OCIgcng9IjIyIiBmaWxsPSIjZmJmYWY3Ii8+CiAgPHJlY3QgeD0iMzMwIiB5PSI0MCIgd2lkdGg9IjE2IiBoZWlnaHQ9Ijc1OCIgZmlsbD0iI2ZiZmFmNyIvPgogIDxsaW5lIHgxPSIzNDYiIHkxPSI0MCIgeDI9IjM0NiIgeTI9Ijc5OCIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iNjYiIHk9IjgwIiBjbGFzcz0iaCI+Q29udmVyc2FzPC90ZXh0PgogIDxyZWN0IHg9IjI5MCIgeT0iNjIiIHdpZHRoPSIzNiIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSIzMDEiIHk9IjgxIiBjbGFzcz0iaCB3Ij4rPC90ZXh0PgogIDxyZWN0IHg9IjY2IiB5PSI5OCIgd2lkdGg9IjI2MCIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9IiNlZmVjZTUiLz4KICA8dGV4dCB4PSI4MCIgeT0iMTE5IiBjbGFzcz0iYiIgc3R5bGU9ImZpbGw6IzhhODM3OCI+QnVzY2FyIGNvbnZlcnNhcyBlIGFycXVpdm9zPC90ZXh0PgoKICA8IS0tIGNoYXQgaXRlbSBhY3RpdmUgLS0+CiAgPHJlY3QgeD0iNTgiIHk9IjE0MiIgd2lkdGg9IjI4MCIgaGVpZ2h0PSI2OCIgcng9IjEwIiBmaWxsPSIjZTZmMmVlIi8+CiAgPGNpcmNsZSBjeD0iODYiIGN5PSIxNzYiIHI9IjE4IiBmaWxsPSIjY2ZlNmRlIi8+PHRleHQgeD0iNzYiIHk9IjE4MSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojMmY3NTY0Ij5DTDwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjE2NiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPmNsYXVkZSDCtyB0YXNrbmV4dXM8L3RleHQ+CiAgPHRleHQgeD0iMTE0IiB5PSIxODYiIGNsYXNzPSJzIj5Sb2RlaSBvcyB0ZXN0ZXMsIDIgZmFsaGFyYW0gZW3igKY8L3RleHQ+CiAgPHRleHQgeD0iMjk4IiB5PSIxNjYiIGNsYXNzPSJzIj5hZ29yYTwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjIwMiIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiMyZjc1NjQiPuKXjyBwZW5zYW5kb+KApjwvdGV4dD4KCiAgPGNpcmNsZSBjeD0iODYiIGN5PSIyNDYiIHI9IjE4IiBmaWxsPSIjZGZlM2Y1Ii8+PHRleHQgeD0iNzciIHk9IjI1MSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojNDQ1NzlmIj5DWDwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjIzNiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPmNvZGV4IMK3IHNpdGUtY2xpZW50ZTwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjI1NiIgY2xhc3M9InMiPlF1ZXIgcXVlIGV1IGZhw6dhIG8gZGVwbG95PzwvdGV4dD4KICA8dGV4dCB4PSIyOTYiIHk9IjIzNiIgY2xhc3M9InMiPjE0OjAyPC90ZXh0PgogIDxjaXJjbGUgY3g9IjMxMiIgY3k9IjI1NCIgcj0iOSIgZmlsbD0iI2M5OTYyZCIvPjx0ZXh0IHg9IjMwOSIgeT0iMjU4IiBjbGFzcz0icyB3IiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj4hPC90ZXh0PgoKICA8Y2lyY2xlIGN4PSI4NiIgY3k9IjMxMCIgcj0iMTgiIGZpbGw9IiNjZmU2ZGUiLz48dGV4dCB4PSI3NiIgeT0iMzE1IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPkNMPC90ZXh0PgogIDx0ZXh0IHg9IjExNCIgeT0iMzAwIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+Y2xhdWRlIMK3IGFwaS1wYWdhbWVudG9zPC90ZXh0PgogIDx0ZXh0IHg9IjExNCIgeT0iMzIwIiBjbGFzcz0icyI+UHJvbnRvLiBDcmllaSBvIGNhcmQgIzE4NC48L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSIzMDAiIGNsYXNzPSJzIj5vbnRlbTwvdGV4dD4KICA8Y2lyY2xlIGN4PSIzMTIiIGN5PSIzMTgiIHI9IjkiIGZpbGw9IiMzZjhmN2MiLz48dGV4dCB4PSIzMDkiIHk9IjMyMiIgY2xhc3M9InMgdyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+MjwvdGV4dD4KCiAgPGNpcmNsZSBjeD0iODYiIGN5PSIzNzQiIHI9IjE4IiBmaWxsPSIjZWVlYWUyIi8+PHRleHQgeD0iNzkiIHk9IjM3OSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojNmI2NDVjIj4mZ3Q7XzwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjM2NCIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPnRlcm1pbmFsIMK3IHNjcmlwdHM8L3RleHQ+CiAgPHRleHQgeD0iMTE0IiB5PSIzODQiIGNsYXNzPSJzIj5tb2RvIHRlcm1pbmFsPC90ZXh0PgoKICA8IS0tIGJvdHRvbSBuYXYgaW4gc2lkZWJhciAtLT4KICA8bGluZSB4MT0iNDYiIHkxPSI3MzgiIHgyPSIzNDYiIHkyPSI3MzgiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjcwIiB5PSI3NzIiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzJmNzU2NCI+Q2hhdHM8L3RleHQ+CiAgPHRleHQgeD0iMTMwIiB5PSI3NzIiIGNsYXNzPSJiIj5Cb2FyZDwvdGV4dD4KICA8dGV4dCB4PSIxODgiIHk9Ijc3MiIgY2xhc3M9ImIiPkFycXVpdm9zPC90ZXh0PgogIDx0ZXh0IHg9IjI2MiIgeT0iNzcyIiBjbGFzcz0iYiI+VGFyZWZhczwvdGV4dD4KCiAgPCEtLSBoZWFkZXIgLS0+CiAgPGxpbmUgeDE9IjM0NiIgeTE9IjEwNCIgeDI9IjExNTQiIHkyPSIxMDQiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjM3MCIgeT0iNzAiIGNsYXNzPSJoIj5jbGF1ZGUgwrcgdGFza25leHVzPC90ZXh0PgogIDx0ZXh0IHg9IjM3MCIgeT0iOTAiIGNsYXNzPSJzIj5+L3Byb2pldG9zL3Rhc2tuZXh1cyDCtyBwZW5zYW5kb+KApjwvdGV4dD4KICA8cmVjdCB4PSI4MjIiIHk9IjU2IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjMyIiByeD0iOSIgZmlsbD0iI2VmZWNlNSIvPgogIDxyZWN0IHg9IjgyNSIgeT0iNTkiIHdpZHRoPSI3MiIgaGVpZ2h0PSIyNiIgcng9IjciIGZpbGw9IiNmZmZmZmYiLz4KICA8dGV4dCB4PSI4NDQiIHk9Ijc3IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+Q2hhdDwvdGV4dD4KICA8dGV4dCB4PSI5MDYiIHk9Ijc3IiBjbGFzcz0iYiIgc3R5bGU9ImZpbGw6IzZiNjQ1YyI+VGVybWluYWw8L3RleHQ+CiAgPHJlY3QgeD0iOTg0IiB5PSI1NiIgd2lkdGg9Ijg0IiBoZWlnaHQ9IjMyIiByeD0iOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iOTk4IiB5PSI3NyIgY2xhc3M9ImIiPkFycXVpdm9zPC90ZXh0PgogIDxyZWN0IHg9IjEwNzYiIHk9IjU2IiB3aWR0aD0iNjIiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSJub25lIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSIxMDg2IiB5PSI3NyIgY2xhc3M9ImIiPisgQ2FyZDwvdGV4dD4KCiAgPCEtLSB1c2VyIGJ1YmJsZSAtLT4KICA8cmVjdCB4PSI3ODAiIHk9IjEyNCIgd2lkdGg9IjM1NiIgaGVpZ2h0PSI1OCIgcng9IjE2IiBmaWxsPSIjZDllZWU2Ii8+CiAgPHRleHQgeD0iNzk4IiB5PSIxNDgiIGNsYXNzPSJiIj5Sb2RhIG9zIHRlc3RlcyBkbyBiYWNrZW5kIGUgbWUgbW9zdHJhPC90ZXh0PgogIDx0ZXh0IHg9Ijc5OCIgeT0iMTY4IiBjbGFzcz0iYiI+byBxdWUgZmFsaG91LCBjb20gbGluayBwcm8gYXJxdWl2by48L3RleHQ+CiAgPHRleHQgeD0iMTA5NiIgeT0iMTk2IiBjbGFzcz0icyI+MTQ6MTAg4pyT4pyTPC90ZXh0PgoKICA8IS0tIGFzc2lzdGFudCBibG9jayAtLT4KICA8Y2lyY2xlIGN4PSIzODIiIGN5PSIyMjQiIHI9IjE0IiBmaWxsPSIjY2ZlNmRlIi8+PHRleHQgeD0iMzczIiB5PSIyMjkiIGNsYXNzPSJzIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzJmNzU2NCI+Q0w8L3RleHQ+CiAgPCEtLSB0b29sIGNoaXBzIC0tPgogIDxyZWN0IHg9IjQwNiIgeT0iMjEwIiB3aWR0aD0iMjI0IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNlZmVjZTUiLz4KICA8dGV4dCB4PSI0MjAiIHk9IjIyOSIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiMzYjM1MzAiPuKWuCBFeGVjdXRvdSAgcHl0ZXN0IC1xICAgwrcgNCwyIHM8L3RleHQ+CiAgPHJlY3QgeD0iNjM4IiB5PSIyMTAiIHdpZHRoPSIxOTAiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iI2VmZWNlNSIvPgogIDx0ZXh0IHg9IjY1MiIgeT0iMjI5IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzNiMzUzMCI+4pa4IExldSAyIGFycXVpdm9zPC90ZXh0PgoKICA8cmVjdCB4PSI0MDYiIHk9IjI1MCIgd2lkdGg9IjY2MCIgaGVpZ2h0PSIyOTgiIHJ4PSIxNiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iNDI2IiB5PSIyNzgiIGNsYXNzPSJiIj5Sb2RlaSBhIHN1w610ZTogPHRzcGFuIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPjU4IHBhc3NhcmFtLCAyIGZhbGhhcmFtPC90c3Bhbj4uIEFzIGR1YXMgZmFsaGFzIHbDqm0gZG8gbWVzbW8gcG9udG86PC90ZXh0PgogIDx0ZXh0IHg9IjQyNiIgeT0iMzAwIiBjbGFzcz0iYiI+YSB2YWxpZGHDp8OjbyBkZSBjYW1pbmhvIGVtIDx0c3BhbiBjbGFzcz0ibGsgbSI+YmFja2VuZC9hcHAvYXR0YWNobWVudHMucHk6Mjk8L3RzcGFuPiByZWN1c2EgbGlua3Mgc2ltYsOzbGljb3MuPC90ZXh0PgogIDx0ZXh0IHg9IjQyNiIgeT0iMzIyIiBjbGFzcz0iYiI+UmVmZXLDqm5jaWE6IDx0c3BhbiBjbGFzcz0ibGsiPmRvY3MucHl0aG9uLm9yZy8zL2xpYnJhcnkvb3MucGF0aC5odG1sPC90c3Bhbj48L3RleHQ+CiAgPCEtLSBjb2RlIGJsb2NrIC0tPgogIDxyZWN0IHg9IjQyNiIgeT0iMzM4IiB3aWR0aD0iNjIwIiBoZWlnaHQ9IjE1MCIgcng9IjEwIiBmaWxsPSIjMjYyODJlIi8+CiAgPHJlY3QgeD0iNDI2IiB5PSIzMzgiIHdpZHRoPSI2MjAiIGhlaWdodD0iMjgiIHJ4PSIxMCIgZmlsbD0iIzMzMzYzZCIvPgogIDxyZWN0IHg9IjQyNiIgeT0iMzU2IiB3aWR0aD0iNjIwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMzMzNjNkIi8+CiAgPHRleHQgeD0iNDQwIiB5PSIzNTciIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojYjliNGFiIj5weXRob24gwrcgYXR0YWNobWVudHMucHk8L3RleHQ+CiAgPHRleHQgeD0iODk2IiB5PSIzNTciIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZTZlM2RkIj5BYnJpcjwvdGV4dD4KICA8dGV4dCB4PSI5NDYiIHk9IjM1NyIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiNlNmUzZGQiPkNvcGlhcjwvdGV4dD4KICA8dGV4dCB4PSIxMDAwIiB5PSIzNTciIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZTZlM2RkIj7ipKI8L3RleHQ+CiAgPHRleHQgeD0iNDQwIiB5PSIzODgiIGNsYXNzPSJjIG0iPjx0c3BhbiBjbGFzcz0iY2siPmRlZjwvdHNwYW4+IF9pc193aXRoaW5fZGlyZWN0b3J5KGJhc2VfZGlyLCB0YXJnZXRfZGlyKTo8L3RleHQ+CiAgPHRleHQgeD0iNDQwIiB5PSI0MDgiIGNsYXNzPSJjIG0iPiAgICBiYXNlID0gb3MucGF0aC5yZWFscGF0aChiYXNlX2Rpcik8L3RleHQ+CiAgPHRleHQgeD0iNDQwIiB5PSI0MjgiIGNsYXNzPSJjIG0iPiAgICB0YXJnZXQgPSBvcy5wYXRoLnJlYWxwYXRoKHRhcmdldF9kaXIpPC90ZXh0PgogIDx0ZXh0IHg9IjQ0MCIgeT0iNDQ4IiBjbGFzcz0iYyBtIj4gICAgPHRzcGFuIGNsYXNzPSJjayI+cmV0dXJuPC90c3Bhbj4gb3MucGF0aC5jb21tb25wYXRoKFtiYXNlLCB0YXJnZXRdKSA9PSBiYXNlPC90ZXh0PgogIDx0ZXh0IHg9IjQ0MCIgeT0iNDcyIiBjbGFzcz0iYyBtIiBzdHlsZT0iZmlsbDojOGE4Mzc4Ij4jIOKApiAxMiBsaW5oYXMgb2N1bHRhcyDCtyB0b2NhciBwYXJhIGV4cGFuZGlyPC90ZXh0PgogIDx0ZXh0IHg9IjQyNiIgeT0iNTE0IiBjbGFzcz0iYiI+UXVlciBxdWUgZXUgY29ycmlqYSBlIHJvZGUgZGUgbm92bz88L3RleHQ+CiAgPHRleHQgeD0iNDI2IiB5PSI1MzYiIGNsYXNzPSJzIj4xNDoxMSDCtyAwLDA4IFVTJCDCtyAxMiBzPC90ZXh0PgoKICA8IS0tIGFwcHJvdmFsIGNhcmQgLS0+CiAgPHJlY3QgeD0iNDA2IiB5PSI1NjYiIHdpZHRoPSI2NjAiIGhlaWdodD0iMTA0IiByeD0iMTYiIGZpbGw9IiNmZGY2ZTYiIHN0cm9rZT0iI2U1Yzc3ZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8dGV4dCB4PSI0MjYiIHk9IjU5MiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPkNsYXVkZSBxdWVyIGVkaXRhciAxIGFycXVpdm88L3RleHQ+CiAgPHRleHQgeD0iNDI2IiB5PSI2MTIiIGNsYXNzPSJzIG0iIHN0eWxlPSJmaWxsOiM2YjY0NWMiPkVkaXQgwrcgYmFja2VuZC9hcHAvYXR0YWNobWVudHMucHkgICgrNiDiiJIyKSAgwrcgdmVyIGRpZmY8L3RleHQ+CiAgPHJlY3QgeD0iNDI2IiB5PSI2MjYiIHdpZHRoPSI5MiIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjQ1MiIgeT0iNjQ3IiBjbGFzcz0iYiI+TmVnYXI8L3RleHQ+CiAgPHJlY3QgeD0iNTI4IiB5PSI2MjYiIHdpZHRoPSIxNTAiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iNTQ4IiB5PSI2NDciIGNsYXNzPSJiIHciIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPlBlcm1pdGlyIHVtYSB2ZXo8L3RleHQ+CiAgPHJlY3QgeD0iNjg4IiB5PSI2MjYiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSI3MDQiIHk9IjY0NyIgY2xhc3M9ImIiPlNlbXByZSBuZXN0YSBzZXNzw6NvPC90ZXh0PgoKICA8IS0tIGNvbXBvc2VyIC0tPgogIDxyZWN0IHg9IjM3MCIgeT0iNzAwIiB3aWR0aD0iNzYwIiBoZWlnaHQ9Ijc4IiByeD0iMTgiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8dGV4dCB4PSIzOTIiIHk9IjczNCIgY2xhc3M9ImgiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPu+8izwvdGV4dD4KICA8dGV4dCB4PSI0MjIiIHk9IjczMyIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPk1lbnNhZ2VtIHBhcmEgY2xhdWRl4oCmICAoIC8gcGFyYSBjb21hbmRvcywgQCBwYXJhIGFycXVpdm9zICk8L3RleHQ+CiAgPHRleHQgeD0iNDIyIiB5PSI3NjAiIGNsYXNzPSJzIj7ijJjihrUgZW52aWEgwrcg4oa1IG5vdmEgbGluaGEgbm8gaVBhZCDCtyBkaXRhZG8gZG8gdGVjbGFkbyBmdW5jaW9uYSBhcXVpPC90ZXh0PgogIDxjaXJjbGUgY3g9IjEwOTgiIGN5PSI3MzkiIHI9IjIwIiBmaWxsPSIjYjliNGFiIi8+CiAgPHJlY3QgeD0iMTA5MCIgeT0iNzMxIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHJ4PSIzIiBmaWxsPSIjZmZmZmZmIi8+CgogIDwhLS0gYW5ub3RhdGlvbnMgLS0+CiAgPHRleHQgeD0iMTA5MCIgeT0iMTE4IiBjbGFzcz0iYW5uIiB0ZXh0LWFuY2hvcj0iZW5kIj5BPC90ZXh0PgogIDx0ZXh0IHg9IjM5OCIgeT0iMjA2IiBjbGFzcz0iYW5uIj5CPC90ZXh0PgogIDx0ZXh0IHg9IjEwNzIiIHk9IjMwNCIgY2xhc3M9ImFubiI+QzwvdGV4dD4KICA8dGV4dCB4PSIxMDcyIiB5PSIzNjYiIGNsYXNzPSJhbm4iPkQ8L3RleHQ+CiAgPHRleHQgeD0iMTA3MiIgeT0iNTg2IiBjbGFzcz0iYW5uIj5FPC90ZXh0PgogIDx0ZXh0IHg9IjExNDAiIHk9IjcxMiIgY2xhc3M9ImFubiI+RjwvdGV4dD4KICA8dGV4dCB4PSI1NiIgeT0iMjMyIiBjbGFzcz0iYW5uIj5HPC90ZXh0Pgo8L3N2Zz4K" alt="Mockup do chat no iPad" loading="lazy"><figcaption>Mockup do chat no iPad</figcaption></figure></article><article class="doc part-sep" id="parte-00"><p class="eyebrow">Parte 0 de 5</p><h1 id="p00-parte-0-visão-geral-e-diagnóstico">Parte 0 — Visão geral e diagnóstico</h1>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHZpZXdCb3g9IjAgMCAxMjAwIDg0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNb2NrdXAgZG8gY2hhdCBubyBpUGFkIG5hIGhvcml6b250YWw6IGxpc3RhIGRlIGNvbnZlcnNhcyDDoCBlc3F1ZXJkYSwgY29udmVyc2EgY29tIGJvbGhhcywgYmxvY28gZGUgY8OzZGlnbywgY2FydMO1ZXMgZGUgZmVycmFtZW50YSBlIHBlZGlkbyBkZSBhcHJvdmHDp8OjbyBubyBjZW50cm8sIGNvbXBvc2VyIGVtYmFpeG8iPgogIDxzdHlsZT4KICAgIHRleHR7Zm9udC1mYW1pbHk6RmlndHJlZSwtYXBwbGUtc3lzdGVtLCJTZWdvZSBVSSIsUm9ib3RvLHNhbnMtc2VyaWY7ZmlsbDojM2IzNTMwfQogICAgLm17d2hpdGUtc3BhY2U6cHJlO2ZvbnQtZmFtaWx5OiJJQk0gUGxleCBNb25vIix1aS1tb25vc3BhY2UsTWVubG8sbW9ub3NwYWNlfQogICAgLmh7Zm9udC1zaXplOjE1cHg7Zm9udC13ZWlnaHQ6NzAwfQogICAgLmJ7Zm9udC1zaXplOjEzcHh9CiAgICAuc3tmb250LXNpemU6MTEuNXB4O2ZpbGw6IzhhODM3OH0KICAgIC53e2ZpbGw6I2ZmZmZmZn0KICAgIC5sa3tmaWxsOiMzZDU2YjA7dGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZX0KICAgIC5je2ZvbnQtc2l6ZToxMnB4O2ZpbGw6I2U2ZTNkZH0KICAgIC5ja3tmaWxsOiM5ZmQ5YzV9CiAgICAuY3N7ZmlsbDojZTdjMDdifQogICAgLmFubntmb250LXNpemU6MTJweDtmb250LXdlaWdodDo3MDA7ZmlsbDojYjQ1MzFmfQogIDwvc3R5bGU+CiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODQwIiByeD0iMTgiIGZpbGw9IiNlOWU1ZGMiLz4KICA8IS0tIGRldmljZSAtLT4KICA8cmVjdCB4PSIzMCIgeT0iMjQiIHdpZHRoPSIxMTQwIiBoZWlnaHQ9Ijc5MCIgcng9IjM0IiBmaWxsPSIjMWYyMDI0Ii8+CiAgPHJlY3QgeD0iNDYiIHk9IjQwIiB3aWR0aD0iMTEwOCIgaGVpZ2h0PSI3NTgiIHJ4PSIyMiIgZmlsbD0iI2Y3ZjVmMCIvPgoKICA8IS0tIGNoYXRzIGxpc3QgLS0+CiAgPHJlY3QgeD0iNDYiIHk9IjQwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9Ijc1OCIgcng9IjIyIiBmaWxsPSIjZmJmYWY3Ii8+CiAgPHJlY3QgeD0iMzMwIiB5PSI0MCIgd2lkdGg9IjE2IiBoZWlnaHQ9Ijc1OCIgZmlsbD0iI2ZiZmFmNyIvPgogIDxsaW5lIHgxPSIzNDYiIHkxPSI0MCIgeDI9IjM0NiIgeTI9Ijc5OCIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iNjYiIHk9IjgwIiBjbGFzcz0iaCI+Q29udmVyc2FzPC90ZXh0PgogIDxyZWN0IHg9IjI5MCIgeT0iNjIiIHdpZHRoPSIzNiIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSIzMDEiIHk9IjgxIiBjbGFzcz0iaCB3Ij4rPC90ZXh0PgogIDxyZWN0IHg9IjY2IiB5PSI5OCIgd2lkdGg9IjI2MCIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9IiNlZmVjZTUiLz4KICA8dGV4dCB4PSI4MCIgeT0iMTE5IiBjbGFzcz0iYiIgc3R5bGU9ImZpbGw6IzhhODM3OCI+QnVzY2FyIGNvbnZlcnNhcyBlIGFycXVpdm9zPC90ZXh0PgoKICA8IS0tIGNoYXQgaXRlbSBhY3RpdmUgLS0+CiAgPHJlY3QgeD0iNTgiIHk9IjE0MiIgd2lkdGg9IjI4MCIgaGVpZ2h0PSI2OCIgcng9IjEwIiBmaWxsPSIjZTZmMmVlIi8+CiAgPGNpcmNsZSBjeD0iODYiIGN5PSIxNzYiIHI9IjE4IiBmaWxsPSIjY2ZlNmRlIi8+PHRleHQgeD0iNzYiIHk9IjE4MSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojMmY3NTY0Ij5DTDwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjE2NiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPmNsYXVkZSDCtyB0YXNrbmV4dXM8L3RleHQ+CiAgPHRleHQgeD0iMTE0IiB5PSIxODYiIGNsYXNzPSJzIj5Sb2RlaSBvcyB0ZXN0ZXMsIDIgZmFsaGFyYW0gZW3igKY8L3RleHQ+CiAgPHRleHQgeD0iMjk4IiB5PSIxNjYiIGNsYXNzPSJzIj5hZ29yYTwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjIwMiIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiMyZjc1NjQiPuKXjyBwZW5zYW5kb+KApjwvdGV4dD4KCiAgPGNpcmNsZSBjeD0iODYiIGN5PSIyNDYiIHI9IjE4IiBmaWxsPSIjZGZlM2Y1Ii8+PHRleHQgeD0iNzciIHk9IjI1MSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojNDQ1NzlmIj5DWDwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjIzNiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPmNvZGV4IMK3IHNpdGUtY2xpZW50ZTwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjI1NiIgY2xhc3M9InMiPlF1ZXIgcXVlIGV1IGZhw6dhIG8gZGVwbG95PzwvdGV4dD4KICA8dGV4dCB4PSIyOTYiIHk9IjIzNiIgY2xhc3M9InMiPjE0OjAyPC90ZXh0PgogIDxjaXJjbGUgY3g9IjMxMiIgY3k9IjI1NCIgcj0iOSIgZmlsbD0iI2M5OTYyZCIvPjx0ZXh0IHg9IjMwOSIgeT0iMjU4IiBjbGFzcz0icyB3IiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj4hPC90ZXh0PgoKICA8Y2lyY2xlIGN4PSI4NiIgY3k9IjMxMCIgcj0iMTgiIGZpbGw9IiNjZmU2ZGUiLz48dGV4dCB4PSI3NiIgeT0iMzE1IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPkNMPC90ZXh0PgogIDx0ZXh0IHg9IjExNCIgeT0iMzAwIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+Y2xhdWRlIMK3IGFwaS1wYWdhbWVudG9zPC90ZXh0PgogIDx0ZXh0IHg9IjExNCIgeT0iMzIwIiBjbGFzcz0icyI+UHJvbnRvLiBDcmllaSBvIGNhcmQgIzE4NC48L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSIzMDAiIGNsYXNzPSJzIj5vbnRlbTwvdGV4dD4KICA8Y2lyY2xlIGN4PSIzMTIiIGN5PSIzMTgiIHI9IjkiIGZpbGw9IiMzZjhmN2MiLz48dGV4dCB4PSIzMDkiIHk9IjMyMiIgY2xhc3M9InMgdyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+MjwvdGV4dD4KCiAgPGNpcmNsZSBjeD0iODYiIGN5PSIzNzQiIHI9IjE4IiBmaWxsPSIjZWVlYWUyIi8+PHRleHQgeD0iNzkiIHk9IjM3OSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojNmI2NDVjIj4mZ3Q7XzwvdGV4dD4KICA8dGV4dCB4PSIxMTQiIHk9IjM2NCIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPnRlcm1pbmFsIMK3IHNjcmlwdHM8L3RleHQ+CiAgPHRleHQgeD0iMTE0IiB5PSIzODQiIGNsYXNzPSJzIj5tb2RvIHRlcm1pbmFsPC90ZXh0PgoKICA8IS0tIGJvdHRvbSBuYXYgaW4gc2lkZWJhciAtLT4KICA8bGluZSB4MT0iNDYiIHkxPSI3MzgiIHgyPSIzNDYiIHkyPSI3MzgiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjcwIiB5PSI3NzIiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzJmNzU2NCI+Q2hhdHM8L3RleHQ+CiAgPHRleHQgeD0iMTMwIiB5PSI3NzIiIGNsYXNzPSJiIj5Cb2FyZDwvdGV4dD4KICA8dGV4dCB4PSIxODgiIHk9Ijc3MiIgY2xhc3M9ImIiPkFycXVpdm9zPC90ZXh0PgogIDx0ZXh0IHg9IjI2MiIgeT0iNzcyIiBjbGFzcz0iYiI+VGFyZWZhczwvdGV4dD4KCiAgPCEtLSBoZWFkZXIgLS0+CiAgPGxpbmUgeDE9IjM0NiIgeTE9IjEwNCIgeDI9IjExNTQiIHkyPSIxMDQiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjM3MCIgeT0iNzAiIGNsYXNzPSJoIj5jbGF1ZGUgwrcgdGFza25leHVzPC90ZXh0PgogIDx0ZXh0IHg9IjM3MCIgeT0iOTAiIGNsYXNzPSJzIj5+L3Byb2pldG9zL3Rhc2tuZXh1cyDCtyBwZW5zYW5kb+KApjwvdGV4dD4KICA8cmVjdCB4PSI4MjIiIHk9IjU2IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjMyIiByeD0iOSIgZmlsbD0iI2VmZWNlNSIvPgogIDxyZWN0IHg9IjgyNSIgeT0iNTkiIHdpZHRoPSI3MiIgaGVpZ2h0PSIyNiIgcng9IjciIGZpbGw9IiNmZmZmZmYiLz4KICA8dGV4dCB4PSI4NDQiIHk9Ijc3IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+Q2hhdDwvdGV4dD4KICA8dGV4dCB4PSI5MDYiIHk9Ijc3IiBjbGFzcz0iYiIgc3R5bGU9ImZpbGw6IzZiNjQ1YyI+VGVybWluYWw8L3RleHQ+CiAgPHJlY3QgeD0iOTg0IiB5PSI1NiIgd2lkdGg9Ijg0IiBoZWlnaHQ9IjMyIiByeD0iOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iOTk4IiB5PSI3NyIgY2xhc3M9ImIiPkFycXVpdm9zPC90ZXh0PgogIDxyZWN0IHg9IjEwNzYiIHk9IjU2IiB3aWR0aD0iNjIiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSJub25lIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSIxMDg2IiB5PSI3NyIgY2xhc3M9ImIiPisgQ2FyZDwvdGV4dD4KCiAgPCEtLSB1c2VyIGJ1YmJsZSAtLT4KICA8cmVjdCB4PSI3ODAiIHk9IjEyNCIgd2lkdGg9IjM1NiIgaGVpZ2h0PSI1OCIgcng9IjE2IiBmaWxsPSIjZDllZWU2Ii8+CiAgPHRleHQgeD0iNzk4IiB5PSIxNDgiIGNsYXNzPSJiIj5Sb2RhIG9zIHRlc3RlcyBkbyBiYWNrZW5kIGUgbWUgbW9zdHJhPC90ZXh0PgogIDx0ZXh0IHg9Ijc5OCIgeT0iMTY4IiBjbGFzcz0iYiI+byBxdWUgZmFsaG91LCBjb20gbGluayBwcm8gYXJxdWl2by48L3RleHQ+CiAgPHRleHQgeD0iMTA5NiIgeT0iMTk2IiBjbGFzcz0icyI+MTQ6MTAg4pyT4pyTPC90ZXh0PgoKICA8IS0tIGFzc2lzdGFudCBibG9jayAtLT4KICA8Y2lyY2xlIGN4PSIzODIiIGN5PSIyMjQiIHI9IjE0IiBmaWxsPSIjY2ZlNmRlIi8+PHRleHQgeD0iMzczIiB5PSIyMjkiIGNsYXNzPSJzIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzJmNzU2NCI+Q0w8L3RleHQ+CiAgPCEtLSB0b29sIGNoaXBzIC0tPgogIDxyZWN0IHg9IjQwNiIgeT0iMjEwIiB3aWR0aD0iMjI0IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNlZmVjZTUiLz4KICA8dGV4dCB4PSI0MjAiIHk9IjIyOSIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiMzYjM1MzAiPuKWuCBFeGVjdXRvdSAgcHl0ZXN0IC1xICAgwrcgNCwyIHM8L3RleHQ+CiAgPHJlY3QgeD0iNjM4IiB5PSIyMTAiIHdpZHRoPSIxOTAiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iI2VmZWNlNSIvPgogIDx0ZXh0IHg9IjY1MiIgeT0iMjI5IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzNiMzUzMCI+4pa4IExldSAyIGFycXVpdm9zPC90ZXh0PgoKICA8cmVjdCB4PSI0MDYiIHk9IjI1MCIgd2lkdGg9IjY2MCIgaGVpZ2h0PSIyOTgiIHJ4PSIxNiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iNDI2IiB5PSIyNzgiIGNsYXNzPSJiIj5Sb2RlaSBhIHN1w610ZTogPHRzcGFuIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPjU4IHBhc3NhcmFtLCAyIGZhbGhhcmFtPC90c3Bhbj4uIEFzIGR1YXMgZmFsaGFzIHbDqm0gZG8gbWVzbW8gcG9udG86PC90ZXh0PgogIDx0ZXh0IHg9IjQyNiIgeT0iMzAwIiBjbGFzcz0iYiI+YSB2YWxpZGHDp8OjbyBkZSBjYW1pbmhvIGVtIDx0c3BhbiBjbGFzcz0ibGsgbSI+YmFja2VuZC9hcHAvYXR0YWNobWVudHMucHk6Mjk8L3RzcGFuPiByZWN1c2EgbGlua3Mgc2ltYsOzbGljb3MuPC90ZXh0PgogIDx0ZXh0IHg9IjQyNiIgeT0iMzIyIiBjbGFzcz0iYiI+UmVmZXLDqm5jaWE6IDx0c3BhbiBjbGFzcz0ibGsiPmRvY3MucHl0aG9uLm9yZy8zL2xpYnJhcnkvb3MucGF0aC5odG1sPC90c3Bhbj48L3RleHQ+CiAgPCEtLSBjb2RlIGJsb2NrIC0tPgogIDxyZWN0IHg9IjQyNiIgeT0iMzM4IiB3aWR0aD0iNjIwIiBoZWlnaHQ9IjE1MCIgcng9IjEwIiBmaWxsPSIjMjYyODJlIi8+CiAgPHJlY3QgeD0iNDI2IiB5PSIzMzgiIHdpZHRoPSI2MjAiIGhlaWdodD0iMjgiIHJ4PSIxMCIgZmlsbD0iIzMzMzYzZCIvPgogIDxyZWN0IHg9IjQyNiIgeT0iMzU2IiB3aWR0aD0iNjIwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMzMzNjNkIi8+CiAgPHRleHQgeD0iNDQwIiB5PSIzNTciIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojYjliNGFiIj5weXRob24gwrcgYXR0YWNobWVudHMucHk8L3RleHQ+CiAgPHRleHQgeD0iODk2IiB5PSIzNTciIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZTZlM2RkIj5BYnJpcjwvdGV4dD4KICA8dGV4dCB4PSI5NDYiIHk9IjM1NyIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiNlNmUzZGQiPkNvcGlhcjwvdGV4dD4KICA8dGV4dCB4PSIxMDAwIiB5PSIzNTciIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZTZlM2RkIj7ipKI8L3RleHQ+CiAgPHRleHQgeD0iNDQwIiB5PSIzODgiIGNsYXNzPSJjIG0iPjx0c3BhbiBjbGFzcz0iY2siPmRlZjwvdHNwYW4+IF9pc193aXRoaW5fZGlyZWN0b3J5KGJhc2VfZGlyLCB0YXJnZXRfZGlyKTo8L3RleHQ+CiAgPHRleHQgeD0iNDQwIiB5PSI0MDgiIGNsYXNzPSJjIG0iPiAgICBiYXNlID0gb3MucGF0aC5yZWFscGF0aChiYXNlX2Rpcik8L3RleHQ+CiAgPHRleHQgeD0iNDQwIiB5PSI0MjgiIGNsYXNzPSJjIG0iPiAgICB0YXJnZXQgPSBvcy5wYXRoLnJlYWxwYXRoKHRhcmdldF9kaXIpPC90ZXh0PgogIDx0ZXh0IHg9IjQ0MCIgeT0iNDQ4IiBjbGFzcz0iYyBtIj4gICAgPHRzcGFuIGNsYXNzPSJjayI+cmV0dXJuPC90c3Bhbj4gb3MucGF0aC5jb21tb25wYXRoKFtiYXNlLCB0YXJnZXRdKSA9PSBiYXNlPC90ZXh0PgogIDx0ZXh0IHg9IjQ0MCIgeT0iNDcyIiBjbGFzcz0iYyBtIiBzdHlsZT0iZmlsbDojOGE4Mzc4Ij4jIOKApiAxMiBsaW5oYXMgb2N1bHRhcyDCtyB0b2NhciBwYXJhIGV4cGFuZGlyPC90ZXh0PgogIDx0ZXh0IHg9IjQyNiIgeT0iNTE0IiBjbGFzcz0iYiI+UXVlciBxdWUgZXUgY29ycmlqYSBlIHJvZGUgZGUgbm92bz88L3RleHQ+CiAgPHRleHQgeD0iNDI2IiB5PSI1MzYiIGNsYXNzPSJzIj4xNDoxMSDCtyAwLDA4IFVTJCDCtyAxMiBzPC90ZXh0PgoKICA8IS0tIGFwcHJvdmFsIGNhcmQgLS0+CiAgPHJlY3QgeD0iNDA2IiB5PSI1NjYiIHdpZHRoPSI2NjAiIGhlaWdodD0iMTA0IiByeD0iMTYiIGZpbGw9IiNmZGY2ZTYiIHN0cm9rZT0iI2U1Yzc3ZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8dGV4dCB4PSI0MjYiIHk9IjU5MiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPkNsYXVkZSBxdWVyIGVkaXRhciAxIGFycXVpdm88L3RleHQ+CiAgPHRleHQgeD0iNDI2IiB5PSI2MTIiIGNsYXNzPSJzIG0iIHN0eWxlPSJmaWxsOiM2YjY0NWMiPkVkaXQgwrcgYmFja2VuZC9hcHAvYXR0YWNobWVudHMucHkgICgrNiDiiJIyKSAgwrcgdmVyIGRpZmY8L3RleHQ+CiAgPHJlY3QgeD0iNDI2IiB5PSI2MjYiIHdpZHRoPSI5MiIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjQ1MiIgeT0iNjQ3IiBjbGFzcz0iYiI+TmVnYXI8L3RleHQ+CiAgPHJlY3QgeD0iNTI4IiB5PSI2MjYiIHdpZHRoPSIxNTAiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iNTQ4IiB5PSI2NDciIGNsYXNzPSJiIHciIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPlBlcm1pdGlyIHVtYSB2ZXo8L3RleHQ+CiAgPHJlY3QgeD0iNjg4IiB5PSI2MjYiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSI3MDQiIHk9IjY0NyIgY2xhc3M9ImIiPlNlbXByZSBuZXN0YSBzZXNzw6NvPC90ZXh0PgoKICA8IS0tIGNvbXBvc2VyIC0tPgogIDxyZWN0IHg9IjM3MCIgeT0iNzAwIiB3aWR0aD0iNzYwIiBoZWlnaHQ9Ijc4IiByeD0iMTgiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8dGV4dCB4PSIzOTIiIHk9IjczNCIgY2xhc3M9ImgiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPu+8izwvdGV4dD4KICA8dGV4dCB4PSI0MjIiIHk9IjczMyIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPk1lbnNhZ2VtIHBhcmEgY2xhdWRl4oCmICAoIC8gcGFyYSBjb21hbmRvcywgQCBwYXJhIGFycXVpdm9zICk8L3RleHQ+CiAgPHRleHQgeD0iNDIyIiB5PSI3NjAiIGNsYXNzPSJzIj7ijJjihrUgZW52aWEgwrcg4oa1IG5vdmEgbGluaGEgbm8gaVBhZCDCtyBkaXRhZG8gZG8gdGVjbGFkbyBmdW5jaW9uYSBhcXVpPC90ZXh0PgogIDxjaXJjbGUgY3g9IjEwOTgiIGN5PSI3MzkiIHI9IjIwIiBmaWxsPSIjYjliNGFiIi8+CiAgPHJlY3QgeD0iMTA5MCIgeT0iNzMxIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHJ4PSIzIiBmaWxsPSIjZmZmZmZmIi8+CgogIDwhLS0gYW5ub3RhdGlvbnMgLS0+CiAgPHRleHQgeD0iMTA5MCIgeT0iMTE4IiBjbGFzcz0iYW5uIiB0ZXh0LWFuY2hvcj0iZW5kIj5BPC90ZXh0PgogIDx0ZXh0IHg9IjM5OCIgeT0iMjA2IiBjbGFzcz0iYW5uIj5CPC90ZXh0PgogIDx0ZXh0IHg9IjEwNzIiIHk9IjMwNCIgY2xhc3M9ImFubiI+QzwvdGV4dD4KICA8dGV4dCB4PSIxMDcyIiB5PSIzNjYiIGNsYXNzPSJhbm4iPkQ8L3RleHQ+CiAgPHRleHQgeD0iMTA3MiIgeT0iNTg2IiBjbGFzcz0iYW5uIj5FPC90ZXh0PgogIDx0ZXh0IHg9IjExNDAiIHk9IjcxMiIgY2xhc3M9ImFubiI+RjwvdGV4dD4KICA8dGV4dCB4PSI1NiIgeT0iMjMyIiBjbGFzcz0iYW5uIj5HPC90ZXh0Pgo8L3N2Zz4K" alt="Mockup do chat no iPad" loading="lazy"><figcaption>Mockup do chat no iPad</figcaption></figure></article><article class="doc part-sep" id="parte-CO"><p class="eyebrow">Contexto para retomar o trabalho</p><h1 id="pCO-contexto-para-o-agente-leia-primeiro-numa-janela-nova">Contexto para o agente (leia primeiro numa janela nova)</h1>
+<blockquote>
+<p>Este arquivo existe para que <strong>qualquer agente, numa janela de contexto
+limpa</strong>, entenda em poucos minutos o que já foi decidido e feito, e continue
+o trabalho sem precisar da conversa original. Se você é esse agente, leia
+este arquivo inteiro antes de qualquer outra coisa.</p>
+</blockquote>
+<h2 id="pCO-1-quem-pediu-e-como-gosta-de-trabalhar">1. Quem pediu e como gosta de trabalhar</h2>
+<ul>
+<li><strong>Usuário:</strong> Bruno, dono do repositório <code>brunopodesubir/TaskNexus-adjustes</code>.</li>
+<li><strong>Idioma:</strong> português do Brasil em tudo (docs, comentários, mensagens de commit).</li>
+<li><strong>Formato de documentação:</strong> sempre <strong>um <code>.md</code> e um <code>.html</code></strong> de cada
+  documento. O HTML é gerado pelo <code>build_html.py</code> desta pasta.</li>
+<li><strong>Como ele usa o TaskNexus:</strong> o backend roda no PC dele (Windows com
+  <code>deploy.ps1</code>, e também macOS/Linux com <code>deploy.sh</code>), e ele acessa pelo
+  <strong>iPad</strong> (Safari e PWA instalado), via Tailscale (<code>https://&lt;host&gt;.ts.net</code>).</li>
+<li><strong>Fluxo de trabalho combinado:</strong> planejamento e documentação numa janela;
+  desenvolvimento numa <strong>janela de contexto limpa</strong>. Quando ele pedir, o agente
+  de planejamento entrega o <strong>prompt de desenvolvimento</strong> da fase. Não
+  entregar nem executar a fase sem ele pedir.</li>
+<li><strong>Qualidade esperada:</strong> trabalho de "equipe completa" (Design, UX, TL e
+  Dev), documentação muito explicada, com imagens e diagramas, testes, e
+  sem gambiarra.</li>
+</ul>
+<h2 id="pCO-2-o-problema">2. O problema</h2>
+<p>O TaskNexus é um "escritório" web para conversar com agentes de IA (<code>claude</code>,
+<code>codex</code>, <code>agy</code>, <code>cursor-agent</code>, shells) rodando no PC, mais Board (kanban) e
+Tarefas. A conversa hoje é um <strong>terminal real</strong> (xterm.js ligado a um PTY por
+WebSocket). No tablet isso é ruim:</p>
+<ul>
+<li>não dá para <strong>clicar em links</strong> nem em caminhos de arquivo;</li>
+<li>não dá para <strong>selecionar e copiar</strong> texto com o toque nativo (o xterm desenha em canvas);</li>
+<li>faltam Esc, Tab e Ctrl no teclado virtual;</li>
+<li>a tela se desorganiza ao girar o iPad;</li>
+<li>não há como <strong>ver arquivos</strong> <code>.md</code>/<code>.html</code>/código nem <strong>baixá-los</strong> para o tablet.</li>
+</ul>
+<h2 id="pCO-3-o-que-foi-pedido">3. O que foi pedido</h2>
+<ol>
+<li>Visualizar arquivos <code>.html</code>, <code>.md</code> e de código, e baixá-los no tablet.</li>
+<li>Trocar o terminal por um <strong>chat estilo WhatsApp</strong> (links, blocos de código,
+   markdown como no GitHub).</li>
+<li>Um layout mais amigável.</li>
+<li>Outras melhorias que a equipe enxergar.</li>
+<li><strong>Ajuste posterior (mais recente, tem prioridade):</strong> como não dá para
+   clicar em links no terminal, a primeira entrega é o <strong>próprio agente fazer o
+   arquivo aparecer na tela</strong>. Cada abertura vira <strong>uma aba nova</strong>, num
+   visualizador em <strong>dropdown</strong> com botão de <strong>tela cheia</strong> (modal na página
+   com botão de fechar). Isso virou a <strong>Fase V</strong>.</li>
+</ol>
+<h2 id="pCO-4-onde-está-cada-coisa-esta-pasta">4. Onde está cada coisa (esta pasta)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Arquivo</th>
+<th>Para quê</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>Índice</td>
+</tr>
+<tr>
+<td><code>00-visao-geral-e-diagnostico.md</code></td>
+<td>Arquitetura atual, causa raiz, decisões e alternativas descartadas</td>
+</tr>
+<tr>
+<td><code>01-visualizador-de-arquivos.md</code></td>
+<td>Visualizador. A seção 1.0 resume a Fase V; o resto é o navegador de arquivos completo (fase F1)</td>
+</tr>
+<tr>
+<td><code>02-chat-conversacional.md</code></td>
+<td>Chat estruturado via <code>claude -p --input-format stream-json --output-format stream-json</code>, aprovações por tool MCP, protocolo <code>/ws/chat</code>, banco <code>chat_events</code></td>
+</tr>
+<tr>
+<td><code>03-layout-amigavel.md</code></td>
+<td>Tokens, layouts por largura, rotas reais, lista estilo WhatsApp, ⌘K, acessibilidade</td>
+</tr>
+<tr>
+<td><code>04-melhorias-adicionais.md</code></td>
+<td>14 melhorias (4.1 autenticação é obrigatória antes do navegador completo)</td>
+</tr>
+<tr>
+<td><code>05-plano-de-execucao-e-prompts.md</code></td>
+<td>Fases FV, F0–F4 e prompts das fases F0–F4</td>
+</tr>
+<tr>
+<td><code>06-planejamento-fase-v.md</code></td>
+<td><strong>Plano de desenvolvimento da Fase V (próxima a executar)</strong></td>
+</tr>
+<tr>
+<td><code>documentacao-completa.md</code> / <code>.html</code></td>
+<td>Todas as partes num arquivo só</td>
+</tr>
+<tr>
+<td><code>img/*.svg</code></td>
+<td>Diagramas e mockups (01–11)</td>
+</tr>
+<tr>
+<td><code>build_html.py</code></td>
+<td>Gera os HTML e o <code>documentacao-completa.md</code>: <code>pip install markdown pygments pymdown-extensions &amp;&amp; python3 docs/melhorias-tablet/build_html.py</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="pCO-5-decisões-já-tomadas-não-reabrir-sem-o-bruno-pedir">5. Decisões já tomadas (não reabrir sem o Bruno pedir)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Decisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ordem</td>
+<td><strong>FV</strong> (agente abre arquivo) → <strong>F0</strong> (auth + routers + restante dos quick wins) → <strong>F1</strong> (navegador de arquivos) e <strong>F2</strong> (chat claude) → <strong>F3</strong> (layout v3) → <strong>F4</strong> (codex + extras)</td>
+</tr>
+<tr>
+<td>Como o agente mostra arquivo</td>
+<td>Tool MCP <code>abrir_no_visualizador(caminho, titulo?, linha?)</code> num servidor novo <code>escritorio-visualizador</code>, registrado em <code>_escritorio_mcp_servers()</code> (vale para <code>claude</code> e <code>codex</code>)</td>
+</tr>
+<tr>
+<td>Como a tela fica sabendo</td>
+<td>Frame de controle <code>{"type":"viewer_open",…}</code> no WebSocket <code>/ws/pty/{session_key}</code> já existente, com abas persistidas na tabela <code>viewer_items</code></td>
+</tr>
+<tr>
+<td>"Aba nova"</td>
+<td>Aba <strong>dentro do visualizador</strong> (não do navegador); o mesmo arquivo reaproveita a aba e recarrega (interpretação a confirmar com o Bruno; alternativa trivial documentada na Parte 6)</td>
+</tr>
+<tr>
+<td>Tela cheia</td>
+<td>Modal em portal (<code>document.body</code>), mesmo contrato do <code>CenteredModal.jsx</code>, com ✕ Fechar e Esc; no celular abre sempre em tela cheia</td>
+</tr>
+<tr>
+<td>Segurança do visualizador</td>
+<td>Rotas por <code>item_id</code> aleatório, <code>resolve_safe_path</code> (realpath + commonpath), denylist de segredos, HTML em <code>iframe sandbox</code> sem <code>allow-same-origin</code> + CSP <code>sandbox</code></td>
+</tr>
+<tr>
+<td>Autenticação</td>
+<td>Obrigatória antes do navegador de arquivos livre (F1); a FV pode vir antes por ter superfície limitada</td>
+</tr>
+<tr>
+<td>Chat estruturado</td>
+<td>Modo headless oficial do <code>claude</code> (flags verificadas na 2.1.x); aprovações por <code>--permission-prompt-tool</code> apontando para uma tool MCP nossa; <strong>não</strong> usar o SDK Python do Claude porque o backend roda em <strong>Python 3.9.6</strong> (SDK exige 3.10+)</td>
+</tr>
+<tr>
+<td>Terminal</td>
+<td>Continua existindo como "modo Terminal"; nunca rodar TUI e modo JSON ao mesmo tempo na mesma sessão</td>
+</tr>
+<tr>
+<td>Stack</td>
+<td>Sem TypeScript, sem biblioteca de UI/CSS, tokens <code>--v2-*</code> de <code>frontend/src/layouts/v2/theme.css</code>, fontes Figtree e IBM Plex Mono self-hosted</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="pCO-6-mapa-do-código-que-importa">6. Mapa do código que importa</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Área</th>
+<th>Arquivo</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rotas, WebSocket do PTY, hooks, spawn dos CLIs</td>
+<td><code>backend/app/main.py</code> (~2.950 linhas)</td>
+<td><code>pty_endpoint</code>, <code>_active_connections</code>, <code>_ensure_pty</code>, <code>_escritorio_mcp_servers</code>, <code>_build_mcp_config_json</code>, <code>_build_codex_config_overrides</code>, <code>_hook_callback_base_url</code>, <code>_resolve_project_or_404</code>, hooks <code>/api/hooks/*</code></td>
+</tr>
+<tr>
+<td>Processo PTY</td>
+<td><code>backend/app/pty_manager.py</code></td>
+<td><code>snapshot()</code>, <code>_schedule_reap</code> (SIGTERM → SIGKILL)</td>
+</tr>
+<tr>
+<td>Id de conversa ↔ session_key</td>
+<td><code>backend/app/conversation_store.py</code></td>
+<td><code>get_session_key_by_claude_id</code></td>
+</tr>
+<tr>
+<td>Modelo de adapter MCP</td>
+<td><code>backend/app/mcp_card_adapter.py</code>, <code>mcp_task_adapter.py</code></td>
+<td>stdio JSON-RPC, stdlib, Python 3.9</td>
+</tr>
+<tr>
+<td>Contenção de caminho existente</td>
+<td><code>backend/app/attachments.py</code></td>
+<td><code>_is_within_directory</code></td>
+</tr>
+<tr>
+<td>Terminal no navegador</td>
+<td><code>frontend/src/components/TerminalPanel.jsx</code></td>
+<td><code>CONTROL_FRAME_TYPES</code>, <code>isControlFrame</code>, <code>ws.onmessage</code></td>
+</tr>
+<tr>
+<td>Estado das sessões</td>
+<td><code>frontend/src/components/TerminalContext.jsx</code></td>
+<td><code>TerminalProvider</code>, <code>useTerminal</code></td>
+</tr>
+<tr>
+<td>Casco do layout v2</td>
+<td><code>frontend/src/layouts/v2/AppV2.jsx</code></td>
+<td>topbar com <code>AttachmentsMenu</code> e <code>ResetLayoutButton</code> (guarda <code>!isMobile &amp;&amp; v2Screen === 'chat'</code>)</td>
+</tr>
+<tr>
+<td>Padrão de popover</td>
+<td><code>frontend/src/layouts/v2/AttachmentsMenu.jsx</code>, <code>TaskQuickCreatePopover.jsx</code></td>
+<td>scrim, Esc, clique fora</td>
+</tr>
+<tr>
+<td>Padrão de modal</td>
+<td><code>frontend/src/layouts/v2/CenteredModal.jsx</code></td>
+<td>portal; invariante em <code>fixedPositioningInvariant.test.js</code></td>
+</tr>
+<tr>
+<td>Markdown</td>
+<td><code>frontend/src/utils/markdown.js</code></td>
+<td><code>marked</code> + <code>DOMPurify</code></td>
+</tr>
+<tr>
+<td>Copiar</td>
+<td><code>frontend/src/utils/clipboard.js</code></td>
+<td><code>copyTextToClipboard</code></td>
+</tr>
+<tr>
+<td>Testes</td>
+<td><code>backend/tests/</code> (pytest), <code>frontend/src/**/*.test.js(x)</code> (vitest)</td>
+<td><code>cd backend &amp;&amp; .venv/bin/pytest</code>; <code>cd frontend &amp;&amp; npm test</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="pCO-7-estado-atual">7. Estado atual</h2>
+<ul>
+<li><strong>Branch de trabalho da documentação:</strong> <code>claude/elegant-carson-ehd59f</code>
+  (a pasta <code>docs/melhorias-tablet/</code> foi liberada no <code>.gitignore</code>, que ignora <code>docs/*</code> por padrão).</li>
+<li><strong>Código:</strong> nenhuma mudança de código foi feita ainda. Só documentação.</li>
+<li><strong>Próxima ação:</strong> quando o Bruno pedir, entregar o <strong>prompt de desenvolvimento
+  da Fase V</strong>, baseado em <code>06-planejamento-fase-v.md</code>, para ele usar numa
+  janela limpa. O desenvolvimento deve acontecer numa branch própria (a
+  que a sessão de desenvolvimento indicar), com um PR para a fase.</li>
+</ul>
+<h2 id="pCO-8-regras-para-quem-for-desenvolver">8. Regras para quem for desenvolver</h2>
+<ol>
+<li>Ler este arquivo, o <code>README.md</code> do projeto, a parte da fase e o código citado antes de escrever qualquer coisa.</li>
+<li>Python <strong>3.9</strong> no backend (sem <code>match</code>, sem <code>X | Y</code> fora de <code>from __future__ import annotations</code>).</li>
+<li>Nunca <code>shell=True</code>. Todo caminho vindo de cliente ou agente passa por <code>resolve_safe_path</code>.</li>
+<li>Testes para todo código novo; <code>pytest</code> e <code>npm test</code> verdes a cada commit.</li>
+<li>Não quebrar: modo Terminal, Board, Tarefas, push, <code>deploy.sh</code>, <code>deploy.ps1</code>.</li>
+<li>Comentários explicam o <strong>porquê</strong>, em português, no estilo do código existente.</li>
+<li>Se o código real divergir da documentação, seguir o código e <strong>atualizar a doc</strong> no mesmo PR (e regenerar os HTML com <code>build_html.py</code>).</li>
+<li>Commits pequenos, um PR por fase, com checklist de aceite manual no iPad.</li>
+</ol></article><article class="doc part-sep" id="parte-00"><p class="eyebrow">Parte 0 de 6</p><h1 id="p00-parte-0-visão-geral-e-diagnóstico">Parte 0 — Visão geral e diagnóstico</h1>
 <blockquote>
 <p><strong>Para quem é este documento:</strong> para você (Bruno) entender o problema e as
 decisões, e para o agente que vai implementar entender <em>por que</em> cada
@@ -176,8 +428,13 @@ decisão foi tomada antes de mexer no código. Leia esta parte antes das outras.
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td>Ver arquivos <code>.html</code>, <code>.md</code> e de código no tablet e poder baixá-los, com o TaskNexus rodando no PC</td>
+<td>1a</td>
+<td><strong>Primeira entrega:</strong> como links no terminal não são clicáveis, o próprio agente faz o arquivo aparecer na tela, cada abertura vira uma aba nova, com botão de tela cheia</td>
+<td><a href="#parte-06">Parte 6 — Planejamento da Fase V</a></td>
+</tr>
+<tr>
+<td>1b</td>
+<td>Ver arquivos <code>.html</code>, <code>.md</code> e de código no tablet e poder baixá-los, com o TaskNexus rodando no PC (navegador de arquivos completo)</td>
 <td><a href="#parte-01">Parte 1 — Visualizador de arquivos</a></td>
 </tr>
 <tr>
@@ -199,6 +456,11 @@ decisão foi tomada antes de mexer no código. Leia esta parte antes das outras.
 <td>—</td>
 <td>Como executar tudo isso com um agente</td>
 <td><a href="#parte-05">Parte 5 — Plano de execução e prompts</a></td>
+</tr>
+<tr>
+<td>—</td>
+<td>Retomar o trabalho numa janela nova</td>
+<td><a href="#parte-CO">Contexto para o agente</a></td>
 </tr>
 </tbody>
 </table></div>
@@ -341,8 +603,13 @@ em cima disso.</p>
 </tr>
 <tr>
 <td>Autenticação</td>
-<td><strong>Obrigatória antes da Parte 1</strong> (token de acesso + cookie)</td>
-<td>Continuar sem auth: com a API de arquivos, qualquer um na sua rede baixaria seu <code>~/.ssh</code> se um caminho escapasse. Ver Parte 4, item 4.1.</td>
+<td><strong>Obrigatória antes do navegador de arquivos completo</strong> (Parte 1 / fase F1). A Fase V pode vir antes porque só serve arquivos que o agente (ou você) abriu, por um id aleatório, com denylist</td>
+<td>Continuar sem auth: com a API de arquivos livre, qualquer um na sua rede baixaria seu <code>~/.ssh</code> se um caminho escapasse. Ver Parte 4, item 4.1.</td>
+</tr>
+<tr>
+<td>Primeira entrega</td>
+<td><strong>Fase V:</strong> tool MCP <code>abrir_no_visualizador</code> + visualizador em dropdown com abas e tela cheia (Parte 6)</td>
+<td>Começar pelo chat estruturado: resolve mais, mas demora muito mais; o problema imediato é não conseguir abrir arquivos</td>
 </tr>
 </tbody>
 </table></div>
@@ -360,22 +627,55 @@ em cima disso.</p>
 <ol>
 <li>Leia as Partes 1 a 4 na ordem, olhando os mockups.</li>
 <li>Marque o que você não quer (cada melhoria tem id, ex.: <code>4.3</code>).</li>
-<li>Abra a <a href="#parte-05">Parte 5</a> e copie o prompt da fase
+<li>Comece pela <strong>Fase V</strong> (<a href="#parte-06">Parte 6</a>). Para as
+   fases seguintes, abra a <a href="#parte-05">Parte 5</a> e copie o prompt da fase
    que quer executar. Cada prompt já manda o agente ler as partes relevantes
    deste diretório, então <strong>mantenha a pasta <code>docs/melhorias-tablet/</code> no repositório</strong>.</li>
 <li>Execute uma fase por PR. Cada fase foi desenhada para funcionar sozinha.</li>
-</ol></article><article class="doc part-sep" id="parte-01"><p class="eyebrow">Parte 1 de 5</p><h1 id="p01-parte-1-visualizador-de-arquivos-ver-navegar-e-baixar-pelo-tablet">Parte 1 — Visualizador de arquivos (ver, navegar e baixar pelo tablet)</h1>
+</ol></article><article class="doc part-sep" id="parte-01"><p class="eyebrow">Parte 1 de 6</p><h1 id="p01-parte-1-visualizador-de-arquivos-ver-navegar-e-baixar-pelo-tablet">Parte 1 — Visualizador de arquivos (ver, navegar e baixar pelo tablet)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> com o TaskNexus rodando no PC, abrir no iPad qualquer arquivo
 dos projetos (<code>.md</code>, <code>.html</code>, código, imagens, PDF), ler com conforto,
 copiar trechos e <strong>baixar ou compartilhar</strong> o arquivo para o próprio tablet.</p>
 <p><strong>Pré-requisito obrigatório:</strong> autenticação (Parte 4, item 4.1). Sem ela,
 esta API expõe arquivos do seu PC para qualquer aparelho da rede.</p>
+<p><strong>Atualização:</strong> esta parte virou a <strong>segunda</strong> etapa do visualizador. A
+primeira é a <strong>Fase V</strong> (seção 1.0 e <a href="#parte-06">Parte 6</a>):
+o próprio agente abre o arquivo na tela, porque hoje não dá para clicar em
+links no terminal.</p>
 </blockquote>
 <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHZpZXdCb3g9IjAgMCAxMjAwIDg0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNb2NrdXAgZG8gdmlzdWFsaXphZG9yIGRlIGFycXVpdm9zIG5vIGlQYWQ6IMOhcnZvcmUgZGUgcGFzdGFzIMOgIGVzcXVlcmRhLCBtYXJrZG93biByZW5kZXJpemFkbyDDoCBkaXJlaXRhIGNvbSBhYmFzIFByZXZpZXcsIEPDs2RpZ28gZSBEaWZmIGUgYm90w7VlcyBkZSBiYWl4YXIgZSBjb21wYXJ0aWxoYXIiPgogIDxzdHlsZT4KICAgIHRleHR7Zm9udC1mYW1pbHk6RmlndHJlZSwtYXBwbGUtc3lzdGVtLCJTZWdvZSBVSSIsUm9ib3RvLHNhbnMtc2VyaWY7ZmlsbDojM2IzNTMwfQogICAgLm17d2hpdGUtc3BhY2U6cHJlO2ZvbnQtZmFtaWx5OiJJQk0gUGxleCBNb25vIix1aS1tb25vc3BhY2UsTWVubG8sbW9ub3NwYWNlfQogICAgLmh7Zm9udC1zaXplOjE1cHg7Zm9udC13ZWlnaHQ6NzAwfQogICAgLmJ7Zm9udC1zaXplOjEzcHh9CiAgICAuc3tmb250LXNpemU6MTEuNXB4O2ZpbGw6IzhhODM3OH0KICAgIC53e2ZpbGw6I2ZmZmZmZn0KICAgIC5sa3tmaWxsOiMzZDU2YjA7dGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZX0KICAgIC5hbm57Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6NzAwO2ZpbGw6I2I0NTMxZn0KICA8L3N0eWxlPgogIDxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9Ijg0MCIgcng9IjE4IiBmaWxsPSIjZTllNWRjIi8+CiAgPHJlY3QgeD0iMzAiIHk9IjI0IiB3aWR0aD0iMTE0MCIgaGVpZ2h0PSI3OTAiIHJ4PSIzNCIgZmlsbD0iIzFmMjAyNCIvPgogIDxyZWN0IHg9IjQ2IiB5PSI0MCIgd2lkdGg9IjExMDgiIGhlaWdodD0iNzU4IiByeD0iMjIiIGZpbGw9IiNmN2Y1ZjAiLz4KCiAgPCEtLSB0cmVlIC0tPgogIDxyZWN0IHg9IjQ2IiB5PSI0MCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI3NTgiIHJ4PSIyMiIgZmlsbD0iI2ZiZmFmNyIvPgogIDxyZWN0IHg9IjMzMCIgeT0iNDAiIHdpZHRoPSIxNiIgaGVpZ2h0PSI3NTgiIGZpbGw9IiNmYmZhZjciLz4KICA8bGluZSB4MT0iMzQ2IiB5MT0iNDAiIHgyPSIzNDYiIHkyPSI3OTgiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjY2IiB5PSI4MCIgY2xhc3M9ImgiPkFycXVpdm9zPC90ZXh0PgogIDx0ZXh0IHg9IjY2IiB5PSIxMDAiIGNsYXNzPSJzIj50YXNrbmV4dXMg4pa+PC90ZXh0PgogIDxyZWN0IHg9IjY2IiB5PSIxMTIiIHdpZHRoPSIyNjAiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSIjZWZlY2U1Ii8+CiAgPHRleHQgeD0iODAiIHk9IjEzMyIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPkJ1c2NhciBhcnF1aXZvICjijJhQKTwvdGV4dD4KICA8cmVjdCB4PSI2NiIgeT0iMTU0IiB3aWR0aD0iMTI0IiBoZWlnaHQ9IjI2IiByeD0iMTMiIGZpbGw9IiNlNmYyZWUiLz4KICA8dGV4dCB4PSI3OCIgeT0iMTcxIiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzJmNzU2NDtmb250LXdlaWdodDo3MDAiPkFsdGVyYWRvcyDCtyAzPC90ZXh0PgogIDxyZWN0IHg9IjE5OCIgeT0iMTU0IiB3aWR0aD0iODQiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iI2VmZWNlNSIvPgogIDx0ZXh0IHg9IjIxMiIgeT0iMTcxIiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzNiMzUzMCI+UmVjZW50ZXM8L3RleHQ+CgogIDxnIGNsYXNzPSJiIj4KICAgIDx0ZXh0IHg9IjcwIiB5PSIyMTAiPuKWviDwn5OBIGJhY2tlbmQ8L3RleHQ+CiAgICA8dGV4dCB4PSI5MCIgeT0iMjM2Ij7ilrgg8J+TgSBhcHA8L3RleHQ+CiAgICA8dGV4dCB4PSI5MCIgeT0iMjYyIj7ilrgg8J+TgSB0ZXN0czwvdGV4dD4KICAgIDx0ZXh0IHg9IjcwIiB5PSIyODgiPuKWviDwn5OBIGRvY3M8L3RleHQ+CiAgICA8cmVjdCB4PSI1OCIgeT0iMjk4IiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI4IiByeD0iNyIgZmlsbD0iI2U2ZjJlZSIvPgogICAgPHRleHQgeD0iOTAiIHk9IjMxNyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+8J+ThCBwbGFuby1yZWxlYXNlLm1kPC90ZXh0PgogICAgPHRleHQgeD0iMzEwIiB5PSIzMTciIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojYzk5NjJkO2ZvbnQtd2VpZ2h0OjcwMCI+TTwvdGV4dD4KICAgIDx0ZXh0IHg9IjkwIiB5PSIzNDQiPvCfjJAgcmVsYXRvcmlvLmh0bWw8L3RleHQ+CiAgICA8dGV4dCB4PSIzMTAiIHk9IjM0NCIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiMzZjhmN2M7Zm9udC13ZWlnaHQ6NzAwIj5BPC90ZXh0PgogICAgPHRleHQgeD0iOTAiIHk9IjM3MCI+8J+WvCBhcnF1aXRldHVyYS5wbmc8L3RleHQ+CiAgICA8dGV4dCB4PSI3MCIgeT0iMzk2Ij7ilrgg8J+TgSBmcm9udGVuZDwvdGV4dD4KICAgIDx0ZXh0IHg9IjcwIiB5PSI0MjIiPvCfk4QgUkVBRE1FLm1kPC90ZXh0PgogICAgPHRleHQgeD0iNzAiIHk9IjQ0OCI+4pqZIGRlcGxveS5zaDwvdGV4dD4KICA8L2c+CiAgPHRleHQgeD0iNjYiIHk9Ijc3MCIgY2xhc3M9InMiPk9jdWx0b3M6IC5naXQsIG5vZGVfbW9kdWxlcywgLmVudiosICoucGVtPC90ZXh0PgoKICA8IS0tIHZpZXdlciBoZWFkZXIgLS0+CiAgPHRleHQgeD0iMzcwIiB5PSI2OCIgY2xhc3M9InMiPmRvY3MgLyA8L3RleHQ+CiAgPHRleHQgeD0iNDA4IiB5PSI2OCIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPnBsYW5vLXJlbGVhc2UubWQ8L3RleHQ+CiAgPHRleHQgeD0iMzcwIiB5PSI5MCIgY2xhc3M9InMiPjEyIEtCIMK3IGFsdGVyYWRvIGjDoSAzIG1pbiBwZWxvIGNsYXVkZTwvdGV4dD4KICA8cmVjdCB4PSI3ODQiIHk9IjU0IiB3aWR0aD0iMzYwIiBoZWlnaHQ9IjM2IiByeD0iOSIgZmlsbD0ibm9uZSIvPgogIDxyZWN0IHg9IjgwMiIgeT0iNTYiIHdpZHRoPSI4MCIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjgxOCIgeT0iNzciIGNsYXNzPSJiIj7ipJMgQmFpeGFyPC90ZXh0PgogIDxyZWN0IHg9Ijg5MCIgeT0iNTYiIHdpZHRoPSIxMjAiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSJub25lIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSI5MDQiIHk9Ijc3IiBjbGFzcz0iYiI+4oeqIENvbXBhcnRpbGhhcjwvdGV4dD4KICA8cmVjdCB4PSIxMDE4IiB5PSI1NiIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSIxMDMwIiB5PSI3NyIgY2xhc3M9ImIgdyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+Q2l0YXIgbm8gY2hhdDwvdGV4dD4KCiAgPCEtLSB0YWJzIC0tPgogIDxsaW5lIHgxPSIzNDYiIHkxPSIxMDQiIHgyPSIxMTU0IiB5Mj0iMTA0IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8cmVjdCB4PSIzNzAiIHk9IjExNiIgd2lkdGg9IjI1MiIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9IiNlZmVjZTUiLz4KICA8cmVjdCB4PSIzNzMiIHk9IjExOSIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI2IiByeD0iNyIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjM5MCIgeT0iMTM3IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+UHJldmlldzwvdGV4dD4KICA8dGV4dCB4PSI0NjgiIHk9IjEzNyIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM2YjY0NWMiPkPDs2RpZ288L3RleHQ+CiAgPHRleHQgeD0iNTQwIiB5PSIxMzciIGNsYXNzPSJiIiBzdHlsZT0iZmlsbDojNmI2NDVjIj5EaWZmICgrMTgg4oiSNCk8L3RleHQ+CiAgPHRleHQgeD0iMTAwMCIgeT0iMTM3IiBjbGFzcz0icyI+QWEgIMK3ICDDjW5kaWNlICDCtyAg4oyVPC90ZXh0PgoKICA8IS0tIHJlbmRlcmVkIG1kIC0tPgogIDxyZWN0IHg9IjM3MCIgeT0iMTYyIiB3aWR0aD0iNzY4IiBoZWlnaHQ9IjYxNCIgcng9IjE0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSI0MDQiIHk9IjIwNiIgc3R5bGU9ImZvbnQtc2l6ZToyNHB4O2ZvbnQtd2VpZ2h0OjcwMCI+UGxhbm8gZGUgcmVsZWFzZSAyLjQ8L3RleHQ+CiAgPGxpbmUgeDE9IjQwNCIgeTE9IjIyMCIgeDI9IjExMDQiIHkyPSIyMjAiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjQwNCIgeT0iMjUwIiBjbGFzcz0iYiI+T2JqZXRpdm86IGxpYmVyYXIgbyBtb2RvIGNoYXQgcGFyYSB0b2RvcyBvcyBhZ2VudGVzIGNsYXVkZSBhdMOpIHNleHRhLjwvdGV4dD4KICA8dGV4dCB4PSI0MDQiIHk9IjI3MiIgY2xhc3M9ImIiPkRldGFsaGVzIHTDqWNuaWNvcyBlbSA8dHNwYW4gY2xhc3M9ImxrIj4wMi1jaGF0LWNvbnZlcnNhY2lvbmFsLm1kPC90c3Bhbj4gZSBubyBjYXJkIDx0c3BhbiBjbGFzcz0ibGsiPiMxODQ8L3RzcGFuPi48L3RleHQ+CiAgPHRleHQgeD0iNDA0IiB5PSIzMTAiIHN0eWxlPSJmb250LXNpemU6MTdweDtmb250LXdlaWdodDo3MDAiPkNoZWNrbGlzdDwvdGV4dD4KICA8dGV4dCB4PSI0MDQiIHk9IjMzOCIgY2xhc3M9ImIiPuKYkSAgTWlncmFyIHdzIGRlIGNoYXQ8L3RleHQ+CiAgPHRleHQgeD0iNDA0IiB5PSIzNjIiIGNsYXNzPSJiIj7imJAgIFRlc3RhciBubyBpUGFkIGVtIHJldHJhdG88L3RleHQ+CiAgPHRleHQgeD0iNDA0IiB5PSI0MDAiIHN0eWxlPSJmb250LXNpemU6MTdweDtmb250LXdlaWdodDo3MDAiPlRhYmVsYSBkZSByaXNjb3M8L3RleHQ+CiAgPHJlY3QgeD0iNDA0IiB5PSI0MTQiIHdpZHRoPSI1NjAiIGhlaWdodD0iOTYiIHJ4PSI2IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMmRkZDMiLz4KICA8cmVjdCB4PSI0MDQiIHk9IjQxNCIgd2lkdGg9IjU2MCIgaGVpZ2h0PSIzMCIgcng9IjYiIGZpbGw9IiNmM2YxZWMiLz4KICA8dGV4dCB4PSI0MTgiIHk9IjQzNCIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPlJpc2NvPC90ZXh0PgogIDx0ZXh0IHg9IjcyMCIgeT0iNDM0IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+TWl0aWdhw6fDo288L3RleHQ+CiAgPGxpbmUgeDE9IjQwNCIgeTE9IjQ3NyIgeDI9Ijk2NCIgeTI9IjQ3NyIgc3Ryb2tlPSIjZWNlOGRmIi8+CiAgPHRleHQgeD0iNDE4IiB5PSI0NjYiIGNsYXNzPSJiIj5TZXNzw6NvIGFiZXJ0YSBlbSBkb2lzIG1vZG9zPC90ZXh0PgogIDx0ZXh0IHg9IjcyMCIgeT0iNDY2IiBjbGFzcz0iYiI+bG9jayBwb3Igc2Vzc2lvbl9rZXk8L3RleHQ+CiAgPHRleHQgeD0iNDE4IiB5PSI0OTkiIGNsYXNzPSJiIj5IVE1MIG1hbGljaW9zbyBubyBwcmV2aWV3PC90ZXh0PgogIDx0ZXh0IHg9IjcyMCIgeT0iNDk5IiBjbGFzcz0iYiI+aWZyYW1lIHNhbmRib3ggKyBDU1A8L3RleHQ+CiAgPHJlY3QgeD0iNDA0IiB5PSI1MzAiIHdpZHRoPSI3MDAiIGhlaWdodD0iMTEyIiByeD0iMTAiIGZpbGw9IiMyNjI4MmUiLz4KICA8dGV4dCB4PSI0MjAiIHk9IjU1NiIgY2xhc3M9InMgbSIgc3R5bGU9ImZpbGw6I2I5YjRhYiI+YmFzaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIENvcGlhcjwvdGV4dD4KICA8dGV4dCB4PSI0MjAiIHk9IjU4NCIgY2xhc3M9Im0iIHN0eWxlPSJmb250LXNpemU6MTJweDtmaWxsOiNlNmUzZGQiPmNkIGJhY2tlbmQgJmFtcDsmYW1wOyAudmVudi9iaW4vcHl0ZXN0IC1xPC90ZXh0PgogIDx0ZXh0IHg9IjQyMCIgeT0iNjA2IiBjbGFzcz0ibSIgc3R5bGU9ImZvbnQtc2l6ZToxMnB4O2ZpbGw6I2U2ZTNkZCI+Y2QgZnJvbnRlbmQgJmFtcDsmYW1wOyBucG0gdGVzdDwvdGV4dD4KICA8cmVjdCB4PSI0MDQiIHk9IjY2MCIgd2lkdGg9IjcwMCIgaGVpZ2h0PSI5NiIgcng9IjEwIiBmaWxsPSIjZjNmNmZiIiBzdHJva2U9IiNkNWRjZWYiLz4KICA8dGV4dCB4PSI0MjAiIHk9IjY4NiIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiM0NDU3OWY7Zm9udC13ZWlnaHQ6NzAwIj5kaWFncmFtYSBtZXJtYWlkIHJlbmRlcml6YWRvPC90ZXh0PgogIDxyZWN0IHg9IjQ0MCIgeT0iNzAwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjM2IiByeD0iOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjNWI2ZmJmIi8+CiAgPHRleHQgeD0iNDY4IiB5PSI3MjMiIGNsYXNzPSJiIj5Db21wb3NlcjwvdGV4dD4KICA8bGluZSB4MT0iNTYwIiB5MT0iNzE4IiB4Mj0iNjQwIiB5Mj0iNzE4IiBzdHJva2U9IiM1YjZmYmYiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgPHJlY3QgeD0iNjQwIiB5PSI3MDAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMzYiIHJ4PSI4IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiM1YjZmYmYiLz4KICA8dGV4dCB4PSI2NjQiIHk9IjcyMyIgY2xhc3M9ImIiPi93cy9jaGF0PC90ZXh0PgoKICA8dGV4dCB4PSIxMTQyIiB5PSI1MiIgY2xhc3M9ImFubiI+QTwvdGV4dD4KICA8dGV4dCB4PSI2MzAiIHk9IjEzNyIgY2xhc3M9ImFubiI+QjwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjE3MSIgY2xhc3M9ImFubiI+QzwvdGV4dD4KICA8dGV4dCB4PSIxMTEyIiB5PSI1NTYiIGNsYXNzPSJhbm4iPkQ8L3RleHQ+Cjwvc3ZnPgo=" alt="Mockup do visualizador no iPad" loading="lazy"><figcaption>Mockup do visualizador no iPad</figcaption></figure>
 <p>Legenda do mockup: <strong>A</strong> ações do arquivo (baixar, compartilhar, citar no
 chat) · <strong>B</strong> abas Preview / Código / Diff · <strong>C</strong> filtros "Alterados"
 (git) e "Recentes" · <strong>D</strong> bloco de código com botão Copiar.</p>
+<hr />
+<h2 id="p01-10-primeira-entrega-o-agente-abre-o-arquivo-na-tela-fase-v">1.0 Primeira entrega: o agente abre o arquivo na tela (Fase V)</h2>
+<p>Hoje o chat é um terminal e os links não são clicáveis. Por isso, antes da
+árvore de pastas e da busca, vem uma entrega menor e mais urgente:</p>
+<ul>
+<li><strong>O agente mostra o arquivo:</strong> uma ferramenta MCP nova,
+  <code>abrir_no_visualizador(caminho, titulo?, linha?)</code>, registrada para o
+  <code>claude</code> e o <code>codex</code> do mesmo jeito que as ferramentas de card e tarefa. A
+  descrição da ferramenta orienta o agente a usá-la sempre que criar ou
+  alterar um arquivo que você deva ver.</li>
+<li><strong>Cada abertura é uma aba nova</strong> num <strong>visualizador em dropdown</strong>, que fica no
+  cabeçalho do chat, ao lado de "Anexos". O mesmo arquivo pedido de novo
+  reaproveita a aba e recarrega o conteúdo.</li>
+<li><strong>Botão Tela cheia:</strong> o dropdown vira um <strong>modal de tela cheia</strong> na página,
+  com as mesmas abas e um botão <strong>✕ Fechar</strong>. No celular abre sempre em tela cheia.</li>
+<li><strong>Aviso ao vivo</strong> pelo WebSocket do terminal que já está aberto (frame de
+  controle <code>viewer_open</code>). As abas ficam salvas no banco, então nada se perde
+  se a tela estiver fechada.</li>
+<li><strong>Baixar, copiar e abrir no navegador</strong> em cada aba. Markdown como no GitHub,
+  HTML isolado em <code>iframe</code> sandbox e código com destaque de sintaxe.</li>
+<li><strong>Bônus:</strong> links <code>https://</code> e caminhos de arquivo no terminal ficam
+  clicáveis (addon de links do xterm) e abrem no visualizador.</li>
+</ul>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDYyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJWaXN1YWxpemFkb3IgYWNpb25hZG8gcGVsbyBhZ2VudGU6IMOgIGVzcXVlcmRhLCBkcm9wZG93biBhYmVydG8gYWJhaXhvIGRvIGJvdMOjbyBWaXN1YWxpemFkb3Igbm8gY2FiZcOnYWxobyBkbyBjaGF0LCBjb20gYWJhcyBkZSBhcnF1aXZvczsgw6AgZGlyZWl0YSwgbyBtZXNtbyBjb250ZcO6ZG8gZW0gbW9kYWwgZGUgdGVsYSBjaGVpYSBjb20gYm90w6NvIEZlY2hhciI+CiAgPHN0eWxlPgogICAgdGV4dHtmb250LWZhbWlseTpGaWd0cmVlLC1hcHBsZS1zeXN0ZW0sIlNlZ29lIFVJIixSb2JvdG8sc2Fucy1zZXJpZjtmaWxsOiMzYjM1MzB9CiAgICAubXt3aGl0ZS1zcGFjZTpwcmU7Zm9udC1mYW1pbHk6IklCTSBQbGV4IE1vbm8iLHVpLW1vbm9zcGFjZSxNZW5sbyxtb25vc3BhY2V9CiAgICAuaHtmb250LXNpemU6MTRweDtmb250LXdlaWdodDo3MDB9CiAgICAuYntmb250LXNpemU6MTJweH0KICAgIC5ze2ZvbnQtc2l6ZToxMC41cHg7ZmlsbDojOGE4Mzc4fQogICAgLnd7ZmlsbDojZmZmZmZmfQogICAgLmxre2ZpbGw6IzNkNTZiMDt0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lfQogICAgLmFubntmb250LXNpemU6MTJweDtmb250LXdlaWdodDo3MDA7ZmlsbDojYjQ1MzFmfQogICAgLmNhcHtmb250LXNpemU6MTNweDtmb250LXdlaWdodDo3MDA7ZmlsbDojNmI2NDVjfQogIDwvc3R5bGU+CiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjIwIiByeD0iMTYiIGZpbGw9IiNlOWU1ZGMiLz4KCiAgPCEtLSA9PT09PSBMRUZUOiBkcm9wZG93biA9PT09PSAtLT4KICA8cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSI1NzAiIGhlaWdodD0iNTQwIiByeD0iMjIiIGZpbGw9IiMxZjIwMjQiLz4KICA8cmVjdCB4PSIzMiIgeT0iMzIiIHdpZHRoPSI1NDYiIGhlaWdodD0iNTE2IiByeD0iMTIiIGZpbGw9IiNmN2Y1ZjAiLz4KICA8IS0tIGhlYWRlciAtLT4KICA8bGluZSB4MT0iMzIiIHkxPSI3NiIgeDI9IjU3OCIgeTI9Ijc2IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSI0OCIgeT0iNjAiIGNsYXNzPSJoIj5DaGF0PC90ZXh0PgogIDxyZWN0IHg9IjMzMCIgeT0iNDQiIHdpZHRoPSIxMDQiIGhlaWdodD0iMjQiIHJ4PSI4IiBmaWxsPSIjZTZmMmVlIiBzdHJva2U9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSIzNDAiIHk9IjYxIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPlZpc3VhbGl6YWRvcjwvdGV4dD4KICA8Y2lyY2xlIGN4PSI0MjgiIGN5PSI0NiIgcj0iOCIgZmlsbD0iIzNmOGY3YyIvPjx0ZXh0IHg9IjQyNSIgeT0iNTAiIGNsYXNzPSJzIHciIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPjM8L3RleHQ+CiAgPHJlY3QgeD0iNDQyIiB5PSI0NCIgd2lkdGg9IjY2IiBoZWlnaHQ9IjI0IiByeD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iNDUyIiB5PSI2MSIgY2xhc3M9ImIiPkFuZXhvczwvdGV4dD4KICA8cmVjdCB4PSI1MTQiIHk9IjQ0IiB3aWR0aD0iNTYiIGhlaWdodD0iMjQiIHJ4PSI4IiBmaWxsPSJub25lIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSI1MjIiIHk9IjYxIiBjbGFzcz0iYiI+QWp1c3RhcjwvdGV4dD4KICA8IS0tIHRlcm1pbmFsIGJlaGluZCAtLT4KICA8cmVjdCB4PSI0NCIgeT0iODgiIHdpZHRoPSI1MjIiIGhlaWdodD0iNDQ4IiByeD0iOCIgZmlsbD0iIzI2MjgyZSIvPgogIDx0ZXh0IHg9IjU2IiB5PSIxMTIiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjExcHg7ZmlsbDojOWZkOWM1Ij7ij7ogYWJyaXJfbm9fdmlzdWFsaXphZG9yKGRvY3MvcGxhbm8ubWQpPC90ZXh0PgogIDx0ZXh0IHg9IjU2IiB5PSIxMzAiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjExcHg7ZmlsbDojYjliNGFiIj4gIOKOvyBBYmVydG8gbm8gdmlzdWFsaXphZG9yIGRvIHVzdcOhcmlvPC90ZXh0PgogIDwhLS0gc2NyaW0gLS0+CiAgPHJlY3QgeD0iMzIiIHk9Ijc3IiB3aWR0aD0iNTQ2IiBoZWlnaHQ9IjQ3MSIgZmlsbD0iIzNiMzUzMCIgb3BhY2l0eT0iLjE4Ii8+CiAgPCEtLSBkcm9wZG93biBwYW5lbCAtLT4KICA8cGF0aCBkPSJNMzc4IDgwIGw4IC04IGw4IDh6IiBmaWxsPSIjZmZmZmZmIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjgwIiB3aWR0aD0iNTA4IiBoZWlnaHQ9IjQ0MCIgcng9IjE0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8IS0tIHRhYnMgLS0+CiAgPHJlY3QgeD0iNzIiIHk9IjkyIiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2U2ZjJlZSIvPgogIDx0ZXh0IHg9IjgyIiB5PSIxMTEiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzJmNzU2NCI+cGxhbm8ubWQ8L3RleHQ+CiAgPHRleHQgeD0iMTg2IiB5PSIxMTEiIGNsYXNzPSJiIiBzdHlsZT0iZmlsbDojMmY3NTY0Ij7DlzwvdGV4dD4KICA8cmVjdCB4PSIyMDgiIHk9IjkyIiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2YzZjFlYyIvPgogIDx0ZXh0IHg9IjIxOCIgeT0iMTExIiBjbGFzcz0iYiI+cmVsYXRvcmlvLmh0bWw8L3RleHQ+CiAgPHRleHQgeD0iMzIyIiB5PSIxMTEiIGNsYXNzPSJiIiBzdHlsZT0iZmlsbDojOGE4Mzc4Ij7DlzwvdGV4dD4KICA8cmVjdCB4PSIzNDQiIHk9IjkyIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2YzZjFlYyIvPgogIDx0ZXh0IHg9IjM1NCIgeT0iMTExIiBjbGFzcz0iYiI+bWFpbi5weTo0MjwvdGV4dD4KICA8dGV4dCB4PSI0NDAiIHk9IjExMSIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPsOXPC90ZXh0PgogIDwhLS0gdG9vbGJhciAtLT4KICA8bGluZSB4MT0iNjAiIHkxPSIxMzAiIHgyPSI1NjgiIHkyPSIxMzAiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjcyIiB5PSIxNTAiIGNsYXNzPSJzIj5kb2NzL3BsYW5vLm1kIMK3IDEyIEtCIMK3IGFiZXJ0byBwZWxvIGNsYXVkZSBhZ29yYTwvdGV4dD4KICA8dGV4dCB4PSI0MDAiIHk9IjE1MCIgY2xhc3M9ImIiPuKkkzwvdGV4dD4KICA8dGV4dCB4PSI0MjQiIHk9IjE1MCIgY2xhc3M9ImIiPuKniTwvdGV4dD4KICA8dGV4dCB4PSI0NDgiIHk9IjE1MCIgY2xhc3M9ImIiPuKGlzwvdGV4dD4KICA8cmVjdCB4PSI0NzgiIHk9IjEzNiIgd2lkdGg9IjgwIiBoZWlnaHQ9IjIyIiByeD0iNyIgZmlsbD0iIzNmOGY3YyIvPgogIDx0ZXh0IHg9IjQ4OCIgeT0iMTUxIiBjbGFzcz0icyB3IiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj7ipKIgVGVsYSBjaGVpYTwvdGV4dD4KICA8IS0tIGNvbnRlbnQgLS0+CiAgPHRleHQgeD0iODAiIHk9IjE5MCIgc3R5bGU9ImZvbnQtc2l6ZToxOXB4O2ZvbnQtd2VpZ2h0OjcwMCI+UGxhbm8gZGUgcmVsZWFzZTwvdGV4dD4KICA8bGluZSB4MT0iODAiIHkxPSIyMDAiIHgyPSI1NDgiIHkyPSIyMDAiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjgwIiB5PSIyMjQiIGNsYXNzPSJiIj5PYmpldGl2bzogbGliZXJhciBvIHZpc3VhbGl6YWRvciBwYXJhIG8gYWdlbnRlLjwvdGV4dD4KICA8dGV4dCB4PSI4MCIgeT0iMjQ0IiBjbGFzcz0iYiI+VmVyIDx0c3BhbiBjbGFzcz0ibGsiPlJFQURNRS5tZDwvdHNwYW4+IGUgPHRzcGFuIGNsYXNzPSJsayI+aHR0cHM6Ly9leGVtcGxvLmNvbTwvdHNwYW4+PC90ZXh0PgogIDx0ZXh0IHg9IjgwIiB5PSIyNzYiIGNsYXNzPSJoIj5DaGVja2xpc3Q8L3RleHQ+CiAgPHRleHQgeD0iODAiIHk9IjI5OCIgY2xhc3M9ImIiPuKYkSBUb29sIE1DUCBhYnJpcl9ub192aXN1YWxpemFkb3I8L3RleHQ+CiAgPHRleHQgeD0iODAiIHk9IjMxOCIgY2xhc3M9ImIiPuKYkCBEcm9wZG93biBjb20gYWJhczwvdGV4dD4KICA8cmVjdCB4PSI4MCIgeT0iMzM0IiB3aWR0aD0iNDY4IiBoZWlnaHQ9Ijg0IiByeD0iOCIgZmlsbD0iIzI2MjgyZSIvPgogIDx0ZXh0IHg9IjkyIiB5PSIzNTIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojYjliNGFiIj5iYXNoICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ29waWFyPC90ZXh0PgogIDx0ZXh0IHg9IjkyIiB5PSIzNzYiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjExcHg7ZmlsbDojZTZlM2RkIj5jZCBiYWNrZW5kICZhbXA7JmFtcDsgLnZlbnYvYmluL3B5dGVzdCAtcTwvdGV4dD4KICA8dGV4dCB4PSI5MiIgeT0iMzk2IiBjbGFzcz0ibSIgc3R5bGU9ImZvbnQtc2l6ZToxMXB4O2ZpbGw6I2U2ZTNkZCI+Y2QgZnJvbnRlbmQgJmFtcDsmYW1wOyBucG0gdGVzdDwvdGV4dD4KICA8cmVjdCB4PSI4MCIgeT0iNDMyIiB3aWR0aD0iNDY4IiBoZWlnaHQ9IjcwIiByeD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHJlY3QgeD0iODAiIHk9IjQzMiIgd2lkdGg9IjQ2OCIgaGVpZ2h0PSIyNCIgcng9IjgiIGZpbGw9IiNmM2YxZWMiLz4KICA8dGV4dCB4PSI5MiIgeT0iNDQ5IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+UmlzY288L3RleHQ+CiAgPHRleHQgeD0iMzIwIiB5PSI0NDkiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5NaXRpZ2HDp8OjbzwvdGV4dD4KICA8dGV4dCB4PSI5MiIgeT0iNDc2IiBjbGFzcz0iYiI+SFRNTCBjb20gc2NyaXB0PC90ZXh0PgogIDx0ZXh0IHg9IjMyMCIgeT0iNDc2IiBjbGFzcz0iYiI+aWZyYW1lIHNhbmRib3g8L3RleHQ+CgogIDx0ZXh0IHg9IjM2NCIgeT0iNDAiIGNsYXNzPSJhbm4iPkE8L3RleHQ+CiAgPHRleHQgeD0iNjIiIHk9IjkwIiBjbGFzcz0iYW5uIj5CPC90ZXh0PgogIDx0ZXh0IHg9IjU2MCIgeT0iMTM0IiBjbGFzcz0iYW5uIj5DPC90ZXh0PgoKICA8IS0tID09PT09IFJJR0hUOiBmdWxsc2NyZWVuIG1vZGFsID09PT09IC0tPgogIDxyZWN0IHg9IjYxMCIgeT0iMjAiIHdpZHRoPSI1NzAiIGhlaWdodD0iNTQwIiByeD0iMjIiIGZpbGw9IiMxZjIwMjQiLz4KICA8cmVjdCB4PSI2MjIiIHk9IjMyIiB3aWR0aD0iNTQ2IiBoZWlnaHQ9IjUxNiIgcng9IjEyIiBmaWxsPSIjM2IzNTMwIiBvcGFjaXR5PSIuNTUiLz4KICA8cmVjdCB4PSI2MzAiIHk9IjQwIiB3aWR0aD0iNTMwIiBoZWlnaHQ9IjUwMCIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPCEtLSBtb2RhbCB0b3AgYmFyIC0tPgogIDxyZWN0IHg9IjY0MiIgeT0iNTIiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjZjNmMWVjIi8+CiAgPHRleHQgeD0iNjUyIiB5PSI3MSIgY2xhc3M9ImIiPnBsYW5vLm1kPC90ZXh0PgogIDxyZWN0IHg9Ijc3OCIgeT0iNTIiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjZTZmMmVlIi8+CiAgPHRleHQgeD0iNzg4IiB5PSI3MSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojMmY3NTY0Ij5yZWxhdG9yaW8uaHRtbDwvdGV4dD4KICA8cmVjdCB4PSI5MTQiIHk9IjUyIiB3aWR0aD0iMTA0IiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2YzZjFlYyIvPgogIDx0ZXh0IHg9IjkyNCIgeT0iNzEiIGNsYXNzPSJiIj5tYWluLnB5OjQyPC90ZXh0PgogIDxyZWN0IHg9IjEwNjAiIHk9IjUwIiB3aWR0aD0iODgiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSIxMDc0IiB5PSI3MSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPuKclSBGZWNoYXI8L3RleHQ+CiAgPGxpbmUgeDE9IjYzMCIgeTE9IjkyIiB4Mj0iMTE2MCIgeTI9IjkyIiBzdHJva2U9IiNlY2U4ZGYiLz4KICA8dGV4dCB4PSI2NDIiIHk9IjExMiIgY2xhc3M9InMiPmRvY3MvcmVsYXRvcmlvLmh0bWwgwrcgSFRNTCBpc29sYWRvIChzYW5kYm94KTwvdGV4dD4KICA8dGV4dCB4PSI5MzYiIHk9IjExMiIgY2xhc3M9ImIiPuKkkyAg4qeJICDihpc8L3RleHQ+CiAgPHJlY3QgeD0iMTAwNiIgeT0iOTgiIHdpZHRoPSIxNDIiIGhlaWdodD0iMjIiIHJ4PSI3IiBmaWxsPSIjZjNmMWVjIi8+CiAgPHRleHQgeD0iMTAxNiIgeT0iMTEzIiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzNiMzUzMCI+UHJldmlldyDCtyBDw7NkaWdvPC90ZXh0PgogIDwhLS0gaWZyYW1lIGNvbnRlbnQgLS0+CiAgPHJlY3QgeD0iNjQyIiB5PSIxMjgiIHdpZHRoPSI1MDYiIGhlaWdodD0iNDAwIiByeD0iOCIgZmlsbD0iI2ZiZmFmNyIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHJlY3QgeD0iNjQyIiB5PSIxMjgiIHdpZHRoPSI1MDYiIGhlaWdodD0iNTQiIHJ4PSI4IiBmaWxsPSIjNDQ1NzlmIi8+CiAgPHRleHQgeD0iNjYyIiB5PSIxNjEiIHN0eWxlPSJmb250LXNpemU6MThweDtmb250LXdlaWdodDo3MDA7ZmlsbDojZmZmZmZmIj5SZWxhdMOzcmlvIGRlIHRlc3RlczwvdGV4dD4KICA8cmVjdCB4PSI2NjIiIHk9IjIwMCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI4MCIgcng9IjgiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjY3NiIgeT0iMjI4IiBjbGFzcz0icyI+UGFzc2FyYW08L3RleHQ+CiAgPHRleHQgeD0iNjc2IiB5PSIyNjAiIHN0eWxlPSJmb250LXNpemU6MjRweDtmb250LXdlaWdodDo3MDA7ZmlsbDojMmY3NTY0Ij41ODwvdGV4dD4KICA8cmVjdCB4PSI4MjIiIHk9IjIwMCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI4MCIgcng9IjgiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjgzNiIgeT0iMjI4IiBjbGFzcz0icyI+RmFsaGFyYW08L3RleHQ+CiAgPHRleHQgeD0iODM2IiB5PSIyNjAiIHN0eWxlPSJmb250LXNpemU6MjRweDtmb250LXdlaWdodDo3MDA7ZmlsbDojYjQ1MzFmIj4yPC90ZXh0PgogIDxyZWN0IHg9Ijk4MiIgeT0iMjAwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjgwIiByeD0iOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iOTk2IiB5PSIyMjgiIGNsYXNzPSJzIj5EdXJhw6fDo288L3RleHQ+CiAgPHRleHQgeD0iOTk2IiB5PSIyNjAiIHN0eWxlPSJmb250LXNpemU6MjRweDtmb250LXdlaWdodDo3MDAiPjQsMiBzPC90ZXh0PgogIDxyZWN0IHg9IjY2MiIgeT0iMzAwIiB3aWR0aD0iNDcwIiBoZWlnaHQ9IjEyIiByeD0iNCIgZmlsbD0iI2VjZThkZiIvPgogIDxyZWN0IHg9IjY2MiIgeT0iMzIyIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjEyIiByeD0iNCIgZmlsbD0iI2VjZThkZiIvPgogIDxyZWN0IHg9IjY2MiIgeT0iMzQ0IiB3aWR0aD0iNDQwIiBoZWlnaHQ9IjEyIiByeD0iNCIgZmlsbD0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjExNDAiIHk9IjQ2IiBjbGFzcz0iYW5uIj5EPC90ZXh0PgoKICA8dGV4dCB4PSIzMDUiIHk9IjU5MCIgY2xhc3M9ImNhcCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MSDCtyBEcm9wZG93biBubyBjYWJlw6dhbGhvIGRvIGNoYXQgKGlQYWQgLyBQQyk8L3RleHQ+CiAgPHRleHQgeD0iODk1IiB5PSI1OTAiIGNsYXNzPSJjYXAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjIgwrcgTWVzbW8gY29udGXDumRvIGVtIHRlbGEgY2hlaWEgKGUgc2VtcHJlIG5vIGNlbHVsYXIpPC90ZXh0Pgo8L3N2Zz4K" alt="Dropdown e tela cheia" loading="lazy"><figcaption>Dropdown e tela cheia</figcaption></figure>
+<p>O plano completo, com contratos, arquivos, testes e aceite, está na
+<a href="#parte-06">Parte 6 — Planejamento da Fase V</a>. O código dessa
+fase (<code>file_access.py</code>, renderers, <code>DiffRenderer</code> futuro) é reaproveitado pelo
+restante desta Parte 1.</p>
 <hr />
 <h2 id="p01-11-histórias-de-uso-ux">1.1 Histórias de uso (UX)</h2>
 <div class="table-wrap"><table>
@@ -865,7 +1165,7 @@ da raiz do projeto. O link gerado é interno:
 <li>Compartilhar um <code>.md</code> por AirDrop para o Mac.</li>
 <li>Tocar em <code>backend/app/main.py:42</code> no chat: abre na linha 42 destacada.</li>
 <li>Tentar <code>/api/fs/&lt;token&gt;/raw/../../.ssh/id_rsa</code>: resposta 403.</li>
-</ol></article><article class="doc part-sep" id="parte-02"><p class="eyebrow">Parte 2 de 5</p><h1 id="p02-parte-2-chat-conversacional-do-terminal-para-uma-conversa-estilo-whatsapp">Parte 2 — Chat conversacional (do terminal para uma conversa estilo WhatsApp)</h1>
+</ol></article><article class="doc part-sep" id="parte-02"><p class="eyebrow">Parte 2 de 6</p><h1 id="p02-parte-2-chat-conversacional-do-terminal-para-uma-conversa-estilo-whatsapp">Parte 2 — Chat conversacional (do terminal para uma conversa estilo WhatsApp)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> conversar com o <code>claude</code> (e depois com o <code>codex</code>) numa tela de
 chat de verdade: bolhas, markdown como no GitHub, blocos de código com botão
@@ -1541,7 +1841,7 @@ desligue-o só no modo chat. Não dispare <strong>dois</strong> pushes: use o me
    mensagem aparece no histórico.</li>
 <li>Ditar uma mensagem com o microfone do teclado do iPad.</li>
 <li>Girar o iPad durante o streaming: nada quebra.</li>
-</ol></article><article class="doc part-sep" id="parte-03"><p class="eyebrow">Parte 3 de 5</p><h1 id="p03-parte-3-layout-mais-amigável-touch-primeiro-sem-perder-o-pc">Parte 3 — Layout mais amigável (touch primeiro, sem perder o PC)</h1>
+</ol></article><article class="doc part-sep" id="parte-03"><p class="eyebrow">Parte 3 de 6</p><h1 id="p03-parte-3-layout-mais-amigável-touch-primeiro-sem-perder-o-pc">Parte 3 — Layout mais amigável (touch primeiro, sem perder o PC)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> fazer o TaskNexus parecer um app de mensagens bem feito no
 iPad e no celular, e continuar produtivo no PC com teclado. Esta parte é o
@@ -1958,7 +2258,7 @@ atalhos do sistema; registrar os atalhos com <code>keydown</code> normal é sufi
    mostra a conversa com o README ao lado.</li>
 <li>Tema escuro e claro corretos em todas as telas novas, sem cor fixa fora dos tokens.</li>
 <li>Com teclado virtual aberto, o composer continua visível e a última mensagem também.</li>
-</ol></article><article class="doc part-sep" id="parte-04"><p class="eyebrow">Parte 4 de 5</p><h1 id="p04-parte-4-melhorias-adicionais-o-que-a-equipe-encontrou">Parte 4 — Melhorias adicionais (o que a equipe encontrou)</h1>
+</ol></article><article class="doc part-sep" id="parte-04"><p class="eyebrow">Parte 4 de 6</p><h1 id="p04-parte-4-melhorias-adicionais-o-que-a-equipe-encontrou">Parte 4 — Melhorias adicionais (o que a equipe encontrou)</h1>
 <blockquote>
 <p>Cada item traz: <strong>o que é</strong>, <strong>por que importa</strong>, <strong>como fazer</strong> (com
 arquivos e passos), <strong>esforço</strong> (P = até meio dia, M = 1–2 dias, G = 3+ dias
@@ -1985,7 +2285,7 @@ para um agente com revisão) e <strong>prioridade</strong>.</p>
 </tr>
 <tr>
 <td>4.2</td>
-<td>Quick wins no terminal: links clicáveis, modo "selecionar texto", fonte na rotação</td>
+<td>Quick wins no terminal: links clicáveis (<strong>entra na Fase V</strong>), modo "selecionar texto", fonte na rotação</td>
 <td>P</td>
 <td>Alta (alívio imediato)</td>
 <td>—</td>
@@ -2129,7 +2429,9 @@ uso no tablet já na primeira semana, e continuam úteis no modo Terminal depois
 </code></pre></div>
    E registrar um <strong>link provider</strong> para caminhos de arquivo
    (<code>term.registerLinkProvider</code>) usando a mesma regex de <code>fileLinks.js</code> (Parte 1),
-   que abre o visualizador.</li>
+   que abre o visualizador. <strong>Este item foi puxado para a Fase V</strong>
+   (<a href="#parte-06">Parte 6</a>, seção 6.5.6): o caminho clicado vira
+   uma aba nova do visualizador via <code>POST /api/sessions/{sk}/viewer</code>.</li>
 <li><strong>Modo "Selecionar texto":</strong> botão no cabeçalho (e no FAB de atalhos) que
    abre uma folha com o <strong>conteúdo do buffer do terminal como texto real</strong>:
    <div class="code"><div class="code-head"><span>js</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">term</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">active</span><span class="p">;</span>
@@ -2262,13 +2564,13 @@ diagnosticar do tablet sem abrir o PC.</p>
 <p>Se a conexão cair (iPad saiu da rede), mensagens enviadas ficam com ⏱ numa
 fila local (<code>localStorage</code>, com <code>client_id</code>) e são enviadas no <code>hello</code> da
 reconexão. O backend ignora <code>client_id</code> repetido (idempotência), então nada é
-enviado duas vezes.</p></article><article class="doc part-sep" id="parte-05"><p class="eyebrow">Parte 5 de 5</p><h1 id="p05-parte-5-plano-de-execução-e-prompts-prontos-para-o-agente">Parte 5 — Plano de execução e prompts prontos para o agente</h1>
+enviado duas vezes.</p></article><article class="doc part-sep" id="parte-05"><p class="eyebrow">Parte 5 de 6</p><h1 id="p05-parte-5-plano-de-execução-e-prompts-prontos-para-o-agente">Parte 5 — Plano de execução e prompts prontos para o agente</h1>
 <blockquote>
 <p>Esta parte transforma as Partes 1–4 em <strong>fases entregáveis</strong>, cada uma com
 tarefas, arquivos, critério de pronto e um <strong>prompt para copiar e colar</strong>
 num agente Claude (Claude Code na web ou local). Execute <strong>uma fase por PR</strong>.</p>
 </blockquote>
-<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDQwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJSb3RlaXJvIGVtIGNpbmNvIGZhc2VzOiBmdW5kYcOnw7VlcywgdmlzdWFsaXphZG9yIGRlIGFycXVpdm9zLCBjaGF0IHBhcmEgY2xhdWRlLCBsYXlvdXQgdjMgZSBjb2RleCBjb20gZXh0cmFzOyBhcyBmYXNlcyAxIGUgMiBwb2RlbSBjb3JyZXIgZW0gcGFyYWxlbG8gZGVwb2lzIGRhIGZhc2UgMCI+CiAgPHN0eWxlPgogICAgdGV4dHtmb250LWZhbWlseTpGaWd0cmVlLC1hcHBsZS1zeXN0ZW0sIlNlZ29lIFVJIixSb2JvdG8sc2Fucy1zZXJpZjtmaWxsOiMzYjM1MzB9CiAgICAuaHtmb250LXNpemU6MTNweDtmb250LXdlaWdodDo3MDB9CiAgICAuc3tmb250LXNpemU6MTFweDtmaWxsOiM0YjQ1M2V9CiAgICAuZHtmb250LXNpemU6MTFweDtmaWxsOiM4YTgzNzh9CiAgICAudHtmb250LXNpemU6MTVweDtmb250LXdlaWdodDo3MDB9CiAgPC9zdHlsZT4KICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI0MDAiIHJ4PSIxNCIgZmlsbD0iI2Y3ZjVmMCIvPgogIDx0ZXh0IHg9IjI0IiB5PSIzNCIgY2xhc3M9InQiPk9yZGVtIHN1Z2VyaWRhIGRlIGVudHJlZ2EgKGNhZGEgZmFzZSBnZXJhIHVtIFBSIHF1ZSBmdW5jaW9uYSBzb3ppbmhvKTwvdGV4dD4KICA8IS0tIGF4aXMgLS0+CiAgPGxpbmUgeDE9IjE1MCIgeTE9IjYwIiB4Mj0iOTc2IiB5Mj0iNjAiIHN0cm9rZT0iI2M5YzNiNyIvPgogIDxnIGNsYXNzPSJkIj4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iNTQiPnNlbWFuYSAxPC90ZXh0Pjx0ZXh0IHg9IjMxNSIgeT0iNTQiPnNlbWFuYSAyPC90ZXh0Pjx0ZXh0IHg9IjQ4MCIgeT0iNTQiPnNlbWFuYSAzPC90ZXh0Pjx0ZXh0IHg9IjY0NSIgeT0iNTQiPnNlbWFuYSA0PC90ZXh0Pjx0ZXh0IHg9IjgxMCIgeT0iNTQiPnNlbWFuYSA1PC90ZXh0PgogIDwvZz4KICA8ZyBzdHJva2U9IiNlMmRkZDMiPjxsaW5lIHgxPSIzMTUiIHkxPSI2MCIgeDI9IjMxNSIgeTI9IjMzMCIvPjxsaW5lIHgxPSI0ODAiIHkxPSI2MCIgeDI9IjQ4MCIgeTI9IjMzMCIvPjxsaW5lIHgxPSI2NDUiIHkxPSI2MCIgeDI9IjY0NSIgeTI9IjMzMCIvPjxsaW5lIHgxPSI4MTAiIHkxPSI2MCIgeDI9IjgxMCIgeTI9IjMzMCIvPjwvZz4KCiAgPHRleHQgeD0iMjQiIHk9Ijk4IiBjbGFzcz0iaCI+RjAgRnVuZGHDp8O1ZXM8L3RleHQ+CiAgPHJlY3QgeD0iMTUwIiB5PSI4MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSIxNjAiIHk9IjEwMiIgY2xhc3M9InMiPmF1dGggwrcgcm91dGVycyDCtyBsaW5rcyB4dGVybTwvdGV4dD4KCiAgPHRleHQgeD0iMjQiIHk9IjE0OCIgY2xhc3M9ImgiPkYxIEFycXVpdm9zPC90ZXh0PgogIDxyZWN0IHg9IjMwMCIgeT0iMTMwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjM0IiByeD0iOCIgZmlsbD0iIzlmZDBjMSIvPgogIDx0ZXh0IHg9IjMxMCIgeT0iMTUyIiBjbGFzcz0icyI+QVBJIGZzICsgRmlsZVZpZXdlciArIGRvd25sb2FkPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMTk4IiBjbGFzcz0iaCI+RjIgQ2hhdCBjbGF1ZGU8L3RleHQ+CiAgPHJlY3QgeD0iMzAwIiB5PSIxODAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iMzEwIiB5PSIyMDIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZmZmZmZmIj53cy9jaGF0ICsgYWRhcHRlciArIENoYXRWaWV3ICsgYXByb3Zhw6fDtWVzICsgaGlzdMOzcmljbzwvdGV4dD4KCiAgPHRleHQgeD0iMjQiIHk9IjI0OCIgY2xhc3M9ImgiPkYzIExheW91dCB2MzwvdGV4dD4KICA8cmVjdCB4PSI1NjAiIHk9IjIzMCIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiNiOWMzZWEiLz4KICA8dGV4dCB4PSI1NzAiIHk9IjI1MiIgY2xhc3M9InMiPmxpc3RhIGVzdGlsbyBXaGF0c0FwcCDCtyAzIHBhaW7DqWlzIMK3IHRva2VuczwvdGV4dD4KCiAgPHRleHQgeD0iMjQiIHk9IjI5OCIgY2xhc3M9ImgiPkY0IENvZGV4ICsgZXh0cmFzPC90ZXh0PgogIDxyZWN0IHg9Ijc0MCIgeT0iMjgwIiB3aWR0aD0iMjM2IiBoZWlnaHQ9IjM0IiByeD0iOCIgZmlsbD0iI2U1Yzc3ZiIvPgogIDx0ZXh0IHg9Ijc1MCIgeT0iMzAyIiBjbGFzcz0icyI+Y29kZXggYXBwLXNlcnZlciDCtyBkaWZmIMK3IGJ1c2NhPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMzYwIiBjbGFzcz0iZCI+TGFyZ3VyYSBkYXMgYmFycmFzID0gZXNmb3LDp28gcmVsYXRpdm8gZXN0aW1hZG8gcGFyYSB1bSBhZ2VudGUgY29tIHJldmlzw6NvIGh1bWFuYSwgbsOjbyBwcmF6byBmZWNoYWRvLjwvdGV4dD4KICA8dGV4dCB4PSIyNCIgeT0iMzc4IiBjbGFzcz0iZCI+RjEgZSBGMiBkZXBlbmRlbSBzw7MgZGUgRjA7IEYzIGFwcm92ZWl0YSBvcyBjb21wb25lbnRlcyBkZSBGMSBlIEYyLjwvdGV4dD4KPC9zdmc+Cg==" alt="Roteiro" loading="lazy"><figcaption>Roteiro</figcaption></figure>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDQ0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJSb3RlaXJvIGVtIHNlaXMgZmFzZXM6IGEgRmFzZSBWIChhZ2VudGUgYWJyZSBhcnF1aXZvcyBuYSB0ZWxhKSB2ZW0gcHJpbWVpcm87IGRlcG9pcyBmdW5kYcOnw7VlcywgbmF2ZWdhZG9yIGRlIGFycXVpdm9zLCBjaGF0IHBhcmEgY2xhdWRlLCBsYXlvdXQgdjMgZSBjb2RleCBjb20gZXh0cmFzIj4KICA8c3R5bGU+CiAgICB0ZXh0e2ZvbnQtZmFtaWx5OkZpZ3RyZWUsLWFwcGxlLXN5c3RlbSwiU2Vnb2UgVUkiLFJvYm90byxzYW5zLXNlcmlmO2ZpbGw6IzNiMzUzMH0KICAgIC5oe2ZvbnQtc2l6ZToxM3B4O2ZvbnQtd2VpZ2h0OjcwMH0KICAgIC5ze2ZvbnQtc2l6ZToxMXB4O2ZpbGw6IzRiNDUzZX0KICAgIC5ke2ZvbnQtc2l6ZToxMXB4O2ZpbGw6IzhhODM3OH0KICAgIC50e2ZvbnQtc2l6ZToxNXB4O2ZvbnQtd2VpZ2h0OjcwMH0KICA8L3N0eWxlPgogIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjQ0MCIgcng9IjE0IiBmaWxsPSIjZjdmNWYwIi8+CiAgPHRleHQgeD0iMjQiIHk9IjM0IiBjbGFzcz0idCI+T3JkZW0gc3VnZXJpZGEgZGUgZW50cmVnYSAoY2FkYSBmYXNlIGdlcmEgdW0gUFIgcXVlIGZ1bmNpb25hIHNvemluaG8pPC90ZXh0PgogIDxsaW5lIHgxPSIxNzAiIHkxPSI2MCIgeDI9Ijk3NiIgeTI9IjYwIiBzdHJva2U9IiNjOWMzYjciLz4KICA8ZyBjbGFzcz0iZCI+CiAgICA8dGV4dCB4PSIxNzAiIHk9IjU0Ij5zZW1hbmEgMTwvdGV4dD48dGV4dCB4PSIzMzEiIHk9IjU0Ij5zZW1hbmEgMjwvdGV4dD48dGV4dCB4PSI0OTIiIHk9IjU0Ij5zZW1hbmEgMzwvdGV4dD48dGV4dCB4PSI2NTMiIHk9IjU0Ij5zZW1hbmEgNDwvdGV4dD48dGV4dCB4PSI4MTQiIHk9IjU0Ij5zZW1hbmEgNTwvdGV4dD4KICA8L2c+CiAgPGcgc3Ryb2tlPSIjZTJkZGQzIj48bGluZSB4MT0iMzMxIiB5MT0iNjAiIHgyPSIzMzEiIHkyPSIzNzAiLz48bGluZSB4MT0iNDkyIiB5MT0iNjAiIHgyPSI0OTIiIHkyPSIzNzAiLz48bGluZSB4MT0iNjUzIiB5MT0iNjAiIHgyPSI2NTMiIHkyPSIzNzAiLz48bGluZSB4MT0iODE0IiB5MT0iNjAiIHgyPSI4MTQiIHkyPSIzNzAiLz48L2c+CgogIDx0ZXh0IHg9IjI0IiB5PSI5OCIgY2xhc3M9ImgiPkZWIEFnZW50ZSBhYnJlIGFycXVpdm88L3RleHQ+CiAgPHJlY3QgeD0iMTcwIiB5PSI4MCIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiMyZjc1NjQiLz4KICA8dGV4dCB4PSIxODAiIHk9IjEwMiIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiNmZmZmZmYiPnRvb2wgTUNQIMK3IGRyb3Bkb3duIMK3IHRlbGEgY2hlaWE8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIxNDgiIGNsYXNzPSJoIj5GMCBGdW5kYcOnw7VlczwvdGV4dD4KICA8cmVjdCB4PSIzMzAiIHk9IjEzMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSIzNDAiIHk9IjE1MiIgY2xhc3M9InMiPmF1dGggwrcgcm91dGVyczwvdGV4dD4KCiAgPHRleHQgeD0iMjQiIHk9IjE5OCIgY2xhc3M9ImgiPkYxIE5hdmVnYWRvcjwvdGV4dD4KICA8cmVjdCB4PSI0NzAiIHk9IjE4MCIgd2lkdGg9IjE5MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiM5ZmQwYzEiLz4KICA8dGV4dCB4PSI0ODAiIHk9IjIwMiIgY2xhc3M9InMiPsOhcnZvcmUgwrcgYnVzY2EgwrcgZGlmZiDCtyB6aXA8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIyNDgiIGNsYXNzPSJoIj5GMiBDaGF0IGNsYXVkZTwvdGV4dD4KICA8cmVjdCB4PSI0NzAiIHk9IjIzMCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSI0ODAiIHk9IjI1MiIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiNmZmZmZmYiPndzL2NoYXQgKyBhZGFwdGVyICsgQ2hhdFZpZXcgKyBhcHJvdmHDp8O1ZXM8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIyOTgiIGNsYXNzPSJoIj5GMyBMYXlvdXQgdjM8L3RleHQ+CiAgPHJlY3QgeD0iNjgwIiB5PSIyODAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjYjljM2VhIi8+CiAgPHRleHQgeD0iNjkwIiB5PSIzMDIiIGNsYXNzPSJzIj5saXN0YSBXaGF0c0FwcCDCtyAzIHBhaW7DqWlzPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMzQ4IiBjbGFzcz0iaCI+RjQgQ29kZXggKyBleHRyYXM8L3RleHQ+CiAgPHJlY3QgeD0iODAwIiB5PSIzMzAiIHdpZHRoPSIxNzYiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjZTVjNzdmIi8+CiAgPHRleHQgeD0iODEwIiB5PSIzNTIiIGNsYXNzPSJzIj5jb2RleCDCtyBidXNjYSDCtyBjdXN0b3M8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSI0MDAiIGNsYXNzPSJkIj5MYXJndXJhIGRhcyBiYXJyYXMgPSBlc2ZvcsOnbyByZWxhdGl2byBlc3RpbWFkbyBwYXJhIHVtIGFnZW50ZSBjb20gcmV2aXPDo28gaHVtYW5hLCBuw6NvIHByYXpvIGZlY2hhZG8uPC90ZXh0PgogIDx0ZXh0IHg9IjI0IiB5PSI0MTgiIGNsYXNzPSJkIj5GViBuw6NvIGRlcGVuZGUgZGUgbmFkYS4gRjEgZSBGMiBkZXBlbmRlbSBkZSBGMDsgRjMgYXByb3ZlaXRhIG9zIGNvbXBvbmVudGVzIGRlIEZWLCBGMSBlIEYyLjwvdGV4dD4KPC9zdmc+Cg==" alt="Roteiro" loading="lazy"><figcaption>Roteiro</figcaption></figure>
 <h2 id="p05-51-regras-que-valem-para-todas-as-fases">5.1 Regras que valem para todas as fases</h2>
 <p>Cole estas regras junto com qualquer prompt (elas já estão incluídas nos
 prompts abaixo, resumidas):</p>
@@ -2304,8 +2606,14 @@ prompts abaixo, resumidas):</p>
 </thead>
 <tbody>
 <tr>
+<td><strong>FV</strong> Agente abre arquivo</td>
+<td>Tool MCP <code>abrir_no_visualizador</code>, visualizador em dropdown com abas e tela cheia, links clicáveis no terminal</td>
+<td>6 (e 1.0)</td>
+<td>— (vem primeiro)</td>
+</tr>
+<tr>
 <td><strong>F0</strong> Fundações</td>
-<td>Auth (4.1), routers (4.3), quick wins do terminal (4.2)</td>
+<td>Auth (4.1), routers (4.3), restante dos quick wins do terminal (4.2)</td>
 <td>4</td>
 <td>—</td>
 </tr>
@@ -2335,14 +2643,23 @@ prompts abaixo, resumidas):</p>
 </tr>
 </tbody>
 </table></div>
+<h2 id="p05-521-fase-fv-o-agente-abre-o-arquivo-na-tela-primeira">5.2.1 Fase FV — O agente abre o arquivo na tela (primeira)</h2>
+<p>Planejamento completo, com requisitos, UX, arquitetura, contratos, ordem de
+commits, testes e aceite: <strong><a href="#parte-06">Parte 6</a></strong>. O prompt
+de desenvolvimento desta fase é entregue sob pedido, para ser usado numa
+janela de contexto limpa, e aponta para a Parte 6 e para o
+<a href="#parte-CO"><code>CONTEXTO-PARA-AGENTE.md</code></a>.</p>
+<p>Como o visualizador passa a existir na FV, a F0 fica com autenticação,
+routers e o modo "Selecionar texto"/fonte na rotação; a F1 amplia o
+visualizador para navegador de arquivos (árvore, busca, diff, zip).</p>
 <h2 id="p05-53-fase-f0-fundações">5.3 Fase F0 — Fundações</h2>
 <p><strong>Tarefas</strong></p>
 <ol>
 <li>Extrair routers do <code>main.py</code> (4.3), um domínio por commit, suíte verde a cada passo.</li>
 <li>Autenticação (4.1): segredo, login, cookie, middleware, WebSocket, CORS,
    tela de login, lista de dispositivos, QR code.</li>
-<li>Terminal: <code>@xterm/addon-web-links</code>, link provider de caminhos, modo
-   "Selecionar texto", fonte reativa à rotação (4.2).</li>
+<li>Terminal: modo "Selecionar texto" e fonte reativa à rotação (4.2). Os links
+   clicáveis já saem na FV.</li>
 </ol>
 <p><strong>Pronto quando:</strong> nenhuma rota <code>/api</code> ou <code>/ws</code> responde sem login (exceto as
 listadas em 4.1); o login no iPad dura 90 dias; links no terminal abrem; dá
@@ -2364,9 +2681,9 @@ Faça, nesta ordem e em commits separados:
    middleware com as exceções listadas, validação no handshake dos WebSockets com close 4401, CORS restrito,
    hooks só de loopback, tela de login no frontend, lista e revogação de dispositivos, QR code na Configuração,
    token impresso por deploy.sh e deploy.ps1). Escreva os testes listados em 4.1.
-3) Quick wins 4.2 no frontend/src/components/TerminalPanel.jsx: WebLinksAddon, link provider para caminhos de
-   arquivo (por enquanto só copia o caminho e mostra um toast, o visualizador vem na F1), modo "Selecionar texto"
-   com o buffer como texto real e botões de copiar, e fonte reativa à rotação.
+3) Quick wins 4.2 que a Fase FV não cobriu, em frontend/src/components/TerminalPanel.jsx: modo "Selecionar
+   texto" com o buffer como texto real e botões de copiar, e fonte reativa à rotação. (Links clicáveis já
+   foram entregues na FV.)
 
 Restrições: Python 3.9, sem shell=True, sem TypeScript, sem biblioteca de UI, estilos com tokens --v2-*.
 Não quebre deploy.sh nem deploy.ps1. Todos os testes (pytest e `cd frontend &amp;&amp; npm test`) passando.
@@ -2545,10 +2862,701 @@ no modo chat. Adicione a importação de histórico de ~/.codex/sessions. Testes
 <ul>
 <li><input type="checkbox" disabled> Li as Partes 0–4 e risquei o que não quero.</li>
 <li><input type="checkbox" disabled> Confirmei que o acesso pelo iPad é por <code>https://…ts.net</code> (necessário para push e compartilhar).</li>
+<li><input type="checkbox" disabled> Rodei a FV e testei os 12 passos de aceite da Parte 6 no iPad.</li>
 <li><input type="checkbox" disabled> Rodei a F0 e guardei o token de acesso num gerenciador de senhas.</li>
 <li><input type="checkbox" disabled> F1 e F2 aprovadas com os checklists de aceite no iPad.</li>
 <li><input type="checkbox" disabled> F3 aprovada nos três tamanhos (celular, iPad em pé, iPad deitado).</li>
 <li><input type="checkbox" disabled> Escolhi os extras da F4 por prioridade.</li>
+</ul></article><article class="doc part-sep" id="parte-06"><p class="eyebrow">Parte 6 de 6</p><h1 id="p06-parte-6-planejamento-da-fase-v-o-agente-abre-o-arquivo-na-tela">Parte 6 — Planejamento da Fase V: o agente abre o arquivo na tela</h1>
+<blockquote>
+<p><strong>Por que esta fase vem primeiro:</strong> hoje o chat é um terminal e <strong>não dá
+para clicar em links</strong>. Então, antes do navegador de arquivos completo
+(Parte 1) e do chat estruturado (Parte 2), a entrega mais útil é o
+<strong>próprio agente fazer o arquivo aparecer na tela</strong>. Ele chama uma
+ferramenta, e o arquivo abre numa aba nova de um visualizador que fica no
+cabeçalho do chat, com botão de tela cheia.</p>
+<p>Este documento é o <strong>plano de desenvolvimento</strong>: o que vai ser feito, em
+que ordem, com quais arquivos, contratos, testes e critérios de pronto.
+Ele foi escrito para ser executado por um agente numa janela de contexto
+limpa, lendo só esta pasta e o código.</p>
+</blockquote>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDYyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJWaXN1YWxpemFkb3IgYWNpb25hZG8gcGVsbyBhZ2VudGU6IMOgIGVzcXVlcmRhLCBkcm9wZG93biBhYmVydG8gYWJhaXhvIGRvIGJvdMOjbyBWaXN1YWxpemFkb3Igbm8gY2FiZcOnYWxobyBkbyBjaGF0LCBjb20gYWJhcyBkZSBhcnF1aXZvczsgw6AgZGlyZWl0YSwgbyBtZXNtbyBjb250ZcO6ZG8gZW0gbW9kYWwgZGUgdGVsYSBjaGVpYSBjb20gYm90w6NvIEZlY2hhciI+CiAgPHN0eWxlPgogICAgdGV4dHtmb250LWZhbWlseTpGaWd0cmVlLC1hcHBsZS1zeXN0ZW0sIlNlZ29lIFVJIixSb2JvdG8sc2Fucy1zZXJpZjtmaWxsOiMzYjM1MzB9CiAgICAubXt3aGl0ZS1zcGFjZTpwcmU7Zm9udC1mYW1pbHk6IklCTSBQbGV4IE1vbm8iLHVpLW1vbm9zcGFjZSxNZW5sbyxtb25vc3BhY2V9CiAgICAuaHtmb250LXNpemU6MTRweDtmb250LXdlaWdodDo3MDB9CiAgICAuYntmb250LXNpemU6MTJweH0KICAgIC5ze2ZvbnQtc2l6ZToxMC41cHg7ZmlsbDojOGE4Mzc4fQogICAgLnd7ZmlsbDojZmZmZmZmfQogICAgLmxre2ZpbGw6IzNkNTZiMDt0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lfQogICAgLmFubntmb250LXNpemU6MTJweDtmb250LXdlaWdodDo3MDA7ZmlsbDojYjQ1MzFmfQogICAgLmNhcHtmb250LXNpemU6MTNweDtmb250LXdlaWdodDo3MDA7ZmlsbDojNmI2NDVjfQogIDwvc3R5bGU+CiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjIwIiByeD0iMTYiIGZpbGw9IiNlOWU1ZGMiLz4KCiAgPCEtLSA9PT09PSBMRUZUOiBkcm9wZG93biA9PT09PSAtLT4KICA8cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSI1NzAiIGhlaWdodD0iNTQwIiByeD0iMjIiIGZpbGw9IiMxZjIwMjQiLz4KICA8cmVjdCB4PSIzMiIgeT0iMzIiIHdpZHRoPSI1NDYiIGhlaWdodD0iNTE2IiByeD0iMTIiIGZpbGw9IiNmN2Y1ZjAiLz4KICA8IS0tIGhlYWRlciAtLT4KICA8bGluZSB4MT0iMzIiIHkxPSI3NiIgeDI9IjU3OCIgeTI9Ijc2IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSI0OCIgeT0iNjAiIGNsYXNzPSJoIj5DaGF0PC90ZXh0PgogIDxyZWN0IHg9IjMzMCIgeT0iNDQiIHdpZHRoPSIxMDQiIGhlaWdodD0iMjQiIHJ4PSI4IiBmaWxsPSIjZTZmMmVlIiBzdHJva2U9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSIzNDAiIHk9IjYxIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPlZpc3VhbGl6YWRvcjwvdGV4dD4KICA8Y2lyY2xlIGN4PSI0MjgiIGN5PSI0NiIgcj0iOCIgZmlsbD0iIzNmOGY3YyIvPjx0ZXh0IHg9IjQyNSIgeT0iNTAiIGNsYXNzPSJzIHciIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPjM8L3RleHQ+CiAgPHJlY3QgeD0iNDQyIiB5PSI0NCIgd2lkdGg9IjY2IiBoZWlnaHQ9IjI0IiByeD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iNDUyIiB5PSI2MSIgY2xhc3M9ImIiPkFuZXhvczwvdGV4dD4KICA8cmVjdCB4PSI1MTQiIHk9IjQ0IiB3aWR0aD0iNTYiIGhlaWdodD0iMjQiIHJ4PSI4IiBmaWxsPSJub25lIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSI1MjIiIHk9IjYxIiBjbGFzcz0iYiI+QWp1c3RhcjwvdGV4dD4KICA8IS0tIHRlcm1pbmFsIGJlaGluZCAtLT4KICA8cmVjdCB4PSI0NCIgeT0iODgiIHdpZHRoPSI1MjIiIGhlaWdodD0iNDQ4IiByeD0iOCIgZmlsbD0iIzI2MjgyZSIvPgogIDx0ZXh0IHg9IjU2IiB5PSIxMTIiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjExcHg7ZmlsbDojOWZkOWM1Ij7ij7ogYWJyaXJfbm9fdmlzdWFsaXphZG9yKGRvY3MvcGxhbm8ubWQpPC90ZXh0PgogIDx0ZXh0IHg9IjU2IiB5PSIxMzAiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjExcHg7ZmlsbDojYjliNGFiIj4gIOKOvyBBYmVydG8gbm8gdmlzdWFsaXphZG9yIGRvIHVzdcOhcmlvPC90ZXh0PgogIDwhLS0gc2NyaW0gLS0+CiAgPHJlY3QgeD0iMzIiIHk9Ijc3IiB3aWR0aD0iNTQ2IiBoZWlnaHQ9IjQ3MSIgZmlsbD0iIzNiMzUzMCIgb3BhY2l0eT0iLjE4Ii8+CiAgPCEtLSBkcm9wZG93biBwYW5lbCAtLT4KICA8cGF0aCBkPSJNMzc4IDgwIGw4IC04IGw4IDh6IiBmaWxsPSIjZmZmZmZmIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjgwIiB3aWR0aD0iNTA4IiBoZWlnaHQ9IjQ0MCIgcng9IjE0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8IS0tIHRhYnMgLS0+CiAgPHJlY3QgeD0iNzIiIHk9IjkyIiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2U2ZjJlZSIvPgogIDx0ZXh0IHg9IjgyIiB5PSIxMTEiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzJmNzU2NCI+cGxhbm8ubWQ8L3RleHQ+CiAgPHRleHQgeD0iMTg2IiB5PSIxMTEiIGNsYXNzPSJiIiBzdHlsZT0iZmlsbDojMmY3NTY0Ij7DlzwvdGV4dD4KICA8cmVjdCB4PSIyMDgiIHk9IjkyIiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2YzZjFlYyIvPgogIDx0ZXh0IHg9IjIxOCIgeT0iMTExIiBjbGFzcz0iYiI+cmVsYXRvcmlvLmh0bWw8L3RleHQ+CiAgPHRleHQgeD0iMzIyIiB5PSIxMTEiIGNsYXNzPSJiIiBzdHlsZT0iZmlsbDojOGE4Mzc4Ij7DlzwvdGV4dD4KICA8cmVjdCB4PSIzNDQiIHk9IjkyIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2YzZjFlYyIvPgogIDx0ZXh0IHg9IjM1NCIgeT0iMTExIiBjbGFzcz0iYiI+bWFpbi5weTo0MjwvdGV4dD4KICA8dGV4dCB4PSI0NDAiIHk9IjExMSIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPsOXPC90ZXh0PgogIDwhLS0gdG9vbGJhciAtLT4KICA8bGluZSB4MT0iNjAiIHkxPSIxMzAiIHgyPSI1NjgiIHkyPSIxMzAiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjcyIiB5PSIxNTAiIGNsYXNzPSJzIj5kb2NzL3BsYW5vLm1kIMK3IDEyIEtCIMK3IGFiZXJ0byBwZWxvIGNsYXVkZSBhZ29yYTwvdGV4dD4KICA8dGV4dCB4PSI0MDAiIHk9IjE1MCIgY2xhc3M9ImIiPuKkkzwvdGV4dD4KICA8dGV4dCB4PSI0MjQiIHk9IjE1MCIgY2xhc3M9ImIiPuKniTwvdGV4dD4KICA8dGV4dCB4PSI0NDgiIHk9IjE1MCIgY2xhc3M9ImIiPuKGlzwvdGV4dD4KICA8cmVjdCB4PSI0NzgiIHk9IjEzNiIgd2lkdGg9IjgwIiBoZWlnaHQ9IjIyIiByeD0iNyIgZmlsbD0iIzNmOGY3YyIvPgogIDx0ZXh0IHg9IjQ4OCIgeT0iMTUxIiBjbGFzcz0icyB3IiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj7ipKIgVGVsYSBjaGVpYTwvdGV4dD4KICA8IS0tIGNvbnRlbnQgLS0+CiAgPHRleHQgeD0iODAiIHk9IjE5MCIgc3R5bGU9ImZvbnQtc2l6ZToxOXB4O2ZvbnQtd2VpZ2h0OjcwMCI+UGxhbm8gZGUgcmVsZWFzZTwvdGV4dD4KICA8bGluZSB4MT0iODAiIHkxPSIyMDAiIHgyPSI1NDgiIHkyPSIyMDAiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjgwIiB5PSIyMjQiIGNsYXNzPSJiIj5PYmpldGl2bzogbGliZXJhciBvIHZpc3VhbGl6YWRvciBwYXJhIG8gYWdlbnRlLjwvdGV4dD4KICA8dGV4dCB4PSI4MCIgeT0iMjQ0IiBjbGFzcz0iYiI+VmVyIDx0c3BhbiBjbGFzcz0ibGsiPlJFQURNRS5tZDwvdHNwYW4+IGUgPHRzcGFuIGNsYXNzPSJsayI+aHR0cHM6Ly9leGVtcGxvLmNvbTwvdHNwYW4+PC90ZXh0PgogIDx0ZXh0IHg9IjgwIiB5PSIyNzYiIGNsYXNzPSJoIj5DaGVja2xpc3Q8L3RleHQ+CiAgPHRleHQgeD0iODAiIHk9IjI5OCIgY2xhc3M9ImIiPuKYkSBUb29sIE1DUCBhYnJpcl9ub192aXN1YWxpemFkb3I8L3RleHQ+CiAgPHRleHQgeD0iODAiIHk9IjMxOCIgY2xhc3M9ImIiPuKYkCBEcm9wZG93biBjb20gYWJhczwvdGV4dD4KICA8cmVjdCB4PSI4MCIgeT0iMzM0IiB3aWR0aD0iNDY4IiBoZWlnaHQ9Ijg0IiByeD0iOCIgZmlsbD0iIzI2MjgyZSIvPgogIDx0ZXh0IHg9IjkyIiB5PSIzNTIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojYjliNGFiIj5iYXNoICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ29waWFyPC90ZXh0PgogIDx0ZXh0IHg9IjkyIiB5PSIzNzYiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjExcHg7ZmlsbDojZTZlM2RkIj5jZCBiYWNrZW5kICZhbXA7JmFtcDsgLnZlbnYvYmluL3B5dGVzdCAtcTwvdGV4dD4KICA8dGV4dCB4PSI5MiIgeT0iMzk2IiBjbGFzcz0ibSIgc3R5bGU9ImZvbnQtc2l6ZToxMXB4O2ZpbGw6I2U2ZTNkZCI+Y2QgZnJvbnRlbmQgJmFtcDsmYW1wOyBucG0gdGVzdDwvdGV4dD4KICA8cmVjdCB4PSI4MCIgeT0iNDMyIiB3aWR0aD0iNDY4IiBoZWlnaHQ9IjcwIiByeD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHJlY3QgeD0iODAiIHk9IjQzMiIgd2lkdGg9IjQ2OCIgaGVpZ2h0PSIyNCIgcng9IjgiIGZpbGw9IiNmM2YxZWMiLz4KICA8dGV4dCB4PSI5MiIgeT0iNDQ5IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+UmlzY288L3RleHQ+CiAgPHRleHQgeD0iMzIwIiB5PSI0NDkiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5NaXRpZ2HDp8OjbzwvdGV4dD4KICA8dGV4dCB4PSI5MiIgeT0iNDc2IiBjbGFzcz0iYiI+SFRNTCBjb20gc2NyaXB0PC90ZXh0PgogIDx0ZXh0IHg9IjMyMCIgeT0iNDc2IiBjbGFzcz0iYiI+aWZyYW1lIHNhbmRib3g8L3RleHQ+CgogIDx0ZXh0IHg9IjM2NCIgeT0iNDAiIGNsYXNzPSJhbm4iPkE8L3RleHQ+CiAgPHRleHQgeD0iNjIiIHk9IjkwIiBjbGFzcz0iYW5uIj5CPC90ZXh0PgogIDx0ZXh0IHg9IjU2MCIgeT0iMTM0IiBjbGFzcz0iYW5uIj5DPC90ZXh0PgoKICA8IS0tID09PT09IFJJR0hUOiBmdWxsc2NyZWVuIG1vZGFsID09PT09IC0tPgogIDxyZWN0IHg9IjYxMCIgeT0iMjAiIHdpZHRoPSI1NzAiIGhlaWdodD0iNTQwIiByeD0iMjIiIGZpbGw9IiMxZjIwMjQiLz4KICA8cmVjdCB4PSI2MjIiIHk9IjMyIiB3aWR0aD0iNTQ2IiBoZWlnaHQ9IjUxNiIgcng9IjEyIiBmaWxsPSIjM2IzNTMwIiBvcGFjaXR5PSIuNTUiLz4KICA8cmVjdCB4PSI2MzAiIHk9IjQwIiB3aWR0aD0iNTMwIiBoZWlnaHQ9IjUwMCIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPCEtLSBtb2RhbCB0b3AgYmFyIC0tPgogIDxyZWN0IHg9IjY0MiIgeT0iNTIiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjZjNmMWVjIi8+CiAgPHRleHQgeD0iNjUyIiB5PSI3MSIgY2xhc3M9ImIiPnBsYW5vLm1kPC90ZXh0PgogIDxyZWN0IHg9Ijc3OCIgeT0iNTIiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjZTZmMmVlIi8+CiAgPHRleHQgeD0iNzg4IiB5PSI3MSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojMmY3NTY0Ij5yZWxhdG9yaW8uaHRtbDwvdGV4dD4KICA8cmVjdCB4PSI5MTQiIHk9IjUyIiB3aWR0aD0iMTA0IiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2YzZjFlYyIvPgogIDx0ZXh0IHg9IjkyNCIgeT0iNzEiIGNsYXNzPSJiIj5tYWluLnB5OjQyPC90ZXh0PgogIDxyZWN0IHg9IjEwNjAiIHk9IjUwIiB3aWR0aD0iODgiIGhlaWdodD0iMzIiIHJ4PSI5IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSIxMDc0IiB5PSI3MSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPuKclSBGZWNoYXI8L3RleHQ+CiAgPGxpbmUgeDE9IjYzMCIgeTE9IjkyIiB4Mj0iMTE2MCIgeTI9IjkyIiBzdHJva2U9IiNlY2U4ZGYiLz4KICA8dGV4dCB4PSI2NDIiIHk9IjExMiIgY2xhc3M9InMiPmRvY3MvcmVsYXRvcmlvLmh0bWwgwrcgSFRNTCBpc29sYWRvIChzYW5kYm94KTwvdGV4dD4KICA8dGV4dCB4PSI5MzYiIHk9IjExMiIgY2xhc3M9ImIiPuKkkyAg4qeJICDihpc8L3RleHQ+CiAgPHJlY3QgeD0iMTAwNiIgeT0iOTgiIHdpZHRoPSIxNDIiIGhlaWdodD0iMjIiIHJ4PSI3IiBmaWxsPSIjZjNmMWVjIi8+CiAgPHRleHQgeD0iMTAxNiIgeT0iMTEzIiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzNiMzUzMCI+UHJldmlldyDCtyBDw7NkaWdvPC90ZXh0PgogIDwhLS0gaWZyYW1lIGNvbnRlbnQgLS0+CiAgPHJlY3QgeD0iNjQyIiB5PSIxMjgiIHdpZHRoPSI1MDYiIGhlaWdodD0iNDAwIiByeD0iOCIgZmlsbD0iI2ZiZmFmNyIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHJlY3QgeD0iNjQyIiB5PSIxMjgiIHdpZHRoPSI1MDYiIGhlaWdodD0iNTQiIHJ4PSI4IiBmaWxsPSIjNDQ1NzlmIi8+CiAgPHRleHQgeD0iNjYyIiB5PSIxNjEiIHN0eWxlPSJmb250LXNpemU6MThweDtmb250LXdlaWdodDo3MDA7ZmlsbDojZmZmZmZmIj5SZWxhdMOzcmlvIGRlIHRlc3RlczwvdGV4dD4KICA8cmVjdCB4PSI2NjIiIHk9IjIwMCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI4MCIgcng9IjgiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjY3NiIgeT0iMjI4IiBjbGFzcz0icyI+UGFzc2FyYW08L3RleHQ+CiAgPHRleHQgeD0iNjc2IiB5PSIyNjAiIHN0eWxlPSJmb250LXNpemU6MjRweDtmb250LXdlaWdodDo3MDA7ZmlsbDojMmY3NTY0Ij41ODwvdGV4dD4KICA8cmVjdCB4PSI4MjIiIHk9IjIwMCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI4MCIgcng9IjgiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjgzNiIgeT0iMjI4IiBjbGFzcz0icyI+RmFsaGFyYW08L3RleHQ+CiAgPHRleHQgeD0iODM2IiB5PSIyNjAiIHN0eWxlPSJmb250LXNpemU6MjRweDtmb250LXdlaWdodDo3MDA7ZmlsbDojYjQ1MzFmIj4yPC90ZXh0PgogIDxyZWN0IHg9Ijk4MiIgeT0iMjAwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjgwIiByeD0iOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iOTk2IiB5PSIyMjgiIGNsYXNzPSJzIj5EdXJhw6fDo288L3RleHQ+CiAgPHRleHQgeD0iOTk2IiB5PSIyNjAiIHN0eWxlPSJmb250LXNpemU6MjRweDtmb250LXdlaWdodDo3MDAiPjQsMiBzPC90ZXh0PgogIDxyZWN0IHg9IjY2MiIgeT0iMzAwIiB3aWR0aD0iNDcwIiBoZWlnaHQ9IjEyIiByeD0iNCIgZmlsbD0iI2VjZThkZiIvPgogIDxyZWN0IHg9IjY2MiIgeT0iMzIyIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjEyIiByeD0iNCIgZmlsbD0iI2VjZThkZiIvPgogIDxyZWN0IHg9IjY2MiIgeT0iMzQ0IiB3aWR0aD0iNDQwIiBoZWlnaHQ9IjEyIiByeD0iNCIgZmlsbD0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjExNDAiIHk9IjQ2IiBjbGFzcz0iYW5uIj5EPC90ZXh0PgoKICA8dGV4dCB4PSIzMDUiIHk9IjU5MCIgY2xhc3M9ImNhcCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MSDCtyBEcm9wZG93biBubyBjYWJlw6dhbGhvIGRvIGNoYXQgKGlQYWQgLyBQQyk8L3RleHQ+CiAgPHRleHQgeD0iODk1IiB5PSI1OTAiIGNsYXNzPSJjYXAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjIgwrcgTWVzbW8gY29udGXDumRvIGVtIHRlbGEgY2hlaWEgKGUgc2VtcHJlIG5vIGNlbHVsYXIpPC90ZXh0Pgo8L3N2Zz4K" alt="Dropdown e tela cheia" loading="lazy"><figcaption>Dropdown e tela cheia</figcaption></figure>
+<p>Legenda: <strong>A</strong> botão <strong>Visualizador</strong> no cabeçalho do chat, com contador de
+abas · <strong>B</strong> dropdown com uma aba por arquivo aberto · <strong>C</strong> barra do
+arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e <strong>Tela cheia</strong> ·
+<strong>D</strong> o mesmo conteúdo em modal de tela cheia, com <strong>✕ Fechar</strong>.</p>
+<hr />
+<h2 id="p06-61-requisitos">6.1 Requisitos</h2>
+<h3 id="p06-o-que-foi-pedido-palavras-do-bruno-organizadas">O que foi pedido (palavras do Bruno, organizadas)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Requisito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>O <strong>próprio agente</strong> consegue fazer um arquivo <code>.md</code>, <code>.html</code> ou de código <strong>aparecer na tela</strong>.</td>
+</tr>
+<tr>
+<td>R2</td>
+<td><strong>Toda vez</strong> que o agente manda abrir, abre <strong>uma aba nova</strong> no visualizador.</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Botão <strong>Tela cheia</strong>: o dropdown vira um <strong>modal de tela cheia na própria página</strong>, com botão de <strong>fechar</strong>.</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Continua valendo o pedido original: ver <code>.md</code> como no GitHub, <code>.html</code> renderizado e código destacado, e <strong>baixar</strong> o arquivo no tablet.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="p06-como-cada-ponto-foi-interpretado-confirmar-antes-de-codar">Como cada ponto foi interpretado (confirmar antes de codar)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ponto</th>
+<th>Interpretação adotada</th>
+<th>Alternativa, se o Bruno preferir</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Aba nova"</td>
+<td>Aba <strong>dentro do visualizador</strong> do TaskNexus, não aba do navegador. Um botão ↗ abre o arquivo numa aba do navegador quando for útil (ex.: HTML)</td>
+<td>Abrir sempre em aba do navegador. Não recomendado: no iPad isso tira você do app e o PWA instalado abre o Safari</td>
+</tr>
+<tr>
+<td>O mesmo arquivo pedido de novo</td>
+<td><strong>Reaproveita</strong> a aba existente, recarrega o conteúdo (o agente pode ter alterado) e a coloca em foco</td>
+<td>Criar uma aba duplicada toda vez (é só trocar uma flag no backend: <code>reuse=false</code>)</td>
+</tr>
+<tr>
+<td>Abrir sozinho</td>
+<td>Se a conversa do agente estiver <strong>visível</strong>, o dropdown <strong>abre sozinho</strong> na aba nova. Se não estiver, o botão mostra o contador e aparece um aviso "claude abriu <code>plano.md</code> · Ver"</td>
+<td>Nunca abrir sozinho, só contador</td>
+</tr>
+<tr>
+<td>Celular (≤ 640 px)</td>
+<td>Não há espaço para dropdown: o visualizador abre <strong>direto em tela cheia</strong>, por um botão flutuante ao lado do "☰ Menu"</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Abas por conversa</td>
+<td>Cada conversa tem as <strong>suas</strong> abas; trocar de conversa troca as abas</td>
+<td>Um conjunto global de abas</td>
+</tr>
+<tr>
+<td>Limite</td>
+<td>Até <strong>15 abas</strong> por conversa; ao passar disso, a mais antiga fecha</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p06-62-experiência-de-uso-ux">6.2 Experiência de uso (UX)</h2>
+<h3 id="p06-fluxo-principal">Fluxo principal</h3>
+<ol>
+<li>Você pede ao agente, no terminal: "gera o relatório em HTML e me mostra".</li>
+<li>O agente cria o arquivo e chama a ferramenta <code>abrir_no_visualizador</code> com
+   <code>docs/relatorio.html</code>. No terminal aparece a chamada da ferramenta e o
+   retorno "Aberto no visualizador do usuário (aba 3)".</li>
+<li>No iPad, o dropdown do <strong>Visualizador</strong> abre sozinho abaixo do botão,
+   com a aba <code>relatorio.html</code> ativa, mostrando o HTML renderizado.</li>
+<li>Toque em <strong>⤢ Tela cheia</strong>: o conteúdo passa a ocupar a página inteira
+   (modal), com as mesmas abas no topo e <strong>✕ Fechar</strong> à direita.</li>
+<li><strong>✕ Fechar</strong> (ou Esc) volta para o dropdown. Tocar fora do dropdown ou
+   Esc no dropdown fecha o visualizador. As abas <strong>continuam lá</strong> para
+   reabrir pelo botão.</li>
+<li><strong>⤓ Baixar</strong> salva o arquivo no iPad (Arquivos › Downloads).</li>
+</ol>
+<h3 id="p06-outros-pontos-de-entrada">Outros pontos de entrada</h3>
+<ul>
+<li><strong>Você pede sem o agente:</strong> clicar num caminho de arquivo que aparece no
+  terminal também abre no visualizador (6.5.6). Se o toque em link do
+  terminal não funcionar no iPad, basta pedir ao agente "abre X no visualizador".</li>
+<li><strong>Links dentro de um markdown aberto:</strong> link para outro arquivo do projeto
+  (<code>[plano](../plano.md)</code>) abre <strong>outra aba</strong> no visualizador; link <code>https://</code>
+  abre no navegador.</li>
+</ul>
+<h3 id="p06-estados">Estados</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>O que aparece</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nenhuma aba</td>
+<td>Botão "Visualizador" sem contador; ao abrir: "Nenhum arquivo aberto ainda. Peça ao agente: <em>abre o README no visualizador</em>."</td>
+</tr>
+<tr>
+<td>Carregando</td>
+<td>Esqueleto (barras cinza) no corpo da aba</td>
+</tr>
+<tr>
+<td>Markdown</td>
+<td>Renderizado como no GitHub (títulos, tabelas, checklists, código com botão Copiar)</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td><code>iframe</code> isolado; alternância <strong>Preview · Código</strong></td>
+</tr>
+<tr>
+<td>Código/texto</td>
+<td>Destaque de sintaxe, números de linha, rola até <code>linha</code> se informada e a destaca por 2 s</td>
+</tr>
+<tr>
+<td>Imagem / PDF</td>
+<td><code>&lt;img&gt;</code> com zoom por pinça / <code>&lt;iframe&gt;</code> do PDF (Safari tem leitor nativo)</td>
+</tr>
+<tr>
+<td>Binário ou &gt; 1 MB</td>
+<td>Nome, tipo, tamanho e botão <strong>Baixar</strong> em destaque (sem preview)</td>
+</tr>
+<tr>
+<td>Arquivo apagado depois de aberto</td>
+<td>"Este arquivo não existe mais. O agente pode ter movido ou apagado." + botão Fechar aba</td>
+</tr>
+<tr>
+<td>Erro de rede</td>
+<td>"Não consegui carregar o arquivo. Tentar de novo"</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="p06-teclado-e-toque">Teclado e toque</h3>
+<ul>
+<li>Esc: fecha a tela cheia; se não estiver em tela cheia, fecha o dropdown.</li>
+<li>Abas: toque troca; <strong>×</strong> fecha; rolagem horizontal quando não couberem.
+  "Fechar todas" no menu "⋯" da barra.</li>
+<li>Alvos de toque com no mínimo 44 px no iPad (as abas têm 36 px de altura
+  visual, mas a área tocável é 44 px com padding).</li>
+</ul>
+<hr />
+<h2 id="p06-63-arquitetura-tl">6.3 Arquitetura (TL)</h2>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDQzMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJGbHV4byBkYSBGYXNlIFY6IG8gYWdlbnRlIGNoYW1hIGEgZmVycmFtZW50YSBNQ1AgYWJyaXJfbm9fdmlzdWFsaXphZG9yLCBvIGJhY2tlbmQgdmFsaWRhIG8gY2FtaW5obywgZ3JhdmEgYSBhYmEgZSBhdmlzYSBhIHRlbGEgcGVsbyBXZWJTb2NrZXQgZG8gdGVybWluYWwgasOhIGFiZXJ0bzsgYSB0ZWxhIGFicmUgbyBkcm9wZG93biBjb20gYSBub3ZhIGFiYSI+CiAgPGRlZnM+CiAgICA8bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjM2IzNTMwIi8+PC9tYXJrZXI+CiAgICA8bWFya2VyIGlkPSJnIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjMmY3NTY0Ii8+PC9tYXJrZXI+CiAgPC9kZWZzPgogIDxzdHlsZT4KICAgIHRleHR7Zm9udC1mYW1pbHk6RmlndHJlZSwtYXBwbGUtc3lzdGVtLCJTZWdvZSBVSSIsUm9ib3RvLHNhbnMtc2VyaWY7ZmlsbDojM2IzNTMwfQogICAgLm17Zm9udC1mYW1pbHk6IklCTSBQbGV4IE1vbm8iLHVpLW1vbm9zcGFjZSxNZW5sbyxtb25vc3BhY2V9CiAgICAuaHtmb250LXNpemU6MTNweDtmb250LXdlaWdodDo3MDB9CiAgICAuc3tmb250LXNpemU6MTEuNXB4O2ZpbGw6IzZiNjQ1Y30KICAgIC5ne2ZvbnQtc2l6ZToxMS41cHg7ZmlsbDojMmY3NTY0O2ZvbnQtd2VpZ2h0OjYwMH0KICAgIC50e2ZvbnQtc2l6ZToxNXB4O2ZvbnQtd2VpZ2h0OjcwMH0KICAgIC5ue2ZvbnQtc2l6ZToxMXB4O2ZvbnQtd2VpZ2h0OjcwMDtsZXR0ZXItc3BhY2luZzouMDZlbTtmaWxsOiM4YTgzNzh9CiAgPC9zdHlsZT4KICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI0MzAiIHJ4PSIxNCIgZmlsbD0iI2Y3ZjVmMCIvPgogIDx0ZXh0IHg9IjI0IiB5PSIzNCIgY2xhc3M9InQiPkZhc2UgVjogbyBhZ2VudGUgZmF6IG8gYXJxdWl2byBhcGFyZWNlciBuYSB0ZWxhPC90ZXh0PgogIDx0ZXh0IHg9IjI0IiB5PSI2NCIgY2xhc3M9Im4iPk5PIFNFVSBQQzwvdGV4dD4KICA8dGV4dCB4PSI3ODAiIHk9IjY0IiBjbGFzcz0ibiI+Tk8gSVBBRDwvdGV4dD4KCiAgPHJlY3QgeD0iMjQiIHk9Ijc2IiB3aWR0aD0iMTcwIiBoZWlnaHQ9Ijk2IiByeD0iMTAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzViNmZiZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8dGV4dCB4PSIzOCIgeT0iMTAwIiBjbGFzcz0iaCI+Y2xhdWRlIC8gY29kZXggKFBUWSk8L3RleHQ+CiAgPHRleHQgeD0iMzgiIHk9IjEyMCIgY2xhc3M9InMiPmRlY2lkZSBtb3N0cmFyPC90ZXh0PgogIDx0ZXh0IHg9IjM4IiB5PSIxMzgiIGNsYXNzPSJzIG0iPmRvY3MvcGxhbm8ubWQ8L3RleHQ+CiAgPHRleHQgeD0iMzgiIHk9IjE1OCIgY2xhc3M9InMiPmUgY2hhbWEgYSB0b29sPC90ZXh0PgoKICA8cmVjdCB4PSIyMzAiIHk9Ijc2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9Ijk2IiByeD0iMTAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzNmOGY3YyIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8dGV4dCB4PSIyNDQiIHk9IjEwMCIgY2xhc3M9ImgiPm1jcF92aWV3ZXJfYWRhcHRlci5weTwvdGV4dD4KICA8dGV4dCB4PSIyNDQiIHk9IjEyMCIgY2xhc3M9InMiPnRvb2wgYWJyaXJfbm9fdmlzdWFsaXphZG9yPC90ZXh0PgogIDx0ZXh0IHg9IjI0NCIgeT0iMTM4IiBjbGFzcz0icyI+e2NhbWluaG8sIHRpdHVsbz8sIGxpbmhhP308L3RleHQ+CiAgPHRleHQgeD0iMjQ0IiB5PSIxNTgiIGNsYXNzPSJzIj5zdGRpbyDCtyBzdGRsaWIgwrcgUHl0aG9uIDMuOTwvdGV4dD4KCiAgPHJlY3QgeD0iNDY2IiB5PSI3NiIgd2lkdGg9IjI3MCIgaGVpZ2h0PSIxOTYiIHJ4PSIxMCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjM2Y4ZjdjIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDx0ZXh0IHg9IjQ4MCIgeT0iMTAwIiBjbGFzcz0iaCI+QmFja2VuZCDCtyBQT1NUIC9hcGkvaG9va3Mvdmlld2VyL29wZW48L3RleHQ+CiAgPHRleHQgeD0iNDgwIiB5PSIxMjIiIGNsYXNzPSJzIj4xLiBjbGF1ZGVfc2Vzc2lvbl9pZCDihpIgc2Vzc2lvbl9rZXk8L3RleHQ+CiAgPHRleHQgeD0iNDgwIiB5PSIxNDIiIGNsYXNzPSJzIj4yLiBzZXNzaW9uX2tleSDihpIgcHJvamV0byDihpIgcGFzdGE8L3RleHQ+CiAgPHRleHQgeD0iNDgwIiB5PSIxNjIiIGNsYXNzPSJzIj4zLiByZXNvbHZlX3NhZmVfcGF0aCArIGRlbnlsaXN0PC90ZXh0PgogIDx0ZXh0IHg9IjQ4MCIgeT0iMTgyIiBjbGFzcz0icyI+NC4gbWVzbW8gYXJxdWl2byBhYmVydG8/IHJldXNhIGFiYTwvdGV4dD4KICA8dGV4dCB4PSI0ODAiIHk9IjIwMiIgY2xhc3M9InMiPjUuIGdyYXZhIGVtIHZpZXdlcl9pdGVtcyAoaWQgYWxlYXTDs3Jpbyk8L3RleHQ+CiAgPHRleHQgeD0iNDgwIiB5PSIyMjIiIGNsYXNzPSJzIj42LiBtYW5kYSBmcmFtZSB2aWV3ZXJfb3BlbiBwZWxvPC90ZXh0PgogIDx0ZXh0IHg9IjQ4MCIgeT0iMjQwIiBjbGFzcz0icyBtIj4gICAvd3MvcHR5L3tzZXNzaW9uX2tleX08L3RleHQ+CiAgPHRleHQgeD0iNDgwIiB5PSIyNjAiIGNsYXNzPSJzIj43LiByZXNwb25kZSB0ZXh0byDDoCB0b29sPC90ZXh0PgoKICA8cmVjdCB4PSI3NzYiIHk9Ijc2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE5NiIgcng9IjEwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMzZjhmN2MiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgPHRleHQgeD0iNzkwIiB5PSIxMDAiIGNsYXNzPSJoIj5Gcm9udGVuZDwvdGV4dD4KICA8dGV4dCB4PSI3OTAiIHk9IjEyMiIgY2xhc3M9InMiPlRlcm1pbmFsUGFuZWwgcmVjZWJlPC90ZXh0PgogIDx0ZXh0IHg9Ijc5MCIgeT0iMTQwIiBjbGFzcz0icyBtIj52aWV3ZXJfb3BlbjwvdGV4dD4KICA8dGV4dCB4PSI3OTAiIHk9IjE2MiIgY2xhc3M9InMiPuKGkiBWaWV3ZXJDb250ZXh0LmFkZEl0ZW08L3RleHQ+CiAgPHRleHQgeD0iNzkwIiB5PSIxODQiIGNsYXNzPSJzIj5jb252ZXJzYSB2aXPDrXZlbDogYWJyZSBvPC90ZXh0PgogIDx0ZXh0IHg9Ijc5MCIgeT0iMjAyIiBjbGFzcz0icyI+ZHJvcGRvd24gbmEgYWJhIG5vdmE8L3RleHQ+CiAgPHRleHQgeD0iNzkwIiB5PSIyMjQiIGNsYXNzPSJzIj5zZW7Do286IGNvbnRhZG9yIG5vIGJvdMOjbzwvdGV4dD4KICA8dGV4dCB4PSI3OTAiIHk9IjI0MiIgY2xhc3M9InMiPisgYXZpc28gImNsYXVkZSBhYnJpdeKApiI8L3RleHQ+CgogIDxsaW5lIHgxPSIxOTYiIHkxPSIxMjQiIHgyPSIyMjYiIHkyPSIxMjQiIHN0cm9rZT0iIzNiMzUzMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICA8bGluZSB4MT0iNDMyIiB5MT0iMTI0IiB4Mj0iNDYyIiB5Mj0iMTI0IiBzdHJva2U9IiMzYjM1MzAiIHN0cm9rZS13aWR0aD0iMS41IiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgPHRleHQgeD0iNDM2IiB5PSIxMTYiIGNsYXNzPSJzIiBmb250LXNpemU9IjEwIj5IVFRQPC90ZXh0PgogIDxsaW5lIHgxPSI3MzgiIHkxPSIyMzIiIHgyPSI3NzIiIHkyPSIyMzIiIHN0cm9rZT0iIzJmNzU2NCIgc3Ryb2tlLXdpZHRoPSIyIiBtYXJrZXItZW5kPSJ1cmwoI2cpIi8+CiAgPHBvbHlsaW5lIHBvaW50cz0iNDY2LDI2MiAzMzAsMjYyIDMzMCwxNzYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNiMzUzMCIgc3Ryb2tlLXdpZHRoPSIxLjMiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPgogIDx0ZXh0IHg9IjM0MCIgeT0iMjUyIiBjbGFzcz0icyI+IkFiZXJ0byBubyB2aXN1YWxpemFkb3IiIG91IGVycm8gbGVnw612ZWw8L3RleHQ+CgogIDxyZWN0IHg9IjI0IiB5PSIyOTYiIHdpZHRoPSI5NTIiIGhlaWdodD0iMTE2IiByeD0iMTAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjQ0IiB5PSIzMjIiIGNsYXNzPSJoIj5EZXBvaXMgcXVlIGEgYWJhIGV4aXN0ZSwgbyBjb250ZcO6ZG8gdmVtIHBvciByb3RhcyBwcsOzcHJpYXMgZGEgYWJhPC90ZXh0PgogIDx0ZXh0IHg9IjQ0IiB5PSIzNDYiIGNsYXNzPSJzIG0iPkdFVCAvYXBpL3ZpZXdlci97aXRlbV9pZH0vY29udGVudCAgICAgICAgICBtZXRhZGFkb3MgKyB0ZXh0byAoYXTDqSAxIE1CKSBwYXJhIG1hcmtkb3duIGUgY8OzZGlnbzwvdGV4dD4KICA8dGV4dCB4PSI0NCIgeT0iMzY2IiBjbGFzcz0icyBtIj5HRVQgL2FwaS92aWV3ZXIve2l0ZW1faWR9L2Yve2NhbWluaG99ICAgICAgYnl0ZXM7IEhUTUwgbnVtIGlmcmFtZSBzYW5kYm94IGFjaGEgQ1NTIGUgaW1hZ2VucyByZWxhdGl2b3M8L3RleHQ+CiAgPHRleHQgeD0iNDQiIHk9IjM4NiIgY2xhc3M9InMgbSI+R0VUIC9hcGkvdmlld2VyL3tpdGVtX2lkfS9mL3tjYW1pbmhvfT9kb3dubG9hZD0xICAgZG93bmxvYWQgKENvbnRlbnQtRGlzcG9zaXRpb246IGF0dGFjaG1lbnQpPC90ZXh0PgogIDx0ZXh0IHg9IjQ0IiB5PSI0MDQiIGNsYXNzPSJnIj5pdGVtX2lkIMOpIGFsZWF0w7NyaW8gZSBzw7MgZXhpc3RlIHBhcmEgYXJxdWl2b3MgcXVlIG8gYWdlbnRlIChvdSB2b2PDqikgYWJyaXUuPC90ZXh0Pgo8L3N2Zz4K" alt="Fluxo da Fase V" loading="lazy"><figcaption>Fluxo da Fase V</figcaption></figure>
+<h3 id="p06-decisões">Decisões</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Decisão</th>
+<th>Escolha</th>
+<th>Por quê</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Como o agente "manda abrir"</td>
+<td><strong>Nova ferramenta MCP</strong> <code>abrir_no_visualizador</code>, num servidor MCP novo <code>escritorio-visualizador</code></td>
+<td>É o mesmo mecanismo das ferramentas de card e tarefa que já existem. O <code>_escritorio_mcp_servers()</code> registra para o <code>claude</code> <strong>e</strong> para o <code>codex</code> automaticamente</td>
+</tr>
+<tr>
+<td>Como o backend avisa a tela</td>
+<td><strong>Frame de controle</strong> <code>viewer_open</code> no WebSocket do terminal que já está aberto (<code>/ws/pty/{session_key}</code>)</td>
+<td>O canal já existe e o frontend já distingue frames de controle (<code>resume_failed</code>, <code>spawn_failed</code>) de saída do terminal. Nenhuma conexão nova</td>
+</tr>
+<tr>
+<td>E se a tela estiver fechada?</td>
+<td>A aba é <strong>gravada no banco</strong> (<code>viewer_items</code>). Ao abrir a conversa, o frontend busca as abas</td>
+<td>O aviso ao vivo é só conveniência; nada se perde</td>
+</tr>
+<tr>
+<td>Como servir o arquivo</td>
+<td>Rotas <strong>por aba</strong> (<code>/api/viewer/{item_id}/…</code>), onde <code>item_id</code> é aleatório</td>
+<td>Só arquivos que o agente (ou você) abriu ficam acessíveis, o que é bem menos exposição que um navegador de arquivos livre. Isso permite entregar esta fase <strong>antes</strong> da autenticação (F0)</td>
+</tr>
+<tr>
+<td>HTML com CSS/imagens relativos</td>
+<td>URL com o <strong>caminho do arquivo no fim</strong>: <code>/api/viewer/{item_id}/f/docs/relatorio.html</code></td>
+<td>O navegador resolve <code>style.css</code> para <code>/api/viewer/{item_id}/f/docs/style.css</code>, e o backend serve o vizinho dentro do mesmo projeto</td>
+</tr>
+<tr>
+<td>Isolamento do HTML</td>
+<td><code>iframe sandbox="allow-scripts allow-popups"</code> <strong>sem</strong> <code>allow-same-origin</code> + cabeçalho <code>Content-Security-Policy: sandbox …</code></td>
+<td>O HTML roda numa origem opaca e não consegue chamar a API do TaskNexus</td>
+</tr>
+<tr>
+<td>Tela cheia</td>
+<td>Portal para <code>document.body</code>, mesmo contrato do <code>CenteredModal.jsx</code> (fora do wrapper que recebe <code>inert</code>, sem <code>transform</code> em ancestral de <code>position: fixed</code>)</td>
+<td>Respeita a invariante já testada em <code>fixedPositioningInvariant.test.js</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="p06-o-que-fica-para-depois-não-entra-nesta-fase">O que fica para depois (não entra nesta fase)</h3>
+<p>Árvore de pastas, busca ⌘P, diff do git, zip de pasta, preview-url assinada
+e autenticação. Estão nas Partes 1 e 4 e nas fases F0/F1. O código desta
+fase deve ser <strong>reaproveitado</strong> lá (<code>file_access.py</code> e os renderers).</p>
+<hr />
+<h2 id="p06-64-backend-dev">6.4 Backend (Dev)</h2>
+<h3 id="p06-641-arquivos">6.4.1 Arquivos</h3>
+<div class="code"><div class="code-head"><span>texto</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code>backend/app/file_access.py            # NOVO: resolve_safe_path, is_denied, detect_kind, language_for
+backend/app/viewer_store.py           # NOVO: ViewerStore (tabela viewer_items no sessions.db)
+backend/app/viewer_api.py             # NOVO: APIRouter com as rotas 6.4.3
+backend/app/mcp_viewer_adapter.py     # NOVO: servidor MCP stdio com a tool abrir_no_visualizador
+backend/app/main.py                   # ALTERAR: registrar router, iniciar ViewerStore no lifespan,
+                                      #          incluir "escritorio-visualizador" em _escritorio_mcp_servers,
+                                      #          função notify_viewer_open(session_key, item)
+backend/tests/test_file_access.py
+backend/tests/test_viewer_store.py
+backend/tests/test_viewer_endpoints.py
+backend/tests/test_mcp_viewer_adapter.py
+backend/tests/test_websocket.py       # ALTERAR: caso do frame viewer_open
+</code></pre></div>
+<p>Se a refatoração de routers (4.3) ainda não tiver acontecido, <strong>não</strong> a faça
+nesta fase: só crie o <code>viewer_api.py</code> como <code>APIRouter</code> e registre com
+<code>app.include_router(...)</code>. O <code>main.py</code> ganha poucas linhas.</p>
+<h3 id="p06-642-file_accesspy">6.4.2 <code>file_access.py</code></h3>
+<div class="code"><div class="code-head"><span>python</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">resolve_safe_path</span><span class="p">(</span><span class="n">project_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">caminho</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Aceita caminho relativo à raiz do projeto ou absoluto DENTRO dela.</span>
+<span class="sd">    Devolve o caminho real (realpath). Levanta:</span>
+<span class="sd">      PermissionError  -&gt; fora do projeto, caractere proibido, ou denylist</span>
+<span class="sd">      FileNotFoundError -&gt; não existe</span>
+<span class="sd">      IsADirectoryError -&gt; é pasta</span>
+<span class="sd">    """</span>
+</code></pre></div>
+<ul>
+<li>Rejeitar <code>\x00</code>. Aceitar <code>\</code> só no Windows, normalizando (o middleware
+  <code>RejectBackslashPathMiddleware</code> atua na URL, não no corpo JSON da tool).</li>
+<li>Relativo: <code>os.path.join(root, caminho)</code>. Absoluto: usar como está.
+  Depois <code>realpath</code> nos dois lados e <code>commonpath</code> (reaproveitar a lógica de
+  <code>_is_within_directory</code> de <code>attachments.py</code>, que já trata drive diferente no
+  Windows; extrair para cá e fazer <code>attachments.py</code> importar daqui).</li>
+<li><strong>Denylist</strong> (<code>is_denied(rel_path)</code>): <code>.env</code> e <code>.env.*</code> (exceto
+  <code>.env.example</code>), <code>*.pem</code>, <code>*.key</code>, <code>*.p12</code>, <code>*.pfx</code>, <code>id_rsa*</code>,
+  <code>id_ed25519*</code>, <code>*.kdbx</code>, qualquer coisa dentro de <code>.git/</code>, <code>.npmrc</code>,
+  <code>.pypirc</code>, <code>credentials*.json</code>, <code>*.db</code>, <code>*.db-wal</code>, <code>*.db-shm</code>.</li>
+<li><code>detect_kind(path, head_bytes)</code> → <code>markdown | html | code | image | pdf | video | binary</code>
+  (pela extensão; <code>binary</code> se houver <code>\x00</code> nos primeiros 8 KB).</li>
+<li><code>language_for(path)</code> → id de linguagem para o destaque de sintaxe
+  (<code>.py→python</code>, <code>.js/.mjs→javascript</code>, <code>.jsx→jsx</code>, <code>.ts→typescript</code>,
+  <code>.tsx→tsx</code>, <code>.json→json</code>, <code>.css→css</code>, <code>.html→html</code>, <code>.sh→bash</code>,
+  <code>.ps1→powershell</code>, <code>.yml/.yaml→yaml</code>, <code>.toml→toml</code>, <code>.sql→sql</code>,
+  <code>.md→markdown</code>, <code>Dockerfile→docker</code>, senão <code>text</code>).</li>
+</ul>
+<h3 id="p06-643-rotas">6.4.3 Rotas</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rota</th>
+<th>Quem chama</th>
+<th>Corpo / resposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST /api/hooks/viewer/open</code></td>
+<td>só o adapter MCP (loopback)</td>
+<td>corpo <code>{"claude_session_id","caminho","titulo"?,"linha"?}</code> → <code>{"success":true,"item":{…},"reused":false,"delivered":true}</code> ou <code>{"success":false,"error":"&lt;mensagem para o agente&gt;"}</code></td>
+</tr>
+<tr>
+<td><code>POST /api/sessions/{session_key}/viewer</code></td>
+<td>frontend (clique em caminho no terminal, link num markdown)</td>
+<td><code>{"caminho","linha"?,"relativo_a"?}</code> → mesmo formato. <code>relativo_a</code> = caminho do arquivo onde o link estava, para resolver <code>../x.md</code></td>
+</tr>
+<tr>
+<td><code>GET /api/sessions/{session_key}/viewer</code></td>
+<td>frontend ao montar/trocar de conversa</td>
+<td><code>{"items":[…]}</code> na ordem de criação</td>
+</tr>
+<tr>
+<td><code>DELETE /api/sessions/{session_key}/viewer/{item_id}</code></td>
+<td>fechar aba</td>
+<td><code>{"status":"closed"}</code></td>
+</tr>
+<tr>
+<td><code>DELETE /api/sessions/{session_key}/viewer</code></td>
+<td>fechar todas</td>
+<td><code>{"status":"closed","count":n}</code></td>
+</tr>
+<tr>
+<td><code>GET /api/viewer/{item_id}/content</code></td>
+<td>corpo da aba (markdown, código, texto)</td>
+<td><code>{"item_id","path","size","mtime","kind","language","is_text","text"?,"truncated"}</code> (texto até 1 MB)</td>
+</tr>
+<tr>
+<td><code>GET /api/viewer/{item_id}/f/{file_path:path}</code></td>
+<td>HTML no iframe, imagens, PDF, assets relativos</td>
+<td><code>FileResponse</code>; <code>file_path</code> é relativo à raiz do projeto do item e passa por <code>resolve_safe_path</code> + denylist</td>
+</tr>
+<tr>
+<td><code>GET /api/viewer/{item_id}/f/{file_path:path}?download=1</code></td>
+<td>botão Baixar</td>
+<td>igual + <code>Content-Disposition: attachment; filename*=UTF-8''&lt;nome&gt;</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Formato de <code>item</code>:</p>
+<div class="code"><div class="code-head"><span>json</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"item_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vw_5Jc2k0q8Qm1Y0oHq3a1bXw"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"session_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"podesubir/tasknexus::claude"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"podesubir/tasknexus"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"docs/relatorio.html"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"relatorio.html"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"line"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"html"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"html"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"opened_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mf">1727650000.12</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mf">1727650000.12</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Regras:</p>
+<ul>
+<li><code>session_key</code> → <code>project_id</code> = <code>session_key.partition("::")[0]</code> (mesma
+  regra usada em <code>continue_session</code>) → <code>_resolve_project_or_404</code> → <code>project.path</code>.</li>
+<li>Hook: <code>claude_session_id</code> → <code>store.get_session_key_by_claude_id</code> (igual
+  aos hooks de card). Sem sessão: <code>{"success":false,"error":"Sessão do TaskNexus não encontrada"}</code>.</li>
+<li><strong>Reaproveitar aba:</strong> se já existir item aberto na mesma sessão com o mesmo
+  <code>path</code>, atualiza <code>line</code>, <code>title</code> e <code>updated_at</code>, e devolve <code>reused:true</code>.</li>
+<li><strong>Limite de 15</strong> abas por sessão: ao criar a 16ª, apaga a de <code>updated_at</code>
+  mais antigo.</li>
+<li>Cabeçalhos da rota <code>f/</code> para <code>text/html</code>, <code>image/svg+xml</code>, <code>application/xhtml+xml</code>, <code>text/xml</code>:
+  <code>Content-Security-Policy: sandbox allow-scripts allow-popups; default-src * data: blob: 'unsafe-inline' 'unsafe-eval'</code>,
+  <code>X-Content-Type-Options: nosniff</code>. Para todos: <code>Cache-Control: no-store</code>
+  (o agente reescreve arquivos).</li>
+<li>Rotas <code>/api/hooks/viewer/*</code> aceitam só cliente loopback (<code>127.0.0.1</code>/<code>::1</code>).
+  O <code>_hook_callback_base_url()</code> já aponta os adaptadores para <code>http://127.0.0.1:&lt;porta&gt;</code>;
+  a exceção é quando <code>HOOK_CALLBACK_BASE_URL</code> está definida (backend atrás de
+  proxy/container): nesse caso <strong>não</strong> aplicar a checagem por IP, senão o hook
+  para de funcionar. Não mexer nos hooks existentes nesta fase.</li>
+<li>Todo acesso a disco com <code>asyncio.to_thread</code>.</li>
+</ul>
+<h3 id="p06-644-aviso-ao-vivo-frame-viewer_open">6.4.4 Aviso ao vivo (frame <code>viewer_open</code>)</h3>
+<p>Nova função no <code>main.py</code>, chamada pelas duas rotas <code>POST</code> depois de gravar:</p>
+<div class="code"><div class="code-head"><span>python</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">notify_viewer_open</span><span class="p">(</span><span class="n">session_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">reused</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">ws</span> <span class="o">=</span> <span class="n">_active_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">session_key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ws</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">ws</span><span class="o">.</span><span class="n">send_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"viewer_open"</span><span class="p">,</span> <span class="s2">"item"</span><span class="p">:</span> <span class="n">item</span><span class="p">,</span> <span class="s2">"reused"</span><span class="p">:</span> <span class="n">reused</span><span class="p">}))</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>          <span class="c1"># socket fechando: a aba já está no banco, o front busca depois</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<p><code>send_text</code> já é o canal dos frames de controle neste WebSocket (a saída do
+PTY vai sempre como bytes), então não há mistura com o terminal.</p>
+<h3 id="p06-645-viewerstore">6.4.5 <code>ViewerStore</code></h3>
+<p>Mesmo padrão dos stores atuais: conexão <code>aiosqlite</code> própria no <code>sessions.db</code>,
+<code>PRAGMA journal_mode=WAL</code>, <code>busy_timeout=5000</code>, <code>initialize()</code> no <code>lifespan</code>.</p>
+<div class="code"><div class="code-head"><span>sql</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">viewer_items</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">item_id</span><span class="w">     </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">session_key</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">project_id</span><span class="w">  </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">path</span><span class="w">        </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">title</span><span class="w">       </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">line</span><span class="w">        </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">  </span><span class="n">kind</span><span class="w">        </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="k">language</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">  </span><span class="n">opened_by</span><span class="w">   </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">          </span><span class="c1">-- 'agent' | 'user'</span>
+<span class="w">  </span><span class="n">created_at</span><span class="w">  </span><span class="nb">REAL</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">updated_at</span><span class="w">  </span><span class="nb">REAL</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="p">);</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">ix_viewer_items_session</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">viewer_items</span><span class="p">(</span><span class="n">session_key</span><span class="p">,</span><span class="w"> </span><span class="n">updated_at</span><span class="p">);</span>
+</code></pre></div>
+<p>Ao encerrar uma sessão (<code>POST /api/sessions/{sk}/terminate</code>), apagar as
+abas dela.</p>
+<h3 id="p06-646-adapter-mcp-mcp_viewer_adapterpy">6.4.6 Adapter MCP <code>mcp_viewer_adapter.py</code></h3>
+<p>Copie o esqueleto de <code>mcp_card_adapter.py</code> (JSON-RPC 2.0 por linha no stdio,
+stdlib pura, Python 3.9, TLS de loopback sem verificação, <code>PYTHONUTF8=1</code>).
+Uma única tool:</p>
+<div class="code"><div class="code-head"><span>json</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abrir_no_visualizador"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Abre um arquivo do projeto no visualizador do TaskNexus, na tela do usuário (inclusive no iPad), numa aba nova. Use SEMPRE que criar ou alterar um arquivo que o usuário deva ler ou conferir (relatórios .html, documentos .md, planos, diagramas, trechos de código importantes) e sempre que o usuário pedir para ver, abrir ou mostrar um arquivo. O usuário não consegue clicar em links no terminal, então esta é a forma de mostrar arquivos a ele. Markdown aparece renderizado, HTML aparece como página, código aparece com destaque de sintaxe, e o usuário pode baixar o arquivo."</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"inputSchema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"caminho"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Caminho do arquivo, relativo à raiz do projeto (ex.: docs/plano.md) ou absoluto dentro do projeto."</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"titulo"</span><span class="p">:</span><span class="w">  </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Opcional. Nome curto da aba. Padrão: nome do arquivo."</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"linha"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Opcional. Linha para rolar e destacar (arquivos de código)."</span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"caminho"</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>Env vars: <code>ESCRITORIO_CLAUDE_SESSION_ID</code> e <code>ESCRITORIO_HOOK_VIEWER_OPEN_URL</code>
+  (<code>{base_url}/api/hooks/viewer/open</code>).</li>
+<li>Respostas da tool (texto, para o agente ler):</li>
+<li>sucesso, entregue: <code>Aberto no visualizador do usuário: docs/relatorio.html (aba nova).</code></li>
+<li>sucesso, aba reaproveitada: <code>…: docs/relatorio.html (aba já existia, foi atualizada).</code></li>
+<li>sucesso, tela fechada: <code>Registrado no visualizador: docs/relatorio.html. O usuário verá ao abrir o TaskNexus.</code></li>
+<li>erro do backend: o texto de <code>error</code> (ex.: <code>Arquivo não encontrado: docs/x.md</code>,
+    <code>Caminho fora do projeto</code>, <code>Arquivo protegido (segredos não são exibidos)</code>).</li>
+<li>backend fora do ar: <code>Não foi possível falar com o TaskNexus agora.</code> (sem travar, sem retry).</li>
+<li>Registro: nova entrada <code>"escritorio-visualizador"</code> em <code>_escritorio_mcp_servers()</code>.
+  Com isso o <code>claude</code> recebe pelo <code>--mcp-config</code> e o <code>codex</code> pelos
+  <code>-c mcp_servers.*</code>, sem outra mudança. Conferir que os testes de contrato do
+  spawn (<code>test_pty_manager*</code>, testes do codex) continuam passando e atualizar o
+  que listar os servidores esperados.</li>
+</ul>
+<hr />
+<h2 id="p06-65-frontend-dev">6.5 Frontend (Dev)</h2>
+<h3 id="p06-651-arquivos">6.5.1 Arquivos</h3>
+<div class="code"><div class="code-head"><span>texto</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code>frontend/src/features/viewer/
+  ViewerContext.jsx        # estado das abas por sessão + ações; Provider junto do TerminalProvider
+  viewerApi.js             # fetch das rotas 6.4.3
+  ViewerButton.jsx         # botão "Visualizador" com contador (cabeçalho do chat, iPad/PC)
+  ViewerMobileButton.jsx   # botão flutuante ao lado do "☰ Menu" (celular)
+  ViewerDropdown.jsx       # popover ancorado no botão (padrão do AttachmentsMenu)
+  ViewerFullscreen.jsx     # modal de tela cheia (portal, contrato do CenteredModal)
+  ViewerPanel.jsx          # abas + barra de ações + corpo (usado pelos dois contêineres)
+  ViewerTabs.jsx
+  ViewerToolbar.jsx        # Baixar, Copiar, Abrir no navegador, Tela cheia/Fechar, ⋯ (Fechar todas)
+  useViewerContent.js      # busca /content com cache por item_id+updated_at
+  renderers/
+    MarkdownView.jsx       # utils/markdown.js ampliado + destaque + botão Copiar nos blocos
+    HtmlView.jsx           # iframe sandbox + Preview/Código
+    CodeView.jsx           # destaque de sintaxe, números de linha, rolar até a linha
+    ImageView.jsx
+    PdfView.jsx
+    BinaryView.jsx
+frontend/src/utils/markdown.js                  # ALTERAR: GFM, links, imagens relativas (6.5.4)
+frontend/src/components/TerminalPanel.jsx       # ALTERAR: frame viewer_open (+ links 6.5.6)
+frontend/src/layouts/v2/AppV2.jsx               # ALTERAR: ViewerButton no cabeçalho; botão mobile
+frontend/src/App.jsx (ou main.jsx)              # ALTERAR: ViewerProvider
+package.json                                    # + shiki, + @xterm/addon-web-links
+</code></pre></div>
+<h3 id="p06-652-viewercontext">6.5.2 <code>ViewerContext</code></h3>
+<div class="code"><div class="code-head"><span>js</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="c1">// estado</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nx">bySession</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">[</span><span class="nx">sessionKey</span><span class="p">]</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">items</span><span class="o">:</span><span class="w"> </span><span class="nx">Item</span><span class="p">[],</span><span class="w"> </span><span class="nx">activeId</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="o">|</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nx">loaded</span><span class="o">:</span><span class="w"> </span><span class="kr">boolean</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">open</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">            </span><span class="c1">// dropdown aberto</span>
+<span class="w">  </span><span class="nx">fullscreen</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">      </span><span class="c1">// modal de tela cheia</span>
+<span class="w">  </span><span class="nx">unseen</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">[</span><span class="nx">sessionKey</span><span class="p">]</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// contador para abas abertas com a conversa fora de vista</span>
+<span class="p">}</span>
+<span class="c1">// ações</span>
+<span class="nx">loadItems</span><span class="p">(</span><span class="nx">sessionKey</span><span class="p">)</span><span class="w">                 </span><span class="c1">// GET, ao montar/trocar de conversa (se !loaded)</span>
+<span class="nx">receiveOpen</span><span class="p">(</span><span class="nx">sessionKey</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">reused</span><span class="p">)</span><span class="w"> </span><span class="c1">// chamado pelo frame viewer_open</span>
+<span class="nx">openByPath</span><span class="p">(</span><span class="nx">sessionKey</span><span class="p">,</span><span class="w"> </span><span class="nx">caminho</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">linha</span><span class="p">,</span><span class="w"> </span><span class="nx">relativoA</span><span class="p">})</span><span class="w">  </span><span class="c1">// POST (links clicados pelo usuário)</span>
+<span class="nx">closeItem</span><span class="p">(</span><span class="nx">sessionKey</span><span class="p">,</span><span class="w"> </span><span class="nx">itemId</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">closeAll</span><span class="p">(</span><span class="nx">sessionKey</span><span class="p">)</span>
+<span class="nx">setActive</span><span class="p">(</span><span class="nx">sessionKey</span><span class="p">,</span><span class="w"> </span><span class="nx">itemId</span><span class="p">)</span>
+<span class="nx">setOpen</span><span class="p">(</span><span class="nx">bool</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">setFullscreen</span><span class="p">(</span><span class="nx">bool</span><span class="p">)</span>
+</code></pre></div>
+<p><code>receiveOpen</code>: adiciona ou atualiza o item e o torna ativo. Se
+<code>sessionKey === activeSessionKey</code> e a tela de chat estiver visível: <code>open=true</code>
+(no celular, <code>fullscreen=true</code>). Senão: <code>unseen[sessionKey]++</code> e aviso curto
+(toast) "claude abriu <code>relatorio.html</code> · Ver".</p>
+<p>O <code>TerminalPanel</code> é montado também em testes isolados, sem Provider: use
+<code>useContext</code> com fallback nulo e só chame <code>receiveOpen</code> se o contexto existir.</p>
+<h3 id="p06-653-dropdown-e-tela-cheia">6.5.3 Dropdown e tela cheia</h3>
+<ul>
+<li><strong>Dropdown:</strong> mesmo padrão de <code>AttachmentsMenu.jsx</code> / <code>TaskQuickCreatePopover.jsx</code>
+  (scrim transparente, Esc, clique fora, fecha quando a sessão ativa muda).
+  Tamanho: <code>width: min(960px, calc(100vw - 32px))</code>,
+  <code>height: min(78dvh, 820px)</code>, ancorado à direita do botão.</li>
+<li><strong>Tela cheia:</strong> <code>ViewerFullscreen</code> renderiza o <code>ViewerPanel</code> num portal em
+  <code>document.body</code>, <code>position: fixed; inset: 0</code>, respeitando
+  <code>--v2-safe-*</code>. Barra superior: abas à esquerda, <strong>✕ Fechar</strong> à direita
+  (44 px). Esc ou Fechar → <code>fullscreen=false</code> (volta ao dropdown no iPad/PC;
+  no celular fecha tudo).</li>
+<li><strong>Um só painel por vez:</strong> quando <code>fullscreen</code> é verdadeiro, o dropdown não
+  renderiza. A aba ativa é a mesma nos dois (estado no contexto). O <code>iframe</code> do
+  HTML recarrega ao trocar de contêiner, o que é aceitável.</li>
+<li>Botão no cabeçalho: ao lado de <code>AttachmentsMenu</code> na topbar do <code>AppV2</code>
+  (mesma guarda <code>!isMobile &amp;&amp; v2Screen === 'chat'</code>). Rótulo "Visualizador" e
+  selo com o número de abas; selo destacado quando <code>unseen &gt; 0</code>.</li>
+<li>Celular: <code>ViewerMobileButton</code> flutuante perto do "☰ Menu" quando
+  <code>mobileView === 'content'</code>, abrindo direto em tela cheia.</li>
+</ul>
+<h3 id="p06-654-renderização">6.5.4 Renderização</h3>
+<ul>
+<li><strong>Markdown:</strong> ampliar <code>renderMarkdown</code> com <code>marked</code> em modo GFM; manter
+  <code>DOMPurify</code>. Depois de montar, os <code>&lt;pre&gt;&lt;code class="language-x"&gt;</code> recebem
+  destaque (6.5.5) e um cabeçalho com linguagem e <strong>Copiar</strong>
+  (<code>utils/clipboard.js</code>). Links:</li>
+<li><code>http(s)://</code> → nova aba do navegador (<code>target="_blank" rel="noopener noreferrer"</code>);</li>
+<li>relativos que apontam para arquivo (<code>../plano.md</code>, <code>src/app.py#L10</code>) →
+    interceptar o clique e chamar <code>openByPath(sessionKey, href, {relativoA: item.path})</code>,
+    abrindo <strong>outra aba</strong> do visualizador;</li>
+<li>âncoras <code>#secao</code> → rolar dentro do painel.
+  Imagens relativas → <code>src</code> reescrito para <code>/api/viewer/{item_id}/f/&lt;caminho resolvido&gt;</code>.</li>
+<li><strong>HTML:</strong> <code>&lt;iframe src="/api/viewer/{item_id}/f/{path}" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer"&gt;</code>
+  ocupando o corpo inteiro; alternância <strong>Preview · Código</strong> (Código usa o <code>CodeView</code>).</li>
+<li><strong>Código:</strong> números de linha, quebra de linha opcional, rolar até <code>line</code> e
+  destacar por 2 s. Seleção de texto nativa.</li>
+<li><strong>Arquivos grandes/binários:</strong> <code>BinaryView</code> com Baixar.</li>
+</ul>
+<h3 id="p06-655-destaque-de-sintaxe">6.5.5 Destaque de sintaxe</h3>
+<p>Usar <strong>Shiki</strong> com carregamento sob demanda (import dinâmico do núcleo e de
+cada linguagem só quando aparecer), temas <code>github-light</code>/<code>github-dark</code>
+conforme <code>data-theme</code>. Se o custo de bundle ficar alto para o iPad (medir com
+<code>npm run build</code>), a alternativa aceita é <code>highlight.js</code> com linguagens
+registradas sob demanda; registrar a decisão no PR.</p>
+<h3 id="p06-656-links-clicáveis-no-terminal-resolve-o-problema-de-origem">6.5.6 Links clicáveis no terminal (resolve o problema de origem)</h3>
+<ul>
+<li><code>@xterm/addon-web-links</code>: URLs <code>https://…</code> viram links e abrem em nova aba
+  do navegador.</li>
+<li><code>term.registerLinkProvider</code> para <strong>caminhos de arquivo</strong> (<code>docs/plano.md</code>,
+  <code>src/app.py:42</code>, <code>./README.md</code>, absolutos dentro do projeto): ao ativar,
+  chama <code>openByPath(sessionKey, caminho, {linha})</code>.</li>
+<li><strong>Verificação obrigatória no iPad:</strong> o xterm ativa links por clique; no
+  toque do iPad isso deve funcionar, mas precisa ser testado. Se não
+  funcionar, registrar no PR. O caminho garantido continua sendo o agente
+  chamar a tool.</li>
+</ul>
+<hr />
+<h2 id="p06-66-ordem-de-execução-um-commit-por-passo-testes-verdes-em-cada-um">6.6 Ordem de execução (um commit por passo, testes verdes em cada um)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Passo</th>
+<th>Entrega</th>
+<th>Verificação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>file_access.py</code> + testes; <code>attachments.py</code> passa a importar a contenção daqui</td>
+<td><code>pytest tests/test_file_access.py tests/test_attachments*.py</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>ViewerStore</code> + rotas 6.4.3 (sem MCP, sem WS)</td>
+<td><code>pytest tests/test_viewer_store.py tests/test_viewer_endpoints.py</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>mcp_viewer_adapter.py</code> + registro em <code>_escritorio_mcp_servers</code></td>
+<td><code>pytest tests/test_mcp_viewer_adapter.py</code> + suíte do spawn/codex</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>notify_viewer_open</code> + frame no WS</td>
+<td>caso novo em <code>test_websocket.py</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>ViewerContext</code> + tratamento do frame no <code>TerminalPanel</code></td>
+<td>vitest do contexto e do <code>isControlFrame</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Dropdown, abas, barra, renderers Markdown/Código/Binário</td>
+<td>vitest</td>
+</tr>
+<tr>
+<td>7</td>
+<td>HTML (iframe), imagem, PDF, download</td>
+<td>vitest + manual</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Tela cheia + botão mobile</td>
+<td>vitest + manual</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Links no terminal (6.5.6)</td>
+<td>manual no iPad</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Atualizar README do projeto (seção de uso) e esta doc se algo mudou</td>
+<td>revisão</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p06-67-testes">6.7 Testes</h2>
+<h3 id="p06-backend">Backend</h3>
+<ul>
+<li><code>resolve_safe_path</code>: relativo ok; absoluto dentro ok; <code>../fora</code>,
+  absoluto fora, symlink para fora, <code>\x00</code>, pasta, inexistente, cada item da
+  denylist. No Windows: drive diferente → recusa.</li>
+<li>Rotas: criar item pelo hook com <code>claude_session_id</code> válido e inválido;
+  reaproveitar aba do mesmo caminho (<code>reused:true</code>); limite de 15; listar em
+  ordem; fechar uma e todas; <code>content</code> de markdown, de binário (<code>is_text:false</code>)
+  e de arquivo &gt; 1 MB (<code>truncated:true</code>); <code>f/</code> com HTML tem CSP <code>sandbox</code>;
+  <code>f/</code> servindo <code>style.css</code> vizinho; <code>f/</code> recusando <code>.env</code> e <code>../../</code>;
+  <code>download=1</code> com nome acentuado; hook vindo de IP não-loopback → 403.</li>
+<li>Adapter MCP: <code>initialize</code>, <code>tools/list</code> com a tool, <code>tools/call</code> com sucesso,
+  com erro do backend e com backend fora do ar (mesmo estilo de
+  <code>test_mcp_card_adapter.py</code>).</li>
+<li>WebSocket: com cliente conectado na sessão, o POST gera um frame de texto
+  <code>viewer_open</code>; sem cliente, <code>delivered:false</code> e nada quebra.</li>
+</ul>
+<h3 id="p06-frontend">Frontend</h3>
+<ul>
+<li><code>isControlFrame</code> reconhece <code>viewer_open</code>.</li>
+<li><code>ViewerContext</code>: <code>receiveOpen</code> com conversa visível abre o dropdown; com
+  conversa oculta incrementa <code>unseen</code>; aba reaproveitada não duplica; fechar
+  a última aba fecha o dropdown.</li>
+<li><code>MarkdownView</code>: link externo com <code>rel="noopener noreferrer"</code>; link relativo
+  chama <code>openByPath</code> com <code>relativoA</code>; imagem relativa reescrita para <code>/api/viewer/…/f/…</code>.</li>
+<li><code>HtmlView</code>: iframe <strong>sem</strong> <code>allow-same-origin</code>.</li>
+<li><code>ViewerFullscreen</code>: Esc chama <code>setFullscreen(false)</code>; renderiza em portal.</li>
+<li>Manter <code>fixedPositioningInvariant.test.js</code> passando.</li>
+</ul>
+<h3 id="p06-aceite-manual-ipad-safari-e-pwa-instalado">Aceite manual (iPad, Safari e PWA instalado)</h3>
+<ol>
+<li>Pedir ao claude: "crie <code>docs/teste-visualizador.md</code> com uma tabela, uma
+   checklist e um bloco de Python, e abra no visualizador". O dropdown abre
+   sozinho com a aba renderizada.</li>
+<li>Pedir outro arquivo: abre <strong>aba nova</strong>; pedir o primeiro de novo: foca a
+   aba existente com o conteúdo atualizado.</li>
+<li>Pedir um <code>.html</code> com CSS e imagem em arquivos separados: aparece com estilo e imagem.</li>
+<li><strong>⤢ Tela cheia</strong> → modal ocupando a página; <strong>✕ Fechar</strong> volta ao dropdown; Esc também.</li>
+<li><strong>⤓ Baixar</strong> num <code>.md</code>: arquivo em Arquivos › Downloads.</li>
+<li>Selecionar três linhas de um bloco de código com o dedo e colar no Notas.</li>
+<li>Estar em outra conversa quando o agente abre um arquivo: contador no botão
+   e aviso; ao trocar para a conversa, as abas estão lá.</li>
+<li>Recarregar a página: as abas continuam.</li>
+<li>No celular: botão flutuante abre direto em tela cheia.</li>
+<li>Pedir ao agente para abrir <code>.env</code>: ele recebe "Arquivo protegido" e nada aparece.</li>
+<li>Tocar num caminho de arquivo no terminal (registrar se funcionou no iPad).</li>
+<li>Mesmo teste 1 com o <code>codex</code>.</li>
+</ol>
+<hr />
+<h2 id="p06-68-riscos-e-como-mitigar">6.8 Riscos e como mitigar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Risco</th>
+<th>Mitigação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O agente não usa a tool por conta própria</td>
+<td>Descrição da tool diz explicitamente quando usar. Se ainda assim não usar, adicionar uma linha ao <code>system_prompt</code> do agente no cadastro de agentes (Configuração) ou ao <code>CLAUDE.md</code> do projeto: "Sempre que criar ou alterar um arquivo que eu deva ver, abra-o com abrir_no_visualizador."</td>
+</tr>
+<tr>
+<td>Sem autenticação, alguém na rede lista abas e lê arquivos</td>
+<td>Superfície limitada a arquivos abertos + vizinhos do mesmo projeto, com denylist. A autenticação (4.1, fase F0) fecha isso de vez e deve vir logo em seguida</td>
+</tr>
+<tr>
+<td>HTML malicioso gerado por engano</td>
+<td><code>iframe</code> sem <code>allow-same-origin</code> + CSP <code>sandbox</code> no cabeçalho</td>
+</tr>
+<tr>
+<td>Bundle pesado (Shiki, marked) no iPad</td>
+<td>Imports dinâmicos; medir com <code>npm run build</code> e registrar tamanhos no PR</td>
+</tr>
+<tr>
+<td>Frame chega enquanto o WS está sendo substituído (evicção de leitor único)</td>
+<td>A aba está no banco; <code>loadItems</code> na montagem recupera</td>
+</tr>
+<tr>
+<td>Conversa aberta em dois aparelhos: só o conectado recebe o frame</td>
+<td>O outro vê as abas ao abrir a conversa (GET). Assinatura múltipla fica para o chat da Parte 2</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p06-69-definição-de-pronto">6.9 Definição de pronto</h2>
+<ul>
+<li><input type="checkbox" disabled> Todos os testes (<code>pytest</code> e <code>npm test</code>) passando, incluindo os novos.</li>
+<li><input type="checkbox" disabled> Os 12 passos de aceite manual conferidos no iPad (itens que dependem do
+      aparelho marcados como "verificar" no PR, se o agente não tiver iPad).</li>
+<li><input type="checkbox" disabled> <code>deploy.sh</code> e <code>deploy.ps1</code> funcionando sem mudança de uso.</li>
+<li><input type="checkbox" disabled> README do projeto com uma seção curta "Visualizador de arquivos".</li>
+<li><input type="checkbox" disabled> Este documento atualizado se a implementação divergir.</li>
 </ul></article></main>
 </div>
 <script>

@@ -2,10 +2,11 @@
 """Gera as versões HTML da documentação a partir dos .md desta pasta.
 
 Saídas:
-  - um .html por parte (00-…html a 05-…html) + index.html (do README.md),
+  - um .html por parte (CONTEXTO, 00-…html a 06-…html) + index.html (do README.md),
     com as imagens referenciadas em img/ (relativas);
   - documentacao-completa.html: todas as partes numa página só, com as
-    imagens embutidas em data URI (abre offline e no iPad sem depender da pasta).
+    imagens embutidas em data URI (abre offline e no iPad sem depender da pasta);
+  - documentacao-completa.md: todas as partes num único Markdown (para entregar a um agente).
 
 Uso:  pip install markdown pygments pymdown-extensions && python3 docs/melhorias-tablet/build_html.py
 """
@@ -20,16 +21,26 @@ import markdown
 from markdown.extensions.toc import slugify_unicode
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+NUMBERED = None  # preenchido abaixo de PARTS
+
+
+def eyebrow(num: str) -> str:
+    if not num.isdigit():
+        return "Contexto para retomar o trabalho"
+    return f"Parte {num} de {NUMBERED}"
 
 PARTS = [
+    ("CONTEXTO-PARA-AGENTE", "C", "Contexto para o agente"),
     ("00-visao-geral-e-diagnostico", "0", "Visão geral e diagnóstico"),
     ("01-visualizador-de-arquivos", "1", "Visualizador de arquivos"),
     ("02-chat-conversacional", "2", "Chat conversacional"),
     ("03-layout-amigavel", "3", "Layout amigável"),
     ("04-melhorias-adicionais", "4", "Melhorias adicionais"),
     ("05-plano-de-execucao-e-prompts", "5", "Plano e prompts"),
+    ("06-planejamento-fase-v", "6", "Planejamento da Fase V"),
 ]
 SITE_TITLE = "TaskNexus no Tablet"
+NUMBERED = max(int(n) for _, n, _ in PARTS if n.isdigit())
 
 CSS = r"""
 :root{
@@ -259,7 +270,7 @@ def postprocess(body: str, *, inline_images: bool, link_map, langs=()) -> str:
     def link(m):
         target, anchor = m.group(1), m.group(2) or ""
         return f'href="{link_map(target, anchor)}"'
-    body = re.sub(r'href="((?:\d\d-[\w-]+|README)\.md)(#[^"]*)?"', link, body)
+    body = re.sub(r'href="((?:\d\d-[\w-]+|README|CONTEXTO-PARA-AGENTE|documentacao-completa)\.md)(#[^"]*)?"', link, body)
     return body
 
 
@@ -334,11 +345,11 @@ def build_per_part() -> None:
         next_ = PARTS[i + 1] if i + 1 < len(PARTS) else None
         pager = '<div class="pager">'
         if prev_:
-            pager += f'<a href="{href(prev_[0])}"><small>Anterior</small>Parte {prev_[1]} · {html.escape(prev_[2])}</a>'
+            pager += f'<a href="{href(prev_[0])}"><small>Anterior</small>{prev_[1]} · {html.escape(prev_[2])}</a>'
         if next_:
-            pager += f'<a class="next" href="{href(next_[0])}"><small>Próxima</small>Parte {next_[1]} · {html.escape(next_[2])}</a>'
+            pager += f'<a class="next" href="{href(next_[0])}"><small>Próxima</small>{next_[1]} · {html.escape(next_[2])}</a>'
         pager += "</div>"
-        content = f'<article class="doc"><p class="eyebrow">Parte {num} de 5</p>{body}{pager}</article>'
+        content = f'<article class="doc"><p class="eyebrow">{eyebrow(num)}</p>{body}{pager}</article>'
         out = page(f"{SITE_TITLE} · {label}", nav, pills, toc_html(toks), content)
         with open(os.path.join(HERE, slug + ".html"), "w", encoding="utf-8") as fh:
             fh.write(out)
@@ -356,7 +367,7 @@ def build_complete() -> None:
         return f"#parte-{slug[:2]}"
 
     def link_map(target, anchor):
-        if target == "README.md":
+        if target in ("README.md", "documentacao-completa.md"):
             return "#top"
         return anchor.replace("#", f"#p{target[:2]}-") if anchor else f"#parte-{target[:2]}"
 
@@ -371,7 +382,7 @@ def build_complete() -> None:
         body, _, langs = md_to_html(read(slug + ".md"), f"p{slug[:2]}-")
         body = postprocess(body, inline_images=True, link_map=link_map, langs=langs)
         sections.append(
-            f'<article class="doc part-sep" id="parte-{slug[:2]}"><p class="eyebrow">Parte {num} de 5</p>{body}</article>')
+            f'<article class="doc part-sep" id="parte-{slug[:2]}"><p class="eyebrow">{eyebrow(num)}</p>{body}</article>')
     nav, pills = build_parts_nav(None, href)
     toc = ""  # a lista de partes já é o índice nesta versão
     out = page(SITE_TITLE, nav, pills, toc, "".join(sections))
@@ -380,7 +391,35 @@ def build_complete() -> None:
         fh.write(out)
 
 
+def build_complete_md() -> None:
+    """Um único Markdown com todas as partes, na mesma ordem do site. Os links
+    entre partes continuam apontando para os .md separados (que moram na mesma
+    pasta), e as imagens continuam em img/ — funciona no GitHub e para um agente."""
+    chunks = [
+        "# TaskNexus no tablet — documentação completa (arquivo único)\n\n"
+        "> Gerado por `build_html.py` a partir dos .md desta pasta. Não edite este\n"
+        "> arquivo: edite as partes e rode o script de novo.\n\n"
+        "## Sumário\n\n"
+        + "\n".join(f"- {num} · {label} (`{slug}.md`)" for slug, num, label in PARTS)
+        + "\n"
+    ]
+    for slug, num, label in PARTS:
+        text = read(slug + ".md").strip()
+        # Rebaixa um nível todos os títulos (fora de blocos de código) para caberem sob o título do arquivo único.
+        out, inside = [], False
+        for line in text.splitlines():
+            if re.match(r"^\s*```", line):
+                inside = not inside
+            if not inside and re.match(r"^#{1,5} ", line):
+                line = "#" + line
+            out.append(line)
+        chunks.append(f"\n---\n\n<!-- ===== {slug}.md ===== -->\n\n" + "\n".join(out) + "\n")
+    with open(os.path.join(HERE, "documentacao-completa.md"), "w", encoding="utf-8") as fh:
+        fh.write("".join(chunks))
+
+
 if __name__ == "__main__":
     build_per_part()
     build_complete()
+    build_complete_md()
     print("HTML gerado em", HERE)

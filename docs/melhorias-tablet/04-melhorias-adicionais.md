@@ -9,7 +9,7 @@
 | Id | Melhoria | Esforço | Prioridade | Depende de |
 |----|----------|---------|------------|------------|
 | 4.1 | Autenticação por token + cookie | M | **Obrigatória** (antes da Parte 1) | — |
-| 4.2 | Quick wins no terminal: links clicáveis, modo "selecionar texto", fonte na rotação | P | Alta (alívio imediato) | — |
+| 4.2 | Quick wins no terminal: links clicáveis (**entra na Fase V**), modo "selecionar texto", fonte na rotação | P | Alta (alívio imediato) | — |
 | 4.3 | Quebrar o `main.py` em routers | M | Alta (antes de crescer mais) | — |
 | 4.4 | Revisão das mudanças do agente (git: diff, commit, descartar) | M | Alta | Parte 1 |
 | 4.5 | Notificações ricas (prévia, aprovação pendente, link direto) | P | Alta | Parte 2 |
@@ -85,7 +85,9 @@ uso no tablet já na primeira semana, e continuam úteis no modo Terminal depois
    ```
    E registrar um **link provider** para caminhos de arquivo
    (`term.registerLinkProvider`) usando a mesma regex de `fileLinks.js` (Parte 1),
-   que abre o visualizador.
+   que abre o visualizador. **Este item foi puxado para a Fase V**
+   ([Parte 6](06-planejamento-fase-v.md), seção 6.5.6): o caminho clicado vira
+   uma aba nova do visualizador via `POST /api/sessions/{sk}/viewer`.
 2. **Modo "Selecionar texto":** botão no cabeçalho (e no FAB de atalhos) que
    abre uma folha com o **conteúdo do buffer do terminal como texto real**:
    ```js

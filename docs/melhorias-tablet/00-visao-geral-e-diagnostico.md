@@ -8,11 +8,13 @@
 
 | # | Pedido | Onde está a solução |
 |---|--------|---------------------|
-| 1 | Ver arquivos `.html`, `.md` e de código no tablet e poder baixá-los, com o TaskNexus rodando no PC | [Parte 1 — Visualizador de arquivos](01-visualizador-de-arquivos.md) |
+| 1a | **Primeira entrega:** como links no terminal não são clicáveis, o próprio agente faz o arquivo aparecer na tela, cada abertura vira uma aba nova, com botão de tela cheia | [Parte 6 — Planejamento da Fase V](06-planejamento-fase-v.md) |
+| 1b | Ver arquivos `.html`, `.md` e de código no tablet e poder baixá-los, com o TaskNexus rodando no PC (navegador de arquivos completo) | [Parte 1 — Visualizador de arquivos](01-visualizador-de-arquivos.md) |
 | 2 | Trocar o terminal por uma conversa estilo WhatsApp, com links, blocos de código e markdown como no GitHub | [Parte 2 — Chat conversacional](02-chat-conversacional.md) |
 | 3 | Layout mais amigável | [Parte 3 — Layout amigável](03-layout-amigavel.md) |
 | 4 | Outras melhorias que a equipe enxergar | [Parte 4 — Melhorias adicionais](04-melhorias-adicionais.md) |
 | — | Como executar tudo isso com um agente | [Parte 5 — Plano de execução e prompts](05-plano-de-execucao-e-prompts.md) |
+| — | Retomar o trabalho numa janela nova | [Contexto para o agente](CONTEXTO-PARA-AGENTE.md) |
 
 ## 0.2 A equipe e o que cada papel olhou
 
@@ -108,7 +110,8 @@ Três ideias sustentam tudo:
 | Histórico ao abrir uma conversa antiga | Log próprio `chat_events` no SQLite + importação única do `.jsonl` do claude | Só ler o `.jsonl` sempre: formato interno do CLI, pode mudar sem aviso. Usamos só para importar uma vez. |
 | Preview de HTML | `<iframe sandbox="allow-scripts">` servindo o arquivo de uma rota própria com CSP `sandbox` | Injetar o HTML na página: o HTML poderia chamar a API do TaskNexus (criar card, apagar coluna) com a sua sessão. |
 | Destaque de sintaxe | **Shiki** com carregamento preguiçoso das linguagens | highlight.js: mais leve, porém visual pior e sem os temas do VS Code; Prism: manutenção parada. |
-| Autenticação | **Obrigatória antes da Parte 1** (token de acesso + cookie) | Continuar sem auth: com a API de arquivos, qualquer um na sua rede baixaria seu `~/.ssh` se um caminho escapasse. Ver Parte 4, item 4.1. |
+| Autenticação | **Obrigatória antes do navegador de arquivos completo** (Parte 1 / fase F1). A Fase V pode vir antes porque só serve arquivos que o agente (ou você) abriu, por um id aleatório, com denylist | Continuar sem auth: com a API de arquivos livre, qualquer um na sua rede baixaria seu `~/.ssh` se um caminho escapasse. Ver Parte 4, item 4.1. |
+| Primeira entrega | **Fase V:** tool MCP `abrir_no_visualizador` + visualizador em dropdown com abas e tela cheia (Parte 6) | Começar pelo chat estruturado: resolve mais, mas demora muito mais; o problema imediato é não conseguir abrir arquivos |
 
 ## 0.7 Glossário rápido
 
@@ -124,7 +127,8 @@ Três ideias sustentam tudo:
 
 1. Leia as Partes 1 a 4 na ordem, olhando os mockups.
 2. Marque o que você não quer (cada melhoria tem id, ex.: `4.3`).
-3. Abra a [Parte 5](05-plano-de-execucao-e-prompts.md) e copie o prompt da fase
+3. Comece pela **Fase V** ([Parte 6](06-planejamento-fase-v.md)). Para as
+   fases seguintes, abra a [Parte 5](05-plano-de-execucao-e-prompts.md) e copie o prompt da fase
    que quer executar. Cada prompt já manda o agente ler as partes relevantes
    deste diretório, então **mantenha a pasta `docs/melhorias-tablet/` no repositório**.
 4. Execute uma fase por PR. Cada fase foi desenhada para funcionar sozinha.
