@@ -35,6 +35,7 @@ prompts abaixo, resumidas):
 | Fase | Entrega | Partes | Pode rodar em paralelo com |
 |------|---------|--------|----------------------------|
 | **FV** Agente abre arquivo | Tool MCP `abrir_no_visualizador`, visualizador em dropdown com abas e tela cheia, links clicáveis no terminal | 6 (e 1.0) | — (vem primeiro) |
+| **FA** Artefatos | Aba Artefatos por cliente e projeto no layout atual, tool `publicar_artefato`, painel lateral de visualização | 7 | — (depois da FV) |
 | **F0** Fundações | Auth (4.1), routers (4.3), restante dos quick wins do terminal (4.2) | 4 | — |
 | **F1** Arquivos | API `/api/fs`, tela e painel de arquivos, download/compartilhar, links de arquivo | 1 | F2 |
 | **F2** Chat claude | `/ws/chat`, adapter stream-json, aprovações via MCP, ChatView, histórico, troca de modo | 2 | F1 |
@@ -52,6 +53,12 @@ janela de contexto limpa, e aponta para a Parte 6 e para o
 Como o visualizador passa a existir na FV, a F0 fica com autenticação,
 routers e o modo "Selecionar texto"/fonte na rotação; a F1 amplia o
 visualizador para navegador de arquivos (árvore, busca, diff, zip).
+
+## 5.2.2 Fase FA — Artefatos por cliente e projeto
+
+Planejamento completo na **[Parte 7](07-planejamento-artefatos.md)**. Roda
+logo depois da FV, em cima do layout atual (só um item de menu, uma tela e um
+painel lateral). O prompt de desenvolvimento também é entregue sob pedido.
 
 ## 5.3 Fase F0 — Fundações
 
@@ -276,6 +283,7 @@ no modo chat. Adicione a importação de histórico de ~/.codex/sessions. Testes
 - [ ] Li as Partes 0–4 e risquei o que não quero.
 - [ ] Confirmei que o acesso pelo iPad é por `https://…ts.net` (necessário para push e compartilhar).
 - [ ] Rodei a FV e testei os 12 passos de aceite da Parte 6 no iPad.
+- [ ] Rodei a FA e testei os 8 passos de aceite da Parte 7 no iPad.
 - [ ] Rodei a F0 e guardei o token de acesso num gerenciador de senhas.
 - [ ] F1 e F2 aprovadas com os checklists de aceite no iPad.
 - [ ] F3 aprovada nos três tamanhos (celular, iPad em pé, iPad deitado).

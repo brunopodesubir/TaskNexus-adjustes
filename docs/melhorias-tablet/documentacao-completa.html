@@ -145,11 +145,11 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
 </style>
 </head>
 <body>
-<nav class="topbar" aria-label="Partes"><a href="#parte-CO">C · Contexto para o agente</a><a href="#parte-00">0 · Visão geral e diagnóstico</a><a href="#parte-01">1 · Visualizador de arquivos</a><a href="#parte-02">2 · Chat conversacional</a><a href="#parte-03">3 · Layout amigável</a><a href="#parte-04">4 · Melhorias adicionais</a><a href="#parte-05">5 · Plano e prompts</a><a href="#parte-06">6 · Planejamento da Fase V</a></nav>
+<nav class="topbar" aria-label="Partes"><a href="#parte-CO">C · Contexto para o agente</a><a href="#parte-00">0 · Visão geral e diagnóstico</a><a href="#parte-01">1 · Visualizador de arquivos</a><a href="#parte-02">2 · Chat conversacional</a><a href="#parte-03">3 · Layout amigável</a><a href="#parte-04">4 · Melhorias adicionais</a><a href="#parte-05">5 · Plano e prompts</a><a href="#parte-06">6 · Planejamento da Fase V</a><a href="#parte-07">7 · Planejamento da Fase A</a></nav>
 <div class="shell">
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
-    <ul class="parts"><li><a href="#parte-CO"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="#parte-00"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="#parte-01"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="#parte-02"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="#parte-03"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="#parte-04"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="#parte-05"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="#parte-06"><span class="n">6</span><span>Planejamento da Fase V</span></a></li></ul>
+    <ul class="parts"><li><a href="#parte-CO"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="#parte-00"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="#parte-01"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="#parte-02"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="#parte-03"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="#parte-04"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="#parte-05"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="#parte-06"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a href="#parte-07"><span class="n">7</span><span>Planejamento da Fase A</span></a></li></ul>
     
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
@@ -207,6 +207,10 @@ WebSocket). No tablet isso é ruim:</p>
    arquivo aparecer na tela</strong>. Cada abertura vira <strong>uma aba nova</strong>, num
    visualizador em <strong>dropdown</strong> com botão de <strong>tela cheia</strong> (modal na página
    com botão de fechar). Isso virou a <strong>Fase V</strong>.</li>
+<li><strong>Ajuste seguinte:</strong> uma aba <strong>Artefatos</strong>, "igual à do Claude", organizada
+   <strong>por cliente e projeto</strong>, com os artefatos criados (<code>.md</code>, <code>.pdf</code>, <code>.html</code>).
+   Tocar num artefato abre o <strong>painel lateral de visualização</strong>. <strong>Sem mexer no
+   layout:</strong> tudo em cima do layout v2 atual. Isso virou a <strong>Fase A</strong>.</li>
 </ol>
 <h2 id="pCO-4-onde-está-cada-coisa-esta-pasta">4. Onde está cada coisa (esta pasta)</h2>
 <div class="table-wrap"><table>
@@ -250,6 +254,10 @@ WebSocket). No tablet isso é ruim:</p>
 <td><strong>Plano de desenvolvimento da Fase V (próxima a executar)</strong></td>
 </tr>
 <tr>
+<td><code>07-planejamento-artefatos.md</code></td>
+<td><strong>Plano de desenvolvimento da Fase A (aba Artefatos), logo depois da V</strong></td>
+</tr>
+<tr>
 <td><code>documentacao-completa.md</code> / <code>.html</code></td>
 <td>Todas as partes num arquivo só</td>
 </tr>
@@ -274,7 +282,7 @@ WebSocket). No tablet isso é ruim:</p>
 <tbody>
 <tr>
 <td>Ordem</td>
-<td><strong>FV</strong> (agente abre arquivo) → <strong>F0</strong> (auth + routers + restante dos quick wins) → <strong>F1</strong> (navegador de arquivos) e <strong>F2</strong> (chat claude) → <strong>F3</strong> (layout v3) → <strong>F4</strong> (codex + extras)</td>
+<td><strong>FV</strong> (agente abre arquivo) → <strong>FA</strong> (aba Artefatos) → <strong>F0</strong> (auth + routers + restante dos quick wins) → <strong>F1</strong> (navegador de arquivos) e <strong>F2</strong> (chat claude) → <strong>F3</strong> (layout v3) → <strong>F4</strong> (codex + extras)</td>
 </tr>
 <tr>
 <td>Como o agente mostra arquivo</td>
@@ -295,6 +303,14 @@ WebSocket). No tablet isso é ruim:</p>
 <tr>
 <td>Segurança do visualizador</td>
 <td>Rotas por <code>item_id</code> aleatório, <code>resolve_safe_path</code> (realpath + commonpath), denylist de segredos, HTML em <code>iframe sandbox</code> sem <code>allow-same-origin</code> + CSP <code>sandbox</code></td>
+</tr>
+<tr>
+<td>Artefatos</td>
+<td>Tabela <code>artifacts</code> única por (projeto, caminho); tool <code>publicar_artefato</code> no servidor <code>escritorio-visualizador</code>; <code>abrir_no_visualizador</code> de <code>.md</code>/<code>.html</code>/<code>.pdf</code> publica automaticamente; remover da lista não apaga o arquivo; tela nova <code>artefatos</code> em <code>NAV_ITEMS</code> do <code>AppV2</code>, com <code>ClienteProjetoFilterBar</code>; o visualizador abre num <strong>drawer lateral</strong> (padrão <code>TasksDrawer</code>) nessa tela e continua <strong>dropdown</strong> no chat (a confirmar com o Bruno)</td>
+</tr>
+<tr>
+<td>Layout</td>
+<td><strong>Não mexer no layout agora.</strong> Fases V e A entram em cima do v2 atual; o layout v3 (Parte 3) fica para depois</td>
 </tr>
 <tr>
 <td>Autenticação</td>
@@ -362,7 +378,17 @@ WebSocket). No tablet isso é ruim:</p>
 <tr>
 <td>Casco do layout v2</td>
 <td><code>frontend/src/layouts/v2/AppV2.jsx</code></td>
-<td>topbar com <code>AttachmentsMenu</code> e <code>ResetLayoutButton</code> (guarda <code>!isMobile &amp;&amp; v2Screen === 'chat'</code>)</td>
+<td><code>NAV_ITEMS</code>, <code>SCREEN_TITLES</code>, <code>v2Screen</code>; topbar com <code>AttachmentsMenu</code> e <code>ResetLayoutButton</code> (guarda <code>!isMobile &amp;&amp; v2Screen === 'chat'</code>)</td>
+</tr>
+<tr>
+<td>Filtro cliente/projeto</td>
+<td><code>layouts/v2/useClienteProjetoFilter.js</code>, <code>ClienteProjetoFilterBar.jsx</code>, <code>utils/clientes.js</code></td>
+<td>usado por <code>BoardV2</code> e <code>TarefasV2</code>; subárvore por prefixo (<code>collectSubtreeIds</code>)</td>
+</tr>
+<tr>
+<td>Drawer lateral existente</td>
+<td><code>frontend/src/components/TasksDrawer.jsx</code></td>
+<td>padrão para o <code>ViewerDrawer</code> da Fase A</td>
 </tr>
 <tr>
 <td>Padrão de popover</td>
@@ -397,7 +423,8 @@ WebSocket). No tablet isso é ruim:</p>
   (a pasta <code>docs/melhorias-tablet/</code> foi liberada no <code>.gitignore</code>, que ignora <code>docs/*</code> por padrão).</li>
 <li><strong>Código:</strong> nenhuma mudança de código foi feita ainda. Só documentação.</li>
 <li><strong>Próxima ação:</strong> quando o Bruno pedir, entregar o <strong>prompt de desenvolvimento
-  da Fase V</strong>, baseado em <code>06-planejamento-fase-v.md</code>, para ele usar numa
+  da Fase V</strong> (baseado em <code>06-planejamento-fase-v.md</code>) e, depois, o da <strong>Fase A</strong>
+  (baseado em <code>07-planejamento-artefatos.md</code>), para ele usar numa
   janela limpa. O desenvolvimento deve acontecer numa branch própria (a
   que a sessão de desenvolvimento indicar), com um PR para a fase.</li>
 </ul>
@@ -411,7 +438,7 @@ WebSocket). No tablet isso é ruim:</p>
 <li>Comentários explicam o <strong>porquê</strong>, em português, no estilo do código existente.</li>
 <li>Se o código real divergir da documentação, seguir o código e <strong>atualizar a doc</strong> no mesmo PR (e regenerar os HTML com <code>build_html.py</code>).</li>
 <li>Commits pequenos, um PR por fase, com checklist de aceite manual no iPad.</li>
-</ol></article><article class="doc part-sep" id="parte-00"><p class="eyebrow">Parte 0 de 6</p><h1 id="p00-parte-0-visão-geral-e-diagnóstico">Parte 0 — Visão geral e diagnóstico</h1>
+</ol></article><article class="doc part-sep" id="parte-00"><p class="eyebrow">Parte 0 de 7</p><h1 id="p00-parte-0-visão-geral-e-diagnóstico">Parte 0 — Visão geral e diagnóstico</h1>
 <blockquote>
 <p><strong>Para quem é este documento:</strong> para você (Bruno) entender o problema e as
 decisões, e para o agente que vai implementar entender <em>por que</em> cada
@@ -431,6 +458,11 @@ decisão foi tomada antes de mexer no código. Leia esta parte antes das outras.
 <td>1a</td>
 <td><strong>Primeira entrega:</strong> como links no terminal não são clicáveis, o próprio agente faz o arquivo aparecer na tela, cada abertura vira uma aba nova, com botão de tela cheia</td>
 <td><a href="#parte-06">Parte 6 — Planejamento da Fase V</a></td>
+</tr>
+<tr>
+<td>1a+</td>
+<td>Aba <strong>Artefatos</strong> por cliente e projeto (md, pdf, html), abrindo no painel lateral de visualização, sem mudar o layout</td>
+<td><a href="#parte-07">Parte 7 — Planejamento da Fase A</a></td>
 </tr>
 <tr>
 <td>1b</td>
@@ -632,7 +664,7 @@ em cima disso.</p>
    que quer executar. Cada prompt já manda o agente ler as partes relevantes
    deste diretório, então <strong>mantenha a pasta <code>docs/melhorias-tablet/</code> no repositório</strong>.</li>
 <li>Execute uma fase por PR. Cada fase foi desenhada para funcionar sozinha.</li>
-</ol></article><article class="doc part-sep" id="parte-01"><p class="eyebrow">Parte 1 de 6</p><h1 id="p01-parte-1-visualizador-de-arquivos-ver-navegar-e-baixar-pelo-tablet">Parte 1 — Visualizador de arquivos (ver, navegar e baixar pelo tablet)</h1>
+</ol></article><article class="doc part-sep" id="parte-01"><p class="eyebrow">Parte 1 de 7</p><h1 id="p01-parte-1-visualizador-de-arquivos-ver-navegar-e-baixar-pelo-tablet">Parte 1 — Visualizador de arquivos (ver, navegar e baixar pelo tablet)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> com o TaskNexus rodando no PC, abrir no iPad qualquer arquivo
 dos projetos (<code>.md</code>, <code>.html</code>, código, imagens, PDF), ler com conforto,
@@ -1165,7 +1197,7 @@ da raiz do projeto. O link gerado é interno:
 <li>Compartilhar um <code>.md</code> por AirDrop para o Mac.</li>
 <li>Tocar em <code>backend/app/main.py:42</code> no chat: abre na linha 42 destacada.</li>
 <li>Tentar <code>/api/fs/&lt;token&gt;/raw/../../.ssh/id_rsa</code>: resposta 403.</li>
-</ol></article><article class="doc part-sep" id="parte-02"><p class="eyebrow">Parte 2 de 6</p><h1 id="p02-parte-2-chat-conversacional-do-terminal-para-uma-conversa-estilo-whatsapp">Parte 2 — Chat conversacional (do terminal para uma conversa estilo WhatsApp)</h1>
+</ol></article><article class="doc part-sep" id="parte-02"><p class="eyebrow">Parte 2 de 7</p><h1 id="p02-parte-2-chat-conversacional-do-terminal-para-uma-conversa-estilo-whatsapp">Parte 2 — Chat conversacional (do terminal para uma conversa estilo WhatsApp)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> conversar com o <code>claude</code> (e depois com o <code>codex</code>) numa tela de
 chat de verdade: bolhas, markdown como no GitHub, blocos de código com botão
@@ -1841,7 +1873,7 @@ desligue-o só no modo chat. Não dispare <strong>dois</strong> pushes: use o me
    mensagem aparece no histórico.</li>
 <li>Ditar uma mensagem com o microfone do teclado do iPad.</li>
 <li>Girar o iPad durante o streaming: nada quebra.</li>
-</ol></article><article class="doc part-sep" id="parte-03"><p class="eyebrow">Parte 3 de 6</p><h1 id="p03-parte-3-layout-mais-amigável-touch-primeiro-sem-perder-o-pc">Parte 3 — Layout mais amigável (touch primeiro, sem perder o PC)</h1>
+</ol></article><article class="doc part-sep" id="parte-03"><p class="eyebrow">Parte 3 de 7</p><h1 id="p03-parte-3-layout-mais-amigável-touch-primeiro-sem-perder-o-pc">Parte 3 — Layout mais amigável (touch primeiro, sem perder o PC)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> fazer o TaskNexus parecer um app de mensagens bem feito no
 iPad e no celular, e continuar produtivo no PC com teclado. Esta parte é o
@@ -2258,7 +2290,7 @@ atalhos do sistema; registrar os atalhos com <code>keydown</code> normal é sufi
    mostra a conversa com o README ao lado.</li>
 <li>Tema escuro e claro corretos em todas as telas novas, sem cor fixa fora dos tokens.</li>
 <li>Com teclado virtual aberto, o composer continua visível e a última mensagem também.</li>
-</ol></article><article class="doc part-sep" id="parte-04"><p class="eyebrow">Parte 4 de 6</p><h1 id="p04-parte-4-melhorias-adicionais-o-que-a-equipe-encontrou">Parte 4 — Melhorias adicionais (o que a equipe encontrou)</h1>
+</ol></article><article class="doc part-sep" id="parte-04"><p class="eyebrow">Parte 4 de 7</p><h1 id="p04-parte-4-melhorias-adicionais-o-que-a-equipe-encontrou">Parte 4 — Melhorias adicionais (o que a equipe encontrou)</h1>
 <blockquote>
 <p>Cada item traz: <strong>o que é</strong>, <strong>por que importa</strong>, <strong>como fazer</strong> (com
 arquivos e passos), <strong>esforço</strong> (P = até meio dia, M = 1–2 dias, G = 3+ dias
@@ -2564,13 +2596,13 @@ diagnosticar do tablet sem abrir o PC.</p>
 <p>Se a conexão cair (iPad saiu da rede), mensagens enviadas ficam com ⏱ numa
 fila local (<code>localStorage</code>, com <code>client_id</code>) e são enviadas no <code>hello</code> da
 reconexão. O backend ignora <code>client_id</code> repetido (idempotência), então nada é
-enviado duas vezes.</p></article><article class="doc part-sep" id="parte-05"><p class="eyebrow">Parte 5 de 6</p><h1 id="p05-parte-5-plano-de-execução-e-prompts-prontos-para-o-agente">Parte 5 — Plano de execução e prompts prontos para o agente</h1>
+enviado duas vezes.</p></article><article class="doc part-sep" id="parte-05"><p class="eyebrow">Parte 5 de 7</p><h1 id="p05-parte-5-plano-de-execução-e-prompts-prontos-para-o-agente">Parte 5 — Plano de execução e prompts prontos para o agente</h1>
 <blockquote>
 <p>Esta parte transforma as Partes 1–4 em <strong>fases entregáveis</strong>, cada uma com
 tarefas, arquivos, critério de pronto e um <strong>prompt para copiar e colar</strong>
 num agente Claude (Claude Code na web ou local). Execute <strong>uma fase por PR</strong>.</p>
 </blockquote>
-<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDQ0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJSb3RlaXJvIGVtIHNlaXMgZmFzZXM6IGEgRmFzZSBWIChhZ2VudGUgYWJyZSBhcnF1aXZvcyBuYSB0ZWxhKSB2ZW0gcHJpbWVpcm87IGRlcG9pcyBmdW5kYcOnw7VlcywgbmF2ZWdhZG9yIGRlIGFycXVpdm9zLCBjaGF0IHBhcmEgY2xhdWRlLCBsYXlvdXQgdjMgZSBjb2RleCBjb20gZXh0cmFzIj4KICA8c3R5bGU+CiAgICB0ZXh0e2ZvbnQtZmFtaWx5OkZpZ3RyZWUsLWFwcGxlLXN5c3RlbSwiU2Vnb2UgVUkiLFJvYm90byxzYW5zLXNlcmlmO2ZpbGw6IzNiMzUzMH0KICAgIC5oe2ZvbnQtc2l6ZToxM3B4O2ZvbnQtd2VpZ2h0OjcwMH0KICAgIC5ze2ZvbnQtc2l6ZToxMXB4O2ZpbGw6IzRiNDUzZX0KICAgIC5ke2ZvbnQtc2l6ZToxMXB4O2ZpbGw6IzhhODM3OH0KICAgIC50e2ZvbnQtc2l6ZToxNXB4O2ZvbnQtd2VpZ2h0OjcwMH0KICA8L3N0eWxlPgogIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjQ0MCIgcng9IjE0IiBmaWxsPSIjZjdmNWYwIi8+CiAgPHRleHQgeD0iMjQiIHk9IjM0IiBjbGFzcz0idCI+T3JkZW0gc3VnZXJpZGEgZGUgZW50cmVnYSAoY2FkYSBmYXNlIGdlcmEgdW0gUFIgcXVlIGZ1bmNpb25hIHNvemluaG8pPC90ZXh0PgogIDxsaW5lIHgxPSIxNzAiIHkxPSI2MCIgeDI9Ijk3NiIgeTI9IjYwIiBzdHJva2U9IiNjOWMzYjciLz4KICA8ZyBjbGFzcz0iZCI+CiAgICA8dGV4dCB4PSIxNzAiIHk9IjU0Ij5zZW1hbmEgMTwvdGV4dD48dGV4dCB4PSIzMzEiIHk9IjU0Ij5zZW1hbmEgMjwvdGV4dD48dGV4dCB4PSI0OTIiIHk9IjU0Ij5zZW1hbmEgMzwvdGV4dD48dGV4dCB4PSI2NTMiIHk9IjU0Ij5zZW1hbmEgNDwvdGV4dD48dGV4dCB4PSI4MTQiIHk9IjU0Ij5zZW1hbmEgNTwvdGV4dD4KICA8L2c+CiAgPGcgc3Ryb2tlPSIjZTJkZGQzIj48bGluZSB4MT0iMzMxIiB5MT0iNjAiIHgyPSIzMzEiIHkyPSIzNzAiLz48bGluZSB4MT0iNDkyIiB5MT0iNjAiIHgyPSI0OTIiIHkyPSIzNzAiLz48bGluZSB4MT0iNjUzIiB5MT0iNjAiIHgyPSI2NTMiIHkyPSIzNzAiLz48bGluZSB4MT0iODE0IiB5MT0iNjAiIHgyPSI4MTQiIHkyPSIzNzAiLz48L2c+CgogIDx0ZXh0IHg9IjI0IiB5PSI5OCIgY2xhc3M9ImgiPkZWIEFnZW50ZSBhYnJlIGFycXVpdm88L3RleHQ+CiAgPHJlY3QgeD0iMTcwIiB5PSI4MCIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiMyZjc1NjQiLz4KICA8dGV4dCB4PSIxODAiIHk9IjEwMiIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiNmZmZmZmYiPnRvb2wgTUNQIMK3IGRyb3Bkb3duIMK3IHRlbGEgY2hlaWE8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIxNDgiIGNsYXNzPSJoIj5GMCBGdW5kYcOnw7VlczwvdGV4dD4KICA8cmVjdCB4PSIzMzAiIHk9IjEzMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSIzNDAiIHk9IjE1MiIgY2xhc3M9InMiPmF1dGggwrcgcm91dGVyczwvdGV4dD4KCiAgPHRleHQgeD0iMjQiIHk9IjE5OCIgY2xhc3M9ImgiPkYxIE5hdmVnYWRvcjwvdGV4dD4KICA8cmVjdCB4PSI0NzAiIHk9IjE4MCIgd2lkdGg9IjE5MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiM5ZmQwYzEiLz4KICA8dGV4dCB4PSI0ODAiIHk9IjIwMiIgY2xhc3M9InMiPsOhcnZvcmUgwrcgYnVzY2EgwrcgZGlmZiDCtyB6aXA8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIyNDgiIGNsYXNzPSJoIj5GMiBDaGF0IGNsYXVkZTwvdGV4dD4KICA8cmVjdCB4PSI0NzAiIHk9IjIzMCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSI0ODAiIHk9IjI1MiIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiNmZmZmZmYiPndzL2NoYXQgKyBhZGFwdGVyICsgQ2hhdFZpZXcgKyBhcHJvdmHDp8O1ZXM8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIyOTgiIGNsYXNzPSJoIj5GMyBMYXlvdXQgdjM8L3RleHQ+CiAgPHJlY3QgeD0iNjgwIiB5PSIyODAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjYjljM2VhIi8+CiAgPHRleHQgeD0iNjkwIiB5PSIzMDIiIGNsYXNzPSJzIj5saXN0YSBXaGF0c0FwcCDCtyAzIHBhaW7DqWlzPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMzQ4IiBjbGFzcz0iaCI+RjQgQ29kZXggKyBleHRyYXM8L3RleHQ+CiAgPHJlY3QgeD0iODAwIiB5PSIzMzAiIHdpZHRoPSIxNzYiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjZTVjNzdmIi8+CiAgPHRleHQgeD0iODEwIiB5PSIzNTIiIGNsYXNzPSJzIj5jb2RleCDCtyBidXNjYSDCtyBjdXN0b3M8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSI0MDAiIGNsYXNzPSJkIj5MYXJndXJhIGRhcyBiYXJyYXMgPSBlc2ZvcsOnbyByZWxhdGl2byBlc3RpbWFkbyBwYXJhIHVtIGFnZW50ZSBjb20gcmV2aXPDo28gaHVtYW5hLCBuw6NvIHByYXpvIGZlY2hhZG8uPC90ZXh0PgogIDx0ZXh0IHg9IjI0IiB5PSI0MTgiIGNsYXNzPSJkIj5GViBuw6NvIGRlcGVuZGUgZGUgbmFkYS4gRjEgZSBGMiBkZXBlbmRlbSBkZSBGMDsgRjMgYXByb3ZlaXRhIG9zIGNvbXBvbmVudGVzIGRlIEZWLCBGMSBlIEYyLjwvdGV4dD4KPC9zdmc+Cg==" alt="Roteiro" loading="lazy"><figcaption>Roteiro</figcaption></figure>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDQ5MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJSb3RlaXJvIGVtIHNldGUgZmFzZXM6IEZhc2UgViAoYWdlbnRlIGFicmUgYXJxdWl2b3MpIGUgRmFzZSBBIChhYmEgQXJ0ZWZhdG9zKSBwcmltZWlybywgbm8gbGF5b3V0IGF0dWFsOyBkZXBvaXMgZnVuZGHDp8O1ZXMsIG5hdmVnYWRvciBkZSBhcnF1aXZvcywgY2hhdCBwYXJhIGNsYXVkZSwgbGF5b3V0IHYzIGUgY29kZXggY29tIGV4dHJhcyI+CiAgPHN0eWxlPgogICAgdGV4dHtmb250LWZhbWlseTpGaWd0cmVlLC1hcHBsZS1zeXN0ZW0sIlNlZ29lIFVJIixSb2JvdG8sc2Fucy1zZXJpZjtmaWxsOiMzYjM1MzB9CiAgICAuaHtmb250LXNpemU6MTNweDtmb250LXdlaWdodDo3MDB9CiAgICAuc3tmb250LXNpemU6MTFweDtmaWxsOiM0YjQ1M2V9CiAgICAuZHtmb250LXNpemU6MTFweDtmaWxsOiM4YTgzNzh9CiAgICAudHtmb250LXNpemU6MTVweDtmb250LXdlaWdodDo3MDB9CiAgPC9zdHlsZT4KICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI0OTAiIHJ4PSIxNCIgZmlsbD0iI2Y3ZjVmMCIvPgogIDx0ZXh0IHg9IjI0IiB5PSIzNCIgY2xhc3M9InQiPk9yZGVtIHN1Z2VyaWRhIGRlIGVudHJlZ2EgKGNhZGEgZmFzZSBnZXJhIHVtIFBSIHF1ZSBmdW5jaW9uYSBzb3ppbmhvKTwvdGV4dD4KICA8bGluZSB4MT0iMTgwIiB5MT0iNjAiIHgyPSI5NzYiIHkyPSI2MCIgc3Ryb2tlPSIjYzljM2I3Ii8+CiAgPGcgY2xhc3M9ImQiPgogICAgPHRleHQgeD0iMTgwIiB5PSI1NCI+c2VtYW5hIDE8L3RleHQ+PHRleHQgeD0iMzM5IiB5PSI1NCI+c2VtYW5hIDI8L3RleHQ+PHRleHQgeD0iNDk4IiB5PSI1NCI+c2VtYW5hIDM8L3RleHQ+PHRleHQgeD0iNjU3IiB5PSI1NCI+c2VtYW5hIDQ8L3RleHQ+PHRleHQgeD0iODE2IiB5PSI1NCI+c2VtYW5hIDU8L3RleHQ+CiAgPC9nPgogIDxnIHN0cm9rZT0iI2UyZGRkMyI+PGxpbmUgeDE9IjMzOSIgeTE9IjYwIiB4Mj0iMzM5IiB5Mj0iNDIwIi8+PGxpbmUgeDE9IjQ5OCIgeTE9IjYwIiB4Mj0iNDk4IiB5Mj0iNDIwIi8+PGxpbmUgeDE9IjY1NyIgeTE9IjYwIiB4Mj0iNjU3IiB5Mj0iNDIwIi8+PGxpbmUgeDE9IjgxNiIgeTE9IjYwIiB4Mj0iODE2IiB5Mj0iNDIwIi8+PC9nPgoKICA8dGV4dCB4PSIyNCIgeT0iOTgiIGNsYXNzPSJoIj5GViBBZ2VudGUgYWJyZSBhcnF1aXZvPC90ZXh0PgogIDxyZWN0IHg9IjE4MCIgeT0iODAiIHdpZHRoPSIxNTAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjMmY3NTY0Ii8+CiAgPHRleHQgeD0iMTkwIiB5PSIxMDIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZmZmZmZmIj50b29sIMK3IGRyb3Bkb3duIMK3IHRlbGEgY2hlaWE8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIxNDgiIGNsYXNzPSJoIj5GQSBBcnRlZmF0b3M8L3RleHQ+CiAgPHJlY3QgeD0iMzAwIiB5PSIxMzAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iMzEwIiB5PSIxNTIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZmZmZmZmIj5hYmEgwrcgY2xpZW50ZS9wcm9qZXRvPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMTk4IiBjbGFzcz0iaCI+RjAgRnVuZGHDp8O1ZXM8L3RleHQ+CiAgPHJlY3QgeD0iNDMwIiB5PSIxODAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iNDQwIiB5PSIyMDIiIGNsYXNzPSJzIj5hdXRoIMK3IHJvdXRlcnM8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIyNDgiIGNsYXNzPSJoIj5GMSBOYXZlZ2Fkb3I8L3RleHQ+CiAgPHJlY3QgeD0iNTUwIiB5PSIyMzAiIHdpZHRoPSIxNzAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjOWZkMGMxIi8+CiAgPHRleHQgeD0iNTYwIiB5PSIyNTIiIGNsYXNzPSJzIj7DoXJ2b3JlIMK3IGJ1c2NhIMK3IGRpZmYgwrcgemlwPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMjk4IiBjbGFzcz0iaCI+RjIgQ2hhdCBjbGF1ZGU8L3RleHQ+CiAgPHJlY3QgeD0iNTUwIiB5PSIyODAiIHdpZHRoPSIzMjAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjNWI5YzhhIi8+CiAgPHRleHQgeD0iNTYwIiB5PSIzMDIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZmZmZmZmIj53cy9jaGF0ICsgYWRhcHRlciArIENoYXRWaWV3ICsgYXByb3Zhw6fDtWVzPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMzQ4IiBjbGFzcz0iaCI+RjMgTGF5b3V0IHYzPC90ZXh0PgogIDxyZWN0IHg9Ijc0MCIgeT0iMzMwIiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjM0IiByeD0iOCIgZmlsbD0iI2I5YzNlYSIvPgogIDx0ZXh0IHg9Ijc1MCIgeT0iMzUyIiBjbGFzcz0icyI+bGlzdGEgV2hhdHNBcHAgwrcgMyBwYWluw6lpczwvdGV4dD4KCiAgPHRleHQgeD0iMjQiIHk9IjM5OCIgY2xhc3M9ImgiPkY0IENvZGV4ICsgZXh0cmFzPC90ZXh0PgogIDxyZWN0IHg9IjgyMCIgeT0iMzgwIiB3aWR0aD0iMTU2IiBoZWlnaHQ9IjM0IiByeD0iOCIgZmlsbD0iI2U1Yzc3ZiIvPgogIDx0ZXh0IHg9IjgzMCIgeT0iNDAyIiBjbGFzcz0icyI+Y29kZXggwrcgYnVzY2EgwrcgY3VzdG9zPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iNDUwIiBjbGFzcz0iZCI+TGFyZ3VyYSBkYXMgYmFycmFzID0gZXNmb3LDp28gcmVsYXRpdm8gZXN0aW1hZG8gcGFyYSB1bSBhZ2VudGUgY29tIHJldmlzw6NvIGh1bWFuYSwgbsOjbyBwcmF6byBmZWNoYWRvLjwvdGV4dD4KICA8dGV4dCB4PSIyNCIgeT0iNDY4IiBjbGFzcz0iZCI+RlYgZSBGQSByb2RhbSBubyBsYXlvdXQgYXR1YWwuIEYxIGUgRjIgZGVwZW5kZW0gZGUgRjA7IEYzIChtdWRhbsOnYSBkZSBsYXlvdXQpIGZpY2EgcG9yIMO6bHRpbW8gZSBhcHJvdmVpdGEgdHVkbyBhbnRlcy48L3RleHQ+Cjwvc3ZnPgo=" alt="Roteiro" loading="lazy"><figcaption>Roteiro</figcaption></figure>
 <h2 id="p05-51-regras-que-valem-para-todas-as-fases">5.1 Regras que valem para todas as fases</h2>
 <p>Cole estas regras junto com qualquer prompt (elas já estão incluídas nos
 prompts abaixo, resumidas):</p>
@@ -2610,6 +2642,12 @@ prompts abaixo, resumidas):</p>
 <td>Tool MCP <code>abrir_no_visualizador</code>, visualizador em dropdown com abas e tela cheia, links clicáveis no terminal</td>
 <td>6 (e 1.0)</td>
 <td>— (vem primeiro)</td>
+</tr>
+<tr>
+<td><strong>FA</strong> Artefatos</td>
+<td>Aba Artefatos por cliente e projeto no layout atual, tool <code>publicar_artefato</code>, painel lateral de visualização</td>
+<td>7</td>
+<td>— (depois da FV)</td>
 </tr>
 <tr>
 <td><strong>F0</strong> Fundações</td>
@@ -2652,6 +2690,10 @@ janela de contexto limpa, e aponta para a Parte 6 e para o
 <p>Como o visualizador passa a existir na FV, a F0 fica com autenticação,
 routers e o modo "Selecionar texto"/fonte na rotação; a F1 amplia o
 visualizador para navegador de arquivos (árvore, busca, diff, zip).</p>
+<h2 id="p05-522-fase-fa-artefatos-por-cliente-e-projeto">5.2.2 Fase FA — Artefatos por cliente e projeto</h2>
+<p>Planejamento completo na <strong><a href="#parte-07">Parte 7</a></strong>. Roda
+logo depois da FV, em cima do layout atual (só um item de menu, uma tela e um
+painel lateral). O prompt de desenvolvimento também é entregue sob pedido.</p>
 <h2 id="p05-53-fase-f0-fundações">5.3 Fase F0 — Fundações</h2>
 <p><strong>Tarefas</strong></p>
 <ol>
@@ -2863,11 +2905,12 @@ no modo chat. Adicione a importação de histórico de ~/.codex/sessions. Testes
 <li><input type="checkbox" disabled> Li as Partes 0–4 e risquei o que não quero.</li>
 <li><input type="checkbox" disabled> Confirmei que o acesso pelo iPad é por <code>https://…ts.net</code> (necessário para push e compartilhar).</li>
 <li><input type="checkbox" disabled> Rodei a FV e testei os 12 passos de aceite da Parte 6 no iPad.</li>
+<li><input type="checkbox" disabled> Rodei a FA e testei os 8 passos de aceite da Parte 7 no iPad.</li>
 <li><input type="checkbox" disabled> Rodei a F0 e guardei o token de acesso num gerenciador de senhas.</li>
 <li><input type="checkbox" disabled> F1 e F2 aprovadas com os checklists de aceite no iPad.</li>
 <li><input type="checkbox" disabled> F3 aprovada nos três tamanhos (celular, iPad em pé, iPad deitado).</li>
 <li><input type="checkbox" disabled> Escolhi os extras da F4 por prioridade.</li>
-</ul></article><article class="doc part-sep" id="parte-06"><p class="eyebrow">Parte 6 de 6</p><h1 id="p06-parte-6-planejamento-da-fase-v-o-agente-abre-o-arquivo-na-tela">Parte 6 — Planejamento da Fase V: o agente abre o arquivo na tela</h1>
+</ul></article><article class="doc part-sep" id="parte-06"><p class="eyebrow">Parte 6 de 7</p><h1 id="p06-parte-6-planejamento-da-fase-v-o-agente-abre-o-arquivo-na-tela">Parte 6 — Planejamento da Fase V: o agente abre o arquivo na tela</h1>
 <blockquote>
 <p><strong>Por que esta fase vem primeiro:</strong> hoje o chat é um terminal e <strong>não dá
 para clicar em links</strong>. Então, antes do navegador de arquivos completo
@@ -3087,6 +3130,14 @@ arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e <strong>Tela 
 </tr>
 </tbody>
 </table></div>
+<h3 id="p06-ligação-com-a-aba-artefatos-fase-a-parte-7">Ligação com a aba Artefatos (Fase A, Parte 7)</h3>
+<p>A fase seguinte cria a aba <strong>Artefatos</strong> por cliente e projeto
+(<a href="#parte-07">Parte 7</a>). Para ela reaproveitar esta fase sem
+copiar código: (1) servir conteúdo e arquivos a partir de um módulo
+<code>file_serving.py</code> que recebe <code>(project_root, rel_path, download)</code>; (2) o
+<code>ViewerPanel</code> e os renderers não podem depender de <code>session_key</code>, só do item
+(que terá uma origem: <code>viewer</code> ou <code>artifact</code>); (3) na Fase A, o
+<code>abrir_no_visualizador</code> passa a publicar automaticamente <code>.md</code>/<code>.html</code>/<code>.pdf</code> como artefato.</p>
 <h3 id="p06-o-que-fica-para-depois-não-entra-nesta-fase">O que fica para depois (não entra nesta fase)</h3>
 <p>Árvore de pastas, busca ⌘P, diff do git, zip de pasta, preview-url assinada
 e autenticação. Estão nas Partes 1 e 4 e nas fases F0/F1. O código desta
@@ -3096,7 +3147,9 @@ fase deve ser <strong>reaproveitado</strong> lá (<code>file_access.py</code> e 
 <h3 id="p06-641-arquivos">6.4.1 Arquivos</h3>
 <div class="code"><div class="code-head"><span>texto</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code>backend/app/file_access.py            # NOVO: resolve_safe_path, is_denied, detect_kind, language_for
 backend/app/viewer_store.py           # NOVO: ViewerStore (tabela viewer_items no sessions.db)
-backend/app/viewer_api.py             # NOVO: APIRouter com as rotas 6.4.3
+backend/app/file_serving.py           # NOVO: content/f/download a partir de (project_root, rel_path);
+                                      #       reaproveitado pela aba Artefatos (Parte 7)
+backend/app/viewer_api.py             # NOVO: APIRouter com as rotas 6.4.3 (usa file_serving)
 backend/app/mcp_viewer_adapter.py     # NOVO: servidor MCP stdio com a tool abrir_no_visualizador
 backend/app/main.py                   # ALTERAR: registrar router, iniciar ViewerStore no lifespan,
                                       #          incluir "escritorio-visualizador" em _escritorio_mcp_servers,
@@ -3557,6 +3610,595 @@ registradas sob demanda; registrar a decisão no PR.</p>
 <li><input type="checkbox" disabled> <code>deploy.sh</code> e <code>deploy.ps1</code> funcionando sem mudança de uso.</li>
 <li><input type="checkbox" disabled> README do projeto com uma seção curta "Visualizador de arquivos".</li>
 <li><input type="checkbox" disabled> Este documento atualizado se a implementação divergir.</li>
+</ul></article><article class="doc part-sep" id="parte-07"><p class="eyebrow">Parte 7 de 7</p><h1 id="p07-parte-7-planejamento-da-fase-a-aba-artefatos-por-cliente-e-projeto">Parte 7 — Planejamento da Fase A: aba Artefatos por cliente e projeto</h1>
+<blockquote>
+<p><strong>O pedido:</strong> uma aba <strong>Artefatos</strong>, como a galeria de artefatos do Claude,
+organizada <strong>por cliente e projeto</strong>, listando os artefatos criados
+(<code>.md</code>, <code>.pdf</code>, <code>.html</code>). Ao tocar num artefato, ele abre no <strong>painel
+lateral de visualização de arquivo</strong>. <strong>Sem mexer no layout:</strong> tudo em cima
+do layout v2 atual.</p>
+<p><strong>Depende da Fase V</strong> (<a href="#parte-06">Parte 6</a>): reaproveita o
+<code>file_access.py</code>, os renderers (Markdown, HTML, código, PDF, binário), o
+<code>ViewerContext</code> e o <code>ViewerPanel</code>. Pode ser o PR seguinte ao da Fase V.</p>
+</blockquote>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDc2MCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJUZWxhIEFydGVmYXRvcyBubyBsYXlvdXQgdjIgYXR1YWw6IG1lbnUgbGF0ZXJhbCBjb20gbyBub3ZvIGl0ZW0gQXJ0ZWZhdG9zLCBmaWx0cm8gZGUgY2xpZW50ZSBlIHByb2pldG8sIGNhcnTDtWVzIGRlIGFydGVmYXRvcyBhZ3J1cGFkb3MgcG9yIHByb2pldG8gZSwgw6AgZGlyZWl0YSwgbyBwYWluZWwgbGF0ZXJhbCBkZSB2aXN1YWxpemHDp8OjbyBhYmVydG8gY29tIGFiYXMiPgogIDxzdHlsZT4KICAgIHRleHR7Zm9udC1mYW1pbHk6RmlndHJlZSwtYXBwbGUtc3lzdGVtLCJTZWdvZSBVSSIsUm9ib3RvLHNhbnMtc2VyaWY7ZmlsbDojM2IzNTMwfQogICAgLm17d2hpdGUtc3BhY2U6cHJlO2ZvbnQtZmFtaWx5OiJJQk0gUGxleCBNb25vIix1aS1tb25vc3BhY2UsTWVubG8sbW9ub3NwYWNlfQogICAgLmh7Zm9udC1zaXplOjE0cHg7Zm9udC13ZWlnaHQ6NzAwfQogICAgLmJ7Zm9udC1zaXplOjEycHh9CiAgICAuc3tmb250LXNpemU6MTAuNXB4O2ZpbGw6IzhhODM3OH0KICAgIC53e2ZpbGw6I2ZmZmZmZn0KICAgIC5hbm57Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6NzAwO2ZpbGw6I2I0NTMxZn0KICAgIC5jYXB7Zm9udC1zaXplOjExcHg7Zm9udC13ZWlnaHQ6NzAwO2xldHRlci1zcGFjaW5nOi4wNmVtO2ZpbGw6IzhhODM3OH0KICA8L3N0eWxlPgogIDxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9Ijc2MCIgcng9IjE2IiBmaWxsPSIjZTllNWRjIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iMTE2MCIgaGVpZ2h0PSI3MjAiIHJ4PSIyNiIgZmlsbD0iIzFmMjAyNCIvPgogIDxyZWN0IHg9IjMyIiB5PSIzMiIgd2lkdGg9IjExMzYiIGhlaWdodD0iNjk2IiByeD0iMTYiIGZpbGw9IiNmN2Y1ZjAiLz4KCiAgPCEtLSBTaWRlYmFyVjIgKGF0dWFsKSAtLT4KICA8cmVjdCB4PSIzMiIgeT0iMzIiIHdpZHRoPSIyMDAiIGhlaWdodD0iNjk2IiByeD0iMTYiIGZpbGw9IiNmYmZhZjciLz4KICA8cmVjdCB4PSIyMTYiIHk9IjMyIiB3aWR0aD0iMTYiIGhlaWdodD0iNjk2IiBmaWxsPSIjZmJmYWY3Ii8+CiAgPGxpbmUgeDE9IjIzMiIgeTE9IjMyIiB4Mj0iMjMyIiB5Mj0iNzI4IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8Y2lyY2xlIGN4PSI1OCIgY3k9IjYyIiByPSIxMiIgZmlsbD0iIzNmOGY3YyIvPjx0ZXh0IHg9IjUyIiB5PSI2NiIgY2xhc3M9InMgdyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+VE48L3RleHQ+CiAgPHRleHQgeD0iNzgiIHk9IjY3IiBjbGFzcz0iaCI+VGFza05leHVzPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxMDQiIGNsYXNzPSJiIj7wn5KsICBDaGF0PC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxMzIiIGNsYXNzPSJiIj7ilqYgIEJvYXJkPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxNjAiIGNsYXNzPSJiIj7inJMgIFRhcmVmYXM8L3RleHQ+CiAgPHJlY3QgeD0iNDAiIHk9IjE3MiIgd2lkdGg9IjE4NCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9IiNlNmYyZWUiLz4KICA8dGV4dCB4PSI0OCIgeT0iMTkyIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPuKXpyAgQXJ0ZWZhdG9zPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIyMjIiIGNsYXNzPSJiIj7il4ggIENvbmZpZ3VyYcOnw6NvPC90ZXh0PgogIDxsaW5lIHgxPSI0NCIgeTE9IjI0MCIgeDI9IjIyMCIgeTI9IjI0MCIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iNDgiIHk9IjI2MiIgY2xhc3M9ImNhcCI+Q0xJRU5URVM8L3RleHQ+CiAgPHJlY3QgeD0iNDAiIHk9IjI3MiIgd2lkdGg9IjE4NCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNlZmVjZTUiLz4KICA8dGV4dCB4PSI0OCIgeT0iMjkxIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjYwMCI+VG9kb3M8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjMyMCIgY2xhc3M9ImIiPnBvZGVzdWJpcjwvdGV4dD4KICA8dGV4dCB4PSI0OCIgeT0iMzQ2IiBjbGFzcz0iYiI+Y2xpZW50ZS1hY21lPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIzNzIiIGNsYXNzPSJiIj5pbnRlcm5vPC90ZXh0PgogIDx0ZXh0IHg9IjE0MCIgeT0iMTkyIiBjbGFzcz0iYW5uIj5BIMK3IGl0ZW0gbm92bzwvdGV4dD4KCiAgPCEtLSB0b3BiYXIgLS0+CiAgPGxpbmUgeDE9IjIzMiIgeTE9Ijk0IiB4Mj0iMTE2OCIgeTI9Ijk0IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSIyNTIiIHk9IjcwIiBzdHlsZT0iZm9udC1zaXplOjE1cHg7Zm9udC13ZWlnaHQ6NzAwIj5BcnRlZmF0b3M8L3RleHQ+CgogIDwhLS0gZmlsdGVyIGJhciAtLT4KICA8bGluZSB4MT0iMjMyIiB5MT0iMTQwIiB4Mj0iMTE2OCIgeTI9IjE0MCIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHJlY3QgeD0iMjUyIiB5PSIxMDYiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjZWZlY2U1IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSIyNjAiIHk9IjEyMiIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM2YjY0NWMiPnBvZGVzdWJpciDilr48L3RleHQ+CiAgPHJlY3QgeD0iMzkwIiB5PSIxMDYiIHdpZHRoPSIxNTAiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjZWZlY2U1IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSIzOTgiIHk9IjEyMiIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM2YjY0NWMiPlRvZG9zIG9zIHByb2pldG9zIOKWvjwvdGV4dD4KICA8cmVjdCB4PSI1NTIiIHk9IjEwNiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSI1NjYiIHk9IjEyMiIgY2xhc3M9ImIgdyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+VG9kb3M8L3RleHQ+CiAgPHJlY3QgeD0iNjA4IiB5PSIxMDYiIHdpZHRoPSI0MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZWZlY2U1Ii8+CiAgPHRleHQgeD0iNjE4IiB5PSIxMjIiIGNsYXNzPSJiIj5NRDwvdGV4dD4KICA8cmVjdCB4PSI2NTQiIHk9IjEwNiIgd2lkdGg9IjUwIiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNlZmVjZTUiLz4KICA8dGV4dCB4PSI2NjQiIHk9IjEyMiIgY2xhc3M9ImIiPkhUTUw8L3RleHQ+CiAgPHJlY3QgeD0iNzEwIiB5PSIxMDYiIHdpZHRoPSI0MiIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZWZlY2U1Ii8+CiAgPHRleHQgeD0iNzIwIiB5PSIxMjIiIGNsYXNzPSJiIj5QREY8L3RleHQ+CiAgPHRleHQgeD0iMjYwIiB5PSI5OCIgY2xhc3M9ImFubiIgc3R5bGU9ImRpc3BsYXk6bm9uZSI+IDwvdGV4dD4KCiAgPCEtLSBncm91cCAxIC0tPgogIDx0ZXh0IHg9IjI1MiIgeT0iMTcwIiBjbGFzcz0iY2FwIj5QT0RFU1VCSVIgLyBTSVRFLUlOU1RJVFVDSU9OQUwgwrcgMzwvdGV4dD4KICA8IS0tIGNhcmQgLS0+CiAgPGc+CiAgICA8cmVjdCB4PSIyNTIiIHk9IjE4MiIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgICA8cmVjdCB4PSIyNjQiIHk9IjE5NCIgd2lkdGg9IjQyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2VlZjBmYSIvPjx0ZXh0IHg9IjI3MiIgeT0iMjA4IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzQ0NTc5Zjtmb250LXdlaWdodDo3MDAiPkhUTUw8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjQiIHk9IjIzNiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPlJlbGF0w7NyaW8gZGUgdGVzdGVzPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSIyNTQiIGNsYXNzPSJzIj5kb2NzL3JlbGF0b3Jpby5odG1sPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSIyNzYiIGNsYXNzPSJzIj41OCBwYXNzYXJhbSwgMiBmYWxoYXJhbeKApjwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2NCIgeT0iMjk4IiBjbGFzcz0icyI+Y2xhdWRlIMK3IGjDoSAyIGggwrcgMTggS0I8L3RleHQ+CiAgPC9nPgogIDxnPgogICAgPHJlY3QgeD0iNDMyIiB5PSIxODIiIHdpZHRoPSIxNzAiIGhlaWdodD0iMTMwIiByeD0iMTIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzNmOGY3YyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8cmVjdCB4PSI0NDQiIHk9IjE5NCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2U2ZjJlZSIvPjx0ZXh0IHg9IjQ1MiIgeT0iMjA4IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzJmNzU2NDtmb250LXdlaWdodDo3MDAiPk1EPC90ZXh0PgogICAgPHRleHQgeD0iNDQ0IiB5PSIyMzYiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5QbGFubyBkZSByZWxlYXNlIDIuNDwvdGV4dD4KICAgIDx0ZXh0IHg9IjQ0NCIgeT0iMjU0IiBjbGFzcz0icyI+ZG9jcy9wbGFuby1yZWxlYXNlLm1kPC90ZXh0PgogICAgPHRleHQgeD0iNDQ0IiB5PSIyNzYiIGNsYXNzPSJzIj5PYmpldGl2bzogbGliZXJhciBvIG1vZG/igKY8L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjI5OCIgY2xhc3M9InMiPmNsYXVkZSDCtyBvbnRlbSDCtyAxMiBLQjwvdGV4dD4KICA8L2c+CiAgPGc+CiAgICA8cmVjdCB4PSI2MTIiIHk9IjE4MiIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgICA8cmVjdCB4PSI2MjQiIHk9IjE5NCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2ZiZWVlYSIvPjx0ZXh0IHg9IjYzMSIgeT0iMjA4IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6I2E0NDEyZjtmb250LXdlaWdodDo3MDAiPlBERjwvdGV4dD4KICAgIDx0ZXh0IHg9IjYyNCIgeT0iMjM2IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+UHJvcG9zdGEgY29tZXJjaWFsPC90ZXh0PgogICAgPHRleHQgeD0iNjI0IiB5PSIyNTQiIGNsYXNzPSJzIj5lbnRyZWdhcy9wcm9wb3N0YS5wZGY8L3RleHQ+CiAgICA8dGV4dCB4PSI2MjQiIHk9IjI3NiIgY2xhc3M9InMiPjQgcMOhZ2luYXM8L3RleHQ+CiAgICA8dGV4dCB4PSI2MjQiIHk9IjI5OCIgY2xhc3M9InMiPmNvZGV4IMK3IDI0IHNldCDCtyAzMTAgS0I8L3RleHQ+CiAgPC9nPgoKICA8IS0tIGdyb3VwIDIgLS0+CiAgPHRleHQgeD0iMjUyIiB5PSIzNDYiIGNsYXNzPSJjYXAiPlBPREVTVUJJUiAvIEFQSS1QQUdBTUVOVE9TIMK3IDI8L3RleHQ+CiAgPGc+CiAgICA8cmVjdCB4PSIyNTIiIHk9IjM1OCIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgICA8cmVjdCB4PSIyNjQiIHk9IjM3MCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2U2ZjJlZSIvPjx0ZXh0IHg9IjI3MiIgeT0iMzg0IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzJmNzU2NDtmb250LXdlaWdodDo3MDAiPk1EPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSI0MTIiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5BRFIgMDcg4oCUIFdlYmhvb2tzPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSI0MzAiIGNsYXNzPSJzIj5kb2NzL2Fkci8wNy13ZWJob29rcy5tZDwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2NCIgeT0iNDUyIiBjbGFzcz0icyI+RGVjaXPDo286IGZpbGEgY29tIHJldHJ54oCmPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSI0NzQiIGNsYXNzPSJzIj5jbGF1ZGUgwrcgMjAgc2V0IMK3IDYgS0I8L3RleHQ+CiAgPC9nPgogIDxnPgogICAgPHJlY3QgeD0iNDMyIiB5PSIzNTgiIHdpZHRoPSIxNzAiIGhlaWdodD0iMTMwIiByeD0iMTIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+CiAgICA8cmVjdCB4PSI0NDQiIHk9IjM3MCIgd2lkdGg9IjQyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2VlZjBmYSIvPjx0ZXh0IHg9IjQ1MiIgeT0iMzg0IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzQ0NTc5Zjtmb250LXdlaWdodDo3MDAiPkhUTUw8L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjQxMiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPkRpYWdyYW1hIGRlIGZsdXhvPC90ZXh0PgogICAgPHRleHQgeD0iNDQ0IiB5PSI0MzAiIGNsYXNzPSJzIj5kb2NzL2ZsdXhvLmh0bWw8L3RleHQ+CiAgICA8cmVjdCB4PSI0NDQiIHk9IjQ0MiIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxOCIgcng9IjYiIGZpbGw9IiNmZGY2ZTYiLz4KICAgIDx0ZXh0IHg9IjQ1MCIgeT0iNDU1IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzhhNWIwNSI+YXJxdWl2byBuw6NvIGVuY29udHJhZG88L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjQ3OCIgY2xhc3M9InMiPmNsYXVkZSDCtyAxOCBzZXQ8L3RleHQ+CiAgPC9nPgoKICA8cmVjdCB4PSIyNTIiIHk9IjY2MCIgd2lkdGg9IjIxMCIgaGVpZ2h0PSIzNCIgcng9IjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjI2NiIgeT0iNjgyIiBjbGFzcz0iYiI+77yLIEltcG9ydGFyIGRvIHByb2pldG/igKY8L3RleHQ+CiAgPHRleHQgeD0iMjUyIiB5PSI3MTIiIGNsYXNzPSJzIj5Ub2NhciBudW0gY2FydMOjbyBhYnJlIG8gYXJxdWl2byBubyBwYWluZWwgbGF0ZXJhbCDihpI8L3RleHQ+CgogIDwhLS0gbGF0ZXJhbCB2aWV3ZXIgKG92ZXJsYXkgZHJhd2VyKSAtLT4KICA8cmVjdCB4PSIyMzIiIHk9Ijk1IiB3aWR0aD0iOTM2IiBoZWlnaHQ9IjYzMyIgZmlsbD0iIzNiMzUzMCIgb3BhY2l0eT0iLjEwIi8+CiAgPHJlY3QgeD0iODAwIiB5PSI5NSIgd2lkdGg9IjM2OCIgaGVpZ2h0PSI2MzMiIGZpbGw9IiNmZmZmZmYiLz4KICA8bGluZSB4MT0iODAwIiB5MT0iOTUiIHgyPSI4MDAiIHkyPSI3MjgiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDxyZWN0IHg9IjgxMiIgeT0iMTA2IiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2U2ZjJlZSIvPgogIDx0ZXh0IHg9IjgyMiIgeT0iMTI1IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPnBsYW5vLXJlbGVhc2XigKY8L3RleHQ+CiAgPHJlY3QgeD0iOTMwIiB5PSIxMDYiIHdpZHRoPSIxMDQiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjZjNmMWVjIi8+CiAgPHRleHQgeD0iOTQwIiB5PSIxMjUiIGNsYXNzPSJiIj5yZWxhdG9yaW8uaHRtbDwvdGV4dD4KICA8cmVjdCB4PSIxMDkwIiB5PSIxMDQiIHdpZHRoPSI2OCIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjExMDAiIHk9IjEyNSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPuKclSBGZWNoYXI8L3RleHQ+CiAgPGxpbmUgeDE9IjgwMCIgeTE9IjE0NCIgeDI9IjExNjgiIHkyPSIxNDQiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjgxMiIgeT0iMTY0IiBjbGFzcz0icyI+ZG9jcy9wbGFuby1yZWxlYXNlLm1kIMK3IDEyIEtCPC90ZXh0PgogIDx0ZXh0IHg9Ijk5MCIgeT0iMTY0IiBjbGFzcz0iYiI+4qSTIOKniSDihpc8L3RleHQ+CiAgPHJlY3QgeD0iMTA2MCIgeT0iMTUwIiB3aWR0aD0iOTgiIGhlaWdodD0iMjIiIHJ4PSI3IiBmaWxsPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iMTA2OCIgeT0iMTY1IiBjbGFzcz0icyB3IiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj7ipKIgVGVsYSBjaGVpYTwvdGV4dD4KICA8dGV4dCB4PSI4MjAiIHk9IjIwNiIgc3R5bGU9ImZvbnQtc2l6ZToxOHB4O2ZvbnQtd2VpZ2h0OjcwMCI+UGxhbm8gZGUgcmVsZWFzZSAyLjQ8L3RleHQ+CiAgPGxpbmUgeDE9IjgyMCIgeTE9IjIxNiIgeDI9IjExNTAiIHkyPSIyMTYiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjgyMCIgeT0iMjQwIiBjbGFzcz0iYiI+T2JqZXRpdm86IGxpYmVyYXIgbyBtb2RvIGNoYXQgcGFyYTwvdGV4dD4KICA8dGV4dCB4PSI4MjAiIHk9IjI1OCIgY2xhc3M9ImIiPnRvZG9zIG9zIGFnZW50ZXMgY2xhdWRlIGF0w6kgc2V4dGEuPC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMjkyIiBjbGFzcz0iaCI+Q2hlY2tsaXN0PC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMzE0IiBjbGFzcz0iYiI+4piRIE1pZ3JhciB3cyBkZSBjaGF0PC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMzM0IiBjbGFzcz0iYiI+4piQIFRlc3RhciBubyBpUGFkIGVtIHJldHJhdG88L3RleHQ+CiAgPHJlY3QgeD0iODIwIiB5PSIzNTIiIHdpZHRoPSIzMzAiIGhlaWdodD0iNzAiIHJ4PSI4IiBmaWxsPSIjMjYyODJlIi8+CiAgPHRleHQgeD0iODMyIiB5PSIzNzQiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjEwLjVweDtmaWxsOiNiOWI0YWIiPmJhc2ggICAgICAgICAgICAgICAgICAgICAgICAgIENvcGlhcjwvdGV4dD4KICA8dGV4dCB4PSI4MzIiIHk9IjQwMCIgY2xhc3M9Im0iIHN0eWxlPSJmb250LXNpemU6MTFweDtmaWxsOiNlNmUzZGQiPmNkIGZyb250ZW5kICZhbXA7JmFtcDsgbnBtIHRlc3Q8L3RleHQ+CiAgPHRleHQgeD0iMTE1MCIgeT0iOTgiIGNsYXNzPSJhbm4iIHRleHQtYW5jaG9yPSJlbmQiPkIgwrcgcGFpbmVsIGxhdGVyYWw8L3RleHQ+Cjwvc3ZnPgo=" alt="Tela Artefatos" loading="lazy"><figcaption>Tela Artefatos</figcaption></figure>
+<p>Legenda: <strong>A</strong> item novo <strong>Artefatos</strong> no menu que já existe (mesma lista
+<code>NAV_ITEMS</code> de Chat, Board, Tarefas e Configuração) · <strong>B</strong> painel lateral
+de visualização, por cima da tela e com abas, com os botões Baixar, Copiar,
+Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</p>
+<hr />
+<h2 id="p07-71-requisitos">7.1 Requisitos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Requisito</th>
+<th>Origem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Nova aba <strong>Artefatos</strong> no menu do layout atual</td>
+<td>Bruno</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Organizada por <strong>cliente</strong> e <strong>projeto</strong>, usando o mesmo filtro das telas Board e Tarefas</td>
+<td>Bruno</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Lista os artefatos criados: <strong><code>.md</code>, <code>.pdf</code>, <code>.html</code></strong></td>
+<td>Bruno</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>Tocar num artefato abre o <strong>painel lateral de visualização</strong></td>
+<td>Bruno</td>
+</tr>
+<tr>
+<td>A5</td>
+<td><strong>Não mudar o layout</strong>: nada de redesenho, só uma tela nova no casco v2</td>
+<td>Bruno</td>
+</tr>
+<tr>
+<td>A6</td>
+<td>Artefato não some quando a conversa acaba: a lista é permanente por projeto</td>
+<td>Equipe (é o que faz a galeria ser útil)</td>
+</tr>
+<tr>
+<td>A7</td>
+<td>Remover da lista <strong>não apaga</strong> o arquivo do disco</td>
+<td>Equipe (segurança)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="p07-interpretações-adotadas-confirmar">Interpretações adotadas (confirmar)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ponto</th>
+<th>Adotado</th>
+<th>Alternativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O que vira artefato</td>
+<td>(1) O agente publica com a tool nova <code>publicar_artefato</code>. (2) Todo <code>.md</code>/<code>.html</code>/<code>.pdf</code> que o agente abre com <code>abrir_no_visualizador</code> entra <strong>automaticamente</strong>. (3) Você adiciona à mão ("Salvar em Artefatos" no visualizador ou "Importar do projeto")</td>
+<td>Só a publicação explícita (desligar o item 2 com um parâmetro)</td>
+</tr>
+<tr>
+<td>"Painel lateral"</td>
+<td>Na tela Artefatos, o visualizador abre como <strong>drawer à direita</strong>, por cima da lista, no mesmo padrão do <code>TasksDrawer</code> que já existe. No <strong>chat</strong> continua o <strong>dropdown</strong> da Fase V</td>
+<td>Usar o drawer lateral também no chat, no lugar do dropdown (troca só de contêiner, o conteúdo é o mesmo <code>ViewerPanel</code>)</td>
+</tr>
+<tr>
+<td>Tela cheia no painel lateral</td>
+<td>Mantida: o botão ⤢ vira o mesmo modal de tela cheia da Fase V</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Celular</td>
+<td>Abre direto em tela cheia (não há largura para drawer)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Outros tipos (imagem, <code>.docx</code>, <code>.csv</code>)</td>
+<td>Fora por enquanto; a tabela aceita qualquer <code>kind</code>, então dá para ampliar depois</td>
+<td>Incluir imagens já</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p07-72-experiência-de-uso-ux">7.2 Experiência de uso (UX)</h2>
+<h3 id="p07-onde-fica">Onde fica</h3>
+<ul>
+<li>Menu lateral (<code>SidebarV2</code>) e menu do celular (<code>MobileMenuScreen</code>) ganham
+  o item <strong>◧ Artefatos</strong>, entre Tarefas e Configuração. É só uma entrada a mais
+  em <code>NAV_ITEMS</code>; a sidebar, a topbar e a lista de clientes continuam iguais.</li>
+<li>Título da topbar: "Artefatos".</li>
+<li>O <strong>cliente</strong> vem da lista de clientes da sidebar (igual ao Board e a
+  Tarefas). Com "Todos" selecionado, a barra de filtro mostra os dois selects
+  (cliente → projeto), usando o <code>ClienteProjetoFilterBar</code> e o
+  <code>useClienteProjetoFilter</code> existentes.</li>
+</ul>
+<h3 id="p07-a-tela">A tela</h3>
+<ol>
+<li><strong>Barra de filtro</strong> (mesma linha do filtro de cliente/projeto): chips de
+   tipo <strong>Todos · MD · HTML · PDF</strong>, campo <strong>Buscar</strong> (título, caminho e
+   descrição) e ordenação <strong>Recentes / Nome</strong>.</li>
+<li><strong>Lista agrupada:</strong> um grupo por projeto com o rótulo
+   <code>CLIENTE / PROJETO · N</code>. Com um projeto específico escolhido, os grupos somem
+   e fica só a grade.</li>
+<li><strong>Cartão do artefato</strong> (mesma linguagem visual do Board, tokens <code>--v2-*</code>):
+   - selo do tipo (MD verde, HTML índigo, PDF avermelhado);
+   - título (do agente, ou o primeiro <code># título</code> do <code>.md</code>, ou o <code>&lt;title&gt;</code> do
+     HTML, ou o nome do arquivo);
+   - caminho relativo ao projeto;
+   - trecho de até 2 linhas (1º parágrafo do <code>.md</code>, <code>meta description</code> do HTML,
+     "N páginas" do PDF quando der para ler, senão nada);
+   - rodapé: quem criou (claude, codex, você) · quando · tamanho.</li>
+<li><strong>Tocar no cartão</strong> abre o painel lateral com o artefato numa aba (ou foca
+   a aba, se já estiver aberto). Tocar em outro cartão abre <strong>outra aba</strong> no
+   mesmo painel.</li>
+<li><strong>Menu "⋯" do cartão</strong> (ou toque longo): Abrir · Baixar · Copiar caminho ·
+   <strong>Citar no chat</strong> (cola o caminho no terminal da conversa ativa, com o
+   mesmo <code>POST /api/sessions/{sk}/paste</code> do "Usar no chat" dos Anexos) ·
+   Renomear · <strong>Remover da lista</strong> (confirmação de 2 toques, como nos Anexos).</li>
+<li><strong>Importar do projeto…</strong> (fim da lista): abre um modal (<code>CenteredModal</code>)
+   com os <code>.md</code>/<code>.html</code>/<code>.pdf</code> encontrados no projeto escolhido que ainda não
+   são artefatos, com caixas de seleção. Serve para trazer o que já existe hoje.</li>
+</ol>
+<h3 id="p07-estados">Estados</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>O que aparece</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nenhum artefato no filtro</td>
+<td>"Nenhum artefato aqui ainda. Quando um agente criar um relatório, documento ou PDF, ele aparece nesta tela. Você também pode <strong>Importar do projeto</strong>."</td>
+</tr>
+<tr>
+<td>Carregando</td>
+<td>6 cartões esqueleto</td>
+</tr>
+<tr>
+<td>Arquivo apagado ou movido</td>
+<td>Cartão com borda tracejada e selo "arquivo não encontrado"; abrir mostra o aviso; ações: Remover da lista</td>
+</tr>
+<tr>
+<td>Arquivo alterado depois de publicado</td>
+<td>Data "atualizado há X" (usa o <code>mtime</code> real)</td>
+</tr>
+<tr>
+<td>Erro ao carregar</td>
+<td>"Não consegui carregar os artefatos. Tentar de novo"</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="p07-painel-lateral">Painel lateral</h3>
+<ul>
+<li>Drawer à direita, <strong>por cima</strong> da lista (overlay), com uma faixa escurecida
+  leve no resto da tela. Largura <code>min(760px, 62vw)</code> em telas ≥ 821 px. Entre
+  641 e 820 px ocupa 100 % da área de conteúdo. No celular abre em tela cheia.</li>
+<li>Cabeçalho: abas dos artefatos abertos · <strong>✕ Fechar</strong>. Barra: caminho,
+  tamanho, ⤓ Baixar, ⧉ Copiar, ↗ Abrir no navegador, <strong>⤢ Tela cheia</strong>.</li>
+<li>Fecha com ✕, com Esc ou tocando na faixa escurecida. As abas continuam
+  guardadas para quando reabrir.</li>
+<li>Conteúdo: o mesmo <code>ViewerPanel</code> da Fase V (Markdown como no GitHub, HTML em
+  <code>iframe</code> sandbox, PDF, código).</li>
+</ul>
+<hr />
+<h2 id="p07-73-arquitetura-tl">7.3 Arquitetura (TL)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Decisão</th>
+<th>Escolha</th>
+<th>Por quê</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Onde guardar</td>
+<td>Tabela nova <code>artifacts</code> no <code>sessions.db</code>, <strong>um registro por (projeto, caminho)</strong></td>
+<td>A galeria é permanente e por projeto; não pode depender da sessão nem do limite de 15 abas do visualizador</td>
+</tr>
+<tr>
+<td>Como o agente publica</td>
+<td>Tool <code>publicar_artefato</code> no <strong>mesmo servidor MCP</strong> <code>escritorio-visualizador</code> da Fase V</td>
+<td>Um processo a menos, e a mesma rota de callback</td>
+</tr>
+<tr>
+<td>Publicação automática</td>
+<td><code>abrir_no_visualizador</code> de <code>.md</code>/<code>.html</code>/<code>.pdf</code> faz upsert em <code>artifacts</code></td>
+<td>É exatamente o que o agente mostra como entregável; evita depender do agente lembrar de duas tools</td>
+</tr>
+<tr>
+<td>Como servir o arquivo</td>
+<td>Rotas por <code>artifact_id</code> (<code>/api/artifacts/{id}/content</code> e <code>/f/{caminho}</code>) sobre um módulo comum <code>file_serving.py</code>, <strong>o mesmo</strong> usado pelas rotas <code>/api/viewer/{item_id}/…</code></td>
+<td>Uma única implementação de CSP, download, limite de 1 MB e denylist</td>
+</tr>
+<tr>
+<td>Visualizador no front</td>
+<td><code>ViewerContext</code> ganha <strong>escopos</strong>: <code>session:&lt;session_key&gt;</code> (chat, Fase V) e <code>artefatos</code> (esta tela). Cada item diz sua <strong>origem</strong> (<code>viewer</code> ou <code>artifact</code>), e o <code>viewerApi</code> monta a URL certa</td>
+<td>O <code>ViewerPanel</code> e os renderers ficam iguais; só muda de onde vem o arquivo</td>
+</tr>
+<tr>
+<td>Contêiner lateral</td>
+<td>Componente novo <code>ViewerDrawer</code>, no padrão do <code>TasksDrawer</code> (overlay à direita)</td>
+<td>Não altera o layout: é um overlay, como o drawer de tarefas que já existe</td>
+</tr>
+<tr>
+<td>Segurança</td>
+<td>Mesmas regras da Fase V: <code>resolve_safe_path</code>, denylist, <code>iframe</code> sem <code>allow-same-origin</code>, CSP <code>sandbox</code>, ids aleatórios</td>
+<td>A galeria não amplia o que pode ser lido: só arquivos registrados + vizinhos do mesmo projeto</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Ajuste na Fase V:</strong> as funções de servir conteúdo (<code>content</code> e <code>f/</code>) devem nascer num módulo
+<code>backend/app/file_serving.py</code> recebendo <code>(project_root, rel_path, download)</code>,
+para esta fase reaproveitar sem copiar. A Parte 6 foi atualizada com essa nota.</p>
+<hr />
+<h2 id="p07-74-backend-dev">7.4 Backend (Dev)</h2>
+<h3 id="p07-741-arquivos">7.4.1 Arquivos</h3>
+<div class="code"><div class="code-head"><span>texto</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code>backend/app/artifact_store.py          # NOVO: ArtifactStore (tabela artifacts)
+backend/app/artifacts_api.py           # NOVO: APIRouter das rotas 7.4.3
+backend/app/artifact_meta.py           # NOVO: título, trecho e páginas (md/html/pdf), só stdlib
+backend/app/file_serving.py            # criado na Fase V; aqui só é reaproveitado
+backend/app/mcp_viewer_adapter.py      # ALTERAR: + tool publicar_artefato
+backend/app/viewer_api.py              # ALTERAR: abrir_no_visualizador faz upsert em artifacts (md/html/pdf)
+backend/app/main.py                    # ALTERAR: iniciar ArtifactStore no lifespan, include_router,
+                                       #          + env ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL no servidor MCP
+backend/tests/test_artifact_store.py
+backend/tests/test_artifacts_endpoints.py
+backend/tests/test_artifact_meta.py
+backend/tests/test_mcp_viewer_adapter.py   # ALTERAR: casos da tool nova
+</code></pre></div>
+<h3 id="p07-742-tabela">7.4.2 Tabela</h3>
+<div class="code"><div class="code-head"><span>sql</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">artifacts</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">artifact_id</span><span class="w">  </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">          </span><span class="c1">-- "af_" + token_urlsafe(16)</span>
+<span class="w">  </span><span class="n">project_id</span><span class="w">   </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">             </span><span class="c1">-- ex.: "podesubir/site-institucional"</span>
+<span class="w">  </span><span class="n">cliente_id</span><span class="w">   </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">             </span><span class="c1">-- 1º segmento do project_id (mesma regra de agent_discovery)</span>
+<span class="w">  </span><span class="n">path</span><span class="w">         </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">             </span><span class="c1">-- relativo à raiz do projeto, com "/"</span>
+<span class="w">  </span><span class="n">kind</span><span class="w">         </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">             </span><span class="c1">-- markdown | html | pdf</span>
+<span class="w">  </span><span class="n">title</span><span class="w">        </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">description</span><span class="w">  </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">  </span><span class="n">excerpt</span><span class="w">      </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                      </span><span class="c1">-- até 200 caracteres</span>
+<span class="w">  </span><span class="k">size</span><span class="w">         </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">  </span><span class="n">mtime</span><span class="w">        </span><span class="nb">REAL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">created_by</span><span class="w">   </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">             </span><span class="c1">-- 'agent' | 'user'</span>
+<span class="w">  </span><span class="n">agent_label</span><span class="w">  </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                      </span><span class="c1">-- "claude", "codex"… (do agente da sessão)</span>
+<span class="w">  </span><span class="n">session_key</span><span class="w">  </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                      </span><span class="c1">-- sessão que criou (pode ficar órfã; é só informativo)</span>
+<span class="w">  </span><span class="n">created_at</span><span class="w">   </span><span class="nb">REAL</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">updated_at</span><span class="w">   </span><span class="nb">REAL</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="k">UNIQUE</span><span class="p">(</span><span class="n">project_id</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="p">)</span>
+<span class="p">);</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">ix_artifacts_cliente</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">artifacts</span><span class="p">(</span><span class="n">cliente_id</span><span class="p">,</span><span class="w"> </span><span class="n">updated_at</span><span class="p">);</span>
+</code></pre></div>
+<p>Mesmo padrão de store dos outros: <code>aiosqlite</code>, WAL, <code>busy_timeout=5000</code>.
+<strong>Upsert</strong> por <code>(project_id, path)</code>: publicar de novo o mesmo arquivo atualiza
+título (se veio), descrição, trecho, tamanho, <code>mtime</code> e <code>updated_at</code>, e mantém o <code>artifact_id</code>.</p>
+<h3 id="p07-743-rotas">7.4.3 Rotas</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rota</th>
+<th>Uso</th>
+<th>Resposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /api/artifacts?cliente_id=&amp;projeto_id=&amp;tipo=&amp;q=&amp;ordem=recentes</code></td>
+<td>lista da tela</td>
+<td><code>{"artifacts":[Artifact…]}</code>; <code>projeto_id</code> inclui a subárvore (prefixo <code>projeto_id/</code>, mesma regra do <code>collectSubtreeIds</code> do front); cada item traz <code>exists</code> e <code>mtime</code> atuais (checagem em lote com <code>os.stat</code> em thread)</td>
+</tr>
+<tr>
+<td><code>GET /api/artifacts/{id}</code></td>
+<td>um artefato</td>
+<td><code>Artifact</code></td>
+</tr>
+<tr>
+<td><code>POST /api/artifacts</code></td>
+<td>você adiciona</td>
+<td>corpo <code>{"project_id","caminho","titulo"?,"descricao"?}</code> → <code>Artifact</code> (201) ou 400/403/404 com mensagem</td>
+</tr>
+<tr>
+<td><code>POST /api/artifacts/import</code></td>
+<td>"Importar do projeto"</td>
+<td>corpo <code>{"project_id","caminhos":[…]}</code> → <code>{"created":n,"artifacts":[…],"errors":[{caminho,erro}]}</code></td>
+</tr>
+<tr>
+<td><code>GET /api/projects/{project_id:path}/artifact-candidates</code></td>
+<td>lista do modal de importação</td>
+<td><code>{"candidates":[{"path","kind","size","mtime"}],"truncated":bool}</code>: até 300 arquivos <code>.md</code>/<code>.html</code>/<code>.htm</code>/<code>.pdf</code>, ignorando as mesmas pastas da Parte 1 (<code>.git</code>, <code>node_modules</code>, <code>.venv*</code>, <code>dist</code>, <code>build</code>, <code>.escritorio</code>…) e os que já são artefatos</td>
+</tr>
+<tr>
+<td><code>PATCH /api/artifacts/{id}</code></td>
+<td>renomear / descrição</td>
+<td><code>{"titulo"?,"descricao"?}</code> → <code>Artifact</code></td>
+</tr>
+<tr>
+<td><code>DELETE /api/artifacts/{id}</code></td>
+<td>remover da lista</td>
+<td><code>{"status":"removed"}</code>; <strong>não</strong> apaga o arquivo</td>
+</tr>
+<tr>
+<td><code>GET /api/artifacts/{id}/content</code></td>
+<td>conteúdo para o painel</td>
+<td>igual ao <code>/api/viewer/{item_id}/content</code> (via <code>file_serving</code>)</td>
+</tr>
+<tr>
+<td><code>GET /api/artifacts/{id}/f/{file_path:path}[?download=1]</code></td>
+<td>HTML, PDF, assets relativos, download</td>
+<td>igual ao <code>/api/viewer/{item_id}/f/…</code> (via <code>file_serving</code>)</td>
+</tr>
+<tr>
+<td><code>POST /api/hooks/artifacts/publish</code></td>
+<td>só o adapter MCP (loopback)</td>
+<td>corpo <code>{"claude_session_id","caminho","titulo"?,"descricao"?,"abrir"?}</code> → <code>{"success":true,"artifact":{…},"opened":bool}</code> ou <code>{"success":false,"error":"…"}</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Formato de <code>Artifact</code>:</p>
+<div class="code"><div class="code-head"><span>json</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"artifact_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"af_Qm1Y0oHq3a1bXw5Jc2k0q8"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"podesubir/site-institucional"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"cliente_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"podesubir"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"docs/relatorio.html"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"html"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Relatório de testes"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"excerpt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"58 passaram, 2 falharam…"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">18432</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"mtime"</span><span class="p">:</span><span class="w"> </span><span class="mf">1727650000.1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"created_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"agent_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"claude"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mf">1727650000.2</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mf">1727650000.2</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Regras:</p>
+<ul>
+<li>Tipos aceitos: <code>.md</code>, <code>.markdown</code>, <code>.html</code>, <code>.htm</code>, <code>.pdf</code>. Outro tipo → erro
+  legível ("Artefatos aceitam .md, .html e .pdf").</li>
+<li><code>caminho</code> passa por <code>resolve_safe_path</code> (Fase V) e pela denylist.</li>
+<li><code>publicar_artefato</code> com <code>abrir=true</code> (padrão) também cria/foca a aba no
+  visualizador da sessão, reaproveitando a lógica do <code>abrir_no_visualizador</code>
+  (inclui o frame <code>viewer_open</code>).</li>
+<li><code>agent_label</code>: do agente resolvido pela <code>session_key</code> (<code>agent.ia</code> ou nome
+  do cadastro); para <code>created_by='user'</code>, <code>null</code>.</li>
+</ul>
+<h3 id="p07-744-artifact_metapy-só-biblioteca-padrão">7.4.4 <code>artifact_meta.py</code> (só biblioteca padrão)</h3>
+<ul>
+<li><strong>Markdown:</strong> título = primeira linha <code># …</code>; trecho = primeiro parágrafo
+  de texto (sem markdown básico: <code>*</code>, <code>_</code>, <code>`</code>, links <code>[x](y)</code> → <code>x</code>), até 200 caracteres.</li>
+<li><strong>HTML:</strong> título = conteúdo de <code>&lt;title&gt;</code>; trecho = <code>&lt;meta name="description"&gt;</code>
+  ou o texto do primeiro <code>&lt;p&gt;</code> (<code>html.parser</code> da stdlib), sem executar nada.</li>
+<li><strong>PDF:</strong> título = nome do arquivo; "N páginas" contando <code>/Type /Page</code> (não
+  <code>/Pages</code>) nos bytes, <strong>só se</strong> o arquivo tiver até 20 MB; senão, sem trecho.
+  É heurística: se falhar, fica sem trecho, nunca dá erro.</li>
+<li>Ler no máximo 256 KB de cada arquivo para extrair metadados.</li>
+</ul>
+<h3 id="p07-745-tool-mcp-publicar_artefato">7.4.5 Tool MCP <code>publicar_artefato</code></h3>
+<div class="code"><div class="code-head"><span>json</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"publicar_artefato"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Publica um arquivo como ARTEFATO do projeto na aba Artefatos do TaskNexus (organizada por cliente e projeto) e, por padrão, abre no visualizador do usuário. Use ao terminar um entregável que o usuário vai querer reencontrar depois: relatórios e páginas .html, documentos, planos e especificações .md, e arquivos .pdf. Se o arquivo já foi publicado, as informações são atualizadas. Arquivos .md, .html e .pdf abertos com abrir_no_visualizador também são publicados automaticamente."</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"inputSchema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"caminho"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Caminho do arquivo .md, .html ou .pdf, relativo à raiz do projeto ou absoluto dentro dele."</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"titulo"</span><span class="p">:</span><span class="w">    </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Opcional. Título do artefato. Padrão: título do documento ou nome do arquivo."</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"descricao"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Opcional. Uma frase dizendo o que é o artefato."</span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"abrir"</span><span class="p">:</span><span class="w">     </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Opcional. Abre no visualizador do usuário. Padrão: true."</span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"caminho"</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Respostas em texto para o agente: <code>Artefato publicado em Artefatos › podesubir / site-institucional: "Relatório de testes" (docs/relatorio.html).</code>,
+<code>… (já existia, foi atualizado).</code> ou a mensagem de erro do backend.</p>
+<hr />
+<h2 id="p07-75-frontend-dev">7.5 Frontend (Dev)</h2>
+<h3 id="p07-751-arquivos">7.5.1 Arquivos</h3>
+<div class="code"><div class="code-head"><span>texto</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code>frontend/src/features/artifacts/
+  ArtefatosV2.jsx          # a tela: filtro cliente/projeto + chips + busca + grade/grupos + importar
+  ArtifactCard.jsx         # cartão (selo de tipo, título, caminho, trecho, rodapé, menu ⋯)
+  ArtifactActionsMenu.jsx  # Abrir, Baixar, Copiar caminho, Citar no chat, Renomear, Remover (2 toques)
+  ImportArtifactsModal.jsx # CenteredModal com a lista de candidatos e caixas de seleção
+  useArtifacts.js          # busca, filtros, recarga ao focar a tela e ao chegar viewer_open de md/html/pdf
+  artifactsApi.js
+frontend/src/features/viewer/
+  ViewerDrawer.jsx         # NOVO contêiner lateral (padrão TasksDrawer) para o ViewerPanel
+  ViewerContext.jsx        # ALTERAR: escopos (session:&lt;sk&gt; e 'artefatos') e item.source ('viewer'|'artifact')
+  viewerApi.js             # ALTERAR: URLs por origem
+  ViewerToolbar.jsx        # ALTERAR: "☆ Salvar em Artefatos" quando o item veio do chat e ainda não é artefato
+frontend/src/layouts/v2/AppV2.jsx   # ALTERAR: NAV_ITEMS + SCREEN_TITLES + render de ArtefatosV2
+</code></pre></div>
+<h3 id="p07-752-integração-no-appv2-só-isto-muda-no-casco">7.5.2 Integração no <code>AppV2</code> (só isto muda no casco)</h3>
+<div class="code"><div class="code-head"><span>js</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">NAV_ITEMS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'chat'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Chat'</span><span class="p">,</span><span class="w"> </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">'💬'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'board'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Board'</span><span class="p">,</span><span class="w"> </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">'▦'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'tarefas'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Tarefas'</span><span class="p">,</span><span class="w"> </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">'✓'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'artefatos'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Artefatos'</span><span class="p">,</span><span class="w"> </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">'◧'</span><span class="w"> </span><span class="p">},</span><span class="w">   </span><span class="c1">// novo</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'agentes'</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">'Configuração'</span><span class="p">,</span><span class="w"> </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="s1">'◈'</span><span class="w"> </span><span class="p">},</span>
+<span class="p">];</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">SCREEN_TITLES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">chat</span><span class="o">:</span><span class="w"> </span><span class="s1">'Chat'</span><span class="p">,</span><span class="w"> </span><span class="nx">board</span><span class="o">:</span><span class="w"> </span><span class="s1">'Board'</span><span class="p">,</span><span class="w"> </span><span class="nx">tarefas</span><span class="o">:</span><span class="w"> </span><span class="s1">'Tarefas'</span><span class="p">,</span><span class="w"> </span><span class="nx">artefatos</span><span class="o">:</span><span class="w"> </span><span class="s1">'Artefatos'</span><span class="p">,</span><span class="w"> </span><span class="nx">agentes</span><span class="o">:</span><span class="w"> </span><span class="s1">'Configuração'</span><span class="w"> </span><span class="p">};</span>
+
+<span class="p">{</span><span class="nx">v2Screen</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'artefatos'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="o">&lt;</span><span class="nx">ArtefatosV2</span><span class="w"> </span><span class="nx">projects</span><span class="o">=</span><span class="p">{</span><span class="nx">projects</span><span class="p">}</span><span class="w"> </span><span class="nx">selectedClienteId</span><span class="o">=</span><span class="p">{</span><span class="nx">selectedClienteId</span><span class="p">}</span><span class="w"> </span><span class="nx">activeSessionKey</span><span class="o">=</span><span class="p">{</span><span class="nx">activeSessionKey</span><span class="p">}</span><span class="w"> </span><span class="o">/&gt;</span>
+<span class="p">)}</span>
+</code></pre></div>
+<p>Mesmas props que <code>BoardV2</code> e <code>TarefasV2</code> recebem. <code>MobileMenuScreen</code> já
+recebe <code>NAV_ITEMS</code>, então o item aparece no celular sem mudança extra.
+Conferir testes que contam itens de navegação (<code>AppV2.test.jsx</code>,
+<code>SidebarV2.test.jsx</code>, <code>MobileMenuScreen.test.jsx</code>, <code>NavTabs</code>) e atualizar.</p>
+<h3 id="p07-753-filtro">7.5.3 Filtro</h3>
+<p>Usar <code>useClienteProjetoFilter(projects, selectedClienteId)</code> e
+<code>ClienteProjetoFilterBar</code> exatamente como <code>TarefasV2</code>/<code>BoardV2</code>. A filtragem
+por subárvore do projeto pode ser feita no backend (<code>projeto_id</code>) ou no front
+com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o caso de 3 níveis
+(<code>cliente/projeto/sub</code>), que já quebrou no Board.</p>
+<h3 id="p07-754-painel-lateral">7.5.4 Painel lateral</h3>
+<ul>
+<li><code>ViewerDrawer</code>: overlay à direita, <code>position: fixed</code> com <code>top</code>/<code>bottom</code>
+  alinhados à área de conteúdo, respeitando <code>fixedPositioningInvariant.test.js</code>
+  (sem <code>transform</code> em ancestral). Faixa escurecida <code>--v2-scrim</code> com opacidade baixa.</li>
+<li>Renderiza <code>&lt;ViewerPanel scope="artefatos" /&gt;</code>. <strong>⤢ Tela cheia</strong> usa o
+  <code>ViewerFullscreen</code> da Fase V; <strong>✕ Fechar</strong> e Esc fecham o drawer.</li>
+<li>Tocar num cartão: <code>openArtifact(artifact)</code> → adiciona/foca a aba no escopo
+  <code>artefatos</code> e abre o drawer.</li>
+<li>As abas do escopo <code>artefatos</code> ficam <strong>só no front</strong> (não precisam de
+  tabela): até 15, guardadas em <code>sessionStorage</code> para sobreviver a recarregar
+  a página.</li>
+</ul>
+<h3 id="p07-755-atualização-da-lista">7.5.5 Atualização da lista</h3>
+<ul>
+<li>Ao entrar na tela e ao voltar o foco para a aba do navegador.</li>
+<li>Quando chegar um frame <code>viewer_open</code> de <code>.md</code>/<code>.html</code>/<code>.pdf</code> (qualquer
+  sessão): marca a lista como "desatualizada" e recarrega se a tela estiver aberta.</li>
+<li>Sem polling contínuo.</li>
+</ul>
+<hr />
+<h2 id="p07-76-ordem-de-execução-um-commit-por-passo">7.6 Ordem de execução (um commit por passo)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Passo</th>
+<th>Entrega</th>
+<th>Verificação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>artifact_meta.py</code> + testes</td>
+<td><code>pytest tests/test_artifact_meta.py</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>ArtifactStore</code> + rotas de lista, criação, edição, remoção, conteúdo e arquivo (via <code>file_serving</code>)</td>
+<td><code>pytest tests/test_artifact_store.py tests/test_artifacts_endpoints.py</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Candidatos + importação</td>
+<td>testes de endpoint</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Tool <code>publicar_artefato</code> + publicação automática no <code>abrir_no_visualizador</code></td>
+<td><code>pytest tests/test_mcp_viewer_adapter.py tests/test_viewer_endpoints.py</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>ViewerContext</code> com escopos + <code>ViewerDrawer</code></td>
+<td>vitest</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>ArtefatosV2</code> + cartão + filtros + estados + item de menu</td>
+<td>vitest + testes de navegação atualizados</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Menu do cartão (baixar, copiar, citar no chat, renomear, remover) e "Salvar em Artefatos" no visualizador</td>
+<td>vitest</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Modal "Importar do projeto"</td>
+<td>vitest</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Aceite manual no iPad e atualização da doc</td>
+<td>checklist 7.7</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p07-77-testes-e-aceite">7.7 Testes e aceite</h2>
+<h3 id="p07-backend">Backend</h3>
+<ul>
+<li>Upsert por <code>(project_id, path)</code> mantém o <code>artifact_id</code> e atualiza os campos.</li>
+<li>Filtros: <code>cliente_id</code>; <code>projeto_id</code> com subárvore de 3 níveis; <code>tipo</code>; <code>q</code>
+  em título, caminho e descrição; ordem.</li>
+<li><code>exists:false</code> quando o arquivo some; <code>DELETE</code> não apaga o arquivo.</li>
+<li>Tipos não aceitos, caminho fora do projeto e denylist → erro legível.</li>
+<li>Candidatos ignoram <code>node_modules</code>/<code>.git</code>/etc., os já publicados, e cortam em 300.</li>
+<li><code>publicar_artefato</code> via hook: sessão inexistente, sucesso com <code>abrir=true</code>
+  (gera frame <code>viewer_open</code>) e <code>abrir=false</code>.</li>
+<li><code>abrir_no_visualizador</code> de <code>.md</code> cria artefato; de <code>.py</code> não cria.</li>
+<li><code>artifact_meta</code>: título e trecho de <code>.md</code> e <code>.html</code>; PDF com e sem contagem de páginas.</li>
+</ul>
+<h3 id="p07-frontend">Frontend</h3>
+<ul>
+<li><code>ArtefatosV2</code>: agrupa por projeto com "Todos os projetos"; mostra grade
+  simples com projeto escolhido; chips de tipo filtram; busca filtra; estado vazio.</li>
+<li>Cartão com <code>exists:false</code> mostra o selo e a borda tracejada.</li>
+<li>Tocar no cartão abre o <code>ViewerDrawer</code> com a aba; tocar em outro abre a segunda aba.</li>
+<li>Remover exige 2 toques e chama <code>DELETE</code>.</li>
+<li>Item "Artefatos" aparece na sidebar e no menu do celular.</li>
+</ul>
+<h3 id="p07-aceite-manual-ipad">Aceite manual (iPad)</h3>
+<ol>
+<li>Pedir ao claude: "gere um relatório HTML dos testes e publique como artefato".
+   Ele aparece em Artefatos › cliente › projeto e abre no visualizador.</li>
+<li>Escolher outro cliente na sidebar: a lista muda. Escolher um projeto no
+   select: só aquele projeto (e subprojetos).</li>
+<li>Tocar em dois cartões: painel lateral com duas abas; ⤢ Tela cheia e ✕ Fechar funcionam.</li>
+<li>Abrir um PDF: aparece no painel (ou, se o Safari do iPad não renderizar
+   bem dentro do painel, o botão ↗ abre no leitor nativo e ⤓ baixa. Registrar o resultado no PR).</li>
+<li>"Importar do projeto…" traz um <code>.md</code> antigo.</li>
+<li>Apagar o arquivo no disco: o cartão mostra "arquivo não encontrado".</li>
+<li>"Citar no chat" cola o caminho no terminal da conversa ativa sem enviar.</li>
+<li>No celular: item no menu, lista em uma coluna, abrir vai para tela cheia.</li>
+</ol>
+<hr />
+<h2 id="p07-78-riscos">7.8 Riscos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Risco</th>
+<th>Mitigação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lista poluída por arquivos que o agente só abriu para mostrar (ex.: <code>README.md</code>)</td>
+<td>"Remover da lista" com 2 toques; se incomodar, desligar a publicação automática e deixar só <code>publicar_artefato</code></td>
+</tr>
+<tr>
+<td>PDF dentro de <code>iframe</code> no Safari do iPad às vezes mostra só a primeira página</td>
+<td>Botões ↗ (leitor nativo) e ⤓ sempre visíveis; se necessário, usar pdf.js numa fase futura</td>
+</tr>
+<tr>
+<td>Muitos artefatos (centenas)</td>
+<td>Paginação simples no endpoint (<code>limit</code>/<code>offset</code>, 100 por página) se passar de 300</td>
+</tr>
+<tr>
+<td>Sem autenticação ainda</td>
+<td>Mesma superfície da Fase V (arquivos registrados + vizinhos do projeto, com denylist); a F0 fecha o resto</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p07-79-definição-de-pronto">7.9 Definição de pronto</h2>
+<ul>
+<li><input type="checkbox" disabled> <code>pytest</code> e <code>npm test</code> verdes, com os testes novos.</li>
+<li><input type="checkbox" disabled> Nenhuma mudança visual fora da tela nova, do item de menu e do painel lateral.</li>
+<li><input type="checkbox" disabled> Aceite manual 7.7 conferido (itens de aparelho marcados como "verificar" se o agente não tiver iPad).</li>
+<li><input type="checkbox" disabled> README do projeto com uma seção curta "Artefatos".</li>
+<li><input type="checkbox" disabled> Documentação atualizada se a implementação divergir.</li>
 </ul></article></main>
 </div>
 <script>

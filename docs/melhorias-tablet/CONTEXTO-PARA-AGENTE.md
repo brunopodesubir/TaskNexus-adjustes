@@ -47,6 +47,10 @@ WebSocket). No tablet isso é ruim:
    arquivo aparecer na tela**. Cada abertura vira **uma aba nova**, num
    visualizador em **dropdown** com botão de **tela cheia** (modal na página
    com botão de fechar). Isso virou a **Fase V**.
+6. **Ajuste seguinte:** uma aba **Artefatos**, "igual à do Claude", organizada
+   **por cliente e projeto**, com os artefatos criados (`.md`, `.pdf`, `.html`).
+   Tocar num artefato abre o **painel lateral de visualização**. **Sem mexer no
+   layout:** tudo em cima do layout v2 atual. Isso virou a **Fase A**.
 
 ## 4. Onde está cada coisa (esta pasta)
 
@@ -60,6 +64,7 @@ WebSocket). No tablet isso é ruim:
 | `04-melhorias-adicionais.md` | 14 melhorias (4.1 autenticação é obrigatória antes do navegador completo) |
 | `05-plano-de-execucao-e-prompts.md` | Fases FV, F0–F4 e prompts das fases F0–F4 |
 | `06-planejamento-fase-v.md` | **Plano de desenvolvimento da Fase V (próxima a executar)** |
+| `07-planejamento-artefatos.md` | **Plano de desenvolvimento da Fase A (aba Artefatos), logo depois da V** |
 | `documentacao-completa.md` / `.html` | Todas as partes num arquivo só |
 | `img/*.svg` | Diagramas e mockups (01–11) |
 | `build_html.py` | Gera os HTML e o `documentacao-completa.md`: `pip install markdown pygments pymdown-extensions && python3 docs/melhorias-tablet/build_html.py` |
@@ -68,12 +73,14 @@ WebSocket). No tablet isso é ruim:
 
 | Tema | Decisão |
 |------|---------|
-| Ordem | **FV** (agente abre arquivo) → **F0** (auth + routers + restante dos quick wins) → **F1** (navegador de arquivos) e **F2** (chat claude) → **F3** (layout v3) → **F4** (codex + extras) |
+| Ordem | **FV** (agente abre arquivo) → **FA** (aba Artefatos) → **F0** (auth + routers + restante dos quick wins) → **F1** (navegador de arquivos) e **F2** (chat claude) → **F3** (layout v3) → **F4** (codex + extras) |
 | Como o agente mostra arquivo | Tool MCP `abrir_no_visualizador(caminho, titulo?, linha?)` num servidor novo `escritorio-visualizador`, registrado em `_escritorio_mcp_servers()` (vale para `claude` e `codex`) |
 | Como a tela fica sabendo | Frame de controle `{"type":"viewer_open",…}` no WebSocket `/ws/pty/{session_key}` já existente, com abas persistidas na tabela `viewer_items` |
 | "Aba nova" | Aba **dentro do visualizador** (não do navegador); o mesmo arquivo reaproveita a aba e recarrega (interpretação a confirmar com o Bruno; alternativa trivial documentada na Parte 6) |
 | Tela cheia | Modal em portal (`document.body`), mesmo contrato do `CenteredModal.jsx`, com ✕ Fechar e Esc; no celular abre sempre em tela cheia |
 | Segurança do visualizador | Rotas por `item_id` aleatório, `resolve_safe_path` (realpath + commonpath), denylist de segredos, HTML em `iframe sandbox` sem `allow-same-origin` + CSP `sandbox` |
+| Artefatos | Tabela `artifacts` única por (projeto, caminho); tool `publicar_artefato` no servidor `escritorio-visualizador`; `abrir_no_visualizador` de `.md`/`.html`/`.pdf` publica automaticamente; remover da lista não apaga o arquivo; tela nova `artefatos` em `NAV_ITEMS` do `AppV2`, com `ClienteProjetoFilterBar`; o visualizador abre num **drawer lateral** (padrão `TasksDrawer`) nessa tela e continua **dropdown** no chat (a confirmar com o Bruno) |
+| Layout | **Não mexer no layout agora.** Fases V e A entram em cima do v2 atual; o layout v3 (Parte 3) fica para depois |
 | Autenticação | Obrigatória antes do navegador de arquivos livre (F1); a FV pode vir antes por ter superfície limitada |
 | Chat estruturado | Modo headless oficial do `claude` (flags verificadas na 2.1.x); aprovações por `--permission-prompt-tool` apontando para uma tool MCP nossa; **não** usar o SDK Python do Claude porque o backend roda em **Python 3.9.6** (SDK exige 3.10+) |
 | Terminal | Continua existindo como "modo Terminal"; nunca rodar TUI e modo JSON ao mesmo tempo na mesma sessão |
@@ -90,7 +97,9 @@ WebSocket). No tablet isso é ruim:
 | Contenção de caminho existente | `backend/app/attachments.py` | `_is_within_directory` |
 | Terminal no navegador | `frontend/src/components/TerminalPanel.jsx` | `CONTROL_FRAME_TYPES`, `isControlFrame`, `ws.onmessage` |
 | Estado das sessões | `frontend/src/components/TerminalContext.jsx` | `TerminalProvider`, `useTerminal` |
-| Casco do layout v2 | `frontend/src/layouts/v2/AppV2.jsx` | topbar com `AttachmentsMenu` e `ResetLayoutButton` (guarda `!isMobile && v2Screen === 'chat'`) |
+| Casco do layout v2 | `frontend/src/layouts/v2/AppV2.jsx` | `NAV_ITEMS`, `SCREEN_TITLES`, `v2Screen`; topbar com `AttachmentsMenu` e `ResetLayoutButton` (guarda `!isMobile && v2Screen === 'chat'`) |
+| Filtro cliente/projeto | `layouts/v2/useClienteProjetoFilter.js`, `ClienteProjetoFilterBar.jsx`, `utils/clientes.js` | usado por `BoardV2` e `TarefasV2`; subárvore por prefixo (`collectSubtreeIds`) |
+| Drawer lateral existente | `frontend/src/components/TasksDrawer.jsx` | padrão para o `ViewerDrawer` da Fase A |
 | Padrão de popover | `frontend/src/layouts/v2/AttachmentsMenu.jsx`, `TaskQuickCreatePopover.jsx` | scrim, Esc, clique fora |
 | Padrão de modal | `frontend/src/layouts/v2/CenteredModal.jsx` | portal; invariante em `fixedPositioningInvariant.test.js` |
 | Markdown | `frontend/src/utils/markdown.js` | `marked` + `DOMPurify` |
@@ -103,7 +112,8 @@ WebSocket). No tablet isso é ruim:
   (a pasta `docs/melhorias-tablet/` foi liberada no `.gitignore`, que ignora `docs/*` por padrão).
 - **Código:** nenhuma mudança de código foi feita ainda. Só documentação.
 - **Próxima ação:** quando o Bruno pedir, entregar o **prompt de desenvolvimento
-  da Fase V**, baseado em `06-planejamento-fase-v.md`, para ele usar numa
+  da Fase V** (baseado em `06-planejamento-fase-v.md`) e, depois, o da **Fase A**
+  (baseado em `07-planejamento-artefatos.md`), para ele usar numa
   janela limpa. O desenvolvimento deve acontecer numa branch própria (a
   que a sessão de desenvolvimento indicar), com um PR para a fase.
 

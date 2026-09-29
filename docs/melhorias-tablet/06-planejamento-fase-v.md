@@ -111,6 +111,16 @@ arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e **Tela cheia*
 | Isolamento do HTML | `iframe sandbox="allow-scripts allow-popups"` **sem** `allow-same-origin` + cabeçalho `Content-Security-Policy: sandbox …` | O HTML roda numa origem opaca e não consegue chamar a API do TaskNexus |
 | Tela cheia | Portal para `document.body`, mesmo contrato do `CenteredModal.jsx` (fora do wrapper que recebe `inert`, sem `transform` em ancestral de `position: fixed`) | Respeita a invariante já testada em `fixedPositioningInvariant.test.js` |
 
+### Ligação com a aba Artefatos (Fase A, Parte 7)
+
+A fase seguinte cria a aba **Artefatos** por cliente e projeto
+([Parte 7](07-planejamento-artefatos.md)). Para ela reaproveitar esta fase sem
+copiar código: (1) servir conteúdo e arquivos a partir de um módulo
+`file_serving.py` que recebe `(project_root, rel_path, download)`; (2) o
+`ViewerPanel` e os renderers não podem depender de `session_key`, só do item
+(que terá uma origem: `viewer` ou `artifact`); (3) na Fase A, o
+`abrir_no_visualizador` passa a publicar automaticamente `.md`/`.html`/`.pdf` como artefato.
+
 ### O que fica para depois (não entra nesta fase)
 
 Árvore de pastas, busca ⌘P, diff do git, zip de pasta, preview-url assinada
@@ -126,7 +136,9 @@ fase deve ser **reaproveitado** lá (`file_access.py` e os renderers).
 ```
 backend/app/file_access.py            # NOVO: resolve_safe_path, is_denied, detect_kind, language_for
 backend/app/viewer_store.py           # NOVO: ViewerStore (tabela viewer_items no sessions.db)
-backend/app/viewer_api.py             # NOVO: APIRouter com as rotas 6.4.3
+backend/app/file_serving.py           # NOVO: content/f/download a partir de (project_root, rel_path);
+                                      #       reaproveitado pela aba Artefatos (Parte 7)
+backend/app/viewer_api.py             # NOVO: APIRouter com as rotas 6.4.3 (usa file_serving)
 backend/app/mcp_viewer_adapter.py     # NOVO: servidor MCP stdio com a tool abrir_no_visualizador
 backend/app/main.py                   # ALTERAR: registrar router, iniciar ViewerStore no lifespan,
                                       #          incluir "escritorio-visualizador" em _escritorio_mcp_servers,
