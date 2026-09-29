@@ -145,15 +145,15 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
 </style>
 </head>
 <body>
-<nav class="topbar" aria-label="Partes"><a href="CONTEXTO-PARA-AGENTE.html">C · Contexto para o agente</a><a href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a><a href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a><a class="on" href="07-planejamento-artefatos.html">7 · Planejamento da Fase A</a></nav>
+<nav class="topbar" aria-label="Partes"><a href="CONTEXTO-PARA-AGENTE.html">C · Contexto para o agente</a><a href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a><a href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a><a class="on" href="07-planejamento-artefatos.html">7 · Planejamento da Fase A</a><a href="08-planejamento-navegacao-cliente-projeto.html">8 · Planejamento da Fase N</a></nav>
 <div class="shell">
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
-    <ul class="parts"><li><a href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a class="on" href="07-planejamento-artefatos.html"><span class="n">7</span><span>Planejamento da Fase A</span></a></li></ul>
+    <ul class="parts"><li><a href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a class="on" href="07-planejamento-artefatos.html"><span class="n">7</span><span>Planejamento da Fase A</span></a></li><li><a href="08-planejamento-navegacao-cliente-projeto.html"><span class="n">8</span><span>Planejamento da Fase N</span></a></li></ul>
     <div class="toc"><p class="toc-title">Nesta página</p><ul><li><a href="#71-requisitos">7.1 Requisitos</a><ul><li><a href="#interpretações-adotadas-confirmar">Interpretações adotadas (confirmar)</a></li></ul></li><li><a href="#72-experiência-de-uso-ux">7.2 Experiência de uso (UX)</a><ul><li><a href="#onde-fica">Onde fica</a></li><li><a href="#a-tela">A tela</a></li><li><a href="#estados">Estados</a></li><li><a href="#painel-lateral">Painel lateral</a></li></ul></li><li><a href="#73-arquitetura-tl">7.3 Arquitetura (TL)</a></li><li><a href="#74-backend-dev">7.4 Backend (Dev)</a><ul><li><a href="#741-arquivos">7.4.1 Arquivos</a></li><li><a href="#742-tabela">7.4.2 Tabela</a></li><li><a href="#743-rotas">7.4.3 Rotas</a></li><li><a href="#744-artifact_metapy-só-biblioteca-padrão">7.4.4 artifact_meta.py (só biblioteca padrão)</a></li><li><a href="#745-tool-mcp-publicar_artefato">7.4.5 Tool MCP publicar_artefato</a></li></ul></li><li><a href="#75-frontend-dev">7.5 Frontend (Dev)</a><ul><li><a href="#751-arquivos">7.5.1 Arquivos</a></li><li><a href="#752-integração-no-appv2-só-isto-muda-no-casco">7.5.2 Integração no AppV2 (só isto muda no casco)</a></li><li><a href="#753-filtro">7.5.3 Filtro</a></li><li><a href="#754-painel-lateral">7.5.4 Painel lateral</a></li><li><a href="#755-atualização-da-lista">7.5.5 Atualização da lista</a></li></ul></li><li><a href="#76-ordem-de-execução-um-commit-por-passo">7.6 Ordem de execução (um commit por passo)</a></li><li><a href="#77-testes-e-aceite">7.7 Testes e aceite</a><ul><li><a href="#backend">Backend</a></li><li><a href="#frontend">Frontend</a></li><li><a href="#aceite-manual-ipad">Aceite manual (iPad)</a></li></ul></li><li><a href="#78-riscos">7.8 Riscos</a></li><li><a href="#79-definição-de-pronto">7.9 Definição de pronto</a></li></ul></div>
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
-  <main id="top"><article class="doc"><p class="eyebrow">Parte 7 de 7</p><h1 id="parte-7-planejamento-da-fase-a-aba-artefatos-por-cliente-e-projeto">Parte 7 — Planejamento da Fase A: aba Artefatos por cliente e projeto</h1>
+  <main id="top"><article class="doc"><p class="eyebrow">Parte 7 de 8</p><h1 id="parte-7-planejamento-da-fase-a-aba-artefatos-por-cliente-e-projeto">Parte 7 — Planejamento da Fase A: aba Artefatos por cliente e projeto</h1>
 <blockquote>
 <p><strong>O pedido:</strong> uma aba <strong>Artefatos</strong>, como a galeria de artefatos do Claude,
 organizada <strong>por cliente e projeto</strong>, listando os artefatos criados
@@ -234,8 +234,8 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
 </tr>
 <tr>
 <td>"Painel lateral"</td>
-<td>Na tela Artefatos, o visualizador abre como <strong>drawer à direita</strong>, por cima da lista, no mesmo padrão do <code>TasksDrawer</code> que já existe. No <strong>chat</strong> continua o <strong>dropdown</strong> da Fase V</td>
-<td>Usar o drawer lateral também no chat, no lugar do dropdown (troca só de contêiner, o conteúdo é o mesmo <code>ViewerPanel</code>)</td>
+<td>O <strong>mesmo painel à direita</strong> do chat (Fase V + Fase N): encaixado em telas ≥ 1100 px (a sidebar vira trilho enquanto ele está aberto), por cima em 641–1099 px, tela cheia no celular</td>
+<td>— (decidido com a Parte 8)</td>
 </tr>
 <tr>
 <td>Tela cheia no painel lateral</td>
@@ -262,10 +262,11 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
   o item <strong>◧ Artefatos</strong>, entre Tarefas e Configuração. É só uma entrada a mais
   em <code>NAV_ITEMS</code>; a sidebar, a topbar e a lista de clientes continuam iguais.</li>
 <li>Título da topbar: "Artefatos".</li>
-<li>O <strong>cliente</strong> vem da lista de clientes da sidebar (igual ao Board e a
-  Tarefas). Com "Todos" selecionado, a barra de filtro mostra os dois selects
-  (cliente → projeto), usando o <code>ClienteProjetoFilterBar</code> e o
-  <code>useClienteProjetoFilter</code> existentes.</li>
+<li><strong>Cliente e projeto vêm da sidebar</strong> (Fase N, <a href="08-planejamento-navegacao-cliente-projeto.html">Parte 8</a>):
+  a lista de clientes vira a lista de projetos do cliente, com <strong>← Clientes</strong>
+  para voltar. <strong>Não há barra de selects</strong> nesta tela; a faixa de filtro tem
+  só os chips de tipo e a busca. Se a Fase A for feita antes da N, usar
+  temporariamente o <code>ClienteProjetoFilterBar</code> como no Board e em Tarefas.</li>
 </ul>
 <h3 id="a-tela">A tela</h3>
 <ol>
@@ -327,9 +328,9 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
 </table></div>
 <h3 id="painel-lateral">Painel lateral</h3>
 <ul>
-<li>Drawer à direita, <strong>por cima</strong> da lista (overlay), com uma faixa escurecida
-  leve no resto da tela. Largura <code>min(760px, 62vw)</code> em telas ≥ 821 px. Entre
-  641 e 820 px ocupa 100 % da área de conteúdo. No celular abre em tela cheia.</li>
+<li>Painel à direita, igual ao do chat: <strong>encaixado</strong> em telas ≥ 1100 px (a
+  grade de cartões encolhe e a sidebar vira trilho enquanto ele está aberto),
+  <strong>por cima</strong> da lista em 641–1099 px, <strong>tela cheia</strong> no celular.</li>
 <li>Cabeçalho: abas dos artefatos abertos · <strong>✕ Fechar</strong>. Barra: caminho,
   tamanho, ⤓ Baixar, ⧉ Copiar, ↗ Abrir no navegador, <strong>⤢ Tela cheia</strong>.</li>
 <li>Fecha com ✕, com Esc ou tocando na faixa escurecida. As abas continuam
@@ -375,8 +376,8 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
 </tr>
 <tr>
 <td>Contêiner lateral</td>
-<td>Componente novo <code>ViewerDrawer</code>, no padrão do <code>TasksDrawer</code> (overlay à direita)</td>
-<td>Não altera o layout: é um overlay, como o drawer de tarefas que já existe</td>
+<td>Os mesmos <code>ViewerDock</code>/<code>ViewerDrawer</code>/<code>ViewerFullscreen</code> da Fase V, escolhidos pela largura</td>
+<td>Um único comportamento de visualizador no app inteiro</td>
 </tr>
 <tr>
 <td>Segurança</td>
@@ -560,7 +561,7 @@ título (se veio), descrição, trecho, tamanho, <code>mtime</code> e <code>upda
   useArtifacts.js          # busca, filtros, recarga ao focar a tela e ao chegar viewer_open de md/html/pdf
   artifactsApi.js
 frontend/src/features/viewer/
-  ViewerDrawer.jsx         # NOVO contêiner lateral (padrão TasksDrawer) para o ViewerPanel
+  ViewerDock.jsx / ViewerDrawer.jsx   # já existem (Fase V); aqui só recebem scope="artefatos"
   ViewerContext.jsx        # ALTERAR: escopos (session:&lt;sk&gt; e 'artefatos') e item.source ('viewer'|'artifact')
   viewerApi.js             # ALTERAR: URLs por origem
   ViewerToolbar.jsx        # ALTERAR: "☆ Salvar em Artefatos" quando o item veio do chat e ainda não é artefato
@@ -585,20 +586,19 @@ recebe <code>NAV_ITEMS</code>, então o item aparece no celular sem mudança ext
 Conferir testes que contam itens de navegação (<code>AppV2.test.jsx</code>,
 <code>SidebarV2.test.jsx</code>, <code>MobileMenuScreen.test.jsx</code>, <code>NavTabs</code>) e atualizar.</p>
 <h3 id="753-filtro">7.5.3 Filtro</h3>
-<p>Usar <code>useClienteProjetoFilter(projects, selectedClienteId)</code> e
-<code>ClienteProjetoFilterBar</code> exatamente como <code>TarefasV2</code>/<code>BoardV2</code>. A filtragem
+<p>Usar o escopo da sidebar (<code>selectedClienteId</code> e <code>selectedProjetoId</code>, Fase N).
+Sem barra de selects. A filtragem
 por subárvore do projeto pode ser feita no backend (<code>projeto_id</code>) ou no front
 com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o caso de 3 níveis
 (<code>cliente/projeto/sub</code>), que já quebrou no Board.</p>
 <h3 id="754-painel-lateral">7.5.4 Painel lateral</h3>
 <ul>
-<li><code>ViewerDrawer</code>: overlay à direita, <code>position: fixed</code> com <code>top</code>/<code>bottom</code>
-  alinhados à área de conteúdo, respeitando <code>fixedPositioningInvariant.test.js</code>
-  (sem <code>transform</code> em ancestral). Faixa escurecida <code>--v2-scrim</code> com opacidade baixa.</li>
-<li>Renderiza <code>&lt;ViewerPanel scope="artefatos" /&gt;</code>. <strong>⤢ Tela cheia</strong> usa o
-  <code>ViewerFullscreen</code> da Fase V; <strong>✕ Fechar</strong> e Esc fecham o drawer.</li>
+<li>Mesmo painel da Fase V, escolhido pela largura: <code>ViewerDock</code> (≥ 1100 px,
+  com recolhimento forçado da sidebar, Parte 8), <code>ViewerDrawer</code> (641–1099 px)
+  ou <code>ViewerFullscreen</code> (celular), sempre com <code>scope="artefatos"</code>.</li>
+<li><strong>⤢ Tela cheia</strong> usa o <code>ViewerFullscreen</code>; <strong>✕ Fechar</strong> e Esc fecham o painel.</li>
 <li>Tocar num cartão: <code>openArtifact(artifact)</code> → adiciona/foca a aba no escopo
-  <code>artefatos</code> e abre o drawer.</li>
+  <code>artefatos</code> e abre o painel.</li>
 <li>As abas do escopo <code>artefatos</code> ficam <strong>só no front</strong> (não precisam de
   tabela): até 15, guardadas em <code>sessionStorage</code> para sobreviver a recarregar
   a página.</li>
@@ -643,7 +643,7 @@ com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o cas
 </tr>
 <tr>
 <td>5</td>
-<td><code>ViewerContext</code> com escopos + <code>ViewerDrawer</code></td>
+<td><code>ViewerContext</code> com escopos; painel com <code>scope="artefatos"</code></td>
 <td>vitest</td>
 </tr>
 <tr>
@@ -688,7 +688,7 @@ com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o cas
 <li><code>ArtefatosV2</code>: agrupa por projeto com "Todos os projetos"; mostra grade
   simples com projeto escolhido; chips de tipo filtram; busca filtra; estado vazio.</li>
 <li>Cartão com <code>exists:false</code> mostra o selo e a borda tracejada.</li>
-<li>Tocar no cartão abre o <code>ViewerDrawer</code> com a aba; tocar em outro abre a segunda aba.</li>
+<li>Tocar no cartão abre o painel à direita com a aba; tocar em outro abre a segunda aba.</li>
 <li>Remover exige 2 toques e chama <code>DELETE</code>.</li>
 <li>Item "Artefatos" aparece na sidebar e no menu do celular.</li>
 </ul>
@@ -696,8 +696,8 @@ com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o cas
 <ol>
 <li>Pedir ao claude: "gere um relatório HTML dos testes e publique como artefato".
    Ele aparece em Artefatos › cliente › projeto e abre no visualizador.</li>
-<li>Escolher outro cliente na sidebar: a lista muda. Escolher um projeto no
-   select: só aquele projeto (e subprojetos).</li>
+<li>Escolher outro cliente na sidebar: a lista muda. Entrar no cliente e escolher
+   um projeto na sidebar: só aquele projeto (e subprojetos).</li>
 <li>Tocar em dois cartões: painel lateral com duas abas; ⤢ Tela cheia e ✕ Fechar funcionam.</li>
 <li>Abrir um PDF: aparece no painel (ou, se o Safari do iPad não renderizar
    bem dentro do painel, o botão ↗ abre no leitor nativo e ⤓ baixa. Registrar o resultado no PR).</li>
@@ -742,7 +742,7 @@ com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o cas
 <li><input type="checkbox" disabled> Aceite manual 7.7 conferido (itens de aparelho marcados como "verificar" se o agente não tiver iPad).</li>
 <li><input type="checkbox" disabled> README do projeto com uma seção curta "Artefatos".</li>
 <li><input type="checkbox" disabled> Documentação atualizada se a implementação divergir.</li>
-</ul><div class="pager"><a href="06-planejamento-fase-v.html"><small>Anterior</small>6 · Planejamento da Fase V</a></div></article></main>
+</ul><div class="pager"><a href="06-planejamento-fase-v.html"><small>Anterior</small>6 · Planejamento da Fase V</a><a class="next" href="08-planejamento-navegacao-cliente-projeto.html"><small>Próxima</small>8 · Planejamento da Fase N</a></div></article></main>
 </div>
 <script>
 document.querySelectorAll('.copy').forEach(function(btn){

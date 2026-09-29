@@ -145,11 +145,11 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
 </style>
 </head>
 <body>
-<nav class="topbar" aria-label="Partes"><a class="on" href="CONTEXTO-PARA-AGENTE.html">C · Contexto para o agente</a><a href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a><a href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a><a href="07-planejamento-artefatos.html">7 · Planejamento da Fase A</a></nav>
+<nav class="topbar" aria-label="Partes"><a class="on" href="CONTEXTO-PARA-AGENTE.html">C · Contexto para o agente</a><a href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a><a href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a><a href="07-planejamento-artefatos.html">7 · Planejamento da Fase A</a><a href="08-planejamento-navegacao-cliente-projeto.html">8 · Planejamento da Fase N</a></nav>
 <div class="shell">
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
-    <ul class="parts"><li><a class="on" href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a href="07-planejamento-artefatos.html"><span class="n">7</span><span>Planejamento da Fase A</span></a></li></ul>
+    <ul class="parts"><li><a class="on" href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a href="07-planejamento-artefatos.html"><span class="n">7</span><span>Planejamento da Fase A</span></a></li><li><a href="08-planejamento-navegacao-cliente-projeto.html"><span class="n">8</span><span>Planejamento da Fase N</span></a></li></ul>
     <div class="toc"><p class="toc-title">Nesta página</p><ul><li><a href="#1-quem-pediu-e-como-gosta-de-trabalhar">1. Quem pediu e como gosta de trabalhar</a></li><li><a href="#2-o-problema">2. O problema</a></li><li><a href="#3-o-que-foi-pedido">3. O que foi pedido</a></li><li><a href="#4-onde-está-cada-coisa-esta-pasta">4. Onde está cada coisa (esta pasta)</a></li><li><a href="#5-decisões-já-tomadas-não-reabrir-sem-o-bruno-pedir">5. Decisões já tomadas (não reabrir sem o Bruno pedir)</a></li><li><a href="#6-mapa-do-código-que-importa">6. Mapa do código que importa</a></li><li><a href="#7-estado-atual">7. Estado atual</a></li><li><a href="#8-regras-para-quem-for-desenvolver">8. Regras para quem for desenvolver</a></li></ul></div>
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
@@ -205,6 +205,10 @@ WebSocket). No tablet isso é ruim:</p>
    <strong>por cliente e projeto</strong>, com os artefatos criados (<code>.md</code>, <code>.pdf</code>, <code>.html</code>).
    Tocar num artefato abre o <strong>painel lateral de visualização</strong>. <strong>Sem mexer no
    layout:</strong> tudo em cima do layout v2 atual. Isso virou a <strong>Fase A</strong>.</li>
+<li><strong>Ajuste seguinte:</strong> liberar espaço no desktop/tablet. Ao selecionar um
+   cliente, <strong>a própria lista de clientes da sidebar vira a lista de projetos</strong>
+   dele, com seta/botão para <strong>voltar aos clientes</strong>, sobrando o <strong>lado
+   direito</strong> para o visualizador (o "dropdown"). Isso virou a <strong>Fase N</strong>.</li>
 </ol>
 <h2 id="4-onde-está-cada-coisa-esta-pasta">4. Onde está cada coisa (esta pasta)</h2>
 <div class="table-wrap"><table>
@@ -245,7 +249,11 @@ WebSocket). No tablet isso é ruim:</p>
 </tr>
 <tr>
 <td><code>06-planejamento-fase-v.md</code></td>
-<td><strong>Plano de desenvolvimento da Fase V (próxima a executar)</strong></td>
+<td><strong>Plano de desenvolvimento da Fase V (segunda a executar)</strong></td>
+</tr>
+<tr>
+<td><code>08-planejamento-navegacao-cliente-projeto.md</code></td>
+<td><strong>Plano da Fase N (sidebar clientes → projetos + espaço à direita), a primeira a executar</strong></td>
 </tr>
 <tr>
 <td><code>07-planejamento-artefatos.md</code></td>
@@ -276,7 +284,7 @@ WebSocket). No tablet isso é ruim:</p>
 <tbody>
 <tr>
 <td>Ordem</td>
-<td><strong>FV</strong> (agente abre arquivo) → <strong>FA</strong> (aba Artefatos) → <strong>F0</strong> (auth + routers + restante dos quick wins) → <strong>F1</strong> (navegador de arquivos) e <strong>F2</strong> (chat claude) → <strong>F3</strong> (layout v3) → <strong>F4</strong> (codex + extras)</td>
+<td><strong>FN</strong> (sidebar cliente → projeto) → <strong>FV</strong> (agente abre arquivo) → <strong>FA</strong> (aba Artefatos) → <strong>F0</strong> (auth + routers + restante dos quick wins) → <strong>F1</strong> (navegador de arquivos) e <strong>F2</strong> (chat claude) → <strong>F3</strong> (layout v3) → <strong>F4</strong> (codex + extras)</td>
 </tr>
 <tr>
 <td>Como o agente mostra arquivo</td>
@@ -301,6 +309,14 @@ WebSocket). No tablet isso é ruim:</p>
 <tr>
 <td>Artefatos</td>
 <td>Tabela <code>artifacts</code> única por (projeto, caminho); tool <code>publicar_artefato</code> no servidor <code>escritorio-visualizador</code>; <code>abrir_no_visualizador</code> de <code>.md</code>/<code>.html</code>/<code>.pdf</code> publica automaticamente; remover da lista não apaga o arquivo; tela nova <code>artefatos</code> em <code>NAV_ITEMS</code> do <code>AppV2</code>, com <code>ClienteProjetoFilterBar</code>; o visualizador abre num <strong>drawer lateral</strong> (padrão <code>TasksDrawer</code>) nessa tela e continua <strong>dropdown</strong> no chat (a confirmar com o Bruno)</td>
+</tr>
+<tr>
+<td>Navegação</td>
+<td>Drill-down no <code>ClienteList</code> (Clientes → Projetos → subprojetos, com <strong>← voltar</strong>); escopo global <code>useNavScope</code> (cliente + projeto, salvo em <code>localStorage</code>) filtra Chat, Board, Tarefas e Artefatos; <code>ClienteProjetoFilterBar</code> sai</td>
+</tr>
+<tr>
+<td>Visualizador</td>
+<td>Abre <strong>à direita</strong>: encaixado (<code>ViewerDock</code>) em ≥ 1100 px com a sidebar e a lista de chats recolhidas <strong>só enquanto aberto</strong> (sem gravar a preferência), por cima (<code>ViewerDrawer</code>) em 641–1099 px, tela cheia no celular. Onde as Partes 6/7 dizem "dropdown", é esse painel</td>
 </tr>
 <tr>
 <td>Layout</td>
@@ -417,8 +433,8 @@ WebSocket). No tablet isso é ruim:</p>
   (a pasta <code>docs/melhorias-tablet/</code> foi liberada no <code>.gitignore</code>, que ignora <code>docs/*</code> por padrão).</li>
 <li><strong>Código:</strong> nenhuma mudança de código foi feita ainda. Só documentação.</li>
 <li><strong>Próxima ação:</strong> quando o Bruno pedir, entregar o <strong>prompt de desenvolvimento
-  da Fase V</strong> (baseado em <code>06-planejamento-fase-v.md</code>) e, depois, o da <strong>Fase A</strong>
-  (baseado em <code>07-planejamento-artefatos.md</code>), para ele usar numa
+  da Fase N</strong> (baseado em <code>08-planejamento-navegacao-cliente-projeto.md</code>), depois o
+  da <strong>Fase V</strong> (<code>06-planejamento-fase-v.md</code>) e o da <strong>Fase A</strong> (<code>07-planejamento-artefatos.md</code>), para ele usar numa
   janela limpa. O desenvolvimento deve acontecer numa branch própria (a
   que a sessão de desenvolvimento indicar), com um PR para a fase.</li>
 </ul>

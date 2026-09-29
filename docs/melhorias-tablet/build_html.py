@@ -39,6 +39,7 @@ PARTS = [
     ("05-plano-de-execucao-e-prompts", "5", "Plano e prompts"),
     ("06-planejamento-fase-v", "6", "Planejamento da Fase V"),
     ("07-planejamento-artefatos", "7", "Planejamento da Fase A"),
+    ("08-planejamento-navegacao-cliente-projeto", "8", "Planejamento da Fase N"),
 ]
 SITE_TITLE = "TaskNexus no Tablet"
 NUMBERED = max(int(n) for _, n, _ in PARTS if n.isdigit())

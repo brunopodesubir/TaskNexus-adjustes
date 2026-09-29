@@ -19,6 +19,23 @@ abas · **B** dropdown com uma aba por arquivo aberto · **C** barra do
 arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e **Tela cheia** ·
 **D** o mesmo conteúdo em modal de tela cheia, com **✕ Fechar**.
 
+> **Atualização (Fase N, [Parte 8](08-planejamento-navegacao-cliente-projeto.md)):**
+> o "dropdown" do visualizador passa a abrir como **painel à direita**. Ele
+> continua saindo do botão **Visualizador** do cabeçalho, com as mesmas abas,
+> barra, **⤢ Tela cheia** e **✕ Fechar**. A forma de abrir depende da largura
+> da tela:
+>
+> - **≥ 1100 px** (iPad deitado, desktop): painel **encaixado** à direita
+>   (`ViewerDock`, largura `clamp(420px, 42vw, 780px)`); a sidebar e a lista de
+>   chats viram trilhos de 68 px enquanto ele estiver aberto.
+> - **641–1099 px:** painel **por cima** (`ViewerDrawer`).
+> - **≤ 640 px:** tela cheia.
+>
+> Neste documento, onde estiver escrito "dropdown", leia **esse painel**. O
+> conteúdo (`ViewerPanel`, abas, renderers) não muda. O mockup
+> [13](img/13-mockup-sidebar-cliente-projeto.svg) mostra a posição nova; o
+> mockup acima continua valendo para o conteúdo do painel e para a tela cheia.
+
 ---
 
 ## 6.1 Requisitos
@@ -109,6 +126,7 @@ arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e **Tela cheia*
 | Como servir o arquivo | Rotas **por aba** (`/api/viewer/{item_id}/…`), onde `item_id` é aleatório | Só arquivos que o agente (ou você) abriu ficam acessíveis, o que é bem menos exposição que um navegador de arquivos livre. Isso permite entregar esta fase **antes** da autenticação (F0) |
 | HTML com CSS/imagens relativos | URL com o **caminho do arquivo no fim**: `/api/viewer/{item_id}/f/docs/relatorio.html` | O navegador resolve `style.css` para `/api/viewer/{item_id}/f/docs/style.css`, e o backend serve o vizinho dentro do mesmo projeto |
 | Isolamento do HTML | `iframe sandbox="allow-scripts allow-popups"` **sem** `allow-same-origin` + cabeçalho `Content-Security-Policy: sandbox …` | O HTML roda numa origem opaca e não consegue chamar a API do TaskNexus |
+| Onde o painel abre | À direita: encaixado (≥ 1100 px, com as colunas recolhidas enquanto aberto), por cima (641–1099 px) ou tela cheia (celular) | Pedido do Bruno: liberar o lado direito para o visualizador (Parte 8) |
 | Tela cheia | Portal para `document.body`, mesmo contrato do `CenteredModal.jsx` (fora do wrapper que recebe `inert`, sem `transform` em ancestral de `position: fixed`) | Respeita a invariante já testada em `fixedPositioningInvariant.test.js` |
 
 ### Ligação com a aba Artefatos (Fase A, Parte 7)
@@ -329,7 +347,8 @@ frontend/src/features/viewer/
   viewerApi.js             # fetch das rotas 6.4.3
   ViewerButton.jsx         # botão "Visualizador" com contador (cabeçalho do chat, iPad/PC)
   ViewerMobileButton.jsx   # botão flutuante ao lado do "☰ Menu" (celular)
-  ViewerDropdown.jsx       # popover ancorado no botão (padrão do AttachmentsMenu)
+  ViewerDock.jsx           # painel encaixado à direita (≥ 1100 px) — ver Parte 8
+  ViewerDrawer.jsx         # mesmo painel por cima do conteúdo (641–1099 px), padrão do TasksDrawer
   ViewerFullscreen.jsx     # modal de tela cheia (portal, contrato do CenteredModal)
   ViewerPanel.jsx          # abas + barra de ações + corpo (usado pelos dois contêineres)
   ViewerTabs.jsx
@@ -376,18 +395,26 @@ setOpen(bool) / setFullscreen(bool)
 O `TerminalPanel` é montado também em testes isolados, sem Provider: use
 `useContext` com fallback nulo e só chame `receiveOpen` se o contexto existir.
 
-### 6.5.3 Dropdown e tela cheia
+### 6.5.3 Painel à direita ("dropdown") e tela cheia
 
-- **Dropdown:** mesmo padrão de `AttachmentsMenu.jsx` / `TaskQuickCreatePopover.jsx`
-  (scrim transparente, Esc, clique fora, fecha quando a sessão ativa muda).
-  Tamanho: `width: min(960px, calc(100vw - 32px))`,
-  `height: min(78dvh, 820px)`, ancorado à direita do botão.
+- **Painel à direita**, escolhido pela largura (Parte 8, seção 8.2.2):
+  - `ViewerDock` (≥ 1100 px, `WIDE_VIEWPORT_QUERY`): irmão flex do conteúdo
+    do `ChatV2`, largura `clamp(420px, 42vw, 780px)`, borda esquerda
+    `--v2-border`. Ao abrir/fechar, liga o **recolhimento forçado** das colunas
+    (Parte 8, 8.3.3) e dispara `escritorio:sidebar-toggled` para o xterm se reajustar.
+  - `ViewerDrawer` (641–1099 px): overlay à direita no padrão do
+    `TasksDrawer.jsx`, largura `min(560px, 92vw)`, faixa `--v2-scrim` leve;
+    fecha com Esc, ✕ ou toque fora.
+  - Fecha também quando a sessão ativa muda? **Não**: as abas são por sessão,
+    então o painel troca para as abas da nova sessão (ou mostra o estado vazio).
+- Se a Fase N ainda não tiver sido feita, o `ViewerDock` funciona do mesmo
+  jeito, só que sem o recolhimento automático (o usuário recolhe à mão).
 - **Tela cheia:** `ViewerFullscreen` renderiza o `ViewerPanel` num portal em
   `document.body`, `position: fixed; inset: 0`, respeitando
   `--v2-safe-*`. Barra superior: abas à esquerda, **✕ Fechar** à direita
-  (44 px). Esc ou Fechar → `fullscreen=false` (volta ao dropdown no iPad/PC;
+  (44 px). Esc ou Fechar → `fullscreen=false` (volta ao painel à direita no iPad/PC;
   no celular fecha tudo).
-- **Um só painel por vez:** quando `fullscreen` é verdadeiro, o dropdown não
+- **Um só painel por vez:** quando `fullscreen` é verdadeiro, o painel à direita não
   renderiza. A aba ativa é a mesma nos dois (estado no contexto). O `iframe` do
   HTML recarrega ao trocar de contêiner, o que é aceitável.
 - Botão no cabeçalho: ao lado de `AttachmentsMenu` na topbar do `AppV2`

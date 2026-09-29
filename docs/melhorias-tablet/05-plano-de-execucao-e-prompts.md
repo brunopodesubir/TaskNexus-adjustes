@@ -34,6 +34,7 @@ prompts abaixo, resumidas):
 
 | Fase | Entrega | Partes | Pode rodar em paralelo com |
 |------|---------|--------|----------------------------|
+| **FN** Navegação cliente → projeto | Lista de clientes da sidebar vira lista de projetos (com voltar); filtro global por projeto; barra de selects sai; colunas recolhem sozinhas quando o visualizador abre em tela larga | 8 | — (pequena, só frontend; vem primeiro) |
 | **FV** Agente abre arquivo | Tool MCP `abrir_no_visualizador`, visualizador em dropdown com abas e tela cheia, links clicáveis no terminal | 6 (e 1.0) | — (vem primeiro) |
 | **FA** Artefatos | Aba Artefatos por cliente e projeto no layout atual, tool `publicar_artefato`, painel lateral de visualização | 7 | — (depois da FV) |
 | **F0** Fundações | Auth (4.1), routers (4.3), restante dos quick wins do terminal (4.2) | 4 | — |
@@ -42,7 +43,15 @@ prompts abaixo, resumidas):
 | **F3** Layout v3 | Tokens, primitivos `ui/`, rotas reais, lista estilo WhatsApp, 3 painéis, ⌘K | 3 | — (usa F1 e F2) |
 | **F4** Codex + extras | CodexAdapter, 4.4, 4.5, 4.7–4.11, 4.13 | 2, 4 | itens independentes entre si |
 
-## 5.2.1 Fase FV — O agente abre o arquivo na tela (primeira)
+## 5.2.0 Fase FN — Cliente → projeto na sidebar e espaço à direita
+
+Planejamento completo na **[Parte 8](08-planejamento-navegacao-cliente-projeto.md)**.
+É pequena e só de frontend. Vai primeiro porque o visualizador da FV passa a
+abrir num painel à direita e precisa do espaço que ela libera. Se preferir
+começar pela FV, tudo funciona: o painel só não recolhe as colunas sozinho
+até a FN entrar.
+
+## 5.2.1 Fase FV — O agente abre o arquivo na tela
 
 Planejamento completo, com requisitos, UX, arquitetura, contratos, ordem de
 commits, testes e aceite: **[Parte 6](06-planejamento-fase-v.md)**. O prompt
@@ -282,6 +291,7 @@ no modo chat. Adicione a importação de histórico de ~/.codex/sessions. Testes
 
 - [ ] Li as Partes 0–4 e risquei o que não quero.
 - [ ] Confirmei que o acesso pelo iPad é por `https://…ts.net` (necessário para push e compartilhar).
+- [ ] Rodei a FN e testei os passos de aceite da Parte 8 (iPad deitado, em pé, desktop e celular).
 - [ ] Rodei a FV e testei os 12 passos de aceite da Parte 6 no iPad.
 - [ ] Rodei a FA e testei os 8 passos de aceite da Parte 7 no iPad.
 - [ ] Rodei a F0 e guardei o token de acesso num gerenciador de senhas.

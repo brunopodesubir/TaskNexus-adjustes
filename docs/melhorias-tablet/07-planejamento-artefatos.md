@@ -36,7 +36,7 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
 | Ponto | Adotado | Alternativa |
 |-------|---------|-------------|
 | O que vira artefato | (1) O agente publica com a tool nova `publicar_artefato`. (2) Todo `.md`/`.html`/`.pdf` que o agente abre com `abrir_no_visualizador` entra **automaticamente**. (3) Você adiciona à mão ("Salvar em Artefatos" no visualizador ou "Importar do projeto") | Só a publicação explícita (desligar o item 2 com um parâmetro) |
-| "Painel lateral" | Na tela Artefatos, o visualizador abre como **drawer à direita**, por cima da lista, no mesmo padrão do `TasksDrawer` que já existe. No **chat** continua o **dropdown** da Fase V | Usar o drawer lateral também no chat, no lugar do dropdown (troca só de contêiner, o conteúdo é o mesmo `ViewerPanel`) |
+| "Painel lateral" | O **mesmo painel à direita** do chat (Fase V + Fase N): encaixado em telas ≥ 1100 px (a sidebar vira trilho enquanto ele está aberto), por cima em 641–1099 px, tela cheia no celular | — (decidido com a Parte 8) |
 | Tela cheia no painel lateral | Mantida: o botão ⤢ vira o mesmo modal de tela cheia da Fase V | — |
 | Celular | Abre direto em tela cheia (não há largura para drawer) | — |
 | Outros tipos (imagem, `.docx`, `.csv`) | Fora por enquanto; a tabela aceita qualquer `kind`, então dá para ampliar depois | Incluir imagens já |
@@ -51,10 +51,11 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
   o item **◧ Artefatos**, entre Tarefas e Configuração. É só uma entrada a mais
   em `NAV_ITEMS`; a sidebar, a topbar e a lista de clientes continuam iguais.
 - Título da topbar: "Artefatos".
-- O **cliente** vem da lista de clientes da sidebar (igual ao Board e a
-  Tarefas). Com "Todos" selecionado, a barra de filtro mostra os dois selects
-  (cliente → projeto), usando o `ClienteProjetoFilterBar` e o
-  `useClienteProjetoFilter` existentes.
+- **Cliente e projeto vêm da sidebar** (Fase N, [Parte 8](08-planejamento-navegacao-cliente-projeto.md)):
+  a lista de clientes vira a lista de projetos do cliente, com **← Clientes**
+  para voltar. **Não há barra de selects** nesta tela; a faixa de filtro tem
+  só os chips de tipo e a busca. Se a Fase A for feita antes da N, usar
+  temporariamente o `ClienteProjetoFilterBar` como no Board e em Tarefas.
 
 ### A tela
 
@@ -95,9 +96,9 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
 
 ### Painel lateral
 
-- Drawer à direita, **por cima** da lista (overlay), com uma faixa escurecida
-  leve no resto da tela. Largura `min(760px, 62vw)` em telas ≥ 821 px. Entre
-  641 e 820 px ocupa 100 % da área de conteúdo. No celular abre em tela cheia.
+- Painel à direita, igual ao do chat: **encaixado** em telas ≥ 1100 px (a
+  grade de cartões encolhe e a sidebar vira trilho enquanto ele está aberto),
+  **por cima** da lista em 641–1099 px, **tela cheia** no celular.
 - Cabeçalho: abas dos artefatos abertos · **✕ Fechar**. Barra: caminho,
   tamanho, ⤓ Baixar, ⧉ Copiar, ↗ Abrir no navegador, **⤢ Tela cheia**.
 - Fecha com ✕, com Esc ou tocando na faixa escurecida. As abas continuam
@@ -116,7 +117,7 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
 | Publicação automática | `abrir_no_visualizador` de `.md`/`.html`/`.pdf` faz upsert em `artifacts` | É exatamente o que o agente mostra como entregável; evita depender do agente lembrar de duas tools |
 | Como servir o arquivo | Rotas por `artifact_id` (`/api/artifacts/{id}/content` e `/f/{caminho}`) sobre um módulo comum `file_serving.py`, **o mesmo** usado pelas rotas `/api/viewer/{item_id}/…` | Uma única implementação de CSP, download, limite de 1 MB e denylist |
 | Visualizador no front | `ViewerContext` ganha **escopos**: `session:<session_key>` (chat, Fase V) e `artefatos` (esta tela). Cada item diz sua **origem** (`viewer` ou `artifact`), e o `viewerApi` monta a URL certa | O `ViewerPanel` e os renderers ficam iguais; só muda de onde vem o arquivo |
-| Contêiner lateral | Componente novo `ViewerDrawer`, no padrão do `TasksDrawer` (overlay à direita) | Não altera o layout: é um overlay, como o drawer de tarefas que já existe |
+| Contêiner lateral | Os mesmos `ViewerDock`/`ViewerDrawer`/`ViewerFullscreen` da Fase V, escolhidos pela largura | Um único comportamento de visualizador no app inteiro |
 | Segurança | Mesmas regras da Fase V: `resolve_safe_path`, denylist, `iframe` sem `allow-same-origin`, CSP `sandbox`, ids aleatórios | A galeria não amplia o que pode ser lido: só arquivos registrados + vizinhos do mesmo projeto |
 
 **Ajuste na Fase V:** as funções de servir conteúdo (`content` e `f/`) devem nascer num módulo
@@ -268,7 +269,7 @@ frontend/src/features/artifacts/
   useArtifacts.js          # busca, filtros, recarga ao focar a tela e ao chegar viewer_open de md/html/pdf
   artifactsApi.js
 frontend/src/features/viewer/
-  ViewerDrawer.jsx         # NOVO contêiner lateral (padrão TasksDrawer) para o ViewerPanel
+  ViewerDock.jsx / ViewerDrawer.jsx   # já existem (Fase V); aqui só recebem scope="artefatos"
   ViewerContext.jsx        # ALTERAR: escopos (session:<sk> e 'artefatos') e item.source ('viewer'|'artifact')
   viewerApi.js             # ALTERAR: URLs por origem
   ViewerToolbar.jsx        # ALTERAR: "☆ Salvar em Artefatos" quando o item veio do chat e ainda não é artefato
@@ -299,21 +300,20 @@ Conferir testes que contam itens de navegação (`AppV2.test.jsx`,
 
 ### 7.5.3 Filtro
 
-Usar `useClienteProjetoFilter(projects, selectedClienteId)` e
-`ClienteProjetoFilterBar` exatamente como `TarefasV2`/`BoardV2`. A filtragem
+Usar o escopo da sidebar (`selectedClienteId` e `selectedProjetoId`, Fase N).
+Sem barra de selects. A filtragem
 por subárvore do projeto pode ser feita no backend (`projeto_id`) ou no front
 com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 (`cliente/projeto/sub`), que já quebrou no Board.
 
 ### 7.5.4 Painel lateral
 
-- `ViewerDrawer`: overlay à direita, `position: fixed` com `top`/`bottom`
-  alinhados à área de conteúdo, respeitando `fixedPositioningInvariant.test.js`
-  (sem `transform` em ancestral). Faixa escurecida `--v2-scrim` com opacidade baixa.
-- Renderiza `<ViewerPanel scope="artefatos" />`. **⤢ Tela cheia** usa o
-  `ViewerFullscreen` da Fase V; **✕ Fechar** e Esc fecham o drawer.
+- Mesmo painel da Fase V, escolhido pela largura: `ViewerDock` (≥ 1100 px,
+  com recolhimento forçado da sidebar, Parte 8), `ViewerDrawer` (641–1099 px)
+  ou `ViewerFullscreen` (celular), sempre com `scope="artefatos"`.
+- **⤢ Tela cheia** usa o `ViewerFullscreen`; **✕ Fechar** e Esc fecham o painel.
 - Tocar num cartão: `openArtifact(artifact)` → adiciona/foca a aba no escopo
-  `artefatos` e abre o drawer.
+  `artefatos` e abre o painel.
 - As abas do escopo `artefatos` ficam **só no front** (não precisam de
   tabela): até 15, guardadas em `sessionStorage` para sobreviver a recarregar
   a página.
@@ -335,7 +335,7 @@ com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 | 2 | `ArtifactStore` + rotas de lista, criação, edição, remoção, conteúdo e arquivo (via `file_serving`) | `pytest tests/test_artifact_store.py tests/test_artifacts_endpoints.py` |
 | 3 | Candidatos + importação | testes de endpoint |
 | 4 | Tool `publicar_artefato` + publicação automática no `abrir_no_visualizador` | `pytest tests/test_mcp_viewer_adapter.py tests/test_viewer_endpoints.py` |
-| 5 | `ViewerContext` com escopos + `ViewerDrawer` | vitest |
+| 5 | `ViewerContext` com escopos; painel com `scope="artefatos"` | vitest |
 | 6 | `ArtefatosV2` + cartão + filtros + estados + item de menu | vitest + testes de navegação atualizados |
 | 7 | Menu do cartão (baixar, copiar, citar no chat, renomear, remover) e "Salvar em Artefatos" no visualizador | vitest |
 | 8 | Modal "Importar do projeto" | vitest |
@@ -363,7 +363,7 @@ com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 - `ArtefatosV2`: agrupa por projeto com "Todos os projetos"; mostra grade
   simples com projeto escolhido; chips de tipo filtram; busca filtra; estado vazio.
 - Cartão com `exists:false` mostra o selo e a borda tracejada.
-- Tocar no cartão abre o `ViewerDrawer` com a aba; tocar em outro abre a segunda aba.
+- Tocar no cartão abre o painel à direita com a aba; tocar em outro abre a segunda aba.
 - Remover exige 2 toques e chama `DELETE`.
 - Item "Artefatos" aparece na sidebar e no menu do celular.
 
@@ -371,8 +371,8 @@ com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 
 1. Pedir ao claude: "gere um relatório HTML dos testes e publique como artefato".
    Ele aparece em Artefatos › cliente › projeto e abre no visualizador.
-2. Escolher outro cliente na sidebar: a lista muda. Escolher um projeto no
-   select: só aquele projeto (e subprojetos).
+2. Escolher outro cliente na sidebar: a lista muda. Entrar no cliente e escolher
+   um projeto na sidebar: só aquele projeto (e subprojetos).
 3. Tocar em dois cartões: painel lateral com duas abas; ⤢ Tela cheia e ✕ Fechar funcionam.
 4. Abrir um PDF: aparece no painel (ou, se o Safari do iPad não renderizar
    bem dentro do painel, o botão ↗ abre no leitor nativo e ⤓ baixa. Registrar o resultado no PR).

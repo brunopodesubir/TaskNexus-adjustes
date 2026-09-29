@@ -17,9 +17,10 @@ Claude, fase por fase.
 | [2 · Chat conversacional](02-chat-conversacional.md) | Conversa estilo WhatsApp com markdown, código, links e aprovações; protocolo, banco, código, testes | [html](02-chat-conversacional.html) |
 | [3 · Layout amigável](03-layout-amigavel.md) | Diagnóstico de UX, tokens, layouts por tamanho de tela, rotas, lista de conversas, atalhos, acessibilidade | [html](03-layout-amigavel.html) |
 | [4 · Melhorias adicionais](04-melhorias-adicionais.md) | 14 melhorias com o quê, por quê, como, esforço e prioridade (inclui autenticação obrigatória) | [html](04-melhorias-adicionais.html) |
-| [5 · Plano de execução e prompts](05-plano-de-execucao-e-prompts.md) | Fases FV, FA e F0–F4, critérios de pronto e prompts prontos para colar num agente | [html](05-plano-de-execucao-e-prompts.html) |
-| [6 · Planejamento da Fase V](06-planejamento-fase-v.md) | **Primeira entrega:** o agente abre arquivos na tela, em abas, num dropdown com tela cheia. Requisitos, UX, contratos, ordem de commits, testes e aceite | [html](06-planejamento-fase-v.html) |
+| [5 · Plano de execução e prompts](05-plano-de-execucao-e-prompts.md) | Fases FN, FV, FA e F0–F4, critérios de pronto e prompts prontos para colar num agente | [html](05-plano-de-execucao-e-prompts.html) |
+| [6 · Planejamento da Fase V](06-planejamento-fase-v.md) | O agente abre arquivos na tela, em abas, num painel à direita com tela cheia. Requisitos, UX, contratos, ordem de commits, testes e aceite | [html](06-planejamento-fase-v.html) |
 | [7 · Planejamento da Fase A](07-planejamento-artefatos.md) | Aba **Artefatos** por cliente e projeto (md, pdf, html) no layout atual, abrindo no painel lateral. Requisitos, UX, contratos, testes e aceite | [html](07-planejamento-artefatos.html) |
+| [8 · Planejamento da Fase N](08-planejamento-navegacao-cliente-projeto.md) | Sidebar: clientes → projetos com voltar, filtro global por projeto e espaço à direita para o visualizador (colunas viram trilhos quando ele abre) | [html](08-planejamento-navegacao-cliente-projeto.html) |
 | [Contexto para o agente](CONTEXTO-PARA-AGENTE.md) | Resumo de tudo (decisões, estado, próximos passos) para retomar numa janela de contexto nova | [html](CONTEXTO-PARA-AGENTE.html) |
 
 Versão em página única, com todas as partes:
@@ -42,6 +43,7 @@ Versão em página única, com todas as partes:
 | `img/10-mockup-visualizador-dropdown.svg` | Visualizador em dropdown com abas e em tela cheia (Fase V) |
 | `img/11-fluxo-agente-abre-arquivo.svg` | Caminho da tool MCP até a aba aparecer na tela (Fase V) |
 | `img/12-mockup-artefatos.svg` | Tela Artefatos no layout atual com o painel lateral aberto (Fase A) |
+| `img/13-mockup-sidebar-cliente-projeto.svg` | Clientes → projetos na sidebar e visualizador encaixado à direita, com as contas de largura (Fase N) |
 
 ## Como regenerar os HTML
 

@@ -145,11 +145,11 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
 </style>
 </head>
 <body>
-<nav class="topbar" aria-label="Partes"><a href="#parte-CO">C · Contexto para o agente</a><a href="#parte-00">0 · Visão geral e diagnóstico</a><a href="#parte-01">1 · Visualizador de arquivos</a><a href="#parte-02">2 · Chat conversacional</a><a href="#parte-03">3 · Layout amigável</a><a href="#parte-04">4 · Melhorias adicionais</a><a href="#parte-05">5 · Plano e prompts</a><a href="#parte-06">6 · Planejamento da Fase V</a><a href="#parte-07">7 · Planejamento da Fase A</a></nav>
+<nav class="topbar" aria-label="Partes"><a href="#parte-CO">C · Contexto para o agente</a><a href="#parte-00">0 · Visão geral e diagnóstico</a><a href="#parte-01">1 · Visualizador de arquivos</a><a href="#parte-02">2 · Chat conversacional</a><a href="#parte-03">3 · Layout amigável</a><a href="#parte-04">4 · Melhorias adicionais</a><a href="#parte-05">5 · Plano e prompts</a><a href="#parte-06">6 · Planejamento da Fase V</a><a href="#parte-07">7 · Planejamento da Fase A</a><a href="#parte-08">8 · Planejamento da Fase N</a></nav>
 <div class="shell">
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
-    <ul class="parts"><li><a href="#parte-CO"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="#parte-00"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="#parte-01"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="#parte-02"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="#parte-03"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="#parte-04"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="#parte-05"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="#parte-06"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a href="#parte-07"><span class="n">7</span><span>Planejamento da Fase A</span></a></li></ul>
+    <ul class="parts"><li><a href="#parte-CO"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="#parte-00"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="#parte-01"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="#parte-02"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="#parte-03"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="#parte-04"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="#parte-05"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="#parte-06"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a href="#parte-07"><span class="n">7</span><span>Planejamento da Fase A</span></a></li><li><a href="#parte-08"><span class="n">8</span><span>Planejamento da Fase N</span></a></li></ul>
     
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
@@ -211,6 +211,10 @@ WebSocket). No tablet isso é ruim:</p>
    <strong>por cliente e projeto</strong>, com os artefatos criados (<code>.md</code>, <code>.pdf</code>, <code>.html</code>).
    Tocar num artefato abre o <strong>painel lateral de visualização</strong>. <strong>Sem mexer no
    layout:</strong> tudo em cima do layout v2 atual. Isso virou a <strong>Fase A</strong>.</li>
+<li><strong>Ajuste seguinte:</strong> liberar espaço no desktop/tablet. Ao selecionar um
+   cliente, <strong>a própria lista de clientes da sidebar vira a lista de projetos</strong>
+   dele, com seta/botão para <strong>voltar aos clientes</strong>, sobrando o <strong>lado
+   direito</strong> para o visualizador (o "dropdown"). Isso virou a <strong>Fase N</strong>.</li>
 </ol>
 <h2 id="pCO-4-onde-está-cada-coisa-esta-pasta">4. Onde está cada coisa (esta pasta)</h2>
 <div class="table-wrap"><table>
@@ -251,7 +255,11 @@ WebSocket). No tablet isso é ruim:</p>
 </tr>
 <tr>
 <td><code>06-planejamento-fase-v.md</code></td>
-<td><strong>Plano de desenvolvimento da Fase V (próxima a executar)</strong></td>
+<td><strong>Plano de desenvolvimento da Fase V (segunda a executar)</strong></td>
+</tr>
+<tr>
+<td><code>08-planejamento-navegacao-cliente-projeto.md</code></td>
+<td><strong>Plano da Fase N (sidebar clientes → projetos + espaço à direita), a primeira a executar</strong></td>
 </tr>
 <tr>
 <td><code>07-planejamento-artefatos.md</code></td>
@@ -282,7 +290,7 @@ WebSocket). No tablet isso é ruim:</p>
 <tbody>
 <tr>
 <td>Ordem</td>
-<td><strong>FV</strong> (agente abre arquivo) → <strong>FA</strong> (aba Artefatos) → <strong>F0</strong> (auth + routers + restante dos quick wins) → <strong>F1</strong> (navegador de arquivos) e <strong>F2</strong> (chat claude) → <strong>F3</strong> (layout v3) → <strong>F4</strong> (codex + extras)</td>
+<td><strong>FN</strong> (sidebar cliente → projeto) → <strong>FV</strong> (agente abre arquivo) → <strong>FA</strong> (aba Artefatos) → <strong>F0</strong> (auth + routers + restante dos quick wins) → <strong>F1</strong> (navegador de arquivos) e <strong>F2</strong> (chat claude) → <strong>F3</strong> (layout v3) → <strong>F4</strong> (codex + extras)</td>
 </tr>
 <tr>
 <td>Como o agente mostra arquivo</td>
@@ -307,6 +315,14 @@ WebSocket). No tablet isso é ruim:</p>
 <tr>
 <td>Artefatos</td>
 <td>Tabela <code>artifacts</code> única por (projeto, caminho); tool <code>publicar_artefato</code> no servidor <code>escritorio-visualizador</code>; <code>abrir_no_visualizador</code> de <code>.md</code>/<code>.html</code>/<code>.pdf</code> publica automaticamente; remover da lista não apaga o arquivo; tela nova <code>artefatos</code> em <code>NAV_ITEMS</code> do <code>AppV2</code>, com <code>ClienteProjetoFilterBar</code>; o visualizador abre num <strong>drawer lateral</strong> (padrão <code>TasksDrawer</code>) nessa tela e continua <strong>dropdown</strong> no chat (a confirmar com o Bruno)</td>
+</tr>
+<tr>
+<td>Navegação</td>
+<td>Drill-down no <code>ClienteList</code> (Clientes → Projetos → subprojetos, com <strong>← voltar</strong>); escopo global <code>useNavScope</code> (cliente + projeto, salvo em <code>localStorage</code>) filtra Chat, Board, Tarefas e Artefatos; <code>ClienteProjetoFilterBar</code> sai</td>
+</tr>
+<tr>
+<td>Visualizador</td>
+<td>Abre <strong>à direita</strong>: encaixado (<code>ViewerDock</code>) em ≥ 1100 px com a sidebar e a lista de chats recolhidas <strong>só enquanto aberto</strong> (sem gravar a preferência), por cima (<code>ViewerDrawer</code>) em 641–1099 px, tela cheia no celular. Onde as Partes 6/7 dizem "dropdown", é esse painel</td>
 </tr>
 <tr>
 <td>Layout</td>
@@ -423,8 +439,8 @@ WebSocket). No tablet isso é ruim:</p>
   (a pasta <code>docs/melhorias-tablet/</code> foi liberada no <code>.gitignore</code>, que ignora <code>docs/*</code> por padrão).</li>
 <li><strong>Código:</strong> nenhuma mudança de código foi feita ainda. Só documentação.</li>
 <li><strong>Próxima ação:</strong> quando o Bruno pedir, entregar o <strong>prompt de desenvolvimento
-  da Fase V</strong> (baseado em <code>06-planejamento-fase-v.md</code>) e, depois, o da <strong>Fase A</strong>
-  (baseado em <code>07-planejamento-artefatos.md</code>), para ele usar numa
+  da Fase N</strong> (baseado em <code>08-planejamento-navegacao-cliente-projeto.md</code>), depois o
+  da <strong>Fase V</strong> (<code>06-planejamento-fase-v.md</code>) e o da <strong>Fase A</strong> (<code>07-planejamento-artefatos.md</code>), para ele usar numa
   janela limpa. O desenvolvimento deve acontecer numa branch própria (a
   que a sessão de desenvolvimento indicar), com um PR para a fase.</li>
 </ul>
@@ -438,7 +454,7 @@ WebSocket). No tablet isso é ruim:</p>
 <li>Comentários explicam o <strong>porquê</strong>, em português, no estilo do código existente.</li>
 <li>Se o código real divergir da documentação, seguir o código e <strong>atualizar a doc</strong> no mesmo PR (e regenerar os HTML com <code>build_html.py</code>).</li>
 <li>Commits pequenos, um PR por fase, com checklist de aceite manual no iPad.</li>
-</ol></article><article class="doc part-sep" id="parte-00"><p class="eyebrow">Parte 0 de 7</p><h1 id="p00-parte-0-visão-geral-e-diagnóstico">Parte 0 — Visão geral e diagnóstico</h1>
+</ol></article><article class="doc part-sep" id="parte-00"><p class="eyebrow">Parte 0 de 8</p><h1 id="p00-parte-0-visão-geral-e-diagnóstico">Parte 0 — Visão geral e diagnóstico</h1>
 <blockquote>
 <p><strong>Para quem é este documento:</strong> para você (Bruno) entender o problema e as
 decisões, e para o agente que vai implementar entender <em>por que</em> cada
@@ -454,6 +470,11 @@ decisão foi tomada antes de mexer no código. Leia esta parte antes das outras.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>0a</td>
+<td>Liberar espaço: a lista de clientes da sidebar vira a lista de projetos do cliente (com voltar), sobrando o lado direito para o visualizador</td>
+<td><a href="#parte-08">Parte 8 — Planejamento da Fase N</a></td>
+</tr>
 <tr>
 <td>1a</td>
 <td><strong>Primeira entrega:</strong> como links no terminal não são clicáveis, o próprio agente faz o arquivo aparecer na tela, cada abertura vira uma aba nova, com botão de tela cheia</td>
@@ -664,7 +685,7 @@ em cima disso.</p>
    que quer executar. Cada prompt já manda o agente ler as partes relevantes
    deste diretório, então <strong>mantenha a pasta <code>docs/melhorias-tablet/</code> no repositório</strong>.</li>
 <li>Execute uma fase por PR. Cada fase foi desenhada para funcionar sozinha.</li>
-</ol></article><article class="doc part-sep" id="parte-01"><p class="eyebrow">Parte 1 de 7</p><h1 id="p01-parte-1-visualizador-de-arquivos-ver-navegar-e-baixar-pelo-tablet">Parte 1 — Visualizador de arquivos (ver, navegar e baixar pelo tablet)</h1>
+</ol></article><article class="doc part-sep" id="parte-01"><p class="eyebrow">Parte 1 de 8</p><h1 id="p01-parte-1-visualizador-de-arquivos-ver-navegar-e-baixar-pelo-tablet">Parte 1 — Visualizador de arquivos (ver, navegar e baixar pelo tablet)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> com o TaskNexus rodando no PC, abrir no iPad qualquer arquivo
 dos projetos (<code>.md</code>, <code>.html</code>, código, imagens, PDF), ler com conforto,
@@ -1197,7 +1218,7 @@ da raiz do projeto. O link gerado é interno:
 <li>Compartilhar um <code>.md</code> por AirDrop para o Mac.</li>
 <li>Tocar em <code>backend/app/main.py:42</code> no chat: abre na linha 42 destacada.</li>
 <li>Tentar <code>/api/fs/&lt;token&gt;/raw/../../.ssh/id_rsa</code>: resposta 403.</li>
-</ol></article><article class="doc part-sep" id="parte-02"><p class="eyebrow">Parte 2 de 7</p><h1 id="p02-parte-2-chat-conversacional-do-terminal-para-uma-conversa-estilo-whatsapp">Parte 2 — Chat conversacional (do terminal para uma conversa estilo WhatsApp)</h1>
+</ol></article><article class="doc part-sep" id="parte-02"><p class="eyebrow">Parte 2 de 8</p><h1 id="p02-parte-2-chat-conversacional-do-terminal-para-uma-conversa-estilo-whatsapp">Parte 2 — Chat conversacional (do terminal para uma conversa estilo WhatsApp)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> conversar com o <code>claude</code> (e depois com o <code>codex</code>) numa tela de
 chat de verdade: bolhas, markdown como no GitHub, blocos de código com botão
@@ -1873,7 +1894,7 @@ desligue-o só no modo chat. Não dispare <strong>dois</strong> pushes: use o me
    mensagem aparece no histórico.</li>
 <li>Ditar uma mensagem com o microfone do teclado do iPad.</li>
 <li>Girar o iPad durante o streaming: nada quebra.</li>
-</ol></article><article class="doc part-sep" id="parte-03"><p class="eyebrow">Parte 3 de 7</p><h1 id="p03-parte-3-layout-mais-amigável-touch-primeiro-sem-perder-o-pc">Parte 3 — Layout mais amigável (touch primeiro, sem perder o PC)</h1>
+</ol></article><article class="doc part-sep" id="parte-03"><p class="eyebrow">Parte 3 de 8</p><h1 id="p03-parte-3-layout-mais-amigável-touch-primeiro-sem-perder-o-pc">Parte 3 — Layout mais amigável (touch primeiro, sem perder o PC)</h1>
 <blockquote>
 <p><strong>Objetivo:</strong> fazer o TaskNexus parecer um app de mensagens bem feito no
 iPad e no celular, e continuar produtivo no PC com teclado. Esta parte é o
@@ -2290,7 +2311,7 @@ atalhos do sistema; registrar os atalhos com <code>keydown</code> normal é sufi
    mostra a conversa com o README ao lado.</li>
 <li>Tema escuro e claro corretos em todas as telas novas, sem cor fixa fora dos tokens.</li>
 <li>Com teclado virtual aberto, o composer continua visível e a última mensagem também.</li>
-</ol></article><article class="doc part-sep" id="parte-04"><p class="eyebrow">Parte 4 de 7</p><h1 id="p04-parte-4-melhorias-adicionais-o-que-a-equipe-encontrou">Parte 4 — Melhorias adicionais (o que a equipe encontrou)</h1>
+</ol></article><article class="doc part-sep" id="parte-04"><p class="eyebrow">Parte 4 de 8</p><h1 id="p04-parte-4-melhorias-adicionais-o-que-a-equipe-encontrou">Parte 4 — Melhorias adicionais (o que a equipe encontrou)</h1>
 <blockquote>
 <p>Cada item traz: <strong>o que é</strong>, <strong>por que importa</strong>, <strong>como fazer</strong> (com
 arquivos e passos), <strong>esforço</strong> (P = até meio dia, M = 1–2 dias, G = 3+ dias
@@ -2596,13 +2617,13 @@ diagnosticar do tablet sem abrir o PC.</p>
 <p>Se a conexão cair (iPad saiu da rede), mensagens enviadas ficam com ⏱ numa
 fila local (<code>localStorage</code>, com <code>client_id</code>) e são enviadas no <code>hello</code> da
 reconexão. O backend ignora <code>client_id</code> repetido (idempotência), então nada é
-enviado duas vezes.</p></article><article class="doc part-sep" id="parte-05"><p class="eyebrow">Parte 5 de 7</p><h1 id="p05-parte-5-plano-de-execução-e-prompts-prontos-para-o-agente">Parte 5 — Plano de execução e prompts prontos para o agente</h1>
+enviado duas vezes.</p></article><article class="doc part-sep" id="parte-05"><p class="eyebrow">Parte 5 de 8</p><h1 id="p05-parte-5-plano-de-execução-e-prompts-prontos-para-o-agente">Parte 5 — Plano de execução e prompts prontos para o agente</h1>
 <blockquote>
 <p>Esta parte transforma as Partes 1–4 em <strong>fases entregáveis</strong>, cada uma com
 tarefas, arquivos, critério de pronto e um <strong>prompt para copiar e colar</strong>
 num agente Claude (Claude Code na web ou local). Execute <strong>uma fase por PR</strong>.</p>
 </blockquote>
-<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDQ5MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJSb3RlaXJvIGVtIHNldGUgZmFzZXM6IEZhc2UgViAoYWdlbnRlIGFicmUgYXJxdWl2b3MpIGUgRmFzZSBBIChhYmEgQXJ0ZWZhdG9zKSBwcmltZWlybywgbm8gbGF5b3V0IGF0dWFsOyBkZXBvaXMgZnVuZGHDp8O1ZXMsIG5hdmVnYWRvciBkZSBhcnF1aXZvcywgY2hhdCBwYXJhIGNsYXVkZSwgbGF5b3V0IHYzIGUgY29kZXggY29tIGV4dHJhcyI+CiAgPHN0eWxlPgogICAgdGV4dHtmb250LWZhbWlseTpGaWd0cmVlLC1hcHBsZS1zeXN0ZW0sIlNlZ29lIFVJIixSb2JvdG8sc2Fucy1zZXJpZjtmaWxsOiMzYjM1MzB9CiAgICAuaHtmb250LXNpemU6MTNweDtmb250LXdlaWdodDo3MDB9CiAgICAuc3tmb250LXNpemU6MTFweDtmaWxsOiM0YjQ1M2V9CiAgICAuZHtmb250LXNpemU6MTFweDtmaWxsOiM4YTgzNzh9CiAgICAudHtmb250LXNpemU6MTVweDtmb250LXdlaWdodDo3MDB9CiAgPC9zdHlsZT4KICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI0OTAiIHJ4PSIxNCIgZmlsbD0iI2Y3ZjVmMCIvPgogIDx0ZXh0IHg9IjI0IiB5PSIzNCIgY2xhc3M9InQiPk9yZGVtIHN1Z2VyaWRhIGRlIGVudHJlZ2EgKGNhZGEgZmFzZSBnZXJhIHVtIFBSIHF1ZSBmdW5jaW9uYSBzb3ppbmhvKTwvdGV4dD4KICA8bGluZSB4MT0iMTgwIiB5MT0iNjAiIHgyPSI5NzYiIHkyPSI2MCIgc3Ryb2tlPSIjYzljM2I3Ii8+CiAgPGcgY2xhc3M9ImQiPgogICAgPHRleHQgeD0iMTgwIiB5PSI1NCI+c2VtYW5hIDE8L3RleHQ+PHRleHQgeD0iMzM5IiB5PSI1NCI+c2VtYW5hIDI8L3RleHQ+PHRleHQgeD0iNDk4IiB5PSI1NCI+c2VtYW5hIDM8L3RleHQ+PHRleHQgeD0iNjU3IiB5PSI1NCI+c2VtYW5hIDQ8L3RleHQ+PHRleHQgeD0iODE2IiB5PSI1NCI+c2VtYW5hIDU8L3RleHQ+CiAgPC9nPgogIDxnIHN0cm9rZT0iI2UyZGRkMyI+PGxpbmUgeDE9IjMzOSIgeTE9IjYwIiB4Mj0iMzM5IiB5Mj0iNDIwIi8+PGxpbmUgeDE9IjQ5OCIgeTE9IjYwIiB4Mj0iNDk4IiB5Mj0iNDIwIi8+PGxpbmUgeDE9IjY1NyIgeTE9IjYwIiB4Mj0iNjU3IiB5Mj0iNDIwIi8+PGxpbmUgeDE9IjgxNiIgeTE9IjYwIiB4Mj0iODE2IiB5Mj0iNDIwIi8+PC9nPgoKICA8dGV4dCB4PSIyNCIgeT0iOTgiIGNsYXNzPSJoIj5GViBBZ2VudGUgYWJyZSBhcnF1aXZvPC90ZXh0PgogIDxyZWN0IHg9IjE4MCIgeT0iODAiIHdpZHRoPSIxNTAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjMmY3NTY0Ii8+CiAgPHRleHQgeD0iMTkwIiB5PSIxMDIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZmZmZmZmIj50b29sIMK3IGRyb3Bkb3duIMK3IHRlbGEgY2hlaWE8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIxNDgiIGNsYXNzPSJoIj5GQSBBcnRlZmF0b3M8L3RleHQ+CiAgPHJlY3QgeD0iMzAwIiB5PSIxMzAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iMzEwIiB5PSIxNTIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZmZmZmZmIj5hYmEgwrcgY2xpZW50ZS9wcm9qZXRvPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMTk4IiBjbGFzcz0iaCI+RjAgRnVuZGHDp8O1ZXM8L3RleHQ+CiAgPHJlY3QgeD0iNDMwIiB5PSIxODAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iNDQwIiB5PSIyMDIiIGNsYXNzPSJzIj5hdXRoIMK3IHJvdXRlcnM8L3RleHQ+CgogIDx0ZXh0IHg9IjI0IiB5PSIyNDgiIGNsYXNzPSJoIj5GMSBOYXZlZ2Fkb3I8L3RleHQ+CiAgPHJlY3QgeD0iNTUwIiB5PSIyMzAiIHdpZHRoPSIxNzAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjOWZkMGMxIi8+CiAgPHRleHQgeD0iNTYwIiB5PSIyNTIiIGNsYXNzPSJzIj7DoXJ2b3JlIMK3IGJ1c2NhIMK3IGRpZmYgwrcgemlwPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMjk4IiBjbGFzcz0iaCI+RjIgQ2hhdCBjbGF1ZGU8L3RleHQ+CiAgPHJlY3QgeD0iNTUwIiB5PSIyODAiIHdpZHRoPSIzMjAiIGhlaWdodD0iMzQiIHJ4PSI4IiBmaWxsPSIjNWI5YzhhIi8+CiAgPHRleHQgeD0iNTYwIiB5PSIzMDIiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZmZmZmZmIj53cy9jaGF0ICsgYWRhcHRlciArIENoYXRWaWV3ICsgYXByb3Zhw6fDtWVzPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iMzQ4IiBjbGFzcz0iaCI+RjMgTGF5b3V0IHYzPC90ZXh0PgogIDxyZWN0IHg9Ijc0MCIgeT0iMzMwIiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjM0IiByeD0iOCIgZmlsbD0iI2I5YzNlYSIvPgogIDx0ZXh0IHg9Ijc1MCIgeT0iMzUyIiBjbGFzcz0icyI+bGlzdGEgV2hhdHNBcHAgwrcgMyBwYWluw6lpczwvdGV4dD4KCiAgPHRleHQgeD0iMjQiIHk9IjM5OCIgY2xhc3M9ImgiPkY0IENvZGV4ICsgZXh0cmFzPC90ZXh0PgogIDxyZWN0IHg9IjgyMCIgeT0iMzgwIiB3aWR0aD0iMTU2IiBoZWlnaHQ9IjM0IiByeD0iOCIgZmlsbD0iI2U1Yzc3ZiIvPgogIDx0ZXh0IHg9IjgzMCIgeT0iNDAyIiBjbGFzcz0icyI+Y29kZXggwrcgYnVzY2EgwrcgY3VzdG9zPC90ZXh0PgoKICA8dGV4dCB4PSIyNCIgeT0iNDUwIiBjbGFzcz0iZCI+TGFyZ3VyYSBkYXMgYmFycmFzID0gZXNmb3LDp28gcmVsYXRpdm8gZXN0aW1hZG8gcGFyYSB1bSBhZ2VudGUgY29tIHJldmlzw6NvIGh1bWFuYSwgbsOjbyBwcmF6byBmZWNoYWRvLjwvdGV4dD4KICA8dGV4dCB4PSIyNCIgeT0iNDY4IiBjbGFzcz0iZCI+RlYgZSBGQSByb2RhbSBubyBsYXlvdXQgYXR1YWwuIEYxIGUgRjIgZGVwZW5kZW0gZGUgRjA7IEYzIChtdWRhbsOnYSBkZSBsYXlvdXQpIGZpY2EgcG9yIMO6bHRpbW8gZSBhcHJvdmVpdGEgdHVkbyBhbnRlcy48L3RleHQ+Cjwvc3ZnPgo=" alt="Roteiro" loading="lazy"><figcaption>Roteiro</figcaption></figure>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDU0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJSb3RlaXJvIGVtIG9pdG8gZmFzZXM6IEZOIChzaWRlYmFyIGNsaWVudGUgcGFyYSBwcm9qZXRvKSwgRlYgKGFnZW50ZSBhYnJlIGFycXVpdm9zKSBlIEZBIChhYmEgQXJ0ZWZhdG9zKSBubyBsYXlvdXQgYXR1YWw7IGRlcG9pcyBmdW5kYcOnw7VlcywgbmF2ZWdhZG9yIGRlIGFycXVpdm9zLCBjaGF0LCBsYXlvdXQgdjMgZSBjb2RleCBjb20gZXh0cmFzIj4KICA8c3R5bGU+dGV4dHtmb250LWZhbWlseTpGaWd0cmVlLC1hcHBsZS1zeXN0ZW0sIlNlZ29lIFVJIixSb2JvdG8sc2Fucy1zZXJpZjtmaWxsOiMzYjM1MzB9Lmh7Zm9udC1zaXplOjEzcHg7Zm9udC13ZWlnaHQ6NzAwfS5ze2ZvbnQtc2l6ZToxMXB4fS5ke2ZvbnQtc2l6ZToxMXB4O2ZpbGw6IzhhODM3OH0udHtmb250LXNpemU6MTVweDtmb250LXdlaWdodDo3MDB9PC9zdHlsZT4KICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI1NDAiIHJ4PSIxNCIgZmlsbD0iI2Y3ZjVmMCIvPgogIDx0ZXh0IHg9IjI0IiB5PSIzNCIgY2xhc3M9InQiPk9yZGVtIHN1Z2VyaWRhIGRlIGVudHJlZ2EgKGNhZGEgZmFzZSBnZXJhIHVtIFBSIHF1ZSBmdW5jaW9uYSBzb3ppbmhvKTwvdGV4dD4KICA8bGluZSB4MT0iMjAwIiB5MT0iNjAiIHgyPSI5NzYiIHkyPSI2MCIgc3Ryb2tlPSIjYzljM2I3Ii8+CiAgPHRleHQgeD0iMjAwIiB5PSI1NCIgY2xhc3M9ImQiPnNlbWFuYSAxPC90ZXh0PgogIDx0ZXh0IHg9IjM1NSIgeT0iNTQiIGNsYXNzPSJkIj5zZW1hbmEgMjwvdGV4dD4KICA8bGluZSB4MT0iMzU1IiB5MT0iNjAiIHgyPSIzNTUiIHkyPSI0ODAiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjUxMCIgeT0iNTQiIGNsYXNzPSJkIj5zZW1hbmEgMzwvdGV4dD4KICA8bGluZSB4MT0iNTEwIiB5MT0iNjAiIHgyPSI1MTAiIHkyPSI0ODAiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjY2NSIgeT0iNTQiIGNsYXNzPSJkIj5zZW1hbmEgNDwvdGV4dD4KICA8bGluZSB4MT0iNjY1IiB5MT0iNjAiIHgyPSI2NjUiIHkyPSI0ODAiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjgyMCIgeT0iNTQiIGNsYXNzPSJkIj5zZW1hbmEgNTwvdGV4dD4KICA8bGluZSB4MT0iODIwIiB5MT0iNjAiIHgyPSI4MjAiIHkyPSI0ODAiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjI0IiB5PSI5OCIgY2xhc3M9ImgiPkZOIENsaWVudGUg4oaSIHByb2pldG88L3RleHQ+CiAgPHJlY3QgeD0iMjEwIiB5PSI4MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9IiMxZjVlNTAiLz4KICA8dGV4dCB4PSIyMTgiIHk9Ijk5IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6I2ZmZmZmZiI+ZHJpbGwtZG93biDCtyBlc3Bhw6dvPC90ZXh0PgogIDx0ZXh0IHg9IjI0IiB5PSIxNDgiIGNsYXNzPSJoIj5GViBBZ2VudGUgYWJyZSBhcnF1aXZvPC90ZXh0PgogIDxyZWN0IHg9IjMwMCIgeT0iMTMwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjMwIiByeD0iOCIgZmlsbD0iIzJmNzU2NCIvPgogIDx0ZXh0IHg9IjMwOCIgeT0iMTQ5IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6I2ZmZmZmZiI+dG9vbCDCtyBwYWluZWwgw6AgZGlyZWl0YTwvdGV4dD4KICA8dGV4dCB4PSIyNCIgeT0iMTk4IiBjbGFzcz0iaCI+RkEgQXJ0ZWZhdG9zPC90ZXh0PgogIDxyZWN0IHg9IjQ0MCIgeT0iMTgwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjMwIiByeD0iOCIgZmlsbD0iIzNmOGY3YyIvPgogIDx0ZXh0IHg9IjQ0OCIgeT0iMTk5IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6I2ZmZmZmZiI+YWJhIMK3IGNsaWVudGUvcHJvamV0bzwvdGV4dD4KICA8dGV4dCB4PSIyNCIgeT0iMjQ4IiBjbGFzcz0iaCI+RjAgRnVuZGHDp8O1ZXM8L3RleHQ+CiAgPHJlY3QgeD0iNTUwIiB5PSIyMzAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMzAiIHJ4PSI4IiBmaWxsPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iNTU4IiB5PSIyNDkiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojNGI0NTNlIj5hdXRoIMK3IHJvdXRlcnM8L3RleHQ+CiAgPHRleHQgeD0iMjQiIHk9IjI5OCIgY2xhc3M9ImgiPkYxIE5hdmVnYWRvcjwvdGV4dD4KICA8cmVjdCB4PSI2NjAiIHk9IjI4MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9IiM5ZmQwYzEiLz4KICA8dGV4dCB4PSI2NjgiIHk9IjI5OSIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiM0YjQ1M2UiPsOhcnZvcmUgwrcgYnVzY2EgwrcgZGlmZjwvdGV4dD4KICA8dGV4dCB4PSIyNCIgeT0iMzQ4IiBjbGFzcz0iaCI+RjIgQ2hhdCBjbGF1ZGU8L3RleHQ+CiAgPHJlY3QgeD0iNjYwIiB5PSIzMzAiIHdpZHRoPSIyOTAiIGhlaWdodD0iMzAiIHJ4PSI4IiBmaWxsPSIjNWI5YzhhIi8+CiAgPHRleHQgeD0iNjY4IiB5PSIzNDkiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojZmZmZmZmIj53cy9jaGF0ICsgQ2hhdFZpZXcgKyBhcHJvdmHDp8O1ZXM8L3RleHQ+CiAgPHRleHQgeD0iMjQiIHk9IjM5OCIgY2xhc3M9ImgiPkYzIExheW91dCB2MzwvdGV4dD4KICA8cmVjdCB4PSI4MjAiIHk9IjM4MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9IiNiOWMzZWEiLz4KICA8dGV4dCB4PSI4MjgiIHk9IjM5OSIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiM0YjQ1M2UiPmxpc3RhIFdoYXRzQXBwIMK3IHBhaW7DqWlzPC90ZXh0PgogIDx0ZXh0IHg9IjI0IiB5PSI0NDgiIGNsYXNzPSJoIj5GNCBDb2RleCArIGV4dHJhczwvdGV4dD4KICA8cmVjdCB4PSI4NjYiIHk9IjQzMCIgd2lkdGg9IjExNiIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9IiNlNWM3N2YiLz4KICA8dGV4dCB4PSI4NzQiIHk9IjQ0OSIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiM0YjQ1M2UiPmNvZGV4IMK3IGJ1c2NhIMK3IGN1c3RvczwvdGV4dD4KICA8dGV4dCB4PSIyNCIgeT0iNTAwIiBjbGFzcz0iZCI+TGFyZ3VyYSBkYXMgYmFycmFzID0gZXNmb3LDp28gcmVsYXRpdm8gZXN0aW1hZG8gcGFyYSB1bSBhZ2VudGUgY29tIHJldmlzw6NvIGh1bWFuYSwgbsOjbyBwcmF6byBmZWNoYWRvLjwvdGV4dD4KICA8dGV4dCB4PSIyNCIgeT0iNTE4IiBjbGFzcz0iZCI+Rk4sIEZWIGUgRkEgcm9kYW0gbm8gbGF5b3V0IGF0dWFsLiBGMSBlIEYyIGRlcGVuZGVtIGRlIEYwOyBGMyAobXVkYW7Dp2EgbWFpb3IgZGUgbGF5b3V0KSBmaWNhIHBvciDDumx0aW1vLjwvdGV4dD4KPC9zdmc+Cg==" alt="Roteiro" loading="lazy"><figcaption>Roteiro</figcaption></figure>
 <h2 id="p05-51-regras-que-valem-para-todas-as-fases">5.1 Regras que valem para todas as fases</h2>
 <p>Cole estas regras junto com qualquer prompt (elas já estão incluídas nos
 prompts abaixo, resumidas):</p>
@@ -2637,6 +2658,12 @@ prompts abaixo, resumidas):</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><strong>FN</strong> Navegação cliente → projeto</td>
+<td>Lista de clientes da sidebar vira lista de projetos (com voltar); filtro global por projeto; barra de selects sai; colunas recolhem sozinhas quando o visualizador abre em tela larga</td>
+<td>8</td>
+<td>— (pequena, só frontend; vem primeiro)</td>
+</tr>
 <tr>
 <td><strong>FV</strong> Agente abre arquivo</td>
 <td>Tool MCP <code>abrir_no_visualizador</code>, visualizador em dropdown com abas e tela cheia, links clicáveis no terminal</td>
@@ -2681,7 +2708,13 @@ prompts abaixo, resumidas):</p>
 </tr>
 </tbody>
 </table></div>
-<h2 id="p05-521-fase-fv-o-agente-abre-o-arquivo-na-tela-primeira">5.2.1 Fase FV — O agente abre o arquivo na tela (primeira)</h2>
+<h2 id="p05-520-fase-fn-cliente-projeto-na-sidebar-e-espaço-à-direita">5.2.0 Fase FN — Cliente → projeto na sidebar e espaço à direita</h2>
+<p>Planejamento completo na <strong><a href="#parte-08">Parte 8</a></strong>.
+É pequena e só de frontend. Vai primeiro porque o visualizador da FV passa a
+abrir num painel à direita e precisa do espaço que ela libera. Se preferir
+começar pela FV, tudo funciona: o painel só não recolhe as colunas sozinho
+até a FN entrar.</p>
+<h2 id="p05-521-fase-fv-o-agente-abre-o-arquivo-na-tela">5.2.1 Fase FV — O agente abre o arquivo na tela</h2>
 <p>Planejamento completo, com requisitos, UX, arquitetura, contratos, ordem de
 commits, testes e aceite: <strong><a href="#parte-06">Parte 6</a></strong>. O prompt
 de desenvolvimento desta fase é entregue sob pedido, para ser usado numa
@@ -2904,13 +2937,14 @@ no modo chat. Adicione a importação de histórico de ~/.codex/sessions. Testes
 <ul>
 <li><input type="checkbox" disabled> Li as Partes 0–4 e risquei o que não quero.</li>
 <li><input type="checkbox" disabled> Confirmei que o acesso pelo iPad é por <code>https://…ts.net</code> (necessário para push e compartilhar).</li>
+<li><input type="checkbox" disabled> Rodei a FN e testei os passos de aceite da Parte 8 (iPad deitado, em pé, desktop e celular).</li>
 <li><input type="checkbox" disabled> Rodei a FV e testei os 12 passos de aceite da Parte 6 no iPad.</li>
 <li><input type="checkbox" disabled> Rodei a FA e testei os 8 passos de aceite da Parte 7 no iPad.</li>
 <li><input type="checkbox" disabled> Rodei a F0 e guardei o token de acesso num gerenciador de senhas.</li>
 <li><input type="checkbox" disabled> F1 e F2 aprovadas com os checklists de aceite no iPad.</li>
 <li><input type="checkbox" disabled> F3 aprovada nos três tamanhos (celular, iPad em pé, iPad deitado).</li>
 <li><input type="checkbox" disabled> Escolhi os extras da F4 por prioridade.</li>
-</ul></article><article class="doc part-sep" id="parte-06"><p class="eyebrow">Parte 6 de 7</p><h1 id="p06-parte-6-planejamento-da-fase-v-o-agente-abre-o-arquivo-na-tela">Parte 6 — Planejamento da Fase V: o agente abre o arquivo na tela</h1>
+</ul></article><article class="doc part-sep" id="parte-06"><p class="eyebrow">Parte 6 de 8</p><h1 id="p06-parte-6-planejamento-da-fase-v-o-agente-abre-o-arquivo-na-tela">Parte 6 — Planejamento da Fase V: o agente abre o arquivo na tela</h1>
 <blockquote>
 <p><strong>Por que esta fase vem primeiro:</strong> hoje o chat é um terminal e <strong>não dá
 para clicar em links</strong>. Então, antes do navegador de arquivos completo
@@ -2928,6 +2962,24 @@ limpa, lendo só esta pasta e o código.</p>
 abas · <strong>B</strong> dropdown com uma aba por arquivo aberto · <strong>C</strong> barra do
 arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e <strong>Tela cheia</strong> ·
 <strong>D</strong> o mesmo conteúdo em modal de tela cheia, com <strong>✕ Fechar</strong>.</p>
+<blockquote>
+<p><strong>Atualização (Fase N, <a href="#parte-08">Parte 8</a>):</strong>
+o "dropdown" do visualizador passa a abrir como <strong>painel à direita</strong>. Ele
+continua saindo do botão <strong>Visualizador</strong> do cabeçalho, com as mesmas abas,
+barra, <strong>⤢ Tela cheia</strong> e <strong>✕ Fechar</strong>. A forma de abrir depende da largura
+da tela:</p>
+<ul>
+<li><strong>≥ 1100 px</strong> (iPad deitado, desktop): painel <strong>encaixado</strong> à direita
+  (<code>ViewerDock</code>, largura <code>clamp(420px, 42vw, 780px)</code>); a sidebar e a lista de
+  chats viram trilhos de 68 px enquanto ele estiver aberto.</li>
+<li><strong>641–1099 px:</strong> painel <strong>por cima</strong> (<code>ViewerDrawer</code>).</li>
+<li><strong>≤ 640 px:</strong> tela cheia.</li>
+</ul>
+<p>Neste documento, onde estiver escrito "dropdown", leia <strong>esse painel</strong>. O
+conteúdo (<code>ViewerPanel</code>, abas, renderers) não muda. O mockup
+<a href="img/13-mockup-sidebar-cliente-projeto.svg">13</a> mostra a posição nova; o
+mockup acima continua valendo para o conteúdo do painel e para a tela cheia.</p>
+</blockquote>
 <hr />
 <h2 id="p06-61-requisitos">6.1 Requisitos</h2>
 <h3 id="p06-o-que-foi-pedido-palavras-do-bruno-organizadas">O que foi pedido (palavras do Bruno, organizadas)</h3>
@@ -3122,6 +3174,11 @@ arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e <strong>Tela 
 <td>Isolamento do HTML</td>
 <td><code>iframe sandbox="allow-scripts allow-popups"</code> <strong>sem</strong> <code>allow-same-origin</code> + cabeçalho <code>Content-Security-Policy: sandbox …</code></td>
 <td>O HTML roda numa origem opaca e não consegue chamar a API do TaskNexus</td>
+</tr>
+<tr>
+<td>Onde o painel abre</td>
+<td>À direita: encaixado (≥ 1100 px, com as colunas recolhidas enquanto aberto), por cima (641–1099 px) ou tela cheia (celular)</td>
+<td>Pedido do Bruno: liberar o lado direito para o visualizador (Parte 8)</td>
 </tr>
 <tr>
 <td>Tela cheia</td>
@@ -3355,7 +3412,8 @@ Uma única tool:</p>
   viewerApi.js             # fetch das rotas 6.4.3
   ViewerButton.jsx         # botão "Visualizador" com contador (cabeçalho do chat, iPad/PC)
   ViewerMobileButton.jsx   # botão flutuante ao lado do "☰ Menu" (celular)
-  ViewerDropdown.jsx       # popover ancorado no botão (padrão do AttachmentsMenu)
+  ViewerDock.jsx           # painel encaixado à direita (≥ 1100 px) — ver Parte 8
+  ViewerDrawer.jsx         # mesmo painel por cima do conteúdo (641–1099 px), padrão do TasksDrawer
   ViewerFullscreen.jsx     # modal de tela cheia (portal, contrato do CenteredModal)
   ViewerPanel.jsx          # abas + barra de ações + corpo (usado pelos dois contêineres)
   ViewerTabs.jsx
@@ -3396,18 +3454,26 @@ package.json                                    # + shiki, + @xterm/addon-web-li
 (toast) "claude abriu <code>relatorio.html</code> · Ver".</p>
 <p>O <code>TerminalPanel</code> é montado também em testes isolados, sem Provider: use
 <code>useContext</code> com fallback nulo e só chame <code>receiveOpen</code> se o contexto existir.</p>
-<h3 id="p06-653-dropdown-e-tela-cheia">6.5.3 Dropdown e tela cheia</h3>
+<h3 id="p06-653-painel-à-direita-dropdown-e-tela-cheia">6.5.3 Painel à direita ("dropdown") e tela cheia</h3>
 <ul>
-<li><strong>Dropdown:</strong> mesmo padrão de <code>AttachmentsMenu.jsx</code> / <code>TaskQuickCreatePopover.jsx</code>
-  (scrim transparente, Esc, clique fora, fecha quando a sessão ativa muda).
-  Tamanho: <code>width: min(960px, calc(100vw - 32px))</code>,
-  <code>height: min(78dvh, 820px)</code>, ancorado à direita do botão.</li>
+<li><strong>Painel à direita</strong>, escolhido pela largura (Parte 8, seção 8.2.2):</li>
+<li><code>ViewerDock</code> (≥ 1100 px, <code>WIDE_VIEWPORT_QUERY</code>): irmão flex do conteúdo
+    do <code>ChatV2</code>, largura <code>clamp(420px, 42vw, 780px)</code>, borda esquerda
+    <code>--v2-border</code>. Ao abrir/fechar, liga o <strong>recolhimento forçado</strong> das colunas
+    (Parte 8, 8.3.3) e dispara <code>escritorio:sidebar-toggled</code> para o xterm se reajustar.</li>
+<li><code>ViewerDrawer</code> (641–1099 px): overlay à direita no padrão do
+    <code>TasksDrawer.jsx</code>, largura <code>min(560px, 92vw)</code>, faixa <code>--v2-scrim</code> leve;
+    fecha com Esc, ✕ ou toque fora.</li>
+<li>Fecha também quando a sessão ativa muda? <strong>Não</strong>: as abas são por sessão,
+    então o painel troca para as abas da nova sessão (ou mostra o estado vazio).</li>
+<li>Se a Fase N ainda não tiver sido feita, o <code>ViewerDock</code> funciona do mesmo
+  jeito, só que sem o recolhimento automático (o usuário recolhe à mão).</li>
 <li><strong>Tela cheia:</strong> <code>ViewerFullscreen</code> renderiza o <code>ViewerPanel</code> num portal em
   <code>document.body</code>, <code>position: fixed; inset: 0</code>, respeitando
   <code>--v2-safe-*</code>. Barra superior: abas à esquerda, <strong>✕ Fechar</strong> à direita
-  (44 px). Esc ou Fechar → <code>fullscreen=false</code> (volta ao dropdown no iPad/PC;
+  (44 px). Esc ou Fechar → <code>fullscreen=false</code> (volta ao painel à direita no iPad/PC;
   no celular fecha tudo).</li>
-<li><strong>Um só painel por vez:</strong> quando <code>fullscreen</code> é verdadeiro, o dropdown não
+<li><strong>Um só painel por vez:</strong> quando <code>fullscreen</code> é verdadeiro, o painel à direita não
   renderiza. A aba ativa é a mesma nos dois (estado no contexto). O <code>iframe</code> do
   HTML recarrega ao trocar de contêiner, o que é aceitável.</li>
 <li>Botão no cabeçalho: ao lado de <code>AttachmentsMenu</code> na topbar do <code>AppV2</code>
@@ -3610,7 +3676,7 @@ registradas sob demanda; registrar a decisão no PR.</p>
 <li><input type="checkbox" disabled> <code>deploy.sh</code> e <code>deploy.ps1</code> funcionando sem mudança de uso.</li>
 <li><input type="checkbox" disabled> README do projeto com uma seção curta "Visualizador de arquivos".</li>
 <li><input type="checkbox" disabled> Este documento atualizado se a implementação divergir.</li>
-</ul></article><article class="doc part-sep" id="parte-07"><p class="eyebrow">Parte 7 de 7</p><h1 id="p07-parte-7-planejamento-da-fase-a-aba-artefatos-por-cliente-e-projeto">Parte 7 — Planejamento da Fase A: aba Artefatos por cliente e projeto</h1>
+</ul></article><article class="doc part-sep" id="parte-07"><p class="eyebrow">Parte 7 de 8</p><h1 id="p07-parte-7-planejamento-da-fase-a-aba-artefatos-por-cliente-e-projeto">Parte 7 — Planejamento da Fase A: aba Artefatos por cliente e projeto</h1>
 <blockquote>
 <p><strong>O pedido:</strong> uma aba <strong>Artefatos</strong>, como a galeria de artefatos do Claude,
 organizada <strong>por cliente e projeto</strong>, listando os artefatos criados
@@ -3621,7 +3687,7 @@ do layout v2 atual.</p>
 <code>file_access.py</code>, os renderers (Markdown, HTML, código, PDF, binário), o
 <code>ViewerContext</code> e o <code>ViewerPanel</code>. Pode ser o PR seguinte ao da Fase V.</p>
 </blockquote>
-<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDc2MCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJUZWxhIEFydGVmYXRvcyBubyBsYXlvdXQgdjIgYXR1YWw6IG1lbnUgbGF0ZXJhbCBjb20gbyBub3ZvIGl0ZW0gQXJ0ZWZhdG9zLCBmaWx0cm8gZGUgY2xpZW50ZSBlIHByb2pldG8sIGNhcnTDtWVzIGRlIGFydGVmYXRvcyBhZ3J1cGFkb3MgcG9yIHByb2pldG8gZSwgw6AgZGlyZWl0YSwgbyBwYWluZWwgbGF0ZXJhbCBkZSB2aXN1YWxpemHDp8OjbyBhYmVydG8gY29tIGFiYXMiPgogIDxzdHlsZT4KICAgIHRleHR7Zm9udC1mYW1pbHk6RmlndHJlZSwtYXBwbGUtc3lzdGVtLCJTZWdvZSBVSSIsUm9ib3RvLHNhbnMtc2VyaWY7ZmlsbDojM2IzNTMwfQogICAgLm17d2hpdGUtc3BhY2U6cHJlO2ZvbnQtZmFtaWx5OiJJQk0gUGxleCBNb25vIix1aS1tb25vc3BhY2UsTWVubG8sbW9ub3NwYWNlfQogICAgLmh7Zm9udC1zaXplOjE0cHg7Zm9udC13ZWlnaHQ6NzAwfQogICAgLmJ7Zm9udC1zaXplOjEycHh9CiAgICAuc3tmb250LXNpemU6MTAuNXB4O2ZpbGw6IzhhODM3OH0KICAgIC53e2ZpbGw6I2ZmZmZmZn0KICAgIC5hbm57Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6NzAwO2ZpbGw6I2I0NTMxZn0KICAgIC5jYXB7Zm9udC1zaXplOjExcHg7Zm9udC13ZWlnaHQ6NzAwO2xldHRlci1zcGFjaW5nOi4wNmVtO2ZpbGw6IzhhODM3OH0KICA8L3N0eWxlPgogIDxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9Ijc2MCIgcng9IjE2IiBmaWxsPSIjZTllNWRjIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iMTE2MCIgaGVpZ2h0PSI3MjAiIHJ4PSIyNiIgZmlsbD0iIzFmMjAyNCIvPgogIDxyZWN0IHg9IjMyIiB5PSIzMiIgd2lkdGg9IjExMzYiIGhlaWdodD0iNjk2IiByeD0iMTYiIGZpbGw9IiNmN2Y1ZjAiLz4KCiAgPCEtLSBTaWRlYmFyVjIgKGF0dWFsKSAtLT4KICA8cmVjdCB4PSIzMiIgeT0iMzIiIHdpZHRoPSIyMDAiIGhlaWdodD0iNjk2IiByeD0iMTYiIGZpbGw9IiNmYmZhZjciLz4KICA8cmVjdCB4PSIyMTYiIHk9IjMyIiB3aWR0aD0iMTYiIGhlaWdodD0iNjk2IiBmaWxsPSIjZmJmYWY3Ii8+CiAgPGxpbmUgeDE9IjIzMiIgeTE9IjMyIiB4Mj0iMjMyIiB5Mj0iNzI4IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8Y2lyY2xlIGN4PSI1OCIgY3k9IjYyIiByPSIxMiIgZmlsbD0iIzNmOGY3YyIvPjx0ZXh0IHg9IjUyIiB5PSI2NiIgY2xhc3M9InMgdyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+VE48L3RleHQ+CiAgPHRleHQgeD0iNzgiIHk9IjY3IiBjbGFzcz0iaCI+VGFza05leHVzPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxMDQiIGNsYXNzPSJiIj7wn5KsICBDaGF0PC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxMzIiIGNsYXNzPSJiIj7ilqYgIEJvYXJkPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxNjAiIGNsYXNzPSJiIj7inJMgIFRhcmVmYXM8L3RleHQ+CiAgPHJlY3QgeD0iNDAiIHk9IjE3MiIgd2lkdGg9IjE4NCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9IiNlNmYyZWUiLz4KICA8dGV4dCB4PSI0OCIgeT0iMTkyIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPuKXpyAgQXJ0ZWZhdG9zPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIyMjIiIGNsYXNzPSJiIj7il4ggIENvbmZpZ3VyYcOnw6NvPC90ZXh0PgogIDxsaW5lIHgxPSI0NCIgeTE9IjI0MCIgeDI9IjIyMCIgeTI9IjI0MCIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iNDgiIHk9IjI2MiIgY2xhc3M9ImNhcCI+Q0xJRU5URVM8L3RleHQ+CiAgPHJlY3QgeD0iNDAiIHk9IjI3MiIgd2lkdGg9IjE4NCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNlZmVjZTUiLz4KICA8dGV4dCB4PSI0OCIgeT0iMjkxIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjYwMCI+VG9kb3M8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjMyMCIgY2xhc3M9ImIiPnBvZGVzdWJpcjwvdGV4dD4KICA8dGV4dCB4PSI0OCIgeT0iMzQ2IiBjbGFzcz0iYiI+Y2xpZW50ZS1hY21lPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIzNzIiIGNsYXNzPSJiIj5pbnRlcm5vPC90ZXh0PgogIDx0ZXh0IHg9IjE0MCIgeT0iMTkyIiBjbGFzcz0iYW5uIj5BIMK3IGl0ZW0gbm92bzwvdGV4dD4KCiAgPCEtLSB0b3BiYXIgLS0+CiAgPGxpbmUgeDE9IjIzMiIgeTE9Ijk0IiB4Mj0iMTE2OCIgeTI9Ijk0IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSIyNTIiIHk9IjcwIiBzdHlsZT0iZm9udC1zaXplOjE1cHg7Zm9udC13ZWlnaHQ6NzAwIj5BcnRlZmF0b3M8L3RleHQ+CgogIDwhLS0gZmlsdGVyIGJhciAtLT4KICA8bGluZSB4MT0iMjMyIiB5MT0iMTQwIiB4Mj0iMTE2OCIgeTI9IjE0MCIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHJlY3QgeD0iMjUyIiB5PSIxMDYiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjZWZlY2U1IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSIyNjAiIHk9IjEyMiIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM2YjY0NWMiPnBvZGVzdWJpciDilr48L3RleHQ+CiAgPHJlY3QgeD0iMzkwIiB5PSIxMDYiIHdpZHRoPSIxNTAiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjZWZlY2U1IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSIzOTgiIHk9IjEyMiIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM2YjY0NWMiPlRvZG9zIG9zIHByb2pldG9zIOKWvjwvdGV4dD4KICA8cmVjdCB4PSI1NTIiIHk9IjEwNiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSI1NjYiIHk9IjEyMiIgY2xhc3M9ImIgdyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+VG9kb3M8L3RleHQ+CiAgPHJlY3QgeD0iNjA4IiB5PSIxMDYiIHdpZHRoPSI0MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZWZlY2U1Ii8+CiAgPHRleHQgeD0iNjE4IiB5PSIxMjIiIGNsYXNzPSJiIj5NRDwvdGV4dD4KICA8cmVjdCB4PSI2NTQiIHk9IjEwNiIgd2lkdGg9IjUwIiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNlZmVjZTUiLz4KICA8dGV4dCB4PSI2NjQiIHk9IjEyMiIgY2xhc3M9ImIiPkhUTUw8L3RleHQ+CiAgPHJlY3QgeD0iNzEwIiB5PSIxMDYiIHdpZHRoPSI0MiIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZWZlY2U1Ii8+CiAgPHRleHQgeD0iNzIwIiB5PSIxMjIiIGNsYXNzPSJiIj5QREY8L3RleHQ+CiAgPHRleHQgeD0iMjYwIiB5PSI5OCIgY2xhc3M9ImFubiIgc3R5bGU9ImRpc3BsYXk6bm9uZSI+IDwvdGV4dD4KCiAgPCEtLSBncm91cCAxIC0tPgogIDx0ZXh0IHg9IjI1MiIgeT0iMTcwIiBjbGFzcz0iY2FwIj5QT0RFU1VCSVIgLyBTSVRFLUlOU1RJVFVDSU9OQUwgwrcgMzwvdGV4dD4KICA8IS0tIGNhcmQgLS0+CiAgPGc+CiAgICA8cmVjdCB4PSIyNTIiIHk9IjE4MiIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgICA8cmVjdCB4PSIyNjQiIHk9IjE5NCIgd2lkdGg9IjQyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2VlZjBmYSIvPjx0ZXh0IHg9IjI3MiIgeT0iMjA4IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzQ0NTc5Zjtmb250LXdlaWdodDo3MDAiPkhUTUw8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjQiIHk9IjIzNiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPlJlbGF0w7NyaW8gZGUgdGVzdGVzPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSIyNTQiIGNsYXNzPSJzIj5kb2NzL3JlbGF0b3Jpby5odG1sPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSIyNzYiIGNsYXNzPSJzIj41OCBwYXNzYXJhbSwgMiBmYWxoYXJhbeKApjwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2NCIgeT0iMjk4IiBjbGFzcz0icyI+Y2xhdWRlIMK3IGjDoSAyIGggwrcgMTggS0I8L3RleHQ+CiAgPC9nPgogIDxnPgogICAgPHJlY3QgeD0iNDMyIiB5PSIxODIiIHdpZHRoPSIxNzAiIGhlaWdodD0iMTMwIiByeD0iMTIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzNmOGY3YyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8cmVjdCB4PSI0NDQiIHk9IjE5NCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2U2ZjJlZSIvPjx0ZXh0IHg9IjQ1MiIgeT0iMjA4IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzJmNzU2NDtmb250LXdlaWdodDo3MDAiPk1EPC90ZXh0PgogICAgPHRleHQgeD0iNDQ0IiB5PSIyMzYiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5QbGFubyBkZSByZWxlYXNlIDIuNDwvdGV4dD4KICAgIDx0ZXh0IHg9IjQ0NCIgeT0iMjU0IiBjbGFzcz0icyI+ZG9jcy9wbGFuby1yZWxlYXNlLm1kPC90ZXh0PgogICAgPHRleHQgeD0iNDQ0IiB5PSIyNzYiIGNsYXNzPSJzIj5PYmpldGl2bzogbGliZXJhciBvIG1vZG/igKY8L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjI5OCIgY2xhc3M9InMiPmNsYXVkZSDCtyBvbnRlbSDCtyAxMiBLQjwvdGV4dD4KICA8L2c+CiAgPGc+CiAgICA8cmVjdCB4PSI2MTIiIHk9IjE4MiIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgICA8cmVjdCB4PSI2MjQiIHk9IjE5NCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2ZiZWVlYSIvPjx0ZXh0IHg9IjYzMSIgeT0iMjA4IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6I2E0NDEyZjtmb250LXdlaWdodDo3MDAiPlBERjwvdGV4dD4KICAgIDx0ZXh0IHg9IjYyNCIgeT0iMjM2IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+UHJvcG9zdGEgY29tZXJjaWFsPC90ZXh0PgogICAgPHRleHQgeD0iNjI0IiB5PSIyNTQiIGNsYXNzPSJzIj5lbnRyZWdhcy9wcm9wb3N0YS5wZGY8L3RleHQ+CiAgICA8dGV4dCB4PSI2MjQiIHk9IjI3NiIgY2xhc3M9InMiPjQgcMOhZ2luYXM8L3RleHQ+CiAgICA8dGV4dCB4PSI2MjQiIHk9IjI5OCIgY2xhc3M9InMiPmNvZGV4IMK3IDI0IHNldCDCtyAzMTAgS0I8L3RleHQ+CiAgPC9nPgoKICA8IS0tIGdyb3VwIDIgLS0+CiAgPHRleHQgeD0iMjUyIiB5PSIzNDYiIGNsYXNzPSJjYXAiPlBPREVTVUJJUiAvIEFQSS1QQUdBTUVOVE9TIMK3IDI8L3RleHQ+CiAgPGc+CiAgICA8cmVjdCB4PSIyNTIiIHk9IjM1OCIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgICA8cmVjdCB4PSIyNjQiIHk9IjM3MCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2U2ZjJlZSIvPjx0ZXh0IHg9IjI3MiIgeT0iMzg0IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzJmNzU2NDtmb250LXdlaWdodDo3MDAiPk1EPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSI0MTIiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5BRFIgMDcg4oCUIFdlYmhvb2tzPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSI0MzAiIGNsYXNzPSJzIj5kb2NzL2Fkci8wNy13ZWJob29rcy5tZDwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2NCIgeT0iNDUyIiBjbGFzcz0icyI+RGVjaXPDo286IGZpbGEgY29tIHJldHJ54oCmPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSI0NzQiIGNsYXNzPSJzIj5jbGF1ZGUgwrcgMjAgc2V0IMK3IDYgS0I8L3RleHQ+CiAgPC9nPgogIDxnPgogICAgPHJlY3QgeD0iNDMyIiB5PSIzNTgiIHdpZHRoPSIxNzAiIGhlaWdodD0iMTMwIiByeD0iMTIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+CiAgICA8cmVjdCB4PSI0NDQiIHk9IjM3MCIgd2lkdGg9IjQyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI2VlZjBmYSIvPjx0ZXh0IHg9IjQ1MiIgeT0iMzg0IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzQ0NTc5Zjtmb250LXdlaWdodDo3MDAiPkhUTUw8L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjQxMiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPkRpYWdyYW1hIGRlIGZsdXhvPC90ZXh0PgogICAgPHRleHQgeD0iNDQ0IiB5PSI0MzAiIGNsYXNzPSJzIj5kb2NzL2ZsdXhvLmh0bWw8L3RleHQ+CiAgICA8cmVjdCB4PSI0NDQiIHk9IjQ0MiIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxOCIgcng9IjYiIGZpbGw9IiNmZGY2ZTYiLz4KICAgIDx0ZXh0IHg9IjQ1MCIgeT0iNDU1IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzhhNWIwNSI+YXJxdWl2byBuw6NvIGVuY29udHJhZG88L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjQ3OCIgY2xhc3M9InMiPmNsYXVkZSDCtyAxOCBzZXQ8L3RleHQ+CiAgPC9nPgoKICA8cmVjdCB4PSIyNTIiIHk9IjY2MCIgd2lkdGg9IjIxMCIgaGVpZ2h0PSIzNCIgcng9IjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjI2NiIgeT0iNjgyIiBjbGFzcz0iYiI+77yLIEltcG9ydGFyIGRvIHByb2pldG/igKY8L3RleHQ+CiAgPHRleHQgeD0iMjUyIiB5PSI3MTIiIGNsYXNzPSJzIj5Ub2NhciBudW0gY2FydMOjbyBhYnJlIG8gYXJxdWl2byBubyBwYWluZWwgbGF0ZXJhbCDihpI8L3RleHQ+CgogIDwhLS0gbGF0ZXJhbCB2aWV3ZXIgKG92ZXJsYXkgZHJhd2VyKSAtLT4KICA8cmVjdCB4PSIyMzIiIHk9Ijk1IiB3aWR0aD0iOTM2IiBoZWlnaHQ9IjYzMyIgZmlsbD0iIzNiMzUzMCIgb3BhY2l0eT0iLjEwIi8+CiAgPHJlY3QgeD0iODAwIiB5PSI5NSIgd2lkdGg9IjM2OCIgaGVpZ2h0PSI2MzMiIGZpbGw9IiNmZmZmZmYiLz4KICA8bGluZSB4MT0iODAwIiB5MT0iOTUiIHgyPSI4MDAiIHkyPSI3MjgiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDxyZWN0IHg9IjgxMiIgeT0iMTA2IiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI2U2ZjJlZSIvPgogIDx0ZXh0IHg9IjgyMiIgeT0iMTI1IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPnBsYW5vLXJlbGVhc2XigKY8L3RleHQ+CiAgPHJlY3QgeD0iOTMwIiB5PSIxMDYiIHdpZHRoPSIxMDQiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjZjNmMWVjIi8+CiAgPHRleHQgeD0iOTQwIiB5PSIxMjUiIGNsYXNzPSJiIj5yZWxhdG9yaW8uaHRtbDwvdGV4dD4KICA8cmVjdCB4PSIxMDkwIiB5PSIxMDQiIHdpZHRoPSI2OCIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjExMDAiIHk9IjEyNSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPuKclSBGZWNoYXI8L3RleHQ+CiAgPGxpbmUgeDE9IjgwMCIgeTE9IjE0NCIgeDI9IjExNjgiIHkyPSIxNDQiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjgxMiIgeT0iMTY0IiBjbGFzcz0icyI+ZG9jcy9wbGFuby1yZWxlYXNlLm1kIMK3IDEyIEtCPC90ZXh0PgogIDx0ZXh0IHg9Ijk5MCIgeT0iMTY0IiBjbGFzcz0iYiI+4qSTIOKniSDihpc8L3RleHQ+CiAgPHJlY3QgeD0iMTA2MCIgeT0iMTUwIiB3aWR0aD0iOTgiIGhlaWdodD0iMjIiIHJ4PSI3IiBmaWxsPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iMTA2OCIgeT0iMTY1IiBjbGFzcz0icyB3IiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj7ipKIgVGVsYSBjaGVpYTwvdGV4dD4KICA8dGV4dCB4PSI4MjAiIHk9IjIwNiIgc3R5bGU9ImZvbnQtc2l6ZToxOHB4O2ZvbnQtd2VpZ2h0OjcwMCI+UGxhbm8gZGUgcmVsZWFzZSAyLjQ8L3RleHQ+CiAgPGxpbmUgeDE9IjgyMCIgeTE9IjIxNiIgeDI9IjExNTAiIHkyPSIyMTYiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjgyMCIgeT0iMjQwIiBjbGFzcz0iYiI+T2JqZXRpdm86IGxpYmVyYXIgbyBtb2RvIGNoYXQgcGFyYTwvdGV4dD4KICA8dGV4dCB4PSI4MjAiIHk9IjI1OCIgY2xhc3M9ImIiPnRvZG9zIG9zIGFnZW50ZXMgY2xhdWRlIGF0w6kgc2V4dGEuPC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMjkyIiBjbGFzcz0iaCI+Q2hlY2tsaXN0PC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMzE0IiBjbGFzcz0iYiI+4piRIE1pZ3JhciB3cyBkZSBjaGF0PC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMzM0IiBjbGFzcz0iYiI+4piQIFRlc3RhciBubyBpUGFkIGVtIHJldHJhdG88L3RleHQ+CiAgPHJlY3QgeD0iODIwIiB5PSIzNTIiIHdpZHRoPSIzMzAiIGhlaWdodD0iNzAiIHJ4PSI4IiBmaWxsPSIjMjYyODJlIi8+CiAgPHRleHQgeD0iODMyIiB5PSIzNzQiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjEwLjVweDtmaWxsOiNiOWI0YWIiPmJhc2ggICAgICAgICAgICAgICAgICAgICAgICAgIENvcGlhcjwvdGV4dD4KICA8dGV4dCB4PSI4MzIiIHk9IjQwMCIgY2xhc3M9Im0iIHN0eWxlPSJmb250LXNpemU6MTFweDtmaWxsOiNlNmUzZGQiPmNkIGZyb250ZW5kICZhbXA7JmFtcDsgbnBtIHRlc3Q8L3RleHQ+CiAgPHRleHQgeD0iMTE1MCIgeT0iOTgiIGNsYXNzPSJhbm4iIHRleHQtYW5jaG9yPSJlbmQiPkIgwrcgcGFpbmVsIGxhdGVyYWw8L3RleHQ+Cjwvc3ZnPgo=" alt="Tela Artefatos" loading="lazy"><figcaption>Tela Artefatos</figcaption></figure>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDc2MCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJUZWxhIEFydGVmYXRvcyBubyBsYXlvdXQgdjIgYXR1YWw6IG1lbnUgbGF0ZXJhbCBjb20gbyBub3ZvIGl0ZW0gQXJ0ZWZhdG9zIGUgYSBsaXN0YSBkZSBwcm9qZXRvcyBkbyBjbGllbnRlLCBjaGlwcyBkZSB0aXBvIGUgYnVzY2EsIGNhcnTDtWVzIGRlIGFydGVmYXRvcyBhZ3J1cGFkb3MgcG9yIHByb2pldG8gZSwgw6AgZGlyZWl0YSwgbyBwYWluZWwgbGF0ZXJhbCBkZSB2aXN1YWxpemHDp8OjbyBhYmVydG8gY29tIGFiYXMiPgogIDxzdHlsZT4KICAgIHRleHR7Zm9udC1mYW1pbHk6RmlndHJlZSwtYXBwbGUtc3lzdGVtLCJTZWdvZSBVSSIsUm9ib3RvLHNhbnMtc2VyaWY7ZmlsbDojM2IzNTMwfQogICAgLm17d2hpdGUtc3BhY2U6cHJlO2ZvbnQtZmFtaWx5OiJJQk0gUGxleCBNb25vIix1aS1tb25vc3BhY2UsTWVubG8sbW9ub3NwYWNlfQogICAgLmh7Zm9udC1zaXplOjE0cHg7Zm9udC13ZWlnaHQ6NzAwfQogICAgLmJ7Zm9udC1zaXplOjEycHh9CiAgICAuc3tmb250LXNpemU6MTAuNXB4O2ZpbGw6IzhhODM3OH0KICAgIC53e2ZpbGw6I2ZmZmZmZn0KICAgIC5hbm57Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6NzAwO2ZpbGw6I2I0NTMxZn0KICAgIC5jYXB7Zm9udC1zaXplOjExcHg7Zm9udC13ZWlnaHQ6NzAwO2xldHRlci1zcGFjaW5nOi4wNmVtO2ZpbGw6IzhhODM3OH0KICA8L3N0eWxlPgogIDxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9Ijc2MCIgcng9IjE2IiBmaWxsPSIjZTllNWRjIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iMTE2MCIgaGVpZ2h0PSI3MjAiIHJ4PSIyNiIgZmlsbD0iIzFmMjAyNCIvPgogIDxyZWN0IHg9IjMyIiB5PSIzMiIgd2lkdGg9IjExMzYiIGhlaWdodD0iNjk2IiByeD0iMTYiIGZpbGw9IiNmN2Y1ZjAiLz4KCiAgPCEtLSBTaWRlYmFyVjIgKGF0dWFsKSAtLT4KICA8cmVjdCB4PSIzMiIgeT0iMzIiIHdpZHRoPSIyMDAiIGhlaWdodD0iNjk2IiByeD0iMTYiIGZpbGw9IiNmYmZhZjciLz4KICA8cmVjdCB4PSIyMTYiIHk9IjMyIiB3aWR0aD0iMTYiIGhlaWdodD0iNjk2IiBmaWxsPSIjZmJmYWY3Ii8+CiAgPGxpbmUgeDE9IjIzMiIgeTE9IjMyIiB4Mj0iMjMyIiB5Mj0iNzI4IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8Y2lyY2xlIGN4PSI1OCIgY3k9IjYyIiByPSIxMiIgZmlsbD0iIzNmOGY3YyIvPjx0ZXh0IHg9IjUyIiB5PSI2NiIgY2xhc3M9InMgdyIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+VE48L3RleHQ+CiAgPHRleHQgeD0iNzgiIHk9IjY3IiBjbGFzcz0iaCI+VGFza05leHVzPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxMDQiIGNsYXNzPSJiIj7wn5KsICBDaGF0PC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxMzIiIGNsYXNzPSJiIj7ilqYgIEJvYXJkPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxNjAiIGNsYXNzPSJiIj7inJMgIFRhcmVmYXM8L3RleHQ+CiAgPHJlY3QgeD0iNDAiIHk9IjE3MiIgd2lkdGg9IjE4NCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9IiNlNmYyZWUiLz4KICA8dGV4dCB4PSI0OCIgeT0iMTkyIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmaWxsOiMyZjc1NjQiPuKXpyAgQXJ0ZWZhdG9zPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIyMjIiIGNsYXNzPSJiIj7il4ggIENvbmZpZ3VyYcOnw6NvPC90ZXh0PgogIDxsaW5lIHgxPSI0NCIgeTE9IjI0MCIgeDI9IjIyMCIgeTI9IjI0MCIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHJlY3QgeD0iNDAiIHk9IjI1MCIgd2lkdGg9IjE4NCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjUwIiB5PSIyNzAiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj7ihpAgQ2xpZW50ZXM8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjMwMCIgY2xhc3M9ImNhcCI+UE9ERVNVQklSIMK3IFBST0pFVE9TPC90ZXh0PgogIDxyZWN0IHg9IjQwIiB5PSIzMTAiIHdpZHRoPSIxODQiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjZWZlY2U1Ii8+CiAgPHRleHQgeD0iNDgiIHk9IjMyOSIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo2MDAiPlRvZG9zIG9zIHByb2pldG9zPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIzNTgiIGNsYXNzPSJiIj5zaXRlLWluc3RpdHVjaW9uYWw8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjM4NCIgY2xhc3M9ImIiPmFwaS1wYWdhbWVudG9zPC90ZXh0PgogIDx0ZXh0IHg9IjIwNiIgeT0iMzg0IiBjbGFzcz0iYiIgc3R5bGU9ImZpbGw6IzhhODM3OCI+4oC6PC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSI0MTAiIGNsYXNzPSJiIj5hcHAtbW9iaWxlPC90ZXh0PgogIDx0ZXh0IHg9IjE0MCIgeT0iMTkyIiBjbGFzcz0iYW5uIj5BIMK3IGl0ZW0gbm92bzwvdGV4dD4KCiAgPCEtLSB0b3BiYXIgLS0+CiAgPGxpbmUgeDE9IjIzMiIgeTE9Ijk0IiB4Mj0iMTE2OCIgeTI9Ijk0IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSIyNTIiIHk9IjcwIiBzdHlsZT0iZm9udC1zaXplOjE1cHg7Zm9udC13ZWlnaHQ6NzAwIj5BcnRlZmF0b3M8L3RleHQ+CgogIDwhLS0gZmlsdGVyIGJhciAtLT4KICA8bGluZSB4MT0iMjMyIiB5MT0iMTQwIiB4Mj0iMTE2OCIgeTI9IjE0MCIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHJlY3QgeD0iMjUyIiB5PSIxMDYiIHdpZHRoPSI1MiIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iMjYyIiB5PSIxMjIiIGNsYXNzPSJiIHciIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPlRvZG9zPC90ZXh0PgogIDxyZWN0IHg9IjMxMCIgeT0iMTA2IiB3aWR0aD0iNDAiIGhlaWdodD0iMjQiIHJ4PSIxMiIgZmlsbD0iI2VmZWNlNSIvPgogIDx0ZXh0IHg9IjMyMCIgeT0iMTIyIiBjbGFzcz0iYiI+TUQ8L3RleHQ+CiAgPHJlY3QgeD0iMzU2IiB5PSIxMDYiIHdpZHRoPSI1MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZWZlY2U1Ii8+CiAgPHRleHQgeD0iMzY2IiB5PSIxMjIiIGNsYXNzPSJiIj5IVE1MPC90ZXh0PgogIDxyZWN0IHg9IjQxMiIgeT0iMTA2IiB3aWR0aD0iNDIiIGhlaWdodD0iMjQiIHJ4PSIxMiIgZmlsbD0iI2VmZWNlNSIvPgogIDx0ZXh0IHg9IjQyMiIgeT0iMTIyIiBjbGFzcz0iYiI+UERGPC90ZXh0PgogIDxyZWN0IHg9IjQ2OCIgeT0iMTA2IiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZTJkZGQzIi8+CiAgPHRleHQgeD0iNDc4IiB5PSIxMjIiIGNsYXNzPSJiIiBzdHlsZT0iZmlsbDojOGE4Mzc4Ij5CdXNjYXIgYXJ0ZWZhdG9zPC90ZXh0PgoKICA8IS0tIGdyb3VwIDEgLS0+CiAgPHRleHQgeD0iMjUyIiB5PSIxNzAiIGNsYXNzPSJjYXAiPlBPREVTVUJJUiAvIFNJVEUtSU5TVElUVUNJT05BTCDCtyAzPC90ZXh0PgogIDwhLS0gY2FyZCAtLT4KICA8Zz4KICAgIDxyZWN0IHg9IjI1MiIgeT0iMTgyIiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjEzMCIgcng9IjEyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICAgIDxyZWN0IHg9IjI2NCIgeT0iMTk0IiB3aWR0aD0iNDIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjZWVmMGZhIi8+PHRleHQgeD0iMjcyIiB5PSIyMDgiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojNDQ1NzlmO2ZvbnQtd2VpZ2h0OjcwMCI+SFRNTDwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2NCIgeT0iMjM2IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+UmVsYXTDs3JpbyBkZSB0ZXN0ZXM8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjQiIHk9IjI1NCIgY2xhc3M9InMiPmRvY3MvcmVsYXRvcmlvLmh0bWw8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjQiIHk9IjI3NiIgY2xhc3M9InMiPjU4IHBhc3NhcmFtLCAyIGZhbGhhcmFt4oCmPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSIyOTgiIGNsYXNzPSJzIj5jbGF1ZGUgwrcgaMOhIDIgaCDCtyAxOCBLQjwvdGV4dD4KICA8L2c+CiAgPGc+CiAgICA8cmVjdCB4PSI0MzIiIHk9IjE4MiIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjM2Y4ZjdjIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgIDxyZWN0IHg9IjQ0NCIgeT0iMTk0IiB3aWR0aD0iMzQiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjZTZmMmVlIi8+PHRleHQgeD0iNDUyIiB5PSIyMDgiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojMmY3NTY0O2ZvbnQtd2VpZ2h0OjcwMCI+TUQ8L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjIzNiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPlBsYW5vIGRlIHJlbGVhc2UgMi40PC90ZXh0PgogICAgPHRleHQgeD0iNDQ0IiB5PSIyNTQiIGNsYXNzPSJzIj5kb2NzL3BsYW5vLXJlbGVhc2UubWQ8L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjI3NiIgY2xhc3M9InMiPk9iamV0aXZvOiBsaWJlcmFyIG8gbW9kb+KApjwvdGV4dD4KICAgIDx0ZXh0IHg9IjQ0NCIgeT0iMjk4IiBjbGFzcz0icyI+Y2xhdWRlIMK3IG9udGVtIMK3IDEyIEtCPC90ZXh0PgogIDwvZz4KICA8Zz4KICAgIDxyZWN0IHg9IjYxMiIgeT0iMTgyIiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjEzMCIgcng9IjEyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICAgIDxyZWN0IHg9IjYyNCIgeT0iMTk0IiB3aWR0aD0iMzQiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjZmJlZWVhIi8+PHRleHQgeD0iNjMxIiB5PSIyMDgiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojYTQ0MTJmO2ZvbnQtd2VpZ2h0OjcwMCI+UERGPC90ZXh0PgogICAgPHRleHQgeD0iNjI0IiB5PSIyMzYiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5Qcm9wb3N0YSBjb21lcmNpYWw8L3RleHQ+CiAgICA8dGV4dCB4PSI2MjQiIHk9IjI1NCIgY2xhc3M9InMiPmVudHJlZ2FzL3Byb3Bvc3RhLnBkZjwvdGV4dD4KICAgIDx0ZXh0IHg9IjYyNCIgeT0iMjc2IiBjbGFzcz0icyI+NCBww6FnaW5hczwvdGV4dD4KICAgIDx0ZXh0IHg9IjYyNCIgeT0iMjk4IiBjbGFzcz0icyI+Y29kZXggwrcgMjQgc2V0IMK3IDMxMCBLQjwvdGV4dD4KICA8L2c+CgogIDwhLS0gZ3JvdXAgMiAtLT4KICA8dGV4dCB4PSIyNTIiIHk9IjM0NiIgY2xhc3M9ImNhcCI+UE9ERVNVQklSIC8gQVBJLVBBR0FNRU5UT1MgwrcgMjwvdGV4dD4KICA8Zz4KICAgIDxyZWN0IHg9IjI1MiIgeT0iMzU4IiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjEzMCIgcng9IjEyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICAgIDxyZWN0IHg9IjI2NCIgeT0iMzcwIiB3aWR0aD0iMzQiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjZTZmMmVlIi8+PHRleHQgeD0iMjcyIiB5PSIzODQiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojMmY3NTY0O2ZvbnQtd2VpZ2h0OjcwMCI+TUQ8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjQiIHk9IjQxMiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPkFEUiAwNyDigJQgV2ViaG9va3M8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjQiIHk9IjQzMCIgY2xhc3M9InMiPmRvY3MvYWRyLzA3LXdlYmhvb2tzLm1kPC90ZXh0PgogICAgPHRleHQgeD0iMjY0IiB5PSI0NTIiIGNsYXNzPSJzIj5EZWNpc8OjbzogZmlsYSBjb20gcmV0cnnigKY8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjQiIHk9IjQ3NCIgY2xhc3M9InMiPmNsYXVkZSDCtyAyMCBzZXQgwrcgNiBLQjwvdGV4dD4KICA8L2c+CiAgPGc+CiAgICA8cmVjdCB4PSI0MzIiIHk9IjM1OCIgd2lkdGg9IjE3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDhkM2M4IiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz4KICAgIDxyZWN0IHg9IjQ0NCIgeT0iMzcwIiB3aWR0aD0iNDIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjZWVmMGZhIi8+PHRleHQgeD0iNDUyIiB5PSIzODQiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojNDQ1NzlmO2ZvbnQtd2VpZ2h0OjcwMCI+SFRNTDwvdGV4dD4KICAgIDx0ZXh0IHg9IjQ0NCIgeT0iNDEyIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+RGlhZ3JhbWEgZGUgZmx1eG88L3RleHQ+CiAgICA8dGV4dCB4PSI0NDQiIHk9IjQzMCIgY2xhc3M9InMiPmRvY3MvZmx1eG8uaHRtbDwvdGV4dD4KICAgIDxyZWN0IHg9IjQ0NCIgeT0iNDQyIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjE4IiByeD0iNiIgZmlsbD0iI2ZkZjZlNiIvPgogICAgPHRleHQgeD0iNDUwIiB5PSI0NTUiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojOGE1YjA1Ij5hcnF1aXZvIG7Do28gZW5jb250cmFkbzwvdGV4dD4KICAgIDx0ZXh0IHg9IjQ0NCIgeT0iNDc4IiBjbGFzcz0icyI+Y2xhdWRlIMK3IDE4IHNldDwvdGV4dD4KICA8L2c+CgogIDxyZWN0IHg9IjI1MiIgeT0iNjYwIiB3aWR0aD0iMjEwIiBoZWlnaHQ9IjM0IiByeD0iOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iMjY2IiB5PSI2ODIiIGNsYXNzPSJiIj7vvIsgSW1wb3J0YXIgZG8gcHJvamV0b+KApjwvdGV4dD4KICA8dGV4dCB4PSIyNTIiIHk9IjcxMiIgY2xhc3M9InMiPlRvY2FyIG51bSBjYXJ0w6NvIGFicmUgbyBhcnF1aXZvIG5vIHBhaW5lbCBsYXRlcmFsIOKGkjwvdGV4dD4KCiAgPCEtLSBsYXRlcmFsIHZpZXdlciAob3ZlcmxheSBkcmF3ZXIpIC0tPgogIDxyZWN0IHg9IjIzMiIgeT0iOTUiIHdpZHRoPSI5MzYiIGhlaWdodD0iNjMzIiBmaWxsPSIjM2IzNTMwIiBvcGFjaXR5PSIuMTAiLz4KICA8cmVjdCB4PSI4MDAiIHk9Ijk1IiB3aWR0aD0iMzY4IiBoZWlnaHQ9IjYzMyIgZmlsbD0iI2ZmZmZmZiIvPgogIDxsaW5lIHgxPSI4MDAiIHkxPSI5NSIgeDI9IjgwMCIgeTI9IjcyOCIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHJlY3QgeD0iODEyIiB5PSIxMDYiIHdpZHRoPSIxMTIiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjZTZmMmVlIi8+CiAgPHRleHQgeD0iODIyIiB5PSIxMjUiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZpbGw6IzJmNzU2NCI+cGxhbm8tcmVsZWFzZeKApjwvdGV4dD4KICA8cmVjdCB4PSI5MzAiIHk9IjEwNiIgd2lkdGg9IjEwNCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNmM2YxZWMiLz4KICA8dGV4dCB4PSI5NDAiIHk9IjEyNSIgY2xhc3M9ImIiPnJlbGF0b3Jpby5odG1sPC90ZXh0PgogIDxyZWN0IHg9IjEwOTAiIHk9IjEwNCIgd2lkdGg9IjY4IiBoZWlnaHQ9IjMyIiByeD0iOSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iMTEwMCIgeT0iMTI1IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+4pyVIEZlY2hhcjwvdGV4dD4KICA8bGluZSB4MT0iODAwIiB5MT0iMTQ0IiB4Mj0iMTE2OCIgeTI9IjE0NCIgc3Ryb2tlPSIjZWNlOGRmIi8+CiAgPHRleHQgeD0iODEyIiB5PSIxNjQiIGNsYXNzPSJzIj5kb2NzL3BsYW5vLXJlbGVhc2UubWQgwrcgMTIgS0I8L3RleHQ+CiAgPHRleHQgeD0iOTkwIiB5PSIxNjQiIGNsYXNzPSJiIj7ipJMg4qeJIOKGlzwvdGV4dD4KICA8cmVjdCB4PSIxMDYwIiB5PSIxNTAiIHdpZHRoPSI5OCIgaGVpZ2h0PSIyMiIgcng9IjciIGZpbGw9IiMzZjhmN2MiLz4KICA8dGV4dCB4PSIxMDY4IiB5PSIxNjUiIGNsYXNzPSJzIHciIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPuKkoiBUZWxhIGNoZWlhPC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMjA2IiBzdHlsZT0iZm9udC1zaXplOjE4cHg7Zm9udC13ZWlnaHQ6NzAwIj5QbGFubyBkZSByZWxlYXNlIDIuNDwvdGV4dD4KICA8bGluZSB4MT0iODIwIiB5MT0iMjE2IiB4Mj0iMTE1MCIgeTI9IjIxNiIgc3Ryb2tlPSIjZWNlOGRmIi8+CiAgPHRleHQgeD0iODIwIiB5PSIyNDAiIGNsYXNzPSJiIj5PYmpldGl2bzogbGliZXJhciBvIG1vZG8gY2hhdCBwYXJhPC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMjU4IiBjbGFzcz0iYiI+dG9kb3Mgb3MgYWdlbnRlcyBjbGF1ZGUgYXTDqSBzZXh0YS48L3RleHQ+CiAgPHRleHQgeD0iODIwIiB5PSIyOTIiIGNsYXNzPSJoIj5DaGVja2xpc3Q8L3RleHQ+CiAgPHRleHQgeD0iODIwIiB5PSIzMTQiIGNsYXNzPSJiIj7imJEgTWlncmFyIHdzIGRlIGNoYXQ8L3RleHQ+CiAgPHRleHQgeD0iODIwIiB5PSIzMzQiIGNsYXNzPSJiIj7imJAgVGVzdGFyIG5vIGlQYWQgZW0gcmV0cmF0bzwvdGV4dD4KICA8cmVjdCB4PSI4MjAiIHk9IjM1MiIgd2lkdGg9IjMzMCIgaGVpZ2h0PSI3MCIgcng9IjgiIGZpbGw9IiMyNjI4MmUiLz4KICA8dGV4dCB4PSI4MzIiIHk9IjM3NCIgY2xhc3M9Im0iIHN0eWxlPSJmb250LXNpemU6MTAuNXB4O2ZpbGw6I2I5YjRhYiI+YmFzaCAgICAgICAgICAgICAgICAgICAgICAgICAgQ29waWFyPC90ZXh0PgogIDx0ZXh0IHg9IjgzMiIgeT0iNDAwIiBjbGFzcz0ibSIgc3R5bGU9ImZvbnQtc2l6ZToxMXB4O2ZpbGw6I2U2ZTNkZCI+Y2QgZnJvbnRlbmQgJmFtcDsmYW1wOyBucG0gdGVzdDwvdGV4dD4KICA8dGV4dCB4PSIxMTUwIiB5PSI5OCIgY2xhc3M9ImFubiIgdGV4dC1hbmNob3I9ImVuZCI+QiDCtyBwYWluZWwgbGF0ZXJhbDwvdGV4dD4KPC9zdmc+Cg==" alt="Tela Artefatos" loading="lazy"><figcaption>Tela Artefatos</figcaption></figure>
 <p>Legenda: <strong>A</strong> item novo <strong>Artefatos</strong> no menu que já existe (mesma lista
 <code>NAV_ITEMS</code> de Chat, Board, Tarefas e Configuração) · <strong>B</strong> painel lateral
 de visualização, por cima da tela e com abas, com os botões Baixar, Copiar,
@@ -3691,8 +3757,8 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
 </tr>
 <tr>
 <td>"Painel lateral"</td>
-<td>Na tela Artefatos, o visualizador abre como <strong>drawer à direita</strong>, por cima da lista, no mesmo padrão do <code>TasksDrawer</code> que já existe. No <strong>chat</strong> continua o <strong>dropdown</strong> da Fase V</td>
-<td>Usar o drawer lateral também no chat, no lugar do dropdown (troca só de contêiner, o conteúdo é o mesmo <code>ViewerPanel</code>)</td>
+<td>O <strong>mesmo painel à direita</strong> do chat (Fase V + Fase N): encaixado em telas ≥ 1100 px (a sidebar vira trilho enquanto ele está aberto), por cima em 641–1099 px, tela cheia no celular</td>
+<td>— (decidido com a Parte 8)</td>
 </tr>
 <tr>
 <td>Tela cheia no painel lateral</td>
@@ -3719,10 +3785,11 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
   o item <strong>◧ Artefatos</strong>, entre Tarefas e Configuração. É só uma entrada a mais
   em <code>NAV_ITEMS</code>; a sidebar, a topbar e a lista de clientes continuam iguais.</li>
 <li>Título da topbar: "Artefatos".</li>
-<li>O <strong>cliente</strong> vem da lista de clientes da sidebar (igual ao Board e a
-  Tarefas). Com "Todos" selecionado, a barra de filtro mostra os dois selects
-  (cliente → projeto), usando o <code>ClienteProjetoFilterBar</code> e o
-  <code>useClienteProjetoFilter</code> existentes.</li>
+<li><strong>Cliente e projeto vêm da sidebar</strong> (Fase N, <a href="#parte-08">Parte 8</a>):
+  a lista de clientes vira a lista de projetos do cliente, com <strong>← Clientes</strong>
+  para voltar. <strong>Não há barra de selects</strong> nesta tela; a faixa de filtro tem
+  só os chips de tipo e a busca. Se a Fase A for feita antes da N, usar
+  temporariamente o <code>ClienteProjetoFilterBar</code> como no Board e em Tarefas.</li>
 </ul>
 <h3 id="p07-a-tela">A tela</h3>
 <ol>
@@ -3784,9 +3851,9 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
 </table></div>
 <h3 id="p07-painel-lateral">Painel lateral</h3>
 <ul>
-<li>Drawer à direita, <strong>por cima</strong> da lista (overlay), com uma faixa escurecida
-  leve no resto da tela. Largura <code>min(760px, 62vw)</code> em telas ≥ 821 px. Entre
-  641 e 820 px ocupa 100 % da área de conteúdo. No celular abre em tela cheia.</li>
+<li>Painel à direita, igual ao do chat: <strong>encaixado</strong> em telas ≥ 1100 px (a
+  grade de cartões encolhe e a sidebar vira trilho enquanto ele está aberto),
+  <strong>por cima</strong> da lista em 641–1099 px, <strong>tela cheia</strong> no celular.</li>
 <li>Cabeçalho: abas dos artefatos abertos · <strong>✕ Fechar</strong>. Barra: caminho,
   tamanho, ⤓ Baixar, ⧉ Copiar, ↗ Abrir no navegador, <strong>⤢ Tela cheia</strong>.</li>
 <li>Fecha com ✕, com Esc ou tocando na faixa escurecida. As abas continuam
@@ -3832,8 +3899,8 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
 </tr>
 <tr>
 <td>Contêiner lateral</td>
-<td>Componente novo <code>ViewerDrawer</code>, no padrão do <code>TasksDrawer</code> (overlay à direita)</td>
-<td>Não altera o layout: é um overlay, como o drawer de tarefas que já existe</td>
+<td>Os mesmos <code>ViewerDock</code>/<code>ViewerDrawer</code>/<code>ViewerFullscreen</code> da Fase V, escolhidos pela largura</td>
+<td>Um único comportamento de visualizador no app inteiro</td>
 </tr>
 <tr>
 <td>Segurança</td>
@@ -4017,7 +4084,7 @@ título (se veio), descrição, trecho, tamanho, <code>mtime</code> e <code>upda
   useArtifacts.js          # busca, filtros, recarga ao focar a tela e ao chegar viewer_open de md/html/pdf
   artifactsApi.js
 frontend/src/features/viewer/
-  ViewerDrawer.jsx         # NOVO contêiner lateral (padrão TasksDrawer) para o ViewerPanel
+  ViewerDock.jsx / ViewerDrawer.jsx   # já existem (Fase V); aqui só recebem scope="artefatos"
   ViewerContext.jsx        # ALTERAR: escopos (session:&lt;sk&gt; e 'artefatos') e item.source ('viewer'|'artifact')
   viewerApi.js             # ALTERAR: URLs por origem
   ViewerToolbar.jsx        # ALTERAR: "☆ Salvar em Artefatos" quando o item veio do chat e ainda não é artefato
@@ -4042,20 +4109,19 @@ recebe <code>NAV_ITEMS</code>, então o item aparece no celular sem mudança ext
 Conferir testes que contam itens de navegação (<code>AppV2.test.jsx</code>,
 <code>SidebarV2.test.jsx</code>, <code>MobileMenuScreen.test.jsx</code>, <code>NavTabs</code>) e atualizar.</p>
 <h3 id="p07-753-filtro">7.5.3 Filtro</h3>
-<p>Usar <code>useClienteProjetoFilter(projects, selectedClienteId)</code> e
-<code>ClienteProjetoFilterBar</code> exatamente como <code>TarefasV2</code>/<code>BoardV2</code>. A filtragem
+<p>Usar o escopo da sidebar (<code>selectedClienteId</code> e <code>selectedProjetoId</code>, Fase N).
+Sem barra de selects. A filtragem
 por subárvore do projeto pode ser feita no backend (<code>projeto_id</code>) ou no front
 com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o caso de 3 níveis
 (<code>cliente/projeto/sub</code>), que já quebrou no Board.</p>
 <h3 id="p07-754-painel-lateral">7.5.4 Painel lateral</h3>
 <ul>
-<li><code>ViewerDrawer</code>: overlay à direita, <code>position: fixed</code> com <code>top</code>/<code>bottom</code>
-  alinhados à área de conteúdo, respeitando <code>fixedPositioningInvariant.test.js</code>
-  (sem <code>transform</code> em ancestral). Faixa escurecida <code>--v2-scrim</code> com opacidade baixa.</li>
-<li>Renderiza <code>&lt;ViewerPanel scope="artefatos" /&gt;</code>. <strong>⤢ Tela cheia</strong> usa o
-  <code>ViewerFullscreen</code> da Fase V; <strong>✕ Fechar</strong> e Esc fecham o drawer.</li>
+<li>Mesmo painel da Fase V, escolhido pela largura: <code>ViewerDock</code> (≥ 1100 px,
+  com recolhimento forçado da sidebar, Parte 8), <code>ViewerDrawer</code> (641–1099 px)
+  ou <code>ViewerFullscreen</code> (celular), sempre com <code>scope="artefatos"</code>.</li>
+<li><strong>⤢ Tela cheia</strong> usa o <code>ViewerFullscreen</code>; <strong>✕ Fechar</strong> e Esc fecham o painel.</li>
 <li>Tocar num cartão: <code>openArtifact(artifact)</code> → adiciona/foca a aba no escopo
-  <code>artefatos</code> e abre o drawer.</li>
+  <code>artefatos</code> e abre o painel.</li>
 <li>As abas do escopo <code>artefatos</code> ficam <strong>só no front</strong> (não precisam de
   tabela): até 15, guardadas em <code>sessionStorage</code> para sobreviver a recarregar
   a página.</li>
@@ -4100,7 +4166,7 @@ com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o cas
 </tr>
 <tr>
 <td>5</td>
-<td><code>ViewerContext</code> com escopos + <code>ViewerDrawer</code></td>
+<td><code>ViewerContext</code> com escopos; painel com <code>scope="artefatos"</code></td>
 <td>vitest</td>
 </tr>
 <tr>
@@ -4145,7 +4211,7 @@ com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o cas
 <li><code>ArtefatosV2</code>: agrupa por projeto com "Todos os projetos"; mostra grade
   simples com projeto escolhido; chips de tipo filtram; busca filtra; estado vazio.</li>
 <li>Cartão com <code>exists:false</code> mostra o selo e a borda tracejada.</li>
-<li>Tocar no cartão abre o <code>ViewerDrawer</code> com a aba; tocar em outro abre a segunda aba.</li>
+<li>Tocar no cartão abre o painel à direita com a aba; tocar em outro abre a segunda aba.</li>
 <li>Remover exige 2 toques e chama <code>DELETE</code>.</li>
 <li>Item "Artefatos" aparece na sidebar e no menu do celular.</li>
 </ul>
@@ -4153,8 +4219,8 @@ com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o cas
 <ol>
 <li>Pedir ao claude: "gere um relatório HTML dos testes e publique como artefato".
    Ele aparece em Artefatos › cliente › projeto e abre no visualizador.</li>
-<li>Escolher outro cliente na sidebar: a lista muda. Escolher um projeto no
-   select: só aquele projeto (e subprojetos).</li>
+<li>Escolher outro cliente na sidebar: a lista muda. Entrar no cliente e escolher
+   um projeto na sidebar: só aquele projeto (e subprojetos).</li>
 <li>Tocar em dois cartões: painel lateral com duas abas; ⤢ Tela cheia e ✕ Fechar funcionam.</li>
 <li>Abrir um PDF: aparece no painel (ou, se o Safari do iPad não renderizar
    bem dentro do painel, o botão ↗ abre no leitor nativo e ⤓ baixa. Registrar o resultado no PR).</li>
@@ -4198,6 +4264,346 @@ com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o cas
 <li><input type="checkbox" disabled> Nenhuma mudança visual fora da tela nova, do item de menu e do painel lateral.</li>
 <li><input type="checkbox" disabled> Aceite manual 7.7 conferido (itens de aparelho marcados como "verificar" se o agente não tiver iPad).</li>
 <li><input type="checkbox" disabled> README do projeto com uma seção curta "Artefatos".</li>
+<li><input type="checkbox" disabled> Documentação atualizada se a implementação divergir.</li>
+</ul></article><article class="doc part-sep" id="parte-08"><p class="eyebrow">Parte 8 de 8</p><h1 id="p08-parte-8-planejamento-da-fase-n-cliente-projeto-na-sidebar-e-espaço-para-o-visualizador">Parte 8 — Planejamento da Fase N: cliente → projeto na sidebar e espaço para o visualizador</h1>
+<blockquote>
+<p><strong>O pedido:</strong> liberar espaço no desktop e no tablet. Ao selecionar um
+cliente, <strong>a própria lista de clientes vira a lista de projetos</strong> desse
+cliente, com uma seta ou botão para <strong>voltar à lista de clientes</strong>. Com isso
+sobra espaço no <strong>lado direito</strong> para abrir o visualizador de arquivos
+(o "dropdown" da Fase V).</p>
+<p>É uma mudança pequena e localizada <strong>em cima do layout v2 atual</strong>: a
+sidebar continua onde está, com a mesma largura e o mesmo visual. Muda o
+<strong>conteúdo</strong> da seção de clientes e o que acontece com as colunas quando o
+visualizador abre.</p>
+</blockquote>
+<figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDcwMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJOYXZlZ2HDp8OjbyBjbGllbnRlIHBhcmEgcHJvamV0byBuYSBzaWRlYmFyOiAxLCBhIHNpZGViYXIgbGlzdGEgY2xpZW50ZXM7IDIsIGFvIHRvY2FyIG51bSBjbGllbnRlIGEgbWVzbWEgw6FyZWEgbGlzdGEgb3MgcHJvamV0b3MgZGVsZSBjb20gYm90w6NvIHZvbHRhciBwYXJhIGNsaWVudGVzOyAzLCBjb20gbyB2aXN1YWxpemFkb3IgYWJlcnRvIGFzIGNvbHVuYXMgZGEgZXNxdWVyZGEgdmlyYW0gdHJpbGhvcyBlc3RyZWl0b3MgZSBvIHBhaW5lbCBkbyB2aXN1YWxpemFkb3Igb2N1cGEgbyBsYWRvIGRpcmVpdG8iPgogIDxkZWZzPgogICAgPG1hcmtlciBpZD0iYSIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iI2I0NTMxZiIvPjwvbWFya2VyPgogIDwvZGVmcz4KICA8c3R5bGU+CiAgICB0ZXh0e2ZvbnQtZmFtaWx5OkZpZ3RyZWUsLWFwcGxlLXN5c3RlbSwiU2Vnb2UgVUkiLFJvYm90byxzYW5zLXNlcmlmO2ZpbGw6IzNiMzUzMH0KICAgIC5te3doaXRlLXNwYWNlOnByZTtmb250LWZhbWlseToiSUJNIFBsZXggTW9ubyIsdWktbW9ub3NwYWNlLE1lbmxvLG1vbm9zcGFjZX0KICAgIC5oe2ZvbnQtc2l6ZToxM3B4O2ZvbnQtd2VpZ2h0OjcwMH0KICAgIC5ie2ZvbnQtc2l6ZToxMS41cHh9CiAgICAuc3tmb250LXNpemU6MTBweDtmaWxsOiM4YTgzNzh9CiAgICAud3tmaWxsOiNmZmZmZmZ9CiAgICAuY2Fwe2ZvbnQtc2l6ZToxMHB4O2ZvbnQtd2VpZ2h0OjcwMDtsZXR0ZXItc3BhY2luZzouMDZlbTtmaWxsOiM4YTgzNzh9CiAgICAudHRse2ZvbnQtc2l6ZToxM3B4O2ZvbnQtd2VpZ2h0OjcwMDtmaWxsOiM2YjY0NWN9CiAgICAuYW5ue2ZvbnQtc2l6ZToxMXB4O2ZvbnQtd2VpZ2h0OjcwMDtmaWxsOiNiNDUzMWZ9CiAgPC9zdHlsZT4KICA8cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI3MDAiIHJ4PSIxNiIgZmlsbD0iI2U5ZTVkYyIvPgoKICA8IS0tID09PT09IDE6IGNsaWVudGVzID09PT09IC0tPgogIDx0ZXh0IHg9IjMwIiB5PSIzNCIgY2xhc3M9InR0bCI+MSDCtyBTaWRlYmFyIG1vc3RyYSBvcyBjbGllbnRlcyAoY29tbyBob2plKTwvdGV4dD4KICA8cmVjdCB4PSIzMCIgeT0iNDgiIHdpZHRoPSIyMjAiIGhlaWdodD0iNDQwIiByeD0iMTQiIGZpbGw9IiNmYmZhZjciIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjQ2IiB5PSI3NiIgY2xhc3M9ImgiPlRhc2tOZXh1czwvdGV4dD4KICA8dGV4dCB4PSI0NiIgeT0iMTA2IiBjbGFzcz0iYiI+8J+SrCBDaGF0PC90ZXh0PgogIDx0ZXh0IHg9IjQ2IiB5PSIxMzAiIGNsYXNzPSJiIj7ilqYgQm9hcmQ8L3RleHQ+CiAgPHRleHQgeD0iNDYiIHk9IjE1NCIgY2xhc3M9ImIiPuKckyBUYXJlZmFzPC90ZXh0PgogIDx0ZXh0IHg9IjQ2IiB5PSIxNzgiIGNsYXNzPSJiIj7il6cgQXJ0ZWZhdG9zPC90ZXh0PgogIDx0ZXh0IHg9IjQ2IiB5PSIyMDIiIGNsYXNzPSJiIj7il4ggQ29uZmlndXJhw6fDo288L3RleHQ+CiAgPGxpbmUgeDE9IjQyIiB5MT0iMjE2IiB4Mj0iMjM4IiB5Mj0iMjE2IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8dGV4dCB4PSI0NiIgeT0iMjM2IiBjbGFzcz0iY2FwIj5DTElFTlRFUzwvdGV4dD4KICA8cmVjdCB4PSIzOCIgeT0iMjQ2IiB3aWR0aD0iMjA0IiBoZWlnaHQ9IjMwIiByeD0iOCIgZmlsbD0iI2VmZWNlNSIvPgogIDx0ZXh0IHg9IjQ4IiB5PSIyNjYiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NjAwIj5Ub2RvczwvdGV4dD4KICA8cmVjdCB4PSIzOCIgeT0iMjgwIiB3aWR0aD0iMjA0IiBoZWlnaHQ9IjMwIiByeD0iOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjM2Y4ZjdjIi8+CiAgPHRleHQgeD0iNDgiIHk9IjMwMCIgY2xhc3M9ImIiPnBvZGVzdWJpcjwvdGV4dD4KICA8dGV4dCB4PSIyMDYiIHk9IjMwMCIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPuKAujwvdGV4dD4KICA8dGV4dCB4PSI0OCIgeT0iMzM0IiBjbGFzcz0iYiI+Y2xpZW50ZS1hY21lPC90ZXh0PgogIDx0ZXh0IHg9IjIwNiIgeT0iMzM0IiBjbGFzcz0iYiIgc3R5bGU9ImZpbGw6IzhhODM3OCI+4oC6PC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIzNjQiIGNsYXNzPSJiIj5pbnRlcm5vPC90ZXh0PgogIDx0ZXh0IHg9IjIwNiIgeT0iMzY0IiBjbGFzcz0iYiIgc3R5bGU9ImZpbGw6IzhhODM3OCI+4oC6PC90ZXh0PgogIDx0ZXh0IHg9IjQ2IiB5PSI0NzAiIGNsYXNzPSJzIj50b3F1ZSBlbSAicG9kZXN1YmlyIjwvdGV4dD4KICA8bGluZSB4MT0iMjU0IiB5MT0iMjk2IiB4Mj0iMzE4IiB5Mj0iMjk2IiBzdHJva2U9IiNiNDUzMWYiIHN0cm9rZS13aWR0aD0iMiIgbWFya2VyLWVuZD0idXJsKCNhKSIvPgoKICA8IS0tID09PT09IDI6IHByb2pldG9zID09PT09IC0tPgogIDx0ZXh0IHg9IjMzMCIgeT0iMzQiIGNsYXNzPSJ0dGwiPjIgwrcgQSBtZXNtYSDDoXJlYSB2aXJhIGEgbGlzdGEgZGUgcHJvamV0b3M8L3RleHQ+CiAgPHJlY3QgeD0iMzMwIiB5PSI0OCIgd2lkdGg9IjIyMCIgaGVpZ2h0PSI0NDAiIHJ4PSIxNCIgZmlsbD0iI2ZiZmFmNyIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHRleHQgeD0iMzQ2IiB5PSI3NiIgY2xhc3M9ImgiPlRhc2tOZXh1czwvdGV4dD4KICA8dGV4dCB4PSIzNDYiIHk9IjEwNiIgY2xhc3M9ImIiPvCfkqwgQ2hhdDwvdGV4dD4KICA8dGV4dCB4PSIzNDYiIHk9IjEzMCIgY2xhc3M9ImIiPuKWpiBCb2FyZDwvdGV4dD4KICA8dGV4dCB4PSIzNDYiIHk9IjE1NCIgY2xhc3M9ImIiPuKckyBUYXJlZmFzPC90ZXh0PgogIDx0ZXh0IHg9IjM0NiIgeT0iMTc4IiBjbGFzcz0iYiI+4penIEFydGVmYXRvczwvdGV4dD4KICA8dGV4dCB4PSIzNDYiIHk9IjIwMiIgY2xhc3M9ImIiPuKXiCBDb25maWd1cmHDp8OjbzwvdGV4dD4KICA8bGluZSB4MT0iMzQyIiB5MT0iMjE2IiB4Mj0iNTM4IiB5Mj0iMjE2IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8cmVjdCB4PSIzMzgiIHk9IjIyNCIgd2lkdGg9IjIwNCIgaGVpZ2h0PSIzNCIgcng9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q4ZDNjOCIvPgogIDx0ZXh0IHg9IjM0OCIgeT0iMjQ2IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+4oaQIENsaWVudGVzPC90ZXh0PgogIDx0ZXh0IHg9IjM0NiIgeT0iMjc2IiBjbGFzcz0iY2FwIj5QT0RFU1VCSVIgwrcgUFJPSkVUT1M8L3RleHQ+CiAgPHJlY3QgeD0iMzM4IiB5PSIyODYiIHdpZHRoPSIyMDQiIGhlaWdodD0iMzAiIHJ4PSI4IiBmaWxsPSIjZWZlY2U1Ii8+CiAgPHRleHQgeD0iMzQ4IiB5PSIzMDYiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NjAwIj5Ub2RvcyBvcyBwcm9qZXRvczwvdGV4dD4KICA8cmVjdCB4PSIzMzgiIHk9IjMyMCIgd2lkdGg9IjIwNCIgaGVpZ2h0PSIzMCIgcng9IjgiIGZpbGw9IiNlNmYyZWUiLz4KICA8dGV4dCB4PSIzNDgiIHk9IjM0MCIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDA7ZmlsbDojMmY3NTY0Ij5zaXRlLWluc3RpdHVjaW9uYWw8L3RleHQ+CiAgPHRleHQgeD0iMzQ4IiB5PSIzNzQiIGNsYXNzPSJiIj5hcGktcGFnYW1lbnRvczwvdGV4dD4KICA8dGV4dCB4PSI1MDYiIHk9IjM3NCIgY2xhc3M9ImIiIHN0eWxlPSJmaWxsOiM4YTgzNzgiPuKAujwvdGV4dD4KICA8dGV4dCB4PSIzNDgiIHk9IjQwNCIgY2xhc3M9ImIiPmFwcC1tb2JpbGU8L3RleHQ+CiAgPHRleHQgeD0iMzQ2IiB5PSI0NDAiIGNsYXNzPSJzIj7igLogPSB0ZW0gc3VicHJvamV0b3MgKGVudHJhIG1haXMgdW0gbsOtdmVsKTwvdGV4dD4KICA8dGV4dCB4PSIzNDYiIHk9IjQ1NiIgY2xhc3M9InMiPlNlbGVjaW9uYXIgZmlsdHJhIENoYXQsIEJvYXJkLCBUYXJlZmFzIGU8L3RleHQ+CiAgPHRleHQgeD0iMzQ2IiB5PSI0NzAiIGNsYXNzPSJzIj5BcnRlZmF0b3MuIEEgYmFycmEgZGUgc2VsZWN0cyBzb21lLjwvdGV4dD4KICA8dGV4dCB4PSI0NDAiIHk9IjI0NiIgY2xhc3M9ImFubiI+dm9sdGFyPC90ZXh0PgoKICA8IS0tID09PT09IDM6IHZpZXdlciBkb2NrZWQgPT09PT0gLS0+CiAgPHRleHQgeD0iNjMwIiB5PSIzNCIgY2xhc3M9InR0bCI+MyDCtyBWaXN1YWxpemFkb3IgYWJlcnRvOiBzb2JyYSBvIGxhZG8gZGlyZWl0bzwvdGV4dD4KICA8cmVjdCB4PSI2MzAiIHk9IjQ4IiB3aWR0aD0iNTQwIiBoZWlnaHQ9IjQ0MCIgcng9IjE0IiBmaWxsPSIjZjdmNWYwIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8IS0tIHJhaWwgMSAtLT4KICA8cmVjdCB4PSI2MzAiIHk9IjQ4IiB3aWR0aD0iNDAiIGhlaWdodD0iNDQwIiByeD0iMTQiIGZpbGw9IiNmYmZhZjciLz4KICA8bGluZSB4MT0iNjcwIiB5MT0iNDgiIHgyPSI2NzAiIHkyPSI0ODgiIHN0cm9rZT0iI2UyZGRkMyIvPgogIDx0ZXh0IHg9IjY0MyIgeT0iODQiIGNsYXNzPSJiIj7wn5KsPC90ZXh0Pjx0ZXh0IHg9IjY0MyIgeT0iMTEwIiBjbGFzcz0iYiI+4pamPC90ZXh0Pjx0ZXh0IHg9IjY0MyIgeT0iMTM2IiBjbGFzcz0iYiI+4pyTPC90ZXh0Pjx0ZXh0IHg9IjY0MyIgeT0iMTYyIiBjbGFzcz0iYiI+4penPC90ZXh0PgogIDx0ZXh0IHg9IjY0MiIgeT0iMjAwIiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+4oaQPC90ZXh0PgogIDxjaXJjbGUgY3g9IjY1MCIgY3k9IjIyNiIgcj0iMTEiIGZpbGw9IiNlNmYyZWUiLz48dGV4dCB4PSI2NDMiIHk9IjIzMCIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiMyZjc1NjQ7Zm9udC13ZWlnaHQ6NzAwIj5TSTwvdGV4dD4KICA8Y2lyY2xlIGN4PSI2NTAiIGN5PSIyNTQiIHI9IjExIiBmaWxsPSIjZWVlYWUyIi8+PHRleHQgeD0iNjQzIiB5PSIyNTgiIGNsYXNzPSJzIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5BUDwvdGV4dD4KICA8IS0tIHJhaWwgMiAtLT4KICA8cmVjdCB4PSI2NzAiIHk9IjQ4IiB3aWR0aD0iNDAiIGhlaWdodD0iNDQwIiBmaWxsPSIjZmJmYWY3Ii8+CiAgPGxpbmUgeDE9IjcxMCIgeTE9IjQ4IiB4Mj0iNzEwIiB5Mj0iNDg4IiBzdHJva2U9IiNlMmRkZDMiLz4KICA8Y2lyY2xlIGN4PSI2OTAiIGN5PSI4NCIgcj0iMTIiIGZpbGw9IiNjZmU2ZGUiLz48dGV4dCB4PSI2ODIiIHk9Ijg4IiBjbGFzcz0icyIgc3R5bGU9ImZpbGw6IzJmNzU2NDtmb250LXdlaWdodDo3MDAiPkNMPC90ZXh0PgogIDxjaXJjbGUgY3g9IjY5MCIgY3k9IjExNCIgcj0iMTIiIGZpbGw9IiNkZmUzZjUiLz48dGV4dCB4PSI2ODIiIHk9IjExOCIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiM0NDU3OWY7Zm9udC13ZWlnaHQ6NzAwIj5DWDwvdGV4dD4KICA8IS0tIHRlcm1pbmFsIC0tPgogIDxyZWN0IHg9IjcxNiIgeT0iNTgiIHdpZHRoPSIyMDAiIGhlaWdodD0iNDIwIiByeD0iOCIgZmlsbD0iIzI2MjgyZSIvPgogIDx0ZXh0IHg9IjcyNiIgeT0iODIiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjkuNXB4O2ZpbGw6IzlmZDljNSI+4o+6IGFicmlyX25vX3Zpc3VhbGl6YWRvcjwvdGV4dD4KICA8dGV4dCB4PSI3MjYiIHk9Ijk4IiBjbGFzcz0ibSIgc3R5bGU9ImZvbnQtc2l6ZTo5LjVweDtmaWxsOiNiOWI0YWIiPiAg4o6/IEFiZXJ0byBubyB2aXN1YWxpemFkb3I8L3RleHQ+CiAgPHRleHQgeD0iNzI2IiB5PSI0NjAiIGNsYXNzPSJtIiBzdHlsZT0iZm9udC1zaXplOjkuNXB4O2ZpbGw6IzlmZDljNSI+4p2vIOKWiDwvdGV4dD4KICA8IS0tIHZpZXdlciBwYW5lbCAtLT4KICA8cmVjdCB4PSI5MjIiIHk9IjQ4IiB3aWR0aD0iMjQ4IiBoZWlnaHQ9IjQ0MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxsaW5lIHgxPSI5MjIiIHkxPSI0OCIgeDI9IjkyMiIgeTI9IjQ4OCIgc3Ryb2tlPSIjZDhkM2M4Ii8+CiAgPHJlY3QgeD0iOTMwIiB5PSI1OCIgd2lkdGg9Ijg2IiBoZWlnaHQ9IjI0IiByeD0iNyIgZmlsbD0iI2U2ZjJlZSIvPgogIDx0ZXh0IHg9IjkzOCIgeT0iNzQiIGNsYXNzPSJzIiBzdHlsZT0iZmlsbDojMmY3NTY0O2ZvbnQtd2VpZ2h0OjcwMCI+cGxhbm8ubWQ8L3RleHQ+CiAgPHJlY3QgeD0iMTAyMCIgeT0iNTgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIyNCIgcng9IjciIGZpbGw9IiNmM2YxZWMiLz4KICA8dGV4dCB4PSIxMDI4IiB5PSI3NCIgY2xhc3M9InMiIHN0eWxlPSJmaWxsOiMzYjM1MzAiPnJlbGF0b3Jpby5odG1sPC90ZXh0PgogIDx0ZXh0IHg9IjExMTAiIHk9Ijc1IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+4qSiIOKclTwvdGV4dD4KICA8bGluZSB4MT0iOTIyIiB5MT0iOTAiIHgyPSIxMTcwIiB5Mj0iOTAiIHN0cm9rZT0iI2VjZThkZiIvPgogIDx0ZXh0IHg9IjkzNCIgeT0iMTIwIiBzdHlsZT0iZm9udC1zaXplOjE1cHg7Zm9udC13ZWlnaHQ6NzAwIj5QbGFubyBkZSByZWxlYXNlPC90ZXh0PgogIDx0ZXh0IHg9IjkzNCIgeT0iMTQyIiBjbGFzcz0iYiI+T2JqZXRpdm86IGxpYmVyYXIgbyBtb2RvPC90ZXh0PgogIDx0ZXh0IHg9IjkzNCIgeT0iMTU4IiBjbGFzcz0iYiI+Y2hhdCBhdMOpIHNleHRhLjwvdGV4dD4KICA8dGV4dCB4PSI5MzQiIHk9IjE4NiIgY2xhc3M9ImgiPkNoZWNrbGlzdDwvdGV4dD4KICA8dGV4dCB4PSI5MzQiIHk9IjIwNiIgY2xhc3M9ImIiPuKYkSBNaWdyYXIgd3MgZGUgY2hhdDwvdGV4dD4KICA8dGV4dCB4PSI5MzQiIHk9IjIyNCIgY2xhc3M9ImIiPuKYkCBUZXN0YXIgbm8gaVBhZDwvdGV4dD4KICA8cmVjdCB4PSI5MzQiIHk9IjI0MCIgd2lkdGg9IjIyNCIgaGVpZ2h0PSI1NiIgcng9IjciIGZpbGw9IiMyNjI4MmUiLz4KICA8dGV4dCB4PSI5NDQiIHk9IjI2MiIgY2xhc3M9Im0iIHN0eWxlPSJmb250LXNpemU6OS41cHg7ZmlsbDojZTZlM2RkIj5ucG0gdGVzdDwvdGV4dD4KICA8dGV4dCB4PSI5NDQiIHk9IjI4MCIgY2xhc3M9Im0iIHN0eWxlPSJmb250LXNpemU6OS41cHg7ZmlsbDojZTZlM2RkIj5weXRlc3QgLXE8L3RleHQ+CiAgPHRleHQgeD0iOTM0IiB5PSI0NzAiIGNsYXNzPSJzIj5wYWluZWwgZG8gdmlzdWFsaXphZG9yIChsYWRvIGRpcmVpdG8pPC90ZXh0PgoKICA8IS0tIHNwYWNlIHRhYmxlIC0tPgogIDxyZWN0IHg9IjMwIiB5PSI1MTAiIHdpZHRoPSIxMTQwIiBoZWlnaHQ9IjE3MCIgcng9IjEyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNkOGQzYzgiLz4KICA8dGV4dCB4PSI1MCIgeT0iNTM4IiBjbGFzcz0iaCI+UXVhbnRvIGVzcGHDp28gc29icmEgKGxhcmd1cmEgZGEgamFuZWxhIMK3IGNvbHVuYXMgZGEgZXNxdWVyZGEgwrcgdGVybWluYWwgwrcgdmlzdWFsaXphZG9yKTwvdGV4dD4KICA8dGV4dCB4PSI1MCIgeT0iNTY2IiBjbGFzcz0iYiIgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMCI+TGFyZ3VyYTwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjU2NiIgY2xhc3M9ImIiIHN0eWxlPSJmb250LXdlaWdodDo3MDAiPkhvamUsIHNlbSB2aXN1YWxpemFkb3I8L3RleHQ+CiAgPHRleHQgeD0iNDQwIiB5PSI1NjYiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5Ib2plLCBzZSBhYnJpc3NlIGFvIGxhZG88L3RleHQ+CiAgPHRleHQgeD0iNzIwIiB5PSI1NjYiIGNsYXNzPSJiIiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwIj5Qcm9wb3N0YSAodHJpbGhvcyBkZSA2OCBweCArIHBhaW5lbCk8L3RleHQ+CiAgPGxpbmUgeDE9IjUwIiB5MT0iNTc2IiB4Mj0iMTE1MCIgeTI9IjU3NiIgc3Ryb2tlPSIjZWNlOGRmIi8+CiAgPHRleHQgeD0iNTAiIHk9IjU5OCIgY2xhc3M9ImIiPmlQYWQgZGVpdGFkbyAxMTgwIHB4PC90ZXh0PgogIDx0ZXh0IHg9IjIwMCIgeT0iNTk4IiBjbGFzcz0iYiI+MjQwICsgMjgwIMK3IHRlcm1pbmFsIDY2MDwvdGV4dD4KICA8dGV4dCB4PSI0NDAiIHk9IjU5OCIgY2xhc3M9ImIiPnRlcm1pbmFsIDIwMCDCtyBwYWluZWwgNDYwIChhcGVydGFkbyk8L3RleHQ+CiAgPHRleHQgeD0iNzIwIiB5PSI1OTgiIGNsYXNzPSJiIj42OCArIDY4IMK3IHRlcm1pbmFsIDUyNCDCtyBwYWluZWwgNTIwPC90ZXh0PgogIDx0ZXh0IHg9IjUwIiB5PSI2MjQiIGNsYXNzPSJiIj5pUGFkIFBybyAxMyIgMTM2NiBweDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjYyNCIgY2xhc3M9ImIiPjI0MCArIDI4MCDCtyB0ZXJtaW5hbCA4NDY8L3RleHQ+CiAgPHRleHQgeD0iNDQwIiB5PSI2MjQiIGNsYXNzPSJiIj50ZXJtaW5hbCAzNDYgwrcgcGFpbmVsIDUwMDwvdGV4dD4KICA8dGV4dCB4PSI3MjAiIHk9IjYyNCIgY2xhc3M9ImIiPjY4ICsgNjggwrcgdGVybWluYWwgNjEwIMK3IHBhaW5lbCA2MjA8L3RleHQ+CiAgPHRleHQgeD0iNTAiIHk9IjY1MCIgY2xhc3M9ImIiPkRlc2t0b3AgMTkyMCBweDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjY1MCIgY2xhc3M9ImIiPjI0MCArIDI4MCDCtyB0ZXJtaW5hbCAxNDAwPC90ZXh0PgogIDx0ZXh0IHg9IjQ0MCIgeT0iNjUwIiBjbGFzcz0iYiI+dGVybWluYWwgNjgwIMK3IHBhaW5lbCA3MjA8L3RleHQ+CiAgPHRleHQgeD0iNzIwIiB5PSI2NTAiIGNsYXNzPSJiIj42OCArIDY4IMK3IHRlcm1pbmFsIDEwMDQgwrcgcGFpbmVsIDc4MDwvdGV4dD4KICA8dGV4dCB4PSI1MCIgeT0iNjcyIiBjbGFzcz0icyI+QWJhaXhvIGRlIDExMDAgcHggKGlQYWQgZW0gcMOpKSBvIHBhaW5lbCBhYnJlIHBvciBjaW1hIChvdmVybGF5KS4gTm8gY2VsdWxhciwgdGVsYSBjaGVpYS4gQW8gZmVjaGFyIG8gcGFpbmVsLCBhcyBjb2x1bmFzIHZvbHRhbSBjb21vIGVzdGF2YW0uPC90ZXh0Pgo8L3N2Zz4K" alt="Cliente → projeto e espaço para o visualizador" loading="lazy"><figcaption>Cliente → projeto e espaço para o visualizador</figcaption></figure>
+<hr />
+<h2 id="p08-81-situação-atual-medida-no-código">8.1 Situação atual (medida no código)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Coluna</th>
+<th>Componente</th>
+<th>Largura</th>
+<th>O que tem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sidebar</td>
+<td><code>SidebarV2.jsx</code> + <code>ClienteList.jsx</code></td>
+<td>240 px (68 px recolhida)</td>
+<td>menu (Chat, Board, Tarefas, Configuração) + "Clientes" (Todos + clientes)</td>
+</tr>
+<tr>
+<td>Lista de chats</td>
+<td><code>ChatSidebarV2.jsx</code> + <code>ChatList.jsx</code></td>
+<td>280 px (68 px recolhida)</td>
+<td>conversas do cliente selecionado</td>
+</tr>
+<tr>
+<td>Conteúdo</td>
+<td><code>ChatV2.jsx</code> (terminal), <code>BoardV2</code>, <code>TarefasV2</code>…</td>
+<td>o resto</td>
+<td>no Board e em Tarefas há ainda uma <strong>barra de selects</strong> Cliente/Projeto (<code>ClienteProjetoFilterBar</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Problemas:</p>
+<ol>
+<li><strong>Projeto não tem lugar na navegação.</strong> Só existe como select na barra
+   do Board/Tarefas, que come uma faixa de ~45 px de altura, e o Chat não
+   filtra por projeto (mostra "Raiz" ou o subprojeto em cada linha).</li>
+<li><strong>Não há espaço para um painel à direita.</strong> Num iPad deitado (1180 px),
+   240 + 280 px deixam 660 px para o terminal. Abrir um visualizador ao lado
+   deixaria ~200 px de terminal.</li>
+</ol>
+<hr />
+<h2 id="p08-82-a-proposta">8.2 A proposta</h2>
+<h3 id="p08-821-cliente-projeto-na-mesma-área-drill-down">8.2.1 Cliente → projeto na mesma área (drill-down)</h3>
+<ol>
+<li><strong>Nível Clientes</strong> (como hoje): "Todos" + clientes. Clientes que têm
+   subprojetos mostram <strong>›</strong> à direita.</li>
+<li>Tocar num cliente <strong>com</strong> subprojetos: a seção inteira troca para o
+   <strong>nível Projetos</strong> daquele cliente, com animação curta de deslizar
+   (respeita <code>prefers-reduced-motion</code>). Tocar num cliente <strong>sem</strong> subprojetos
+   só o seleciona, como hoje.</li>
+<li><strong>Nível Projetos:</strong>
+   - botão <strong>← Clientes</strong> no topo (altura 44 px, largura toda);
+   - rótulo <code>PODESUBIR · PROJETOS</code>;
+   - <strong>Todos os projetos</strong> (= cliente inteiro, igual a selecionar o cliente hoje);
+   - <strong>Raiz</strong> (só se a pasta do cliente for elegível para chat, <code>elegivel: true</code>);
+   - os projetos filhos diretos, em ordem alfabética; os que têm filhos
+     mostram <strong>›</strong> e entram mais um nível (o botão de voltar vira
+     <strong>← api-pagamentos</strong>, o pai).</li>
+<li>Selecionar um projeto <strong>filtra todas as telas</strong>: lista de chats, Board,
+   Tarefas e Artefatos. A <strong>barra de selects</strong> (<code>ClienteProjetoFilterBar</code>)
+   deixa de ser necessária e sai do Board e de Tarefas (e não entra em Artefatos).</li>
+<li><strong>Sidebar recolhida (68 px):</strong> no nível Projetos, o primeiro item é um
+   botão "←" e os projetos aparecem como avatares com iniciais (mesmo
+   <code>.v2-cliente-avatar</code>), com o nome no <code>title</code>.</li>
+<li><strong>Celular:</strong> o <code>MobileMenuScreen</code> usa o mesmo <code>ClienteList</code> (variante
+   <code>mobile</code>), então ganha o mesmo comportamento, com linhas de 54 px.</li>
+<li><strong>Memória:</strong> cliente, projeto e nível ficam salvos em <code>localStorage</code>
+   (<code>escritorio::v2_nav_scope</code>). Recarregar a página volta para o mesmo lugar.</li>
+</ol>
+<h3 id="p08-822-espaço-à-direita-para-o-visualizador">8.2.2 Espaço à direita para o visualizador</h3>
+<ul>
+<li>O visualizador da Fase V passa a abrir como <strong>painel à direita</strong> (é o
+  "dropdown", só que ancorado na lateral). Continua saindo do botão
+  <strong>Visualizador</strong> do cabeçalho, com abas, <strong>⤢ Tela cheia</strong> e <strong>✕ Fechar</strong>.</li>
+<li><strong>Tela larga (≥ 1100 px: iPad deitado e desktop):</strong> o painel fica <strong>encaixado</strong>
+  (o terminal encolhe, nada fica por baixo), e a sidebar e a lista de chats
+  viram <strong>trilhos de 68 px</strong> automaticamente enquanto ele estiver aberto. Ao
+  fechar, elas voltam exatamente como estavam.</li>
+<li><strong>641–1099 px (iPad em pé, Split View):</strong> o painel abre <strong>por cima</strong>
+  (overlay), sem recolher nada.</li>
+<li><strong>≤ 640 px (celular):</strong> tela cheia, como já planejado.</li>
+<li>Largura do painel encaixado: <code>clamp(420px, 42vw, 780px)</code>.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Largura da janela</th>
+<th>Hoje, sem visualizador</th>
+<th>Se abrisse ao lado hoje</th>
+<th>Proposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iPad deitado 1180 px</td>
+<td>240 + 280 · terminal 660</td>
+<td>terminal 200 · painel 460</td>
+<td>68 + 68 · terminal 524 · painel 520</td>
+</tr>
+<tr>
+<td>iPad Pro 13" 1366 px</td>
+<td>240 + 280 · terminal 846</td>
+<td>terminal 346 · painel 500</td>
+<td>68 + 68 · terminal 610 · painel 620</td>
+</tr>
+<tr>
+<td>Desktop 1920 px</td>
+<td>240 + 280 · terminal 1400</td>
+<td>terminal 680 · painel 720</td>
+<td>68 + 68 · terminal 1004 · painel 780</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="p08-823-pontos-para-confirmar">8.2.3 Pontos para confirmar</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ponto</th>
+<th>Adotado</th>
+<th>Alternativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recolher as colunas sozinho ao abrir o visualizador</td>
+<td>Sim, só enquanto ele estiver aberto, sem mudar sua preferência salva</td>
+<td>Não recolher; você recolhe à mão com os botões que já existem</td>
+</tr>
+<tr>
+<td>Barra de selects Cliente/Projeto no Board/Tarefas</td>
+<td>Sai (a sidebar faz o papel dela)</td>
+<td>Manter as duas formas</td>
+</tr>
+<tr>
+<td>Cliente sem subprojetos</td>
+<td>Seleciona direto, sem entrar no nível Projetos</td>
+<td>Sempre entrar no nível Projetos</td>
+</tr>
+<tr>
+<td>Visualizador no chat</td>
+<td>Painel à direita (substitui o dropdown ancorado no botão da Fase V)</td>
+<td>Manter o dropdown ancorado</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p08-83-implementação-dev">8.3 Implementação (Dev)</h2>
+<h3 id="p08-831-arquivos">8.3.1 Arquivos</h3>
+<div class="code"><div class="code-head"><span>texto</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code>frontend/src/utils/projectTree.js              # NOVO: childrenOf, hasChildren, parentOf, labelFor (puro, testável)
+frontend/src/hooks/useNavScope.js              # NOVO: {clienteId, projetoId, level, path[]} + persistência em localStorage
+frontend/src/layouts/v2/ClienteList.jsx        # ALTERAR: níveis Clientes/Projetos, voltar, ›, avatares recolhidos
+frontend/src/layouts/v2/SidebarV2.jsx          # ALTERAR: repassa as props novas
+frontend/src/layouts/v2/MobileMenuScreen.jsx   # ALTERAR: repassa as props novas
+frontend/src/layouts/v2/AppV2.jsx              # ALTERAR: useNavScope no lugar de selectedClienteId; recolhimento forçado
+frontend/src/layouts/v2/ChatSidebarV2.jsx      # ALTERAR: filtra por subárvore do projeto; título "cliente / projeto"
+frontend/src/layouts/v2/NewChatSheet.jsx       # ALTERAR: já abre com cliente e projeto selecionados
+frontend/src/layouts/v2/BoardV2.jsx            # ALTERAR: usa projetoId global; remove ClienteProjetoFilterBar
+frontend/src/layouts/v2/TarefasV2.jsx          # ALTERAR: idem
+frontend/src/layouts/v2/useClienteProjetoFilter.js  # ALTERAR: recebe o escopo global em vez de estado local
+frontend/src/utils/viewport.js                 # ALTERAR: + WIDE_VIEWPORT_QUERY = '(min-width: 1100px)'
+</code></pre></div>
+<h3 id="p08-832-estado-de-navegação">8.3.2 Estado de navegação</h3>
+<div class="code"><div class="code-head"><span>js</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="c1">// useNavScope() → </span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nx">clienteId</span><span class="o">:</span><span class="w"> </span><span class="s1">'podesubir'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">          </span><span class="c1">// null = "Todos"</span>
+<span class="w">  </span><span class="nx">projetoId</span><span class="o">:</span><span class="w"> </span><span class="s1">'podesubir/site'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">     </span><span class="c1">// null = "Todos os projetos" do cliente</span>
+<span class="w">  </span><span class="nx">level</span><span class="o">:</span><span class="w"> </span><span class="s1">'clientes'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">'projetos'</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">parentId</span><span class="o">:</span><span class="w"> </span><span class="s1">'podesubir'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">'podesubir/api-pagamentos'</span><span class="p">,</span><span class="w">   </span><span class="c1">// de quem os filhos estão sendo listados</span>
+<span class="w">  </span><span class="nx">enterCliente</span><span class="p">(</span><span class="nx">id</span><span class="p">),</span><span class="w"> </span><span class="nx">enterProjeto</span><span class="p">(</span><span class="nx">id</span><span class="p">),</span><span class="w"> </span><span class="nx">selectProjeto</span><span class="p">(</span><span class="nx">id</span><span class="o">|</span><span class="kc">null</span><span class="p">),</span><span class="w"> </span><span class="nx">back</span><span class="p">(),</span><span class="w"> </span><span class="nx">reset</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>AppV2</code> troca o <code>useState(selectedClienteId)</code> por <code>useNavScope()</code>, mantendo
+  a inicialização a partir do <code>selectedProjectId</code> do <code>TerminalContext</code>
+  (comportamento atual: abrir já no cliente certo).</li>
+<li><code>handleSelectCliente</code> e o novo <code>handleSelectProjeto</code> continuam chamando
+  <code>selectProject(...)</code> do <code>TerminalContext</code>, como hoje, para o chat ativo
+  ficar em sincronia.</li>
+<li>As telas recebem <code>selectedClienteId</code> <strong>e</strong> <code>selectedProjetoId</code>. A regra de
+  filtro é <strong>por prefixo</strong> (<code>collectSubtreeIds</code>, já existente), para o caso de
+  3 níveis (<code>cliente/projeto/sub</code>) que já quebrou no Board.</li>
+</ul>
+<h3 id="p08-833-recolhimento-forçado-sem-mexer-na-preferência-salva">8.3.3 Recolhimento forçado (sem mexer na preferência salva)</h3>
+<p><code>useSidebarCollapsed</code> grava em <code>localStorage</code> a cada clique. O recolhimento
+automático <strong>não</strong> pode sobrescrever isso. Então:</p>
+<div class="code"><div class="code-head"><span>js</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">viewerDocked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">viewerOpen</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">isWide</span><span class="p">;</span><span class="w">              </span><span class="c1">// WIDE_VIEWPORT_QUERY</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">sidebarEffective</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sidebarCollapsed</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">viewerDocked</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">chatSidebarEffective</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">chatSidebarCollapsed</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">viewerDocked</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li><code>SidebarV2</code>/<code>ChatSidebarV2</code> recebem o valor <strong>efetivo</strong>; os botões de
+  recolher continuam alterando só a preferência.</li>
+<li>Quando <code>viewerDocked</code> muda, <code>AppV2</code> dispara
+  <code>window.dispatchEvent(new CustomEvent('escritorio:sidebar-toggled'))</code>, o
+  mesmo evento que faz o <code>TerminalPanel</code> reajustar o xterm (ele espera ~250 ms,
+  compatível com a transição de 180 ms de <code>collapseLayout.js</code>).</li>
+<li>Abrir e fechar o painel encaixado também dispara esse evento, porque a
+  largura do terminal muda.</li>
+</ul>
+<h3 id="p08-834-painel-encaixado">8.3.4 Painel encaixado</h3>
+<ul>
+<li>No <code>ChatV2</code> (e no <code>ArtefatosV2</code> da Fase A), o conteúdo vira uma linha flex:
+  <code>[conteúdo flex:1] [ViewerDock largura clamp(420px, 42vw, 780px)]</code>.</li>
+<li><code>ViewerDock</code> renderiza o mesmo <code>ViewerPanel</code> da Fase V. Abaixo de 1100 px o
+  mesmo painel é renderizado como overlay (<code>ViewerDrawer</code>), e no celular como
+  tela cheia (<code>ViewerFullscreen</code>).</li>
+<li>Sem <code>transform</code> em ancestral de elemento <code>position: fixed</code>
+  (<code>fixedPositioningInvariant.test.js</code>).</li>
+</ul>
+<h3 id="p08-835-ordem-dos-commits">8.3.5 Ordem dos commits</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Passo</th>
+<th>Entrega</th>
+<th>Verificação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>projectTree.js</code> + testes (filhos diretos, ›, pai, 3 níveis)</td>
+<td>vitest</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>useNavScope</code> + persistência + testes</td>
+<td>vitest</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>ClienteList</code> com níveis e voltar (sidebar e mobile, aberta e recolhida)</td>
+<td>vitest (<code>ClienteList.test.jsx</code>, <code>SidebarV2.test.jsx</code>, <code>MobileMenuScreen.test.jsx</code>)</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>AppV2</code> + <code>ChatSidebarV2</code> + <code>NewChatSheet</code> usando o escopo</td>
+<td>vitest (<code>AppV2.test.jsx</code>, <code>ChatSidebarV2.test.jsx</code>, <code>NewChatSheet.test.jsx</code>)</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>BoardV2</code>/<code>TarefasV2</code>/<code>useClienteProjetoFilter</code> sem a barra de selects</td>
+<td>vitest (testes de Board/Tarefas/filtro atualizados)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>WIDE_VIEWPORT_QUERY</code> + recolhimento forçado + evento de refit</td>
+<td>vitest</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Doc e aceite manual</td>
+<td>checklist 8.4</td>
+</tr>
+</tbody>
+</table></div>
+<p>O passo 6 pode entrar aqui mesmo que a Fase V ainda não exista: basta um
+<code>viewerOpen</code> que por enquanto é sempre <code>false</code>. Quando a Fase V chegar, ela
+só liga esse valor.</p>
+<hr />
+<h2 id="p08-84-testes-e-aceite">8.4 Testes e aceite</h2>
+<h3 id="p08-automatizados">Automatizados</h3>
+<ul>
+<li><code>projectTree</code>: filhos diretos de cliente e de projeto; <code>hasChildren</code>;
+  ids parecidos (<code>cliente</code> × <code>cliente2/x</code>) não se misturam.</li>
+<li><code>ClienteList</code>: tocar em cliente com filhos entra no nível Projetos; sem
+  filhos só seleciona; <strong>← Clientes</strong> volta; nível 3 mostra <strong>← pai</strong>;
+  recolhida mostra "←" e avatares; variante mobile com 54 px.</li>
+<li><code>useNavScope</code>: grava e restaura do <code>localStorage</code>; ignora valor inválido
+  (projeto que não existe mais → volta para "Todos").</li>
+<li>Chat, Board e Tarefas filtram pela subárvore do projeto selecionado
+  (inclui caso de 3 níveis).</li>
+<li>Recolhimento forçado não grava no <code>localStorage</code> e dispara
+  <code>escritorio:sidebar-toggled</code> ao entrar e ao sair.</li>
+<li><code>fixedPositioningInvariant.test.js</code> continua passando.</li>
+</ul>
+<h3 id="p08-manual-ipad-deitado-ipad-em-pé-desktop-celular">Manual (iPad deitado, iPad em pé, desktop, celular)</h3>
+<ol>
+<li>Tocar em "podesubir": a lista vira os projetos dele com <strong>← Clientes</strong>.</li>
+<li>Tocar em "site-institucional": lista de chats, Board, Tarefas e
+   Artefatos mostram só esse projeto.</li>
+<li><strong>← Clientes</strong> volta; "Todos" limpa o filtro.</li>
+<li>Projeto com subprojetos entra mais um nível e volta para o pai.</li>
+<li>Recarregar a página: continua no mesmo cliente/projeto.</li>
+<li>Com a sidebar recolhida, a navegação por avatares funciona.</li>
+<li>(Com a Fase V) abrir o visualizador no iPad deitado: as duas colunas viram
+   trilhos, o painel ocupa a direita, o terminal se reajusta sem texto
+   quebrado; fechar devolve tudo como estava.</li>
+<li>Mesmo teste no iPad em pé: painel por cima, nada recolhe.</li>
+</ol>
+<hr />
+<h2 id="p08-85-riscos">8.5 Riscos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Risco</th>
+<th>Mitigação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Muitos testes de Board/Tarefas dependem da barra de selects</td>
+<td>Atualizar os testes no mesmo commit do passo 5; a lógica de filtro (prefixo) continua a mesma, só muda a origem do valor</td>
+</tr>
+<tr>
+<td>Terminal com texto desalinhado depois de encolher</td>
+<td>Disparar o evento de refit ao abrir/fechar o painel e ao forçar o recolhimento; testar rotação com o painel aberto</td>
+</tr>
+<tr>
+<td>Usuário se perder no nível Projetos</td>
+<td>Rótulo <code>CLIENTE · PROJETOS</code> e botão de voltar sempre visíveis; título da lista de chats mostra "cliente / projeto"</td>
+</tr>
+<tr>
+<td>Projeto salvo que deixou de existir</td>
+<td><code>useNavScope</code> valida contra <code>projects</code> e cai para "Todos"</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p08-86-definição-de-pronto">8.6 Definição de pronto</h2>
+<ul>
+<li><input type="checkbox" disabled> Nível Clientes → Projetos → subprojetos com voltar, na sidebar e no celular.</li>
+<li><input type="checkbox" disabled> Chat, Board, Tarefas (e Artefatos, quando existir) filtrados pelo escopo da sidebar; barra de selects removida.</li>
+<li><input type="checkbox" disabled> Recolhimento forçado pronto para o visualizador, sem alterar a preferência salva.</li>
+<li><input type="checkbox" disabled> <code>npm test</code> verde; nenhuma mudança visual fora da seção de clientes e das colunas recolhidas com o painel aberto.</li>
 <li><input type="checkbox" disabled> Documentação atualizada se a implementação divergir.</li>
 </ul></article></main>
 </div>

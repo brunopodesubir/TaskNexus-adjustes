@@ -14,6 +14,7 @@
 - 5 · Plano e prompts (`05-plano-de-execucao-e-prompts.md`)
 - 6 · Planejamento da Fase V (`06-planejamento-fase-v.md`)
 - 7 · Planejamento da Fase A (`07-planejamento-artefatos.md`)
+- 8 · Planejamento da Fase N (`08-planejamento-navegacao-cliente-projeto.md`)
 
 ---
 
@@ -72,6 +73,10 @@ WebSocket). No tablet isso é ruim:
    **por cliente e projeto**, com os artefatos criados (`.md`, `.pdf`, `.html`).
    Tocar num artefato abre o **painel lateral de visualização**. **Sem mexer no
    layout:** tudo em cima do layout v2 atual. Isso virou a **Fase A**.
+7. **Ajuste seguinte:** liberar espaço no desktop/tablet. Ao selecionar um
+   cliente, **a própria lista de clientes da sidebar vira a lista de projetos**
+   dele, com seta/botão para **voltar aos clientes**, sobrando o **lado
+   direito** para o visualizador (o "dropdown"). Isso virou a **Fase N**.
 
 ### 4. Onde está cada coisa (esta pasta)
 
@@ -84,7 +89,8 @@ WebSocket). No tablet isso é ruim:
 | `03-layout-amigavel.md` | Tokens, layouts por largura, rotas reais, lista estilo WhatsApp, ⌘K, acessibilidade |
 | `04-melhorias-adicionais.md` | 14 melhorias (4.1 autenticação é obrigatória antes do navegador completo) |
 | `05-plano-de-execucao-e-prompts.md` | Fases FV, F0–F4 e prompts das fases F0–F4 |
-| `06-planejamento-fase-v.md` | **Plano de desenvolvimento da Fase V (próxima a executar)** |
+| `06-planejamento-fase-v.md` | **Plano de desenvolvimento da Fase V (segunda a executar)** |
+| `08-planejamento-navegacao-cliente-projeto.md` | **Plano da Fase N (sidebar clientes → projetos + espaço à direita), a primeira a executar** |
 | `07-planejamento-artefatos.md` | **Plano de desenvolvimento da Fase A (aba Artefatos), logo depois da V** |
 | `documentacao-completa.md` / `.html` | Todas as partes num arquivo só |
 | `img/*.svg` | Diagramas e mockups (01–11) |
@@ -94,13 +100,15 @@ WebSocket). No tablet isso é ruim:
 
 | Tema | Decisão |
 |------|---------|
-| Ordem | **FV** (agente abre arquivo) → **FA** (aba Artefatos) → **F0** (auth + routers + restante dos quick wins) → **F1** (navegador de arquivos) e **F2** (chat claude) → **F3** (layout v3) → **F4** (codex + extras) |
+| Ordem | **FN** (sidebar cliente → projeto) → **FV** (agente abre arquivo) → **FA** (aba Artefatos) → **F0** (auth + routers + restante dos quick wins) → **F1** (navegador de arquivos) e **F2** (chat claude) → **F3** (layout v3) → **F4** (codex + extras) |
 | Como o agente mostra arquivo | Tool MCP `abrir_no_visualizador(caminho, titulo?, linha?)` num servidor novo `escritorio-visualizador`, registrado em `_escritorio_mcp_servers()` (vale para `claude` e `codex`) |
 | Como a tela fica sabendo | Frame de controle `{"type":"viewer_open",…}` no WebSocket `/ws/pty/{session_key}` já existente, com abas persistidas na tabela `viewer_items` |
 | "Aba nova" | Aba **dentro do visualizador** (não do navegador); o mesmo arquivo reaproveita a aba e recarrega (interpretação a confirmar com o Bruno; alternativa trivial documentada na Parte 6) |
 | Tela cheia | Modal em portal (`document.body`), mesmo contrato do `CenteredModal.jsx`, com ✕ Fechar e Esc; no celular abre sempre em tela cheia |
 | Segurança do visualizador | Rotas por `item_id` aleatório, `resolve_safe_path` (realpath + commonpath), denylist de segredos, HTML em `iframe sandbox` sem `allow-same-origin` + CSP `sandbox` |
 | Artefatos | Tabela `artifacts` única por (projeto, caminho); tool `publicar_artefato` no servidor `escritorio-visualizador`; `abrir_no_visualizador` de `.md`/`.html`/`.pdf` publica automaticamente; remover da lista não apaga o arquivo; tela nova `artefatos` em `NAV_ITEMS` do `AppV2`, com `ClienteProjetoFilterBar`; o visualizador abre num **drawer lateral** (padrão `TasksDrawer`) nessa tela e continua **dropdown** no chat (a confirmar com o Bruno) |
+| Navegação | Drill-down no `ClienteList` (Clientes → Projetos → subprojetos, com **← voltar**); escopo global `useNavScope` (cliente + projeto, salvo em `localStorage`) filtra Chat, Board, Tarefas e Artefatos; `ClienteProjetoFilterBar` sai |
+| Visualizador | Abre **à direita**: encaixado (`ViewerDock`) em ≥ 1100 px com a sidebar e a lista de chats recolhidas **só enquanto aberto** (sem gravar a preferência), por cima (`ViewerDrawer`) em 641–1099 px, tela cheia no celular. Onde as Partes 6/7 dizem "dropdown", é esse painel |
 | Layout | **Não mexer no layout agora.** Fases V e A entram em cima do v2 atual; o layout v3 (Parte 3) fica para depois |
 | Autenticação | Obrigatória antes do navegador de arquivos livre (F1); a FV pode vir antes por ter superfície limitada |
 | Chat estruturado | Modo headless oficial do `claude` (flags verificadas na 2.1.x); aprovações por `--permission-prompt-tool` apontando para uma tool MCP nossa; **não** usar o SDK Python do Claude porque o backend roda em **Python 3.9.6** (SDK exige 3.10+) |
@@ -133,8 +141,8 @@ WebSocket). No tablet isso é ruim:
   (a pasta `docs/melhorias-tablet/` foi liberada no `.gitignore`, que ignora `docs/*` por padrão).
 - **Código:** nenhuma mudança de código foi feita ainda. Só documentação.
 - **Próxima ação:** quando o Bruno pedir, entregar o **prompt de desenvolvimento
-  da Fase V** (baseado em `06-planejamento-fase-v.md`) e, depois, o da **Fase A**
-  (baseado em `07-planejamento-artefatos.md`), para ele usar numa
+  da Fase N** (baseado em `08-planejamento-navegacao-cliente-projeto.md`), depois o
+  da **Fase V** (`06-planejamento-fase-v.md`) e o da **Fase A** (`07-planejamento-artefatos.md`), para ele usar numa
   janela limpa. O desenvolvimento deve acontecer numa branch própria (a
   que a sessão de desenvolvimento indicar), com um PR para a fase.
 
@@ -163,6 +171,7 @@ WebSocket). No tablet isso é ruim:
 
 | # | Pedido | Onde está a solução |
 |---|--------|---------------------|
+| 0a | Liberar espaço: a lista de clientes da sidebar vira a lista de projetos do cliente (com voltar), sobrando o lado direito para o visualizador | [Parte 8 — Planejamento da Fase N](08-planejamento-navegacao-cliente-projeto.md) |
 | 1a | **Primeira entrega:** como links no terminal não são clicáveis, o próprio agente faz o arquivo aparecer na tela, cada abertura vira uma aba nova, com botão de tela cheia | [Parte 6 — Planejamento da Fase V](06-planejamento-fase-v.md) |
 | 1a+ | Aba **Artefatos** por cliente e projeto (md, pdf, html), abrindo no painel lateral de visualização, sem mudar o layout | [Parte 7 — Planejamento da Fase A](07-planejamento-artefatos.md) |
 | 1b | Ver arquivos `.html`, `.md` e de código no tablet e poder baixá-los, com o TaskNexus rodando no PC (navegador de arquivos completo) | [Parte 1 — Visualizador de arquivos](01-visualizador-de-arquivos.md) |
@@ -1812,6 +1821,7 @@ prompts abaixo, resumidas):
 
 | Fase | Entrega | Partes | Pode rodar em paralelo com |
 |------|---------|--------|----------------------------|
+| **FN** Navegação cliente → projeto | Lista de clientes da sidebar vira lista de projetos (com voltar); filtro global por projeto; barra de selects sai; colunas recolhem sozinhas quando o visualizador abre em tela larga | 8 | — (pequena, só frontend; vem primeiro) |
 | **FV** Agente abre arquivo | Tool MCP `abrir_no_visualizador`, visualizador em dropdown com abas e tela cheia, links clicáveis no terminal | 6 (e 1.0) | — (vem primeiro) |
 | **FA** Artefatos | Aba Artefatos por cliente e projeto no layout atual, tool `publicar_artefato`, painel lateral de visualização | 7 | — (depois da FV) |
 | **F0** Fundações | Auth (4.1), routers (4.3), restante dos quick wins do terminal (4.2) | 4 | — |
@@ -1820,7 +1830,15 @@ prompts abaixo, resumidas):
 | **F3** Layout v3 | Tokens, primitivos `ui/`, rotas reais, lista estilo WhatsApp, 3 painéis, ⌘K | 3 | — (usa F1 e F2) |
 | **F4** Codex + extras | CodexAdapter, 4.4, 4.5, 4.7–4.11, 4.13 | 2, 4 | itens independentes entre si |
 
-### 5.2.1 Fase FV — O agente abre o arquivo na tela (primeira)
+### 5.2.0 Fase FN — Cliente → projeto na sidebar e espaço à direita
+
+Planejamento completo na **[Parte 8](08-planejamento-navegacao-cliente-projeto.md)**.
+É pequena e só de frontend. Vai primeiro porque o visualizador da FV passa a
+abrir num painel à direita e precisa do espaço que ela libera. Se preferir
+começar pela FV, tudo funciona: o painel só não recolhe as colunas sozinho
+até a FN entrar.
+
+### 5.2.1 Fase FV — O agente abre o arquivo na tela
 
 Planejamento completo, com requisitos, UX, arquitetura, contratos, ordem de
 commits, testes e aceite: **[Parte 6](06-planejamento-fase-v.md)**. O prompt
@@ -2060,6 +2078,7 @@ no modo chat. Adicione a importação de histórico de ~/.codex/sessions. Testes
 
 - [ ] Li as Partes 0–4 e risquei o que não quero.
 - [ ] Confirmei que o acesso pelo iPad é por `https://…ts.net` (necessário para push e compartilhar).
+- [ ] Rodei a FN e testei os passos de aceite da Parte 8 (iPad deitado, em pé, desktop e celular).
 - [ ] Rodei a FV e testei os 12 passos de aceite da Parte 6 no iPad.
 - [ ] Rodei a FA e testei os 8 passos de aceite da Parte 7 no iPad.
 - [ ] Rodei a F0 e guardei o token de acesso num gerenciador de senhas.
@@ -2091,6 +2110,23 @@ Legenda: **A** botão **Visualizador** no cabeçalho do chat, com contador de
 abas · **B** dropdown com uma aba por arquivo aberto · **C** barra do
 arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e **Tela cheia** ·
 **D** o mesmo conteúdo em modal de tela cheia, com **✕ Fechar**.
+
+> **Atualização (Fase N, [Parte 8](08-planejamento-navegacao-cliente-projeto.md)):**
+> o "dropdown" do visualizador passa a abrir como **painel à direita**. Ele
+> continua saindo do botão **Visualizador** do cabeçalho, com as mesmas abas,
+> barra, **⤢ Tela cheia** e **✕ Fechar**. A forma de abrir depende da largura
+> da tela:
+>
+> - **≥ 1100 px** (iPad deitado, desktop): painel **encaixado** à direita
+>   (`ViewerDock`, largura `clamp(420px, 42vw, 780px)`); a sidebar e a lista de
+>   chats viram trilhos de 68 px enquanto ele estiver aberto.
+> - **641–1099 px:** painel **por cima** (`ViewerDrawer`).
+> - **≤ 640 px:** tela cheia.
+>
+> Neste documento, onde estiver escrito "dropdown", leia **esse painel**. O
+> conteúdo (`ViewerPanel`, abas, renderers) não muda. O mockup
+> [13](img/13-mockup-sidebar-cliente-projeto.svg) mostra a posição nova; o
+> mockup acima continua valendo para o conteúdo do painel e para a tela cheia.
 
 ---
 
@@ -2182,6 +2218,7 @@ arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e **Tela cheia*
 | Como servir o arquivo | Rotas **por aba** (`/api/viewer/{item_id}/…`), onde `item_id` é aleatório | Só arquivos que o agente (ou você) abriu ficam acessíveis, o que é bem menos exposição que um navegador de arquivos livre. Isso permite entregar esta fase **antes** da autenticação (F0) |
 | HTML com CSS/imagens relativos | URL com o **caminho do arquivo no fim**: `/api/viewer/{item_id}/f/docs/relatorio.html` | O navegador resolve `style.css` para `/api/viewer/{item_id}/f/docs/style.css`, e o backend serve o vizinho dentro do mesmo projeto |
 | Isolamento do HTML | `iframe sandbox="allow-scripts allow-popups"` **sem** `allow-same-origin` + cabeçalho `Content-Security-Policy: sandbox …` | O HTML roda numa origem opaca e não consegue chamar a API do TaskNexus |
+| Onde o painel abre | À direita: encaixado (≥ 1100 px, com as colunas recolhidas enquanto aberto), por cima (641–1099 px) ou tela cheia (celular) | Pedido do Bruno: liberar o lado direito para o visualizador (Parte 8) |
 | Tela cheia | Portal para `document.body`, mesmo contrato do `CenteredModal.jsx` (fora do wrapper que recebe `inert`, sem `transform` em ancestral de `position: fixed`) | Respeita a invariante já testada em `fixedPositioningInvariant.test.js` |
 
 #### Ligação com a aba Artefatos (Fase A, Parte 7)
@@ -2402,7 +2439,8 @@ frontend/src/features/viewer/
   viewerApi.js             # fetch das rotas 6.4.3
   ViewerButton.jsx         # botão "Visualizador" com contador (cabeçalho do chat, iPad/PC)
   ViewerMobileButton.jsx   # botão flutuante ao lado do "☰ Menu" (celular)
-  ViewerDropdown.jsx       # popover ancorado no botão (padrão do AttachmentsMenu)
+  ViewerDock.jsx           # painel encaixado à direita (≥ 1100 px) — ver Parte 8
+  ViewerDrawer.jsx         # mesmo painel por cima do conteúdo (641–1099 px), padrão do TasksDrawer
   ViewerFullscreen.jsx     # modal de tela cheia (portal, contrato do CenteredModal)
   ViewerPanel.jsx          # abas + barra de ações + corpo (usado pelos dois contêineres)
   ViewerTabs.jsx
@@ -2449,18 +2487,26 @@ setOpen(bool) / setFullscreen(bool)
 O `TerminalPanel` é montado também em testes isolados, sem Provider: use
 `useContext` com fallback nulo e só chame `receiveOpen` se o contexto existir.
 
-#### 6.5.3 Dropdown e tela cheia
+#### 6.5.3 Painel à direita ("dropdown") e tela cheia
 
-- **Dropdown:** mesmo padrão de `AttachmentsMenu.jsx` / `TaskQuickCreatePopover.jsx`
-  (scrim transparente, Esc, clique fora, fecha quando a sessão ativa muda).
-  Tamanho: `width: min(960px, calc(100vw - 32px))`,
-  `height: min(78dvh, 820px)`, ancorado à direita do botão.
+- **Painel à direita**, escolhido pela largura (Parte 8, seção 8.2.2):
+  - `ViewerDock` (≥ 1100 px, `WIDE_VIEWPORT_QUERY`): irmão flex do conteúdo
+    do `ChatV2`, largura `clamp(420px, 42vw, 780px)`, borda esquerda
+    `--v2-border`. Ao abrir/fechar, liga o **recolhimento forçado** das colunas
+    (Parte 8, 8.3.3) e dispara `escritorio:sidebar-toggled` para o xterm se reajustar.
+  - `ViewerDrawer` (641–1099 px): overlay à direita no padrão do
+    `TasksDrawer.jsx`, largura `min(560px, 92vw)`, faixa `--v2-scrim` leve;
+    fecha com Esc, ✕ ou toque fora.
+  - Fecha também quando a sessão ativa muda? **Não**: as abas são por sessão,
+    então o painel troca para as abas da nova sessão (ou mostra o estado vazio).
+- Se a Fase N ainda não tiver sido feita, o `ViewerDock` funciona do mesmo
+  jeito, só que sem o recolhimento automático (o usuário recolhe à mão).
 - **Tela cheia:** `ViewerFullscreen` renderiza o `ViewerPanel` num portal em
   `document.body`, `position: fixed; inset: 0`, respeitando
   `--v2-safe-*`. Barra superior: abas à esquerda, **✕ Fechar** à direita
-  (44 px). Esc ou Fechar → `fullscreen=false` (volta ao dropdown no iPad/PC;
+  (44 px). Esc ou Fechar → `fullscreen=false` (volta ao painel à direita no iPad/PC;
   no celular fecha tudo).
-- **Um só painel por vez:** quando `fullscreen` é verdadeiro, o dropdown não
+- **Um só painel por vez:** quando `fullscreen` é verdadeiro, o painel à direita não
   renderiza. A aba ativa é a mesma nos dois (estado no contexto). O `iframe` do
   HTML recarrega ao trocar de contêiner, o que é aceitável.
 - Botão no cabeçalho: ao lado de `AttachmentsMenu` na topbar do `AppV2`
@@ -2642,7 +2688,7 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
 | Ponto | Adotado | Alternativa |
 |-------|---------|-------------|
 | O que vira artefato | (1) O agente publica com a tool nova `publicar_artefato`. (2) Todo `.md`/`.html`/`.pdf` que o agente abre com `abrir_no_visualizador` entra **automaticamente**. (3) Você adiciona à mão ("Salvar em Artefatos" no visualizador ou "Importar do projeto") | Só a publicação explícita (desligar o item 2 com um parâmetro) |
-| "Painel lateral" | Na tela Artefatos, o visualizador abre como **drawer à direita**, por cima da lista, no mesmo padrão do `TasksDrawer` que já existe. No **chat** continua o **dropdown** da Fase V | Usar o drawer lateral também no chat, no lugar do dropdown (troca só de contêiner, o conteúdo é o mesmo `ViewerPanel`) |
+| "Painel lateral" | O **mesmo painel à direita** do chat (Fase V + Fase N): encaixado em telas ≥ 1100 px (a sidebar vira trilho enquanto ele está aberto), por cima em 641–1099 px, tela cheia no celular | — (decidido com a Parte 8) |
 | Tela cheia no painel lateral | Mantida: o botão ⤢ vira o mesmo modal de tela cheia da Fase V | — |
 | Celular | Abre direto em tela cheia (não há largura para drawer) | — |
 | Outros tipos (imagem, `.docx`, `.csv`) | Fora por enquanto; a tabela aceita qualquer `kind`, então dá para ampliar depois | Incluir imagens já |
@@ -2657,10 +2703,11 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
   o item **◧ Artefatos**, entre Tarefas e Configuração. É só uma entrada a mais
   em `NAV_ITEMS`; a sidebar, a topbar e a lista de clientes continuam iguais.
 - Título da topbar: "Artefatos".
-- O **cliente** vem da lista de clientes da sidebar (igual ao Board e a
-  Tarefas). Com "Todos" selecionado, a barra de filtro mostra os dois selects
-  (cliente → projeto), usando o `ClienteProjetoFilterBar` e o
-  `useClienteProjetoFilter` existentes.
+- **Cliente e projeto vêm da sidebar** (Fase N, [Parte 8](08-planejamento-navegacao-cliente-projeto.md)):
+  a lista de clientes vira a lista de projetos do cliente, com **← Clientes**
+  para voltar. **Não há barra de selects** nesta tela; a faixa de filtro tem
+  só os chips de tipo e a busca. Se a Fase A for feita antes da N, usar
+  temporariamente o `ClienteProjetoFilterBar` como no Board e em Tarefas.
 
 #### A tela
 
@@ -2701,9 +2748,9 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
 
 #### Painel lateral
 
-- Drawer à direita, **por cima** da lista (overlay), com uma faixa escurecida
-  leve no resto da tela. Largura `min(760px, 62vw)` em telas ≥ 821 px. Entre
-  641 e 820 px ocupa 100 % da área de conteúdo. No celular abre em tela cheia.
+- Painel à direita, igual ao do chat: **encaixado** em telas ≥ 1100 px (a
+  grade de cartões encolhe e a sidebar vira trilho enquanto ele está aberto),
+  **por cima** da lista em 641–1099 px, **tela cheia** no celular.
 - Cabeçalho: abas dos artefatos abertos · **✕ Fechar**. Barra: caminho,
   tamanho, ⤓ Baixar, ⧉ Copiar, ↗ Abrir no navegador, **⤢ Tela cheia**.
 - Fecha com ✕, com Esc ou tocando na faixa escurecida. As abas continuam
@@ -2722,7 +2769,7 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
 | Publicação automática | `abrir_no_visualizador` de `.md`/`.html`/`.pdf` faz upsert em `artifacts` | É exatamente o que o agente mostra como entregável; evita depender do agente lembrar de duas tools |
 | Como servir o arquivo | Rotas por `artifact_id` (`/api/artifacts/{id}/content` e `/f/{caminho}`) sobre um módulo comum `file_serving.py`, **o mesmo** usado pelas rotas `/api/viewer/{item_id}/…` | Uma única implementação de CSP, download, limite de 1 MB e denylist |
 | Visualizador no front | `ViewerContext` ganha **escopos**: `session:<session_key>` (chat, Fase V) e `artefatos` (esta tela). Cada item diz sua **origem** (`viewer` ou `artifact`), e o `viewerApi` monta a URL certa | O `ViewerPanel` e os renderers ficam iguais; só muda de onde vem o arquivo |
-| Contêiner lateral | Componente novo `ViewerDrawer`, no padrão do `TasksDrawer` (overlay à direita) | Não altera o layout: é um overlay, como o drawer de tarefas que já existe |
+| Contêiner lateral | Os mesmos `ViewerDock`/`ViewerDrawer`/`ViewerFullscreen` da Fase V, escolhidos pela largura | Um único comportamento de visualizador no app inteiro |
 | Segurança | Mesmas regras da Fase V: `resolve_safe_path`, denylist, `iframe` sem `allow-same-origin`, CSP `sandbox`, ids aleatórios | A galeria não amplia o que pode ser lido: só arquivos registrados + vizinhos do mesmo projeto |
 
 **Ajuste na Fase V:** as funções de servir conteúdo (`content` e `f/`) devem nascer num módulo
@@ -2874,7 +2921,7 @@ frontend/src/features/artifacts/
   useArtifacts.js          # busca, filtros, recarga ao focar a tela e ao chegar viewer_open de md/html/pdf
   artifactsApi.js
 frontend/src/features/viewer/
-  ViewerDrawer.jsx         # NOVO contêiner lateral (padrão TasksDrawer) para o ViewerPanel
+  ViewerDock.jsx / ViewerDrawer.jsx   # já existem (Fase V); aqui só recebem scope="artefatos"
   ViewerContext.jsx        # ALTERAR: escopos (session:<sk> e 'artefatos') e item.source ('viewer'|'artifact')
   viewerApi.js             # ALTERAR: URLs por origem
   ViewerToolbar.jsx        # ALTERAR: "☆ Salvar em Artefatos" quando o item veio do chat e ainda não é artefato
@@ -2905,21 +2952,20 @@ Conferir testes que contam itens de navegação (`AppV2.test.jsx`,
 
 #### 7.5.3 Filtro
 
-Usar `useClienteProjetoFilter(projects, selectedClienteId)` e
-`ClienteProjetoFilterBar` exatamente como `TarefasV2`/`BoardV2`. A filtragem
+Usar o escopo da sidebar (`selectedClienteId` e `selectedProjetoId`, Fase N).
+Sem barra de selects. A filtragem
 por subárvore do projeto pode ser feita no backend (`projeto_id`) ou no front
 com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 (`cliente/projeto/sub`), que já quebrou no Board.
 
 #### 7.5.4 Painel lateral
 
-- `ViewerDrawer`: overlay à direita, `position: fixed` com `top`/`bottom`
-  alinhados à área de conteúdo, respeitando `fixedPositioningInvariant.test.js`
-  (sem `transform` em ancestral). Faixa escurecida `--v2-scrim` com opacidade baixa.
-- Renderiza `<ViewerPanel scope="artefatos" />`. **⤢ Tela cheia** usa o
-  `ViewerFullscreen` da Fase V; **✕ Fechar** e Esc fecham o drawer.
+- Mesmo painel da Fase V, escolhido pela largura: `ViewerDock` (≥ 1100 px,
+  com recolhimento forçado da sidebar, Parte 8), `ViewerDrawer` (641–1099 px)
+  ou `ViewerFullscreen` (celular), sempre com `scope="artefatos"`.
+- **⤢ Tela cheia** usa o `ViewerFullscreen`; **✕ Fechar** e Esc fecham o painel.
 - Tocar num cartão: `openArtifact(artifact)` → adiciona/foca a aba no escopo
-  `artefatos` e abre o drawer.
+  `artefatos` e abre o painel.
 - As abas do escopo `artefatos` ficam **só no front** (não precisam de
   tabela): até 15, guardadas em `sessionStorage` para sobreviver a recarregar
   a página.
@@ -2941,7 +2987,7 @@ com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 | 2 | `ArtifactStore` + rotas de lista, criação, edição, remoção, conteúdo e arquivo (via `file_serving`) | `pytest tests/test_artifact_store.py tests/test_artifacts_endpoints.py` |
 | 3 | Candidatos + importação | testes de endpoint |
 | 4 | Tool `publicar_artefato` + publicação automática no `abrir_no_visualizador` | `pytest tests/test_mcp_viewer_adapter.py tests/test_viewer_endpoints.py` |
-| 5 | `ViewerContext` com escopos + `ViewerDrawer` | vitest |
+| 5 | `ViewerContext` com escopos; painel com `scope="artefatos"` | vitest |
 | 6 | `ArtefatosV2` + cartão + filtros + estados + item de menu | vitest + testes de navegação atualizados |
 | 7 | Menu do cartão (baixar, copiar, citar no chat, renomear, remover) e "Salvar em Artefatos" no visualizador | vitest |
 | 8 | Modal "Importar do projeto" | vitest |
@@ -2969,7 +3015,7 @@ com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 - `ArtefatosV2`: agrupa por projeto com "Todos os projetos"; mostra grade
   simples com projeto escolhido; chips de tipo filtram; busca filtra; estado vazio.
 - Cartão com `exists:false` mostra o selo e a borda tracejada.
-- Tocar no cartão abre o `ViewerDrawer` com a aba; tocar em outro abre a segunda aba.
+- Tocar no cartão abre o painel à direita com a aba; tocar em outro abre a segunda aba.
 - Remover exige 2 toques e chama `DELETE`.
 - Item "Artefatos" aparece na sidebar e no menu do celular.
 
@@ -2977,8 +3023,8 @@ com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 
 1. Pedir ao claude: "gere um relatório HTML dos testes e publique como artefato".
    Ele aparece em Artefatos › cliente › projeto e abre no visualizador.
-2. Escolher outro cliente na sidebar: a lista muda. Escolher um projeto no
-   select: só aquele projeto (e subprojetos).
+2. Escolher outro cliente na sidebar: a lista muda. Entrar no cliente e escolher
+   um projeto na sidebar: só aquele projeto (e subprojetos).
 3. Tocar em dois cartões: painel lateral com duas abas; ⤢ Tela cheia e ✕ Fechar funcionam.
 4. Abrir um PDF: aparece no painel (ou, se o Safari do iPad não renderizar
    bem dentro do painel, o botão ↗ abre no leitor nativo e ⤓ baixa. Registrar o resultado no PR).
@@ -3006,4 +3052,246 @@ com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 - [ ] Nenhuma mudança visual fora da tela nova, do item de menu e do painel lateral.
 - [ ] Aceite manual 7.7 conferido (itens de aparelho marcados como "verificar" se o agente não tiver iPad).
 - [ ] README do projeto com uma seção curta "Artefatos".
+- [ ] Documentação atualizada se a implementação divergir.
+
+---
+
+<!-- ===== 08-planejamento-navegacao-cliente-projeto.md ===== -->
+
+## Parte 8 — Planejamento da Fase N: cliente → projeto na sidebar e espaço para o visualizador
+
+> **O pedido:** liberar espaço no desktop e no tablet. Ao selecionar um
+> cliente, **a própria lista de clientes vira a lista de projetos** desse
+> cliente, com uma seta ou botão para **voltar à lista de clientes**. Com isso
+> sobra espaço no **lado direito** para abrir o visualizador de arquivos
+> (o "dropdown" da Fase V).
+>
+> É uma mudança pequena e localizada **em cima do layout v2 atual**: a
+> sidebar continua onde está, com a mesma largura e o mesmo visual. Muda o
+> **conteúdo** da seção de clientes e o que acontece com as colunas quando o
+> visualizador abre.
+
+![Cliente → projeto e espaço para o visualizador](img/13-mockup-sidebar-cliente-projeto.svg)
+
+---
+
+### 8.1 Situação atual (medida no código)
+
+| Coluna | Componente | Largura | O que tem |
+|--------|-----------|---------|-----------|
+| Sidebar | `SidebarV2.jsx` + `ClienteList.jsx` | 240 px (68 px recolhida) | menu (Chat, Board, Tarefas, Configuração) + "Clientes" (Todos + clientes) |
+| Lista de chats | `ChatSidebarV2.jsx` + `ChatList.jsx` | 280 px (68 px recolhida) | conversas do cliente selecionado |
+| Conteúdo | `ChatV2.jsx` (terminal), `BoardV2`, `TarefasV2`… | o resto | no Board e em Tarefas há ainda uma **barra de selects** Cliente/Projeto (`ClienteProjetoFilterBar`) |
+
+Problemas:
+
+1. **Projeto não tem lugar na navegação.** Só existe como select na barra
+   do Board/Tarefas, que come uma faixa de ~45 px de altura, e o Chat não
+   filtra por projeto (mostra "Raiz" ou o subprojeto em cada linha).
+2. **Não há espaço para um painel à direita.** Num iPad deitado (1180 px),
+   240 + 280 px deixam 660 px para o terminal. Abrir um visualizador ao lado
+   deixaria ~200 px de terminal.
+
+---
+
+### 8.2 A proposta
+
+#### 8.2.1 Cliente → projeto na mesma área (drill-down)
+
+1. **Nível Clientes** (como hoje): "Todos" + clientes. Clientes que têm
+   subprojetos mostram **›** à direita.
+2. Tocar num cliente **com** subprojetos: a seção inteira troca para o
+   **nível Projetos** daquele cliente, com animação curta de deslizar
+   (respeita `prefers-reduced-motion`). Tocar num cliente **sem** subprojetos
+   só o seleciona, como hoje.
+3. **Nível Projetos:**
+   - botão **← Clientes** no topo (altura 44 px, largura toda);
+   - rótulo `PODESUBIR · PROJETOS`;
+   - **Todos os projetos** (= cliente inteiro, igual a selecionar o cliente hoje);
+   - **Raiz** (só se a pasta do cliente for elegível para chat, `elegivel: true`);
+   - os projetos filhos diretos, em ordem alfabética; os que têm filhos
+     mostram **›** e entram mais um nível (o botão de voltar vira
+     **← api-pagamentos**, o pai).
+4. Selecionar um projeto **filtra todas as telas**: lista de chats, Board,
+   Tarefas e Artefatos. A **barra de selects** (`ClienteProjetoFilterBar`)
+   deixa de ser necessária e sai do Board e de Tarefas (e não entra em Artefatos).
+5. **Sidebar recolhida (68 px):** no nível Projetos, o primeiro item é um
+   botão "←" e os projetos aparecem como avatares com iniciais (mesmo
+   `.v2-cliente-avatar`), com o nome no `title`.
+6. **Celular:** o `MobileMenuScreen` usa o mesmo `ClienteList` (variante
+   `mobile`), então ganha o mesmo comportamento, com linhas de 54 px.
+7. **Memória:** cliente, projeto e nível ficam salvos em `localStorage`
+   (`escritorio::v2_nav_scope`). Recarregar a página volta para o mesmo lugar.
+
+#### 8.2.2 Espaço à direita para o visualizador
+
+- O visualizador da Fase V passa a abrir como **painel à direita** (é o
+  "dropdown", só que ancorado na lateral). Continua saindo do botão
+  **Visualizador** do cabeçalho, com abas, **⤢ Tela cheia** e **✕ Fechar**.
+- **Tela larga (≥ 1100 px: iPad deitado e desktop):** o painel fica **encaixado**
+  (o terminal encolhe, nada fica por baixo), e a sidebar e a lista de chats
+  viram **trilhos de 68 px** automaticamente enquanto ele estiver aberto. Ao
+  fechar, elas voltam exatamente como estavam.
+- **641–1099 px (iPad em pé, Split View):** o painel abre **por cima**
+  (overlay), sem recolher nada.
+- **≤ 640 px (celular):** tela cheia, como já planejado.
+- Largura do painel encaixado: `clamp(420px, 42vw, 780px)`.
+
+| Largura da janela | Hoje, sem visualizador | Se abrisse ao lado hoje | Proposta |
+|-------------------|------------------------|-------------------------|----------|
+| iPad deitado 1180 px | 240 + 280 · terminal 660 | terminal 200 · painel 460 | 68 + 68 · terminal 524 · painel 520 |
+| iPad Pro 13" 1366 px | 240 + 280 · terminal 846 | terminal 346 · painel 500 | 68 + 68 · terminal 610 · painel 620 |
+| Desktop 1920 px | 240 + 280 · terminal 1400 | terminal 680 · painel 720 | 68 + 68 · terminal 1004 · painel 780 |
+
+#### 8.2.3 Pontos para confirmar
+
+| Ponto | Adotado | Alternativa |
+|-------|---------|-------------|
+| Recolher as colunas sozinho ao abrir o visualizador | Sim, só enquanto ele estiver aberto, sem mudar sua preferência salva | Não recolher; você recolhe à mão com os botões que já existem |
+| Barra de selects Cliente/Projeto no Board/Tarefas | Sai (a sidebar faz o papel dela) | Manter as duas formas |
+| Cliente sem subprojetos | Seleciona direto, sem entrar no nível Projetos | Sempre entrar no nível Projetos |
+| Visualizador no chat | Painel à direita (substitui o dropdown ancorado no botão da Fase V) | Manter o dropdown ancorado |
+
+---
+
+### 8.3 Implementação (Dev)
+
+#### 8.3.1 Arquivos
+
+```
+frontend/src/utils/projectTree.js              # NOVO: childrenOf, hasChildren, parentOf, labelFor (puro, testável)
+frontend/src/hooks/useNavScope.js              # NOVO: {clienteId, projetoId, level, path[]} + persistência em localStorage
+frontend/src/layouts/v2/ClienteList.jsx        # ALTERAR: níveis Clientes/Projetos, voltar, ›, avatares recolhidos
+frontend/src/layouts/v2/SidebarV2.jsx          # ALTERAR: repassa as props novas
+frontend/src/layouts/v2/MobileMenuScreen.jsx   # ALTERAR: repassa as props novas
+frontend/src/layouts/v2/AppV2.jsx              # ALTERAR: useNavScope no lugar de selectedClienteId; recolhimento forçado
+frontend/src/layouts/v2/ChatSidebarV2.jsx      # ALTERAR: filtra por subárvore do projeto; título "cliente / projeto"
+frontend/src/layouts/v2/NewChatSheet.jsx       # ALTERAR: já abre com cliente e projeto selecionados
+frontend/src/layouts/v2/BoardV2.jsx            # ALTERAR: usa projetoId global; remove ClienteProjetoFilterBar
+frontend/src/layouts/v2/TarefasV2.jsx          # ALTERAR: idem
+frontend/src/layouts/v2/useClienteProjetoFilter.js  # ALTERAR: recebe o escopo global em vez de estado local
+frontend/src/utils/viewport.js                 # ALTERAR: + WIDE_VIEWPORT_QUERY = '(min-width: 1100px)'
+```
+
+#### 8.3.2 Estado de navegação
+
+```js
+// useNavScope() → 
+{
+  clienteId: 'podesubir' | null,          // null = "Todos"
+  projetoId: 'podesubir/site' | null,     // null = "Todos os projetos" do cliente
+  level: 'clientes' | 'projetos',
+  parentId: 'podesubir' | 'podesubir/api-pagamentos',   // de quem os filhos estão sendo listados
+  enterCliente(id), enterProjeto(id), selectProjeto(id|null), back(), reset()
+}
+```
+
+- `AppV2` troca o `useState(selectedClienteId)` por `useNavScope()`, mantendo
+  a inicialização a partir do `selectedProjectId` do `TerminalContext`
+  (comportamento atual: abrir já no cliente certo).
+- `handleSelectCliente` e o novo `handleSelectProjeto` continuam chamando
+  `selectProject(...)` do `TerminalContext`, como hoje, para o chat ativo
+  ficar em sincronia.
+- As telas recebem `selectedClienteId` **e** `selectedProjetoId`. A regra de
+  filtro é **por prefixo** (`collectSubtreeIds`, já existente), para o caso de
+  3 níveis (`cliente/projeto/sub`) que já quebrou no Board.
+
+#### 8.3.3 Recolhimento forçado (sem mexer na preferência salva)
+
+`useSidebarCollapsed` grava em `localStorage` a cada clique. O recolhimento
+automático **não** pode sobrescrever isso. Então:
+
+```js
+const viewerDocked = viewerOpen && isWide;              // WIDE_VIEWPORT_QUERY
+const sidebarEffective = sidebarCollapsed || viewerDocked;
+const chatSidebarEffective = chatSidebarCollapsed || viewerDocked;
+```
+
+- `SidebarV2`/`ChatSidebarV2` recebem o valor **efetivo**; os botões de
+  recolher continuam alterando só a preferência.
+- Quando `viewerDocked` muda, `AppV2` dispara
+  `window.dispatchEvent(new CustomEvent('escritorio:sidebar-toggled'))`, o
+  mesmo evento que faz o `TerminalPanel` reajustar o xterm (ele espera ~250 ms,
+  compatível com a transição de 180 ms de `collapseLayout.js`).
+- Abrir e fechar o painel encaixado também dispara esse evento, porque a
+  largura do terminal muda.
+
+#### 8.3.4 Painel encaixado
+
+- No `ChatV2` (e no `ArtefatosV2` da Fase A), o conteúdo vira uma linha flex:
+  `[conteúdo flex:1] [ViewerDock largura clamp(420px, 42vw, 780px)]`.
+- `ViewerDock` renderiza o mesmo `ViewerPanel` da Fase V. Abaixo de 1100 px o
+  mesmo painel é renderizado como overlay (`ViewerDrawer`), e no celular como
+  tela cheia (`ViewerFullscreen`).
+- Sem `transform` em ancestral de elemento `position: fixed`
+  (`fixedPositioningInvariant.test.js`).
+
+#### 8.3.5 Ordem dos commits
+
+| Passo | Entrega | Verificação |
+|-------|---------|-------------|
+| 1 | `projectTree.js` + testes (filhos diretos, ›, pai, 3 níveis) | vitest |
+| 2 | `useNavScope` + persistência + testes | vitest |
+| 3 | `ClienteList` com níveis e voltar (sidebar e mobile, aberta e recolhida) | vitest (`ClienteList.test.jsx`, `SidebarV2.test.jsx`, `MobileMenuScreen.test.jsx`) |
+| 4 | `AppV2` + `ChatSidebarV2` + `NewChatSheet` usando o escopo | vitest (`AppV2.test.jsx`, `ChatSidebarV2.test.jsx`, `NewChatSheet.test.jsx`) |
+| 5 | `BoardV2`/`TarefasV2`/`useClienteProjetoFilter` sem a barra de selects | vitest (testes de Board/Tarefas/filtro atualizados) |
+| 6 | `WIDE_VIEWPORT_QUERY` + recolhimento forçado + evento de refit | vitest |
+| 7 | Doc e aceite manual | checklist 8.4 |
+
+O passo 6 pode entrar aqui mesmo que a Fase V ainda não exista: basta um
+`viewerOpen` que por enquanto é sempre `false`. Quando a Fase V chegar, ela
+só liga esse valor.
+
+---
+
+### 8.4 Testes e aceite
+
+#### Automatizados
+
+- `projectTree`: filhos diretos de cliente e de projeto; `hasChildren`;
+  ids parecidos (`cliente` × `cliente2/x`) não se misturam.
+- `ClienteList`: tocar em cliente com filhos entra no nível Projetos; sem
+  filhos só seleciona; **← Clientes** volta; nível 3 mostra **← pai**;
+  recolhida mostra "←" e avatares; variante mobile com 54 px.
+- `useNavScope`: grava e restaura do `localStorage`; ignora valor inválido
+  (projeto que não existe mais → volta para "Todos").
+- Chat, Board e Tarefas filtram pela subárvore do projeto selecionado
+  (inclui caso de 3 níveis).
+- Recolhimento forçado não grava no `localStorage` e dispara
+  `escritorio:sidebar-toggled` ao entrar e ao sair.
+- `fixedPositioningInvariant.test.js` continua passando.
+
+#### Manual (iPad deitado, iPad em pé, desktop, celular)
+
+1. Tocar em "podesubir": a lista vira os projetos dele com **← Clientes**.
+2. Tocar em "site-institucional": lista de chats, Board, Tarefas e
+   Artefatos mostram só esse projeto.
+3. **← Clientes** volta; "Todos" limpa o filtro.
+4. Projeto com subprojetos entra mais um nível e volta para o pai.
+5. Recarregar a página: continua no mesmo cliente/projeto.
+6. Com a sidebar recolhida, a navegação por avatares funciona.
+7. (Com a Fase V) abrir o visualizador no iPad deitado: as duas colunas viram
+   trilhos, o painel ocupa a direita, o terminal se reajusta sem texto
+   quebrado; fechar devolve tudo como estava.
+8. Mesmo teste no iPad em pé: painel por cima, nada recolhe.
+
+---
+
+### 8.5 Riscos
+
+| Risco | Mitigação |
+|-------|-----------|
+| Muitos testes de Board/Tarefas dependem da barra de selects | Atualizar os testes no mesmo commit do passo 5; a lógica de filtro (prefixo) continua a mesma, só muda a origem do valor |
+| Terminal com texto desalinhado depois de encolher | Disparar o evento de refit ao abrir/fechar o painel e ao forçar o recolhimento; testar rotação com o painel aberto |
+| Usuário se perder no nível Projetos | Rótulo `CLIENTE · PROJETOS` e botão de voltar sempre visíveis; título da lista de chats mostra "cliente / projeto" |
+| Projeto salvo que deixou de existir | `useNavScope` valida contra `projects` e cai para "Todos" |
+
+---
+
+### 8.6 Definição de pronto
+
+- [ ] Nível Clientes → Projetos → subprojetos com voltar, na sidebar e no celular.
+- [ ] Chat, Board, Tarefas (e Artefatos, quando existir) filtrados pelo escopo da sidebar; barra de selects removida.
+- [ ] Recolhimento forçado pronto para o visualizador, sem alterar a preferência salva.
+- [ ] `npm test` verde; nenhuma mudança visual fora da seção de clientes e das colunas recolhidas com o painel aberto.
 - [ ] Documentação atualizada se a implementação divergir.

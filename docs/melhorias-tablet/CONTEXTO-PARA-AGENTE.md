@@ -51,6 +51,10 @@ WebSocket). No tablet isso é ruim:
    **por cliente e projeto**, com os artefatos criados (`.md`, `.pdf`, `.html`).
    Tocar num artefato abre o **painel lateral de visualização**. **Sem mexer no
    layout:** tudo em cima do layout v2 atual. Isso virou a **Fase A**.
+7. **Ajuste seguinte:** liberar espaço no desktop/tablet. Ao selecionar um
+   cliente, **a própria lista de clientes da sidebar vira a lista de projetos**
+   dele, com seta/botão para **voltar aos clientes**, sobrando o **lado
+   direito** para o visualizador (o "dropdown"). Isso virou a **Fase N**.
 
 ## 4. Onde está cada coisa (esta pasta)
 
@@ -63,7 +67,8 @@ WebSocket). No tablet isso é ruim:
 | `03-layout-amigavel.md` | Tokens, layouts por largura, rotas reais, lista estilo WhatsApp, ⌘K, acessibilidade |
 | `04-melhorias-adicionais.md` | 14 melhorias (4.1 autenticação é obrigatória antes do navegador completo) |
 | `05-plano-de-execucao-e-prompts.md` | Fases FV, F0–F4 e prompts das fases F0–F4 |
-| `06-planejamento-fase-v.md` | **Plano de desenvolvimento da Fase V (próxima a executar)** |
+| `06-planejamento-fase-v.md` | **Plano de desenvolvimento da Fase V (segunda a executar)** |
+| `08-planejamento-navegacao-cliente-projeto.md` | **Plano da Fase N (sidebar clientes → projetos + espaço à direita), a primeira a executar** |
 | `07-planejamento-artefatos.md` | **Plano de desenvolvimento da Fase A (aba Artefatos), logo depois da V** |
 | `documentacao-completa.md` / `.html` | Todas as partes num arquivo só |
 | `img/*.svg` | Diagramas e mockups (01–11) |
@@ -73,13 +78,15 @@ WebSocket). No tablet isso é ruim:
 
 | Tema | Decisão |
 |------|---------|
-| Ordem | **FV** (agente abre arquivo) → **FA** (aba Artefatos) → **F0** (auth + routers + restante dos quick wins) → **F1** (navegador de arquivos) e **F2** (chat claude) → **F3** (layout v3) → **F4** (codex + extras) |
+| Ordem | **FN** (sidebar cliente → projeto) → **FV** (agente abre arquivo) → **FA** (aba Artefatos) → **F0** (auth + routers + restante dos quick wins) → **F1** (navegador de arquivos) e **F2** (chat claude) → **F3** (layout v3) → **F4** (codex + extras) |
 | Como o agente mostra arquivo | Tool MCP `abrir_no_visualizador(caminho, titulo?, linha?)` num servidor novo `escritorio-visualizador`, registrado em `_escritorio_mcp_servers()` (vale para `claude` e `codex`) |
 | Como a tela fica sabendo | Frame de controle `{"type":"viewer_open",…}` no WebSocket `/ws/pty/{session_key}` já existente, com abas persistidas na tabela `viewer_items` |
 | "Aba nova" | Aba **dentro do visualizador** (não do navegador); o mesmo arquivo reaproveita a aba e recarrega (interpretação a confirmar com o Bruno; alternativa trivial documentada na Parte 6) |
 | Tela cheia | Modal em portal (`document.body`), mesmo contrato do `CenteredModal.jsx`, com ✕ Fechar e Esc; no celular abre sempre em tela cheia |
 | Segurança do visualizador | Rotas por `item_id` aleatório, `resolve_safe_path` (realpath + commonpath), denylist de segredos, HTML em `iframe sandbox` sem `allow-same-origin` + CSP `sandbox` |
 | Artefatos | Tabela `artifacts` única por (projeto, caminho); tool `publicar_artefato` no servidor `escritorio-visualizador`; `abrir_no_visualizador` de `.md`/`.html`/`.pdf` publica automaticamente; remover da lista não apaga o arquivo; tela nova `artefatos` em `NAV_ITEMS` do `AppV2`, com `ClienteProjetoFilterBar`; o visualizador abre num **drawer lateral** (padrão `TasksDrawer`) nessa tela e continua **dropdown** no chat (a confirmar com o Bruno) |
+| Navegação | Drill-down no `ClienteList` (Clientes → Projetos → subprojetos, com **← voltar**); escopo global `useNavScope` (cliente + projeto, salvo em `localStorage`) filtra Chat, Board, Tarefas e Artefatos; `ClienteProjetoFilterBar` sai |
+| Visualizador | Abre **à direita**: encaixado (`ViewerDock`) em ≥ 1100 px com a sidebar e a lista de chats recolhidas **só enquanto aberto** (sem gravar a preferência), por cima (`ViewerDrawer`) em 641–1099 px, tela cheia no celular. Onde as Partes 6/7 dizem "dropdown", é esse painel |
 | Layout | **Não mexer no layout agora.** Fases V e A entram em cima do v2 atual; o layout v3 (Parte 3) fica para depois |
 | Autenticação | Obrigatória antes do navegador de arquivos livre (F1); a FV pode vir antes por ter superfície limitada |
 | Chat estruturado | Modo headless oficial do `claude` (flags verificadas na 2.1.x); aprovações por `--permission-prompt-tool` apontando para uma tool MCP nossa; **não** usar o SDK Python do Claude porque o backend roda em **Python 3.9.6** (SDK exige 3.10+) |
@@ -112,8 +119,8 @@ WebSocket). No tablet isso é ruim:
   (a pasta `docs/melhorias-tablet/` foi liberada no `.gitignore`, que ignora `docs/*` por padrão).
 - **Código:** nenhuma mudança de código foi feita ainda. Só documentação.
 - **Próxima ação:** quando o Bruno pedir, entregar o **prompt de desenvolvimento
-  da Fase V** (baseado em `06-planejamento-fase-v.md`) e, depois, o da **Fase A**
-  (baseado em `07-planejamento-artefatos.md`), para ele usar numa
+  da Fase N** (baseado em `08-planejamento-navegacao-cliente-projeto.md`), depois o
+  da **Fase V** (`06-planejamento-fase-v.md`) e o da **Fase A** (`07-planejamento-artefatos.md`), para ele usar numa
   janela limpa. O desenvolvimento deve acontecer numa branch própria (a
   que a sessão de desenvolvimento indicar), com um PR para a fase.
 

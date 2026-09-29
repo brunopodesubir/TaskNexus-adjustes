@@ -145,15 +145,15 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
 </style>
 </head>
 <body>
-<nav class="topbar" aria-label="Partes"><a href="CONTEXTO-PARA-AGENTE.html">C · Contexto para o agente</a><a href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a><a class="on" href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a><a href="07-planejamento-artefatos.html">7 · Planejamento da Fase A</a></nav>
+<nav class="topbar" aria-label="Partes"><a href="CONTEXTO-PARA-AGENTE.html">C · Contexto para o agente</a><a href="00-visao-geral-e-diagnostico.html">0 · Visão geral e diagnóstico</a><a href="01-visualizador-de-arquivos.html">1 · Visualizador de arquivos</a><a href="02-chat-conversacional.html">2 · Chat conversacional</a><a href="03-layout-amigavel.html">3 · Layout amigável</a><a href="04-melhorias-adicionais.html">4 · Melhorias adicionais</a><a href="05-plano-de-execucao-e-prompts.html">5 · Plano e prompts</a><a class="on" href="06-planejamento-fase-v.html">6 · Planejamento da Fase V</a><a href="07-planejamento-artefatos.html">7 · Planejamento da Fase A</a><a href="08-planejamento-navegacao-cliente-projeto.html">8 · Planejamento da Fase N</a></nav>
 <div class="shell">
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
-    <ul class="parts"><li><a href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a class="on" href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a href="07-planejamento-artefatos.html"><span class="n">7</span><span>Planejamento da Fase A</span></a></li></ul>
-    <div class="toc"><p class="toc-title">Nesta página</p><ul><li><a href="#61-requisitos">6.1 Requisitos</a><ul><li><a href="#o-que-foi-pedido-palavras-do-bruno-organizadas">O que foi pedido (palavras do Bruno, organizadas)</a></li><li><a href="#como-cada-ponto-foi-interpretado-confirmar-antes-de-codar">Como cada ponto foi interpretado (confirmar antes de codar)</a></li></ul></li><li><a href="#62-experiência-de-uso-ux">6.2 Experiência de uso (UX)</a><ul><li><a href="#fluxo-principal">Fluxo principal</a></li><li><a href="#outros-pontos-de-entrada">Outros pontos de entrada</a></li><li><a href="#estados">Estados</a></li><li><a href="#teclado-e-toque">Teclado e toque</a></li></ul></li><li><a href="#63-arquitetura-tl">6.3 Arquitetura (TL)</a><ul><li><a href="#decisões">Decisões</a></li><li><a href="#ligação-com-a-aba-artefatos-fase-a-parte-7">Ligação com a aba Artefatos (Fase A, Parte 7)</a></li><li><a href="#o-que-fica-para-depois-não-entra-nesta-fase">O que fica para depois (não entra nesta fase)</a></li></ul></li><li><a href="#64-backend-dev">6.4 Backend (Dev)</a><ul><li><a href="#641-arquivos">6.4.1 Arquivos</a></li><li><a href="#642-file_accesspy">6.4.2 file_access.py</a></li><li><a href="#643-rotas">6.4.3 Rotas</a></li><li><a href="#644-aviso-ao-vivo-frame-viewer_open">6.4.4 Aviso ao vivo (frame viewer_open)</a></li><li><a href="#645-viewerstore">6.4.5 ViewerStore</a></li><li><a href="#646-adapter-mcp-mcp_viewer_adapterpy">6.4.6 Adapter MCP mcp_viewer_adapter.py</a></li></ul></li><li><a href="#65-frontend-dev">6.5 Frontend (Dev)</a><ul><li><a href="#651-arquivos">6.5.1 Arquivos</a></li><li><a href="#652-viewercontext">6.5.2 ViewerContext</a></li><li><a href="#653-dropdown-e-tela-cheia">6.5.3 Dropdown e tela cheia</a></li><li><a href="#654-renderização">6.5.4 Renderização</a></li><li><a href="#655-destaque-de-sintaxe">6.5.5 Destaque de sintaxe</a></li><li><a href="#656-links-clicáveis-no-terminal-resolve-o-problema-de-origem">6.5.6 Links clicáveis no terminal (resolve o problema de origem)</a></li></ul></li><li><a href="#66-ordem-de-execução-um-commit-por-passo-testes-verdes-em-cada-um">6.6 Ordem de execução (um commit por passo, testes verdes em cada um)</a></li><li><a href="#67-testes">6.7 Testes</a><ul><li><a href="#backend">Backend</a></li><li><a href="#frontend">Frontend</a></li><li><a href="#aceite-manual-ipad-safari-e-pwa-instalado">Aceite manual (iPad, Safari e PWA instalado)</a></li></ul></li><li><a href="#68-riscos-e-como-mitigar">6.8 Riscos e como mitigar</a></li><li><a href="#69-definição-de-pronto">6.9 Definição de pronto</a></li></ul></div>
+    <ul class="parts"><li><a href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a class="on" href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a href="07-planejamento-artefatos.html"><span class="n">7</span><span>Planejamento da Fase A</span></a></li><li><a href="08-planejamento-navegacao-cliente-projeto.html"><span class="n">8</span><span>Planejamento da Fase N</span></a></li></ul>
+    <div class="toc"><p class="toc-title">Nesta página</p><ul><li><a href="#61-requisitos">6.1 Requisitos</a><ul><li><a href="#o-que-foi-pedido-palavras-do-bruno-organizadas">O que foi pedido (palavras do Bruno, organizadas)</a></li><li><a href="#como-cada-ponto-foi-interpretado-confirmar-antes-de-codar">Como cada ponto foi interpretado (confirmar antes de codar)</a></li></ul></li><li><a href="#62-experiência-de-uso-ux">6.2 Experiência de uso (UX)</a><ul><li><a href="#fluxo-principal">Fluxo principal</a></li><li><a href="#outros-pontos-de-entrada">Outros pontos de entrada</a></li><li><a href="#estados">Estados</a></li><li><a href="#teclado-e-toque">Teclado e toque</a></li></ul></li><li><a href="#63-arquitetura-tl">6.3 Arquitetura (TL)</a><ul><li><a href="#decisões">Decisões</a></li><li><a href="#ligação-com-a-aba-artefatos-fase-a-parte-7">Ligação com a aba Artefatos (Fase A, Parte 7)</a></li><li><a href="#o-que-fica-para-depois-não-entra-nesta-fase">O que fica para depois (não entra nesta fase)</a></li></ul></li><li><a href="#64-backend-dev">6.4 Backend (Dev)</a><ul><li><a href="#641-arquivos">6.4.1 Arquivos</a></li><li><a href="#642-file_accesspy">6.4.2 file_access.py</a></li><li><a href="#643-rotas">6.4.3 Rotas</a></li><li><a href="#644-aviso-ao-vivo-frame-viewer_open">6.4.4 Aviso ao vivo (frame viewer_open)</a></li><li><a href="#645-viewerstore">6.4.5 ViewerStore</a></li><li><a href="#646-adapter-mcp-mcp_viewer_adapterpy">6.4.6 Adapter MCP mcp_viewer_adapter.py</a></li></ul></li><li><a href="#65-frontend-dev">6.5 Frontend (Dev)</a><ul><li><a href="#651-arquivos">6.5.1 Arquivos</a></li><li><a href="#652-viewercontext">6.5.2 ViewerContext</a></li><li><a href="#653-painel-à-direita-dropdown-e-tela-cheia">6.5.3 Painel à direita (&quot;dropdown&quot;) e tela cheia</a></li><li><a href="#654-renderização">6.5.4 Renderização</a></li><li><a href="#655-destaque-de-sintaxe">6.5.5 Destaque de sintaxe</a></li><li><a href="#656-links-clicáveis-no-terminal-resolve-o-problema-de-origem">6.5.6 Links clicáveis no terminal (resolve o problema de origem)</a></li></ul></li><li><a href="#66-ordem-de-execução-um-commit-por-passo-testes-verdes-em-cada-um">6.6 Ordem de execução (um commit por passo, testes verdes em cada um)</a></li><li><a href="#67-testes">6.7 Testes</a><ul><li><a href="#backend">Backend</a></li><li><a href="#frontend">Frontend</a></li><li><a href="#aceite-manual-ipad-safari-e-pwa-instalado">Aceite manual (iPad, Safari e PWA instalado)</a></li></ul></li><li><a href="#68-riscos-e-como-mitigar">6.8 Riscos e como mitigar</a></li><li><a href="#69-definição-de-pronto">6.9 Definição de pronto</a></li></ul></div>
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
-  <main id="top"><article class="doc"><p class="eyebrow">Parte 6 de 7</p><h1 id="parte-6-planejamento-da-fase-v-o-agente-abre-o-arquivo-na-tela">Parte 6 — Planejamento da Fase V: o agente abre o arquivo na tela</h1>
+  <main id="top"><article class="doc"><p class="eyebrow">Parte 6 de 8</p><h1 id="parte-6-planejamento-da-fase-v-o-agente-abre-o-arquivo-na-tela">Parte 6 — Planejamento da Fase V: o agente abre o arquivo na tela</h1>
 <blockquote>
 <p><strong>Por que esta fase vem primeiro:</strong> hoje o chat é um terminal e <strong>não dá
 para clicar em links</strong>. Então, antes do navegador de arquivos completo
@@ -171,6 +171,24 @@ limpa, lendo só esta pasta e o código.</p>
 abas · <strong>B</strong> dropdown com uma aba por arquivo aberto · <strong>C</strong> barra do
 arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e <strong>Tela cheia</strong> ·
 <strong>D</strong> o mesmo conteúdo em modal de tela cheia, com <strong>✕ Fechar</strong>.</p>
+<blockquote>
+<p><strong>Atualização (Fase N, <a href="08-planejamento-navegacao-cliente-projeto.html">Parte 8</a>):</strong>
+o "dropdown" do visualizador passa a abrir como <strong>painel à direita</strong>. Ele
+continua saindo do botão <strong>Visualizador</strong> do cabeçalho, com as mesmas abas,
+barra, <strong>⤢ Tela cheia</strong> e <strong>✕ Fechar</strong>. A forma de abrir depende da largura
+da tela:</p>
+<ul>
+<li><strong>≥ 1100 px</strong> (iPad deitado, desktop): painel <strong>encaixado</strong> à direita
+  (<code>ViewerDock</code>, largura <code>clamp(420px, 42vw, 780px)</code>); a sidebar e a lista de
+  chats viram trilhos de 68 px enquanto ele estiver aberto.</li>
+<li><strong>641–1099 px:</strong> painel <strong>por cima</strong> (<code>ViewerDrawer</code>).</li>
+<li><strong>≤ 640 px:</strong> tela cheia.</li>
+</ul>
+<p>Neste documento, onde estiver escrito "dropdown", leia <strong>esse painel</strong>. O
+conteúdo (<code>ViewerPanel</code>, abas, renderers) não muda. O mockup
+<a href="img/13-mockup-sidebar-cliente-projeto.svg">13</a> mostra a posição nova; o
+mockup acima continua valendo para o conteúdo do painel e para a tela cheia.</p>
+</blockquote>
 <hr />
 <h2 id="61-requisitos">6.1 Requisitos</h2>
 <h3 id="o-que-foi-pedido-palavras-do-bruno-organizadas">O que foi pedido (palavras do Bruno, organizadas)</h3>
@@ -365,6 +383,11 @@ arquivo com Baixar (⤓), Copiar (⧉), Abrir no navegador (↗) e <strong>Tela 
 <td>Isolamento do HTML</td>
 <td><code>iframe sandbox="allow-scripts allow-popups"</code> <strong>sem</strong> <code>allow-same-origin</code> + cabeçalho <code>Content-Security-Policy: sandbox …</code></td>
 <td>O HTML roda numa origem opaca e não consegue chamar a API do TaskNexus</td>
+</tr>
+<tr>
+<td>Onde o painel abre</td>
+<td>À direita: encaixado (≥ 1100 px, com as colunas recolhidas enquanto aberto), por cima (641–1099 px) ou tela cheia (celular)</td>
+<td>Pedido do Bruno: liberar o lado direito para o visualizador (Parte 8)</td>
 </tr>
 <tr>
 <td>Tela cheia</td>
@@ -598,7 +621,8 @@ Uma única tool:</p>
   viewerApi.js             # fetch das rotas 6.4.3
   ViewerButton.jsx         # botão "Visualizador" com contador (cabeçalho do chat, iPad/PC)
   ViewerMobileButton.jsx   # botão flutuante ao lado do "☰ Menu" (celular)
-  ViewerDropdown.jsx       # popover ancorado no botão (padrão do AttachmentsMenu)
+  ViewerDock.jsx           # painel encaixado à direita (≥ 1100 px) — ver Parte 8
+  ViewerDrawer.jsx         # mesmo painel por cima do conteúdo (641–1099 px), padrão do TasksDrawer
   ViewerFullscreen.jsx     # modal de tela cheia (portal, contrato do CenteredModal)
   ViewerPanel.jsx          # abas + barra de ações + corpo (usado pelos dois contêineres)
   ViewerTabs.jsx
@@ -639,18 +663,26 @@ package.json                                    # + shiki, + @xterm/addon-web-li
 (toast) "claude abriu <code>relatorio.html</code> · Ver".</p>
 <p>O <code>TerminalPanel</code> é montado também em testes isolados, sem Provider: use
 <code>useContext</code> com fallback nulo e só chame <code>receiveOpen</code> se o contexto existir.</p>
-<h3 id="653-dropdown-e-tela-cheia">6.5.3 Dropdown e tela cheia</h3>
+<h3 id="653-painel-à-direita-dropdown-e-tela-cheia">6.5.3 Painel à direita ("dropdown") e tela cheia</h3>
 <ul>
-<li><strong>Dropdown:</strong> mesmo padrão de <code>AttachmentsMenu.jsx</code> / <code>TaskQuickCreatePopover.jsx</code>
-  (scrim transparente, Esc, clique fora, fecha quando a sessão ativa muda).
-  Tamanho: <code>width: min(960px, calc(100vw - 32px))</code>,
-  <code>height: min(78dvh, 820px)</code>, ancorado à direita do botão.</li>
+<li><strong>Painel à direita</strong>, escolhido pela largura (Parte 8, seção 8.2.2):</li>
+<li><code>ViewerDock</code> (≥ 1100 px, <code>WIDE_VIEWPORT_QUERY</code>): irmão flex do conteúdo
+    do <code>ChatV2</code>, largura <code>clamp(420px, 42vw, 780px)</code>, borda esquerda
+    <code>--v2-border</code>. Ao abrir/fechar, liga o <strong>recolhimento forçado</strong> das colunas
+    (Parte 8, 8.3.3) e dispara <code>escritorio:sidebar-toggled</code> para o xterm se reajustar.</li>
+<li><code>ViewerDrawer</code> (641–1099 px): overlay à direita no padrão do
+    <code>TasksDrawer.jsx</code>, largura <code>min(560px, 92vw)</code>, faixa <code>--v2-scrim</code> leve;
+    fecha com Esc, ✕ ou toque fora.</li>
+<li>Fecha também quando a sessão ativa muda? <strong>Não</strong>: as abas são por sessão,
+    então o painel troca para as abas da nova sessão (ou mostra o estado vazio).</li>
+<li>Se a Fase N ainda não tiver sido feita, o <code>ViewerDock</code> funciona do mesmo
+  jeito, só que sem o recolhimento automático (o usuário recolhe à mão).</li>
 <li><strong>Tela cheia:</strong> <code>ViewerFullscreen</code> renderiza o <code>ViewerPanel</code> num portal em
   <code>document.body</code>, <code>position: fixed; inset: 0</code>, respeitando
   <code>--v2-safe-*</code>. Barra superior: abas à esquerda, <strong>✕ Fechar</strong> à direita
-  (44 px). Esc ou Fechar → <code>fullscreen=false</code> (volta ao dropdown no iPad/PC;
+  (44 px). Esc ou Fechar → <code>fullscreen=false</code> (volta ao painel à direita no iPad/PC;
   no celular fecha tudo).</li>
-<li><strong>Um só painel por vez:</strong> quando <code>fullscreen</code> é verdadeiro, o dropdown não
+<li><strong>Um só painel por vez:</strong> quando <code>fullscreen</code> é verdadeiro, o painel à direita não
   renderiza. A aba ativa é a mesma nos dois (estado no contexto). O <code>iframe</code> do
   HTML recarrega ao trocar de contêiner, o que é aceitável.</li>
 <li>Botão no cabeçalho: ao lado de <code>AttachmentsMenu</code> na topbar do <code>AppV2</code>
