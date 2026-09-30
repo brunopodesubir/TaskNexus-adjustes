@@ -50,8 +50,10 @@ Problemas:
    - **Todos os projetos** (= cliente inteiro, igual a selecionar o cliente hoje);
    - **Raiz** (só se a pasta do cliente for elegível para chat, `elegivel: true`);
    - os projetos filhos diretos, em ordem alfabética; os que têm filhos
-     mostram **›** e entram mais um nível (o botão de voltar vira
-     **← api-pagamentos**, o pai).
+     mostram **›** e entram mais um nível: o rótulo vira
+     `API-PAGAMENTOS · PROJETOS` e o botão de voltar nomeia **para onde ele
+     leva**, **← podesubir** (o pai), no mesmo padrão de **← Clientes**.
+     *(Implementação: o texto original dizia "← api-pagamentos"; ver 8.7.)*
 4. Selecionar um projeto **filtra todas as telas**: lista de chats, Board,
    Tarefas e Artefatos.
 5. **A barra de selects continua no Board, em Tarefas e em Artefatos**
@@ -71,9 +73,13 @@ Problemas:
    serve para olhar outro cliente/projeto no Board sem perder o contexto do chat.
 6. **Sidebar recolhida (68 px):** no nível Projetos, o primeiro item é um
    botão "←" e os projetos aparecem como avatares com iniciais (mesmo
-   `.v2-cliente-avatar`), com o nome no `title`.
+   `.v2-cliente-avatar`), com o nome no `title`. "Todos os projetos" usa o
+   glyph **✱** (o mesmo do "Todos") e "Raiz" usa **⌂**.
 7. **Celular:** o `MobileMenuScreen` usa o mesmo `ClienteList` (variante
-   `mobile`), então ganha o mesmo comportamento, com linhas de 54 px.
+   `mobile`), então ganha o mesmo comportamento, com linhas de 54 px (o botão
+   de voltar também tem 54 px no celular). Entrar num cliente ou projeto com
+   filhos mantém o menu na tela; escolher um projeto segue o caminho do toque
+   num cliente (modal de chats na aba Chat, conteúdo direto nas outras).
 8. **Memória:** cliente, projeto e nível ficam salvos em `localStorage`
    (`escritorio::v2_nav_scope`). Recarregar a página volta para o mesmo lugar.
 
@@ -131,14 +137,19 @@ Problemas:
 ### 8.3.1 Arquivos
 
 ```
-frontend/src/utils/projectTree.js              # NOVO: childrenOf, hasChildren, parentOf, labelFor (puro, testável)
-frontend/src/hooks/useNavScope.js              # NOVO: {clienteId, projetoId, level, path[]} + persistência em localStorage
+frontend/src/utils/projectTree.js              # NOVO: childrenOf, hasChildren, parentOf, labelFor, isInScope, scopeLabel (puro)
+frontend/src/hooks/useNavScope.js              # NOVO: {clienteId, projetoId, level, parentId} + persistência em localStorage
+frontend/src/layouts/v2/useViewerDockCollapse.js  # NOVO: recolhimento automático com override (8.3.3), testável isolado
 frontend/src/layouts/v2/ClienteList.jsx        # ALTERAR: níveis Clientes/Projetos, voltar, ›, avatares recolhidos
 frontend/src/layouts/v2/SidebarV2.jsx          # ALTERAR: repassa as props novas
 frontend/src/layouts/v2/MobileMenuScreen.jsx   # ALTERAR: repassa as props novas
 frontend/src/layouts/v2/AppV2.jsx              # ALTERAR: useNavScope no lugar de selectedClienteId; recolhimento forçado
-frontend/src/layouts/v2/ChatSidebarV2.jsx      # ALTERAR: filtra por subárvore do projeto; título "cliente / projeto"
-frontend/src/layouts/v2/NewChatSheet.jsx       # ALTERAR: já abre com cliente e projeto selecionados
+frontend/src/layouts/v2/ChatSidebarV2.jsx      # ALTERAR: repassa o projeto; título "cliente / projeto" (só com projeto)
+frontend/src/layouts/v2/ChatList.jsx           # ALTERAR: filtra por subárvore do projeto (Raiz = só o cliente)
+frontend/src/layouts/v2/MobileChatSheet.jsx    # ALTERAR: título "Chats de cliente / projeto", repassa o projeto
+frontend/src/layouts/v2/NewChatSheet.jsx       # ALTERAR: já abre com cliente e projeto selecionados (initialProjetoId)
+frontend/src/layouts/v2/ClienteProjetoFilterBar.jsx  # ALTERAR: rótulos "Raiz" e caminho relativo em 3+ níveis
+frontend/src/layouts/v2/theme.css              # ALTERAR: animação de troca de nível (só @keyframes + animation)
 frontend/src/layouts/v2/BoardV2.jsx            # ALTERAR: passa selectedProjetoId ao hook; MANTÉM a ClienteProjetoFilterBar
 frontend/src/layouts/v2/TarefasV2.jsx          # ALTERAR: idem
 frontend/src/layouts/v2/useClienteProjetoFilter.js  # ALTERAR: aceita selectedProjetoId da sidebar como ponto de partida;
@@ -155,9 +166,16 @@ frontend/src/utils/viewport.js                 # ALTERAR: + WIDE_VIEWPORT_QUERY 
   projetoId: 'podesubir/site' | null,     // null = "Todos os projetos" do cliente
   level: 'clientes' | 'projetos',
   parentId: 'podesubir' | 'podesubir/api-pagamentos',   // de quem os filhos estão sendo listados
-  enterCliente(id), enterProjeto(id), selectProjeto(id|null), back(), reset()
+  selectCliente(id|null), enterCliente(id), enterProjeto(id), selectProjeto(id|null), back(), reset()
 }
 ```
+
+- `projetoId === clienteId` é a **Raiz** (só a pasta do cliente, igualdade
+  exata); `null` é "Todos os projetos" (a subárvore inteira do cliente).
+- `selectCliente` (não previsto no plano) é o toque num cliente **sem**
+  subprojetos: seleciona sem entrar. `null` = "Todos".
+- `back()` só muda o que a sidebar **lista**; a seleção fica. Quem limpa o
+  filtro é "Todos".
 
 - `AppV2` troca o `useState(selectedClienteId)` por `useNavScope()`, mantendo
   a inicialização a partir do `selectedProjectId` do `TerminalContext`
@@ -173,7 +191,9 @@ frontend/src/utils/viewport.js                 # ALTERAR: + WIDE_VIEWPORT_QUERY 
 
 `useSidebarCollapsed` grava em `localStorage` a cada clique. O recolhimento
 automático **não** pode sobrescrever isso, e o usuário precisa poder
-expandir com o painel aberto (8.2.4). Então:
+expandir com o painel aberto (8.2.4). Então (implementado no hook
+`layouts/v2/useViewerDockCollapse.js`, com o override zerado no próprio render
+em que o encaixe muda, em vez do `useEffect` abaixo):
 
 ```js
 const viewerDocked = viewerOpen && isWide;              // WIDE_VIEWPORT_QUERY
@@ -278,8 +298,69 @@ só liga esse valor.
 
 ## 8.6 Definição de pronto
 
-- [ ] Nível Clientes → Projetos → subprojetos com voltar, na sidebar e no celular.
-- [ ] Chat, Board, Tarefas (e Artefatos, quando existir) filtrados pelo escopo da sidebar; barra de selects mantida no Board/Tarefas/Artefatos, partindo da sidebar.
-- [ ] Recolhimento automático pronto para o visualizador (com override manual), sem alterar a preferência salva.
-- [ ] `npm test` verde; nenhuma mudança visual fora da seção de clientes e das colunas recolhidas com o painel aberto.
-- [ ] Documentação atualizada se a implementação divergir.
+- [x] Nível Clientes → Projetos → subprojetos com voltar, na sidebar e no celular.
+- [x] Chat, Board, Tarefas (e Artefatos, quando existir) filtrados pelo escopo da sidebar; barra de selects mantida no Board/Tarefas/Artefatos, partindo da sidebar.
+- [x] Recolhimento automático pronto para o visualizador (com override manual), sem alterar a preferência salva.
+- [x] `npm test` verde; nenhuma mudança visual fora da seção de clientes e das colunas recolhidas com o painel aberto (exceção documentada em 8.7: o título "cliente / projeto" da lista de chats, que o próprio plano pede em 8.3.1 e 8.5).
+- [x] Documentação atualizada se a implementação divergir (seção 8.7).
+
+---
+
+## 8.7 Como ficou implementado (e onde divergiu do plano)
+
+### Divergências
+
+| Plano | Implementado | Por quê |
+|-------|--------------|---------|
+| No 3º nível, o voltar vira **← api-pagamentos** | O voltar nomeia o **destino** (**← podesubir**) e o rótulo nomeia o nó listado (`API-PAGAMENTOS · PROJETOS`) | Mesmo padrão de **← Clientes** (que também nomeia o destino); com o nome do nó atual no botão, ele diria "volte para onde você já está". Conferir no iPad |
+| `useNavScope` com `enterCliente/enterProjeto/selectProjeto/back/reset` | + `selectCliente(id ou null)` | O toque num cliente **sem** subprojetos só seleciona (decisão do Bruno) e precisa de uma ação própria |
+| "Raiz" sem representação definida | `projetoId === clienteId`, filtro por **igualdade exata** (só chats/cards/tarefas presos na pasta do cliente); só aparece no nível do cliente; na barra do Board/Tarefas vira uma opção "Raiz" quando a sidebar está nela | É o único par que não tinha significado (a subárvore do cliente já é `projetoId: null`) |
+| Nos subníveis, "Todos os projetos" sem definição | "Todos os projetos" = a subárvore do nó listado (ex.: `api-pagamentos` inteiro) | Mesma ideia do nível do cliente, sem inventar rótulo novo |
+| Título da lista de chats "cliente / projeto" | Mostrado **só quando há projeto** (com cliente inteiro ou "Todos" a coluna fica idêntica à de antes); no celular o título do sheet vira "Chats de cliente / projeto" | Cumprir o pedido de não mudar o visual fora da sidebar nos estados que já existiam |
+| Recolhida: "←" + avatares dos projetos | + ✱ "Todos os projetos" e ⌂ "Raiz" | Sem eles não dá para voltar ao cliente inteiro nem escolher a Raiz com a sidebar recolhida |
+| Voltar com 44 px | 44 px na sidebar, **54 px no celular** | Mesma altura das linhas do menu mobile |
+| Código do recolhimento dentro do `AppV2` | Hook `useViewerDockCollapse` | Testável sem o visualizador existir; a Fase V só liga `viewerOpen` |
+| Barra reseta "quando a sidebar muda" (efeito) | O descarte do refinamento acontece **no mesmo render** em que a sidebar muda | Com efeito, esse render ainda buscaria cards pelo refinamento velho |
+| Barra com projeto da sidebar "mostra também os subprojetos" | Opções = filhos diretos do cliente + ancestrais e subárvore do projeto da sidebar, em ordem de árvore; 3+ níveis aparecem como caminho (`api-pagamentos / v2`) | O valor pré-preenchido precisa ser uma opção do `<select>` |
+| Valor salvo inválido → "Todos" | Validação só **depois** que `/api/projects` chega; qualquer peça inválida (cliente, projeto ou pai sem filhos) → "Todos" | `useProjects` começa com `[]`; validar antes apagaria a escolha salva em todo reload |
+| Linhas da sidebar | Viram `role="button"` com Enter/Espaço; foco vai ao voltar ao entrar (e volta à linha de origem ao sair) **só pelo teclado** | Com um nível a mais, projetos inteiros ficariam fora do alcance do teclado do iPad |
+| Artefatos | Não existe ainda (Fase A) | O filtro por `useNavScope` já está pronto para a tela nova |
+
+### Ponto de integração para a Fase V
+
+- `AppV2.jsx`: `const [viewerOpen, setViewerOpen] = useState(false)` — a Fase V
+  chama `setViewerOpen(true/false)` ao abrir/fechar o painel (botão do
+  cabeçalho ou frame `viewer_open` do agente).
+- `dock = useViewerDockCollapse({ viewerOpen, isWide, … })`: com
+  `dock.viewerDocked === true` (≥ 1100 px) renderizar o `ViewerDock` à direita
+  do `ChatV2`; senão, overlay (`ViewerDrawer`) ou tela cheia no celular. As
+  colunas já recebem `dock.sidebarCollapsed`/`dock.chatSidebarCollapsed` e os
+  handlers `dock.onToggleSidebar`/`dock.onToggleChatSidebar`; o refit do
+  terminal (`escritorio:sidebar-toggled`) já dispara a cada troca de encaixe.
+- Filtro do escopo para a tela Artefatos (Fase A): `nav.clienteId` e
+  `nav.projetoId` no `AppV2`, com `isInScope(projetoId, clienteId, projetoId)`
+  de `utils/projectTree.js`, e a barra via
+  `useClienteProjetoFilter(projects, clienteId, projetoId)`.
+
+### Capturas (backend real, árvore de exemplo do mockup)
+
+Tiradas com Playwright em 1180×820 (iPad deitado), 820×1180 (iPad em pé) e
+390×844 (celular). Em nenhuma a página rola na horizontal; o único contêiner
+com rolagem horizontal é o das colunas do Board, que já rolava assim.
+
+| Tela | 1180×820 | 820×1180 | 390×844 |
+|------|----------|----------|---------|
+| Nível Clientes | [ver](img/fase-n/ipad-paisagem-1180x820--1-sidebar-clientes.png) | [ver](img/fase-n/ipad-retrato-820x1180--1-sidebar-clientes.png) | [ver](img/fase-n/celular-390x844--1-menu-clientes.png) |
+| Nível Projetos (com filtro no chat) | [ver](img/fase-n/ipad-paisagem-1180x820--2-sidebar-projetos.png) | [ver](img/fase-n/ipad-retrato-820x1180--2-sidebar-projetos.png) | [ver](img/fase-n/celular-390x844--2-menu-projetos.png) |
+| Subprojetos (3º nível) | [ver](img/fase-n/ipad-paisagem-1180x820--3-sidebar-subprojetos.png) | [ver](img/fase-n/ipad-retrato-820x1180--3-sidebar-subprojetos.png) | — |
+| Sidebar recolhida no nível Projetos | [ver](img/fase-n/ipad-paisagem-1180x820--4-sidebar-recolhida-projetos.png) | [ver](img/fase-n/ipad-retrato-820x1180--4-sidebar-recolhida-projetos.png) | — |
+| Sidebar e conversas recolhidas | [ver](img/fase-n/ipad-paisagem-1180x820--5-sidebar-e-conversas-recolhidas.png) | [ver](img/fase-n/ipad-retrato-820x1180--5-sidebar-e-conversas-recolhidas.png) | — |
+| Chats do projeto (sheet) | — | — | [ver](img/fase-n/celular-390x844--3-chats-do-projeto.png) |
+| Board com projeto da sidebar | [ver](img/fase-n/ipad-paisagem-1180x820--6-board-projeto-da-sidebar.png) | [ver](img/fase-n/ipad-retrato-820x1180--6-board-projeto-da-sidebar.png) | — |
+| Board em "Todos" com a barra | [ver](img/fase-n/ipad-paisagem-1180x820--7-board-todos-barra-de-selects.png) | [ver](img/fase-n/ipad-retrato-820x1180--7-board-todos-barra-de-selects.png) | [ver](img/fase-n/celular-390x844--4-board-todos-barra-de-selects.png) |
+| Board em "Todos", cliente escolhido na barra | [ver](img/fase-n/ipad-paisagem-1180x820--8-board-todos-cliente-escolhido-na-barra.png) | [ver](img/fase-n/ipad-retrato-820x1180--8-board-todos-cliente-escolhido-na-barra.png) | — |
+
+**Achado pré-existente (não corrigido nesta fase):** no celular, o botão
+"Limpar concluídos" do Board se sobrepõe ao select "Todos os projetos" (a
+`main` mostra o mesmo). Fica para uma rodada que possa mexer no cabeçalho do
+Board.

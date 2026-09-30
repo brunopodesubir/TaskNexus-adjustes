@@ -117,12 +117,18 @@ WebSocket). No tablet isso é ruim:
 
 - **Branch de trabalho da documentação:** `claude/elegant-carson-ehd59f`
   (a pasta `docs/melhorias-tablet/` foi liberada no `.gitignore`, que ignora `docs/*` por padrão).
-- **Código:** nenhuma mudança de código foi feita ainda. Só documentação.
-- **Próxima ação:** quando o Bruno pedir, entregar o **prompt de desenvolvimento
-  da Fase N** (baseado em `08-planejamento-navegacao-cliente-projeto.md`), depois o
-  da **Fase V** (`06-planejamento-fase-v.md`) e o da **Fase A** (`07-planejamento-artefatos.md`), para ele usar numa
-  janela limpa. O desenvolvimento deve acontecer numa branch própria (a
-  que a sessão de desenvolvimento indicar), com um PR para a fase.
+- **Código:** a **Fase N** foi implementada (frontend só) na branch
+  `claude/elegant-carson-ehd59f`: drill-down cliente → projeto no `ClienteList`,
+  escopo global `useNavScope`, filtro por projeto no Chat/Board/Tarefas e o
+  recolhimento automático pronto em `useViewerDockCollapse` (com `viewerOpen`
+  sempre `false` no `AppV2` até a Fase V ligar). O que divergiu do plano e os
+  pontos de integração estão na seção **8.7** da Parte 8.
+- **Próxima ação:** quando o Bruno pedir, entregar o prompt de desenvolvimento
+  da **Fase V** (`06-planejamento-fase-v.md`) e depois o da **Fase A**
+  (`07-planejamento-artefatos.md`), para ele usar numa janela limpa. A Fase V
+  liga `setViewerOpen` no `AppV2` (ver 8.7). O desenvolvimento deve acontecer
+  numa branch própria (a que a sessão de desenvolvimento indicar), com um PR
+  para a fase.
 
 ## 8. Regras para quem for desenvolver
 
