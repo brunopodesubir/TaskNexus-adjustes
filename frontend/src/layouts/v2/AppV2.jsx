@@ -31,7 +31,8 @@ import {
 import { useTasks } from '../../hooks/useTasks.js';
 import { useNavScope } from '../../hooks/useNavScope.js';
 import { clienteIdFromProjetoId, isClienteId } from '../../utils/clientes.js';
-import { MOBILE_VIEWPORT_QUERY } from '../../utils/viewport.js';
+import { MOBILE_VIEWPORT_QUERY, WIDE_VIEWPORT_QUERY } from '../../utils/viewport.js';
+import { useViewerDockCollapse } from './useViewerDockCollapse.js';
 import { SidebarV2 } from './SidebarV2.jsx';
 import { ChatSidebarV2 } from './ChatSidebarV2.jsx';
 import { ChatV2 } from './ChatV2.jsx';
@@ -114,6 +115,32 @@ export function AppV2({ initialAppearance }) {
   // `v2Screen` (que continua a única fonte de verdade da aba ativa).
   const isMobile = useMediaQuery(MOBILE_VIEWPORT_QUERY);
   const [mobileView, setMobileView] = useState('menu'); // 'menu' | 'chatModal' | 'content'
+
+  // Fase N (08-planejamento-navegacao-cliente-projeto.md, 8.2.4/8.3.3) —
+  // espaço à direita para o visualizador de arquivos.
+  //
+  // PONTO DE INTEGRAÇÃO DA FASE V: `viewerOpen` é o "visualizador aberto".
+  // Nesta fase ele é sempre `false` (o visualizador ainda não existe); a Fase V
+  // só precisa chamar `setViewerOpen(true/false)` quando o painel abrir/fechar
+  // (pelo botão do cabeçalho ou pelo frame `viewer_open` do agente) e
+  // renderizar o `ViewerDock` à direita do ChatV2 quando `dock.viewerDocked`
+  // for true (≥ 1100px), ou o overlay/tela cheia quando não for. Todo o resto —
+  // recolher sidebar e lista de chats para trilhos de 68px enquanto encaixado,
+  // respeitar a expansão manual, devolver tudo ao fechar sem tocar na
+  // preferência salva e disparar o refit do terminal — já está em
+  // `useViewerDockCollapse` e nos valores `dock.*` passados às duas colunas.
+  // No celular as colunas nem são montadas, então o encaixe nunca vale lá.
+  // eslint-disable-next-line no-unused-vars
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const isWide = useMediaQuery(WIDE_VIEWPORT_QUERY);
+  const dock = useViewerDockCollapse({
+    viewerOpen: viewerOpen && !isMobile,
+    isWide,
+    sidebarCollapsed,
+    toggleSidebar,
+    chatSidebarCollapsed,
+    toggleChatSidebar,
+  });
 
   // Mobile phone-lock fix (Bruno, confirmed): a backgrounded (non-PWA) tab can
   // get fully discarded by the OS/browser and reload from scratch once the
@@ -340,8 +367,10 @@ export function AppV2({ initialAppearance }) {
       >
         {!isMobile && (
           <SidebarV2
-            collapsed={sidebarCollapsed}
-            onToggleCollapsed={toggleSidebar}
+            // Valores EFETIVOS (preferência salva, ou recolhida enquanto o
+            // visualizador estiver encaixado) — ver useViewerDockCollapse.
+            collapsed={dock.sidebarCollapsed}
+            onToggleCollapsed={dock.onToggleSidebar}
             clientes={clientes}
             projects={projects}
             selectedClienteId={selectedClienteId}
@@ -429,8 +458,8 @@ export function AppV2({ initialAppearance }) {
                 // only way out when /api/projetos came back empty, since
                 // useProjects fetches once on mount.
                 onRetryProjects={refreshProjects}
-                collapsed={chatSidebarCollapsed}
-                onToggleCollapsed={toggleChatSidebar}
+                collapsed={dock.chatSidebarCollapsed}
+                onToggleCollapsed={dock.onToggleChatSidebar}
                 onNewChatOpenChange={setNewChatOpen}
               />
             )}

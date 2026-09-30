@@ -361,19 +361,26 @@ describe('AppV2 — botão "Ajustar layout" (Layout v2, só na tela Chat)', () =
 // `useMediaQuery(MOBILE_VIEWPORT_QUERY)` resolve `true`. Mesmo fabricante de
 // MediaQueryList controlável de hooks/useMediaQuery.test.js — reaproveitado
 // aqui em vez de duplicado com uma variação própria.
+//
+// Fase N: o AppV2 passou a observar DUAS queries (a mobile e a
+// WIDE_VIEWPORT_QUERY do visualizador encaixado), então o fabricante guarda um
+// CONJUNTO de listeners — com um só, o último `useMediaQuery` a montar roubava
+// o lugar do outro e `fireChange` nunca chegava ao de mobile. Todas as queries
+// continuam respondendo o mesmo `matches` (o que estes testes controlam é a
+// fronteira mobile; com `viewerOpen` sempre false a larga não muda nada).
 function makeControllableMatchMedia(initialMatches) {
   let matches = initialMatches;
-  let changeHandler = null;
+  const changeHandlers = new Set();
   const mql = {
     get matches() { return matches; },
-    addEventListener: (event, handler) => { if (event === 'change') changeHandler = handler; },
-    removeEventListener: vi.fn(),
+    addEventListener: (event, handler) => { if (event === 'change') changeHandlers.add(handler); },
+    removeEventListener: (event, handler) => { if (event === 'change') changeHandlers.delete(handler); },
   };
   return {
     matchMediaFn: vi.fn(() => mql),
     fireChange: (nextMatches) => {
       matches = nextMatches;
-      changeHandler?.({ matches: nextMatches });
+      changeHandlers.forEach((handler) => handler({ matches: nextMatches }));
     },
   };
 }
@@ -1037,5 +1044,48 @@ describe('AppV2 — Board parte da sidebar e a barra age só na tela (Fase N, ac
     goTo('Chat');
     expect(screen.getByText('Chat do A')).toBeTruthy();
     expect(screen.getByText('Chat do app')).toBeTruthy();
+  });
+});
+
+// Fase N, passo 6: o recolhimento automático só vale com o visualizador
+// encaixado (Fase V). Até lá `viewerOpen` é sempre false, e em tela larga as
+// colunas têm de se comportar EXATAMENTE como antes — o botão de recolher
+// continua mexendo na preferência salva e disparando o refit.
+describe('AppV2 — colunas em tela larga sem visualizador (Fase N, passo 6)', () => {
+  let originalMatchMedia;
+  beforeEach(() => {
+    originalMatchMedia = window.matchMedia;
+    // Só a query larga casa: tablet deitado/desktop, nada de mobile.
+    window.matchMedia = vi.fn((query) => ({
+      matches: query === '(min-width: 1100px)',
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }));
+    localStorage.setItem('escritorio::sidebar_collapsed', 'false');
+    localStorage.setItem('escritorio::chat_sidebar_collapsed', 'false');
+  });
+  afterEach(() => {
+    window.matchMedia = originalMatchMedia;
+    localStorage.removeItem('escritorio::sidebar_collapsed');
+    localStorage.removeItem('escritorio::chat_sidebar_collapsed');
+  });
+
+  it('as duas colunas abrem expandidas e os botões de recolher gravam a preferência, com refit', () => {
+    render(<AppV2 initialAppearance={{ layout_version: 'v2', theme_mode: 'dark' }} />);
+    expect(screen.getByRole('button', { name: 'Esconder barra lateral' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Esconder conversas' })).toBeTruthy();
+
+    const handler = vi.fn();
+    window.addEventListener('escritorio:sidebar-toggled', handler);
+    try {
+      fireEvent.click(screen.getByRole('button', { name: 'Esconder barra lateral' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Esconder conversas' }));
+    } finally {
+      window.removeEventListener('escritorio:sidebar-toggled', handler);
+    }
+    expect(handler).toHaveBeenCalledTimes(2);
+    expect(localStorage.getItem('escritorio::sidebar_collapsed')).toBe('true');
+    expect(localStorage.getItem('escritorio::chat_sidebar_collapsed')).toBe('true');
+    expect(screen.getByRole('button', { name: 'Mostrar barra lateral' })).toBeTruthy();
   });
 });
