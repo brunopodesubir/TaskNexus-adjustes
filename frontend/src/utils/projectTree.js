@@ -16,7 +16,7 @@
 //
 // Todo teste de prefixo usa `id + '/'`: 'cliente' NÃO é pai de 'cliente2/x'.
 
-import { compareProjectPaths } from './projects.js';
+import { compareProjectPaths, relativeProjectPath } from './projects.js';
 
 // Pai de um projeto: o id sem o último segmento. Um cliente (nível-topo, sem
 // "/") não tem pai dentro da árvore de projetos — devolve `null`, e quem
@@ -82,4 +82,18 @@ export function isInScope(projectId, clienteId, projetoId) {
   }
   if (isRaizScope(clienteId, projetoId)) return projectId === clienteId;
   return projectId === projetoId || projectId.startsWith(`${projetoId}/`);
+}
+
+// Rótulo do escopo para títulos ("podesubir / site-institucional"): o nome do
+// cliente e, abaixo dele, o caminho relativo do projeto (3+ níveis viram
+// "api-pagamentos / v2", mesma grafia de `relativeProjectPath` que a linha do
+// chat já usa) ou "Raiz". Sem projeto, só o nome do cliente; sem cliente, ''.
+// É o que impede o usuário de "se perder no nível Projetos" (seção 8.5): a
+// lista de chats diz exatamente o que está filtrando.
+export function scopeLabel(clienteId, projetoId, projects) {
+  if (clienteId == null) return '';
+  const clienteNome = labelFor(clienteId, projects);
+  if (projetoId == null) return clienteNome;
+  if (isRaizScope(clienteId, projetoId)) return `${clienteNome} / Raiz`;
+  return `${clienteNome} / ${relativeProjectPath(projetoId, clienteId)}`;
 }

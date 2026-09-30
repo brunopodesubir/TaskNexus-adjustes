@@ -29,6 +29,7 @@ import {
   SHELL_BASE_RECT_STYLE,
 } from '../../hooks/useVisibleViewportShell.js';
 import { useTasks } from '../../hooks/useTasks.js';
+import { useNavScope } from '../../hooks/useNavScope.js';
 import { clienteIdFromProjetoId, isClienteId } from '../../utils/clientes.js';
 import { MOBILE_VIEWPORT_QUERY } from '../../utils/viewport.js';
 import { SidebarV2 } from './SidebarV2.jsx';
@@ -171,11 +172,19 @@ export function AppV2({ initialAppearance }) {
   // subprojeto específico) — recebe `selectedClienteId` abaixo pra filtrar
   // pelo cliente da sidebar, exatamente como TarefasV2 já fazia. `null` =
   // "Todos" — mesmo sentinel que a cascata de filtro das telas v2 já usa.
-  // Lazy-init a partir do projeto atualmente selecionado, pra abrir já
-  // filtrado no cliente certo em vez de sempre cair em "Todos" no 1º render.
-  const [selectedClienteId, setSelectedClienteId] = useState(
-    () => (selectedProjectId ? clienteIdFromProjetoId(selectedProjectId) : null)
-  );
+  //
+  // Fase N (08-planejamento-navegacao-cliente-projeto.md, 8.3.2): o cliente
+  // ganhou um PROJETO opcional embaixo e o drill-down da sidebar (nível e pai),
+  // tudo no escopo global `useNavScope` — que também persiste em localStorage,
+  // então recarregar a página volta para o mesmo lugar. Quando não há nada
+  // salvo, parte do cliente do chat ativo, como o lazy-init do `useState`
+  // antigo fazia, pra abrir já filtrado no cliente certo em vez de sempre cair
+  // em "Todos" no 1º render.
+  const nav = useNavScope(projects, {
+    initialClienteId: selectedProjectId ? clienteIdFromProjetoId(selectedProjectId) : null,
+  });
+  const selectedClienteId = nav.clienteId;
+  const selectedProjetoId = nav.projetoId;
 
   // "Clientes" candidatos à sidebar: qualquer Project cujo id não tem "/"
   // (cliente-como-projeto e projeto-solto-na-raiz contam como cliente de si
@@ -189,8 +198,31 @@ export function AppV2({ initialAppearance }) {
   // exatamente onde estava. Selecionar um cliente de verdade, por outro lado,
   // mantém o painel principal em sincronia (mesmo comportamento de hoje).
   const handleSelectCliente = (clienteId) => {
-    setSelectedClienteId(clienteId);
+    nav.selectCliente(clienteId);
     if (clienteId != null) selectProject(clienteId);
+  };
+
+  // Fase N — drill-down. Entrar num cliente com subprojetos o seleciona
+  // inteiro (igual a `handleSelectCliente`) e troca a lista para os projetos
+  // dele. Escolher um projeto (ou entrar num projeto com filhos) também leva o
+  // painel de Chat junto via `selectProject`, pelo mesmo motivo de sempre: o
+  // chat ativo acompanha a seleção da sidebar. "Todos os projetos" (null)
+  // volta o chat para o cliente. `back` é só navegação — não seleciona nada,
+  // então não mexe no chat.
+  const handleEnterCliente = (clienteId) => {
+    nav.enterCliente(clienteId);
+    selectProject(clienteId);
+  };
+
+  const handleSelectProjeto = (projetoId) => {
+    nav.selectProjeto(projetoId);
+    const target = projetoId ?? selectedClienteId;
+    if (target != null) selectProject(target);
+  };
+
+  const handleEnterProjeto = (projetoId) => {
+    nav.enterProjeto(projetoId);
+    selectProject(projetoId);
   };
 
   /** Fase 4 (v1) reaproveitada aqui: pode vir de um projeto diferente do
@@ -213,6 +245,15 @@ export function AppV2({ initialAppearance }) {
   // decisão do Bruno — sem modal intermediário, não existe "qual board abrir").
   const handleMobileSelectCliente = (clienteId) => {
     handleSelectCliente(clienteId);
+    setMobileView(v2Screen === 'chat' ? 'chatModal' : 'content');
+  };
+
+  // Fase N no celular: ENTRAR (cliente ou projeto com filhos) é só descer na
+  // lista — o menu continua na tela. ESCOLHER um projeto (folha, "Todos os
+  // projetos" ou "Raiz") é a decisão final, e segue o mesmo caminho do toque
+  // num cliente: modal de chats na aba Chat, conteúdo direto nas outras.
+  const handleMobileSelectProjeto = (projetoId) => {
+    handleSelectProjeto(projetoId);
     setMobileView(v2Screen === 'chat' ? 'chatModal' : 'content');
   };
 
@@ -302,8 +343,16 @@ export function AppV2({ initialAppearance }) {
             collapsed={sidebarCollapsed}
             onToggleCollapsed={toggleSidebar}
             clientes={clientes}
+            projects={projects}
             selectedClienteId={selectedClienteId}
+            selectedProjetoId={selectedProjetoId}
+            navLevel={nav.level}
+            navParentId={nav.parentId}
             onSelectCliente={handleSelectCliente}
+            onEnterCliente={handleEnterCliente}
+            onSelectProjeto={handleSelectProjeto}
+            onEnterProjeto={handleEnterProjeto}
+            onBack={nav.back}
             navItems={NAV_ITEMS}
             activeScreen={v2Screen}
             onSelectScreen={setV2Screen}
@@ -370,6 +419,7 @@ export function AppV2({ initialAppearance }) {
                 activeSessions={activeSessions}
                 persistedSessions={persistedSessions}
                 selectedClienteId={selectedClienteId}
+                selectedProjetoId={selectedProjetoId}
                 onSelectChat={handleSelectChat}
                 onRenameChat={renameSession}
                 onCloseChat={handleCloseChat}
@@ -449,8 +499,16 @@ export function AppV2({ initialAppearance }) {
           activeScreen={v2Screen}
           onSelectScreen={setV2Screen}
           clientes={clientes}
+          projects={projects}
           selectedClienteId={selectedClienteId}
+          selectedProjetoId={selectedProjetoId}
+          navLevel={nav.level}
+          navParentId={nav.parentId}
           onSelectCliente={handleMobileSelectCliente}
+          onEnterCliente={handleEnterCliente}
+          onSelectProjeto={handleMobileSelectProjeto}
+          onEnterProjeto={handleEnterProjeto}
+          onBack={nav.back}
           initialAppearance={initialAppearance}
         />
       )}
@@ -464,6 +522,7 @@ export function AppV2({ initialAppearance }) {
           activeSessions={activeSessions}
           persistedSessions={persistedSessions}
           selectedClienteId={selectedClienteId}
+          selectedProjetoId={selectedProjetoId}
           onSelectChat={handleMobileSelectChat}
           onRenameChat={renameSession}
           onCloseChat={handleCloseChat}

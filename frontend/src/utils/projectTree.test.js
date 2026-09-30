@@ -12,6 +12,7 @@ import {
   isRaizScope,
   labelFor,
   parentOf,
+  scopeLabel,
 } from './projectTree.js';
 
 const projects = [
@@ -157,5 +158,21 @@ describe('isInScope', () => {
   it('com escopo ativo, um projeto vazio/ausente nunca passa', () => {
     expect(isInScope('', 'podesubir', null)).toBe(false);
     expect(isInScope(null, 'podesubir', null)).toBe(false);
+  });
+});
+
+describe('scopeLabel', () => {
+  it('"Todos" não tem rótulo; cliente sozinho é o nome dele', () => {
+    expect(scopeLabel(null, null, projects)).toBe('');
+    expect(scopeLabel('cliente2', null, projects)).toBe('Cliente 2');
+  });
+
+  it('projeto: "cliente / projeto", com o caminho relativo em 3+ níveis', () => {
+    expect(scopeLabel('podesubir', 'podesubir/app-mobile', projects)).toBe('podesubir / app-mobile');
+    expect(scopeLabel('podesubir', 'podesubir/api-pagamentos/v2', projects)).toBe('podesubir / api-pagamentos / v2');
+  });
+
+  it('Raiz: "cliente / Raiz"', () => {
+    expect(scopeLabel('podesubir', 'podesubir', projects)).toBe('podesubir / Raiz');
   });
 });
