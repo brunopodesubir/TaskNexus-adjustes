@@ -446,10 +446,15 @@ export function AppV2({ initialAppearance }) {
             <BoardV2
               projects={projects}
               selectedClienteId={selectedClienteId}
+              selectedProjetoId={selectedProjetoId}
             />
           )}
           {v2Screen === 'tarefas' && (
-            <TarefasV2 projects={projects} selectedClienteId={selectedClienteId} />
+            <TarefasV2
+              projects={projects}
+              selectedClienteId={selectedClienteId}
+              selectedProjetoId={selectedProjetoId}
+            />
           )}
           {v2Screen === 'agentes' && <ConfiguracaoV2 onAgentsChanged={refreshProjects} />}
         </div>

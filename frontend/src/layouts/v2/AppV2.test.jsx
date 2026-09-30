@@ -1007,3 +1007,35 @@ describe('AppV2 — drill-down no menu mobile (Fase N)', () => {
     expect(screen.getByText('Menu')).toBeTruthy();
   });
 });
+
+describe('AppV2 — Board parte da sidebar e a barra age só na tela (Fase N, aceite 2/2b)', () => {
+  beforeEach(() => {
+    mockProjectsList.mockImplementation(() => TREE_PROJECTS);
+  });
+
+  it('projeto escolhido na sidebar chega ao Board com o select de projeto preenchido', () => {
+    mockTerminalWithTree();
+    render(<AppV2 initialAppearance={{ layout_version: 'v2', theme_mode: 'dark' }} />);
+    fireEvent.click(screen.getByTitle('Pode'));
+    fireEvent.click(sidebarRow('pode/site'));
+    goTo('Board');
+    expect(screen.getByLabelText('Filtrar por projeto').value).toBe('pode/site');
+  });
+
+  it('com a sidebar em "Todos", trocar o cliente na barra do Board não muda a sidebar nem o chat', () => {
+    const selectProject = mockTerminalWithTree();
+    render(<AppV2 initialAppearance={{ layout_version: 'v2', theme_mode: 'dark' }} />);
+    fireEvent.click(screen.getByTitle('Todos'));
+    const callsBefore = selectProject.mock.calls.length;
+    goTo('Board');
+
+    fireEvent.change(screen.getByLabelText('Filtrar por cliente'), { target: { value: 'pode' } });
+    expect(screen.getByLabelText('Filtrar por projeto').disabled).toBe(false);
+
+    expect(screen.getByTitle('Todos').getAttribute('aria-current')).toBe('true');
+    expect(selectProject.mock.calls.length).toBe(callsBefore);
+    goTo('Chat');
+    expect(screen.getByText('Chat do A')).toBeTruthy();
+    expect(screen.getByText('Chat do app')).toBeTruthy();
+  });
+});
