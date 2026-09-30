@@ -264,9 +264,9 @@ Abrir no navegador, <strong>Tela cheia</strong> e <strong>✕ Fechar</strong>.</
 <li>Título da topbar: "Artefatos".</li>
 <li><strong>Cliente e projeto vêm da sidebar</strong> (Fase N, <a href="08-planejamento-navegacao-cliente-projeto.html">Parte 8</a>):
   a lista de clientes vira a lista de projetos do cliente, com <strong>← Clientes</strong>
-  para voltar. <strong>Não há barra de selects</strong> nesta tela; a faixa de filtro tem
-  só os chips de tipo e a busca. Se a Fase A for feita antes da N, usar
-  temporariamente o <code>ClienteProjetoFilterBar</code> como no Board e em Tarefas.</li>
+  para voltar. A tela <strong>mantém a barra de selects</strong> (<code>ClienteProjetoFilterBar</code>,
+  igual ao Board e a Tarefas), partindo da seleção da sidebar e agindo só na
+  tela; ao lado dela ficam os chips de tipo e a busca (Parte 8, item 5 de 8.2.1).</li>
 </ul>
 <h3 id="a-tela">A tela</h3>
 <ol>
@@ -586,8 +586,8 @@ recebe <code>NAV_ITEMS</code>, então o item aparece no celular sem mudança ext
 Conferir testes que contam itens de navegação (<code>AppV2.test.jsx</code>,
 <code>SidebarV2.test.jsx</code>, <code>MobileMenuScreen.test.jsx</code>, <code>NavTabs</code>) e atualizar.</p>
 <h3 id="753-filtro">7.5.3 Filtro</h3>
-<p>Usar o escopo da sidebar (<code>selectedClienteId</code> e <code>selectedProjetoId</code>, Fase N).
-Sem barra de selects. A filtragem
+<p>Usar <code>useClienteProjetoFilter(projects, selectedClienteId, selectedProjetoId)</code> e
+<code>ClienteProjetoFilterBar</code> exatamente como <code>BoardV2</code>/<code>TarefasV2</code> depois da Fase N. A filtragem
 por subárvore do projeto pode ser feita no backend (<code>projeto_id</code>) ou no front
 com <code>collectSubtreeIds</code>; escolher <strong>uma</strong> e testar o caso de 3 níveis
 (<code>cliente/projeto/sub</code>), que já quebrou no Board.</p>

@@ -53,9 +53,9 @@ Abrir no navegador, **Tela cheia** e **✕ Fechar**.
 - Título da topbar: "Artefatos".
 - **Cliente e projeto vêm da sidebar** (Fase N, [Parte 8](08-planejamento-navegacao-cliente-projeto.md)):
   a lista de clientes vira a lista de projetos do cliente, com **← Clientes**
-  para voltar. **Não há barra de selects** nesta tela; a faixa de filtro tem
-  só os chips de tipo e a busca. Se a Fase A for feita antes da N, usar
-  temporariamente o `ClienteProjetoFilterBar` como no Board e em Tarefas.
+  para voltar. A tela **mantém a barra de selects** (`ClienteProjetoFilterBar`,
+  igual ao Board e a Tarefas), partindo da seleção da sidebar e agindo só na
+  tela; ao lado dela ficam os chips de tipo e a busca (Parte 8, item 5 de 8.2.1).
 
 ### A tela
 
@@ -300,8 +300,8 @@ Conferir testes que contam itens de navegação (`AppV2.test.jsx`,
 
 ### 7.5.3 Filtro
 
-Usar o escopo da sidebar (`selectedClienteId` e `selectedProjetoId`, Fase N).
-Sem barra de selects. A filtragem
+Usar `useClienteProjetoFilter(projects, selectedClienteId, selectedProjetoId)` e
+`ClienteProjetoFilterBar` exatamente como `BoardV2`/`TarefasV2` depois da Fase N. A filtragem
 por subárvore do projeto pode ser feita no backend (`projeto_id`) ou no front
 com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 (`cliente/projeto/sub`), que já quebrou no Board.

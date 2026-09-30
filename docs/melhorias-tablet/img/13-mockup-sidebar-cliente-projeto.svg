@@ -60,7 +60,7 @@
   <text x="348" y="404" class="b">app-mobile</text>
   <text x="346" y="440" class="s">› = tem subprojetos (entra mais um nível)</text>
   <text x="346" y="456" class="s">Selecionar filtra Chat, Board, Tarefas e</text>
-  <text x="346" y="470" class="s">Artefatos. A barra de selects some.</text>
+  <text x="346" y="470" class="s">Artefatos (a barra do Board continua).</text>
   <text x="440" y="246" class="ann">voltar</text>
 
   <!-- ===== 3: viewer docked ===== -->

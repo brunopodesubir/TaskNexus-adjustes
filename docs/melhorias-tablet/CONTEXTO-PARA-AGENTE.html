@@ -308,15 +308,15 @@ WebSocket). No tablet isso é ruim:</p>
 </tr>
 <tr>
 <td>Artefatos</td>
-<td>Tabela <code>artifacts</code> única por (projeto, caminho); tool <code>publicar_artefato</code> no servidor <code>escritorio-visualizador</code>; <code>abrir_no_visualizador</code> de <code>.md</code>/<code>.html</code>/<code>.pdf</code> publica automaticamente; remover da lista não apaga o arquivo; tela nova <code>artefatos</code> em <code>NAV_ITEMS</code> do <code>AppV2</code>, com <code>ClienteProjetoFilterBar</code>; o visualizador abre num <strong>drawer lateral</strong> (padrão <code>TasksDrawer</code>) nessa tela e continua <strong>dropdown</strong> no chat (a confirmar com o Bruno)</td>
+<td>Tabela <code>artifacts</code> única por (projeto, caminho); tool <code>publicar_artefato</code> no servidor <code>escritorio-visualizador</code>; <code>abrir_no_visualizador</code> de <code>.md</code>/<code>.html</code>/<code>.pdf</code> publica automaticamente; remover da lista não apaga o arquivo; tela nova <code>artefatos</code> em <code>NAV_ITEMS</code> do <code>AppV2</code>, com <code>ClienteProjetoFilterBar</code>; o visualizador é o mesmo painel à direita do chat</td>
 </tr>
 <tr>
 <td>Navegação</td>
-<td>Drill-down no <code>ClienteList</code> (Clientes → Projetos → subprojetos, com <strong>← voltar</strong>); escopo global <code>useNavScope</code> (cliente + projeto, salvo em <code>localStorage</code>) filtra Chat, Board, Tarefas e Artefatos; <code>ClienteProjetoFilterBar</code> sai</td>
+<td>Drill-down no <code>ClienteList</code> (Clientes → Projetos → subprojetos, com <strong>← voltar</strong>); escopo global <code>useNavScope</code> (cliente + projeto, salvo em <code>localStorage</code>) filtra Chat, Board, Tarefas e Artefatos; cliente sem subprojetos só é selecionado; <code>ClienteProjetoFilterBar</code> <strong>continua</strong> no Board (principalmente em "Todos"), Tarefas e Artefatos, partindo da sidebar e agindo só na tela (decisão do Bruno)</td>
 </tr>
 <tr>
 <td>Visualizador</td>
-<td>Abre <strong>à direita</strong>: encaixado (<code>ViewerDock</code>) em ≥ 1100 px com a sidebar e a lista de chats recolhidas <strong>só enquanto aberto</strong> (sem gravar a preferência), por cima (<code>ViewerDrawer</code>) em 641–1099 px, tela cheia no celular. Onde as Partes 6/7 dizem "dropdown", é esse painel</td>
+<td>Abre <strong>à direita</strong>: encaixado (<code>ViewerDock</code>) em ≥ 1100 px com a sidebar e a lista de chats recolhidas automaticamente <strong>só enquanto aberto</strong> (sem gravar a preferência; se o usuário expandir com o painel aberto, fica expandida; ao fechar, volta tudo como estava), por cima (<code>ViewerDrawer</code>) em 641–1099 px, tela cheia no celular. Onde as Partes 6/7 dizem "dropdown", é esse painel</td>
 </tr>
 <tr>
 <td>Layout</td>

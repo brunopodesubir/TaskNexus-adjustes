@@ -53,14 +53,28 @@ Problemas:
      mostram **›** e entram mais um nível (o botão de voltar vira
      **← api-pagamentos**, o pai).
 4. Selecionar um projeto **filtra todas as telas**: lista de chats, Board,
-   Tarefas e Artefatos. A **barra de selects** (`ClienteProjetoFilterBar`)
-   deixa de ser necessária e sai do Board e de Tarefas (e não entra em Artefatos).
-5. **Sidebar recolhida (68 px):** no nível Projetos, o primeiro item é um
+   Tarefas e Artefatos.
+5. **A barra de selects continua no Board, em Tarefas e em Artefatos**
+   (decisão do Bruno: "no board ainda tem que ter, principalmente quando
+   estiver em Todos"). Ela passa a **partir** da seleção da sidebar e continua
+   sendo um refinamento **local** da tela, como já é hoje no
+   `useClienteProjetoFilter`:
+
+   | Sidebar | Barra de selects na tela | O que a barra muda |
+   |---------|--------------------------|--------------------|
+   | **Todos** | select de **Cliente** + select de **Projeto** (igual a hoje) | só a tela atual; o chat e a sidebar não mudam |
+   | **Cliente** (Todos os projetos) | select de **Projeto** do cliente (igual a hoje) | só a tela atual |
+   | **Projeto** escolhido | select de **Projeto** já **preenchido** com ele (mostra também os subprojetos) | só a tela atual |
+
+   Sempre que a seleção da sidebar muda, a barra **volta a acompanhá-la**
+   (o refinamento local é descartado). Assim a sidebar é a base e a barra
+   serve para olhar outro cliente/projeto no Board sem perder o contexto do chat.
+6. **Sidebar recolhida (68 px):** no nível Projetos, o primeiro item é um
    botão "←" e os projetos aparecem como avatares com iniciais (mesmo
    `.v2-cliente-avatar`), com o nome no `title`.
-6. **Celular:** o `MobileMenuScreen` usa o mesmo `ClienteList` (variante
+7. **Celular:** o `MobileMenuScreen` usa o mesmo `ClienteList` (variante
    `mobile`), então ganha o mesmo comportamento, com linhas de 54 px.
-7. **Memória:** cliente, projeto e nível ficam salvos em `localStorage`
+8. **Memória:** cliente, projeto e nível ficam salvos em `localStorage`
    (`escritorio::v2_nav_scope`). Recarregar a página volta para o mesmo lugar.
 
 ### 8.2.2 Espaço à direita para o visualizador
@@ -83,14 +97,32 @@ Problemas:
 | iPad Pro 13" 1366 px | 240 + 280 · terminal 846 | terminal 346 · painel 500 | 68 + 68 · terminal 610 · painel 620 |
 | Desktop 1920 px | 240 + 280 · terminal 1400 | terminal 680 · painel 720 | 68 + 68 · terminal 1004 · painel 780 |
 
-### 8.2.3 Pontos para confirmar
+### 8.2.3 Decisões fechadas com o Bruno
 
-| Ponto | Adotado | Alternativa |
-|-------|---------|-------------|
-| Recolher as colunas sozinho ao abrir o visualizador | Sim, só enquanto ele estiver aberto, sem mudar sua preferência salva | Não recolher; você recolhe à mão com os botões que já existem |
-| Barra de selects Cliente/Projeto no Board/Tarefas | Sai (a sidebar faz o papel dela) | Manter as duas formas |
-| Cliente sem subprojetos | Seleciona direto, sem entrar no nível Projetos | Sempre entrar no nível Projetos |
-| Visualizador no chat | Painel à direita (substitui o dropdown ancorado no botão da Fase V) | Manter o dropdown ancorado |
+| Ponto | Decisão |
+|-------|---------|
+| Barra de selects Cliente/Projeto | **Continua** no Board (principalmente em "Todos"), em Tarefas e em Artefatos, partindo da seleção da sidebar e agindo só na tela (item 5 acima) |
+| Cliente sem subprojetos | **Só seleciona**, não abre o nível Projetos |
+| Recolher as colunas ao abrir o visualizador | "O que for melhor em usabilidade" → regra da seção 8.2.4 |
+| Visualizador no chat | Painel à direita (substitui o dropdown ancorado no botão da Fase V) |
+
+### 8.2.4 Regra de recolhimento (escolhida pela usabilidade)
+
+1. **Tela larga (≥ 1100 px):** ao abrir o visualizador, a sidebar e a lista
+   de chats **recolhem sozinhas** para trilhos de 68 px, com a mesma
+   transição de 180 ms de hoje. Motivo: quem abre um arquivo quer ler, e os
+   trilhos mantêm a navegação a um toque (avatares de projetos e de chats).
+2. **Seu controle vale mais:** com o painel aberto, os botões de recolher
+   continuam funcionando. Se você **expandir** uma coluna, ela fica expandida
+   enquanto o painel estiver aberto (o terminal ou a lista encolhem, e o
+   painel mantém a largura mínima de 420 px).
+3. **Ao fechar o painel**, tudo volta exatamente como estava antes de abrir.
+   A preferência salva (`localStorage`) **nunca** é alterada pelo recolhimento automático.
+4. **Tela média (641–1099 px)** e **celular:** nada recolhe; o painel abre por
+   cima ou em tela cheia.
+5. **Girar o iPad** com o painel aberto: ao passar para retrato, as colunas
+   voltam e o painel vira overlay; ao voltar para paisagem, recolhem de novo.
+6. Vale igual quando é o **agente** que abre o arquivo (abertura automática da Fase V).
 
 ---
 
@@ -107,9 +139,10 @@ frontend/src/layouts/v2/MobileMenuScreen.jsx   # ALTERAR: repassa as props novas
 frontend/src/layouts/v2/AppV2.jsx              # ALTERAR: useNavScope no lugar de selectedClienteId; recolhimento forçado
 frontend/src/layouts/v2/ChatSidebarV2.jsx      # ALTERAR: filtra por subárvore do projeto; título "cliente / projeto"
 frontend/src/layouts/v2/NewChatSheet.jsx       # ALTERAR: já abre com cliente e projeto selecionados
-frontend/src/layouts/v2/BoardV2.jsx            # ALTERAR: usa projetoId global; remove ClienteProjetoFilterBar
+frontend/src/layouts/v2/BoardV2.jsx            # ALTERAR: passa selectedProjetoId ao hook; MANTÉM a ClienteProjetoFilterBar
 frontend/src/layouts/v2/TarefasV2.jsx          # ALTERAR: idem
-frontend/src/layouts/v2/useClienteProjetoFilter.js  # ALTERAR: recebe o escopo global em vez de estado local
+frontend/src/layouts/v2/useClienteProjetoFilter.js  # ALTERAR: aceita selectedProjetoId da sidebar como ponto de partida;
+                                               #          refinamento local reseta quando a sidebar muda
 frontend/src/utils/viewport.js                 # ALTERAR: + WIDE_VIEWPORT_QUERY = '(min-width: 1100px)'
 ```
 
@@ -136,19 +169,27 @@ frontend/src/utils/viewport.js                 # ALTERAR: + WIDE_VIEWPORT_QUERY 
   filtro é **por prefixo** (`collectSubtreeIds`, já existente), para o caso de
   3 níveis (`cliente/projeto/sub`) que já quebrou no Board.
 
-### 8.3.3 Recolhimento forçado (sem mexer na preferência salva)
+### 8.3.3 Recolhimento automático (sem mexer na preferência salva)
 
 `useSidebarCollapsed` grava em `localStorage` a cada clique. O recolhimento
-automático **não** pode sobrescrever isso. Então:
+automático **não** pode sobrescrever isso, e o usuário precisa poder
+expandir com o painel aberto (8.2.4). Então:
 
 ```js
 const viewerDocked = viewerOpen && isWide;              // WIDE_VIEWPORT_QUERY
-const sidebarEffective = sidebarCollapsed || viewerDocked;
-const chatSidebarEffective = chatSidebarCollapsed || viewerDocked;
+// "expandi à mão com o painel aberto"; zera quando o painel fecha ou deixa de estar encaixado
+const [dockOverride, setDockOverride] = useState({ sidebar: false, chat: false });
+useEffect(() => { if (!viewerDocked) setDockOverride({ sidebar: false, chat: false }); }, [viewerDocked]);
+
+const sidebarEffective = viewerDocked ? !dockOverride.sidebar : sidebarCollapsed;
+const chatSidebarEffective = viewerDocked ? !dockOverride.chat : chatSidebarCollapsed;
+
+// botões de recolher: com o painel encaixado mexem só no override; sem painel, na preferência
+const onToggleSidebar = () =>
+  viewerDocked ? setDockOverride((o) => ({ ...o, sidebar: !o.sidebar })) : toggleSidebar();
 ```
 
-- `SidebarV2`/`ChatSidebarV2` recebem o valor **efetivo**; os botões de
-  recolher continuam alterando só a preferência.
+- `SidebarV2`/`ChatSidebarV2` recebem o valor **efetivo** e o handler acima.
 - Quando `viewerDocked` muda, `AppV2` dispara
   `window.dispatchEvent(new CustomEvent('escritorio:sidebar-toggled'))`, o
   mesmo evento que faz o `TerminalPanel` reajustar o xterm (ele espera ~250 ms,
@@ -174,8 +215,8 @@ const chatSidebarEffective = chatSidebarCollapsed || viewerDocked;
 | 2 | `useNavScope` + persistência + testes | vitest |
 | 3 | `ClienteList` com níveis e voltar (sidebar e mobile, aberta e recolhida) | vitest (`ClienteList.test.jsx`, `SidebarV2.test.jsx`, `MobileMenuScreen.test.jsx`) |
 | 4 | `AppV2` + `ChatSidebarV2` + `NewChatSheet` usando o escopo | vitest (`AppV2.test.jsx`, `ChatSidebarV2.test.jsx`, `NewChatSheet.test.jsx`) |
-| 5 | `BoardV2`/`TarefasV2`/`useClienteProjetoFilter` sem a barra de selects | vitest (testes de Board/Tarefas/filtro atualizados) |
-| 6 | `WIDE_VIEWPORT_QUERY` + recolhimento forçado + evento de refit | vitest |
+| 5 | `BoardV2`/`TarefasV2`/`useClienteProjetoFilter` partindo do escopo da sidebar, **mantendo a barra** | vitest (testes de Board/Tarefas/filtro atualizados) |
+| 6 | `WIDE_VIEWPORT_QUERY` + recolhimento automático com override + evento de refit | vitest |
 | 7 | Doc e aceite manual | checklist 8.4 |
 
 O passo 6 pode entrar aqui mesmo que a Fase V ainda não exista: basta um
@@ -197,15 +238,22 @@ só liga esse valor.
   (projeto que não existe mais → volta para "Todos").
 - Chat, Board e Tarefas filtram pela subárvore do projeto selecionado
   (inclui caso de 3 níveis).
-- Recolhimento forçado não grava no `localStorage` e dispara
+- Recolhimento automático não grava no `localStorage` e dispara
   `escritorio:sidebar-toggled` ao entrar e ao sair.
+- Com o painel encaixado, expandir uma coluna mantém ela expandida; fechar o
+  painel devolve o estado anterior; passar a largura abaixo de 1100 px desfaz o recolhimento.
+- Barra de selects: em "Todos" mostra Cliente + Projeto e **não** altera a
+  sidebar; com projeto na sidebar, o select já vem preenchido; mudar a sidebar
+  descarta o refinamento local.
 - `fixedPositioningInvariant.test.js` continua passando.
 
 ### Manual (iPad deitado, iPad em pé, desktop, celular)
 
 1. Tocar em "podesubir": a lista vira os projetos dele com **← Clientes**.
 2. Tocar em "site-institucional": lista de chats, Board, Tarefas e
-   Artefatos mostram só esse projeto.
+   Artefatos mostram só esse projeto; no Board o select de projeto já vem com ele.
+2b. Com a sidebar em "Todos", o Board continua com os dois selects e trocar
+   o cliente ali não muda a sidebar nem o chat.
 3. **← Clientes** volta; "Todos" limpa o filtro.
 4. Projeto com subprojetos entra mais um nível e volta para o pai.
 5. Recarregar a página: continua no mesmo cliente/projeto.
@@ -221,7 +269,7 @@ só liga esse valor.
 
 | Risco | Mitigação |
 |-------|-----------|
-| Muitos testes de Board/Tarefas dependem da barra de selects | Atualizar os testes no mesmo commit do passo 5; a lógica de filtro (prefixo) continua a mesma, só muda a origem do valor |
+| Barra e sidebar discordarem e confundirem | A barra sempre parte da sidebar e reseta quando ela muda; o rótulo da barra mostra o que está filtrado |
 | Terminal com texto desalinhado depois de encolher | Disparar o evento de refit ao abrir/fechar o painel e ao forçar o recolhimento; testar rotação com o painel aberto |
 | Usuário se perder no nível Projetos | Rótulo `CLIENTE · PROJETOS` e botão de voltar sempre visíveis; título da lista de chats mostra "cliente / projeto" |
 | Projeto salvo que deixou de existir | `useNavScope` valida contra `projects` e cai para "Todos" |
@@ -231,7 +279,7 @@ só liga esse valor.
 ## 8.6 Definição de pronto
 
 - [ ] Nível Clientes → Projetos → subprojetos com voltar, na sidebar e no celular.
-- [ ] Chat, Board, Tarefas (e Artefatos, quando existir) filtrados pelo escopo da sidebar; barra de selects removida.
-- [ ] Recolhimento forçado pronto para o visualizador, sem alterar a preferência salva.
+- [ ] Chat, Board, Tarefas (e Artefatos, quando existir) filtrados pelo escopo da sidebar; barra de selects mantida no Board/Tarefas/Artefatos, partindo da sidebar.
+- [ ] Recolhimento automático pronto para o visualizador (com override manual), sem alterar a preferência salva.
 - [ ] `npm test` verde; nenhuma mudança visual fora da seção de clientes e das colunas recolhidas com o painel aberto.
 - [ ] Documentação atualizada se a implementação divergir.

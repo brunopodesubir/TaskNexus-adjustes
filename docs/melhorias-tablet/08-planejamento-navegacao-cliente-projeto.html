@@ -150,7 +150,7 @@ main{padding-block:28px 96px;min-width:0;overflow-x:clip}
   <aside class="side" aria-label="Navegação">
     <a class="brand" href="#top"><span class="brand-mark">TN</span><span class="brand-text"><b>TaskNexus no Tablet</b><span>Design · UX · TL · Dev</span></span></a>
     <ul class="parts"><li><a href="CONTEXTO-PARA-AGENTE.html"><span class="n">C</span><span>Contexto para o agente</span></a></li><li><a href="00-visao-geral-e-diagnostico.html"><span class="n">0</span><span>Visão geral e diagnóstico</span></a></li><li><a href="01-visualizador-de-arquivos.html"><span class="n">1</span><span>Visualizador de arquivos</span></a></li><li><a href="02-chat-conversacional.html"><span class="n">2</span><span>Chat conversacional</span></a></li><li><a href="03-layout-amigavel.html"><span class="n">3</span><span>Layout amigável</span></a></li><li><a href="04-melhorias-adicionais.html"><span class="n">4</span><span>Melhorias adicionais</span></a></li><li><a href="05-plano-de-execucao-e-prompts.html"><span class="n">5</span><span>Plano e prompts</span></a></li><li><a href="06-planejamento-fase-v.html"><span class="n">6</span><span>Planejamento da Fase V</span></a></li><li><a href="07-planejamento-artefatos.html"><span class="n">7</span><span>Planejamento da Fase A</span></a></li><li><a class="on" href="08-planejamento-navegacao-cliente-projeto.html"><span class="n">8</span><span>Planejamento da Fase N</span></a></li></ul>
-    <div class="toc"><p class="toc-title">Nesta página</p><ul><li><a href="#81-situação-atual-medida-no-código">8.1 Situação atual (medida no código)</a></li><li><a href="#82-a-proposta">8.2 A proposta</a><ul><li><a href="#821-cliente-projeto-na-mesma-área-drill-down">8.2.1 Cliente → projeto na mesma área (drill-down)</a></li><li><a href="#822-espaço-à-direita-para-o-visualizador">8.2.2 Espaço à direita para o visualizador</a></li><li><a href="#823-pontos-para-confirmar">8.2.3 Pontos para confirmar</a></li></ul></li><li><a href="#83-implementação-dev">8.3 Implementação (Dev)</a><ul><li><a href="#831-arquivos">8.3.1 Arquivos</a></li><li><a href="#832-estado-de-navegação">8.3.2 Estado de navegação</a></li><li><a href="#833-recolhimento-forçado-sem-mexer-na-preferência-salva">8.3.3 Recolhimento forçado (sem mexer na preferência salva)</a></li><li><a href="#834-painel-encaixado">8.3.4 Painel encaixado</a></li><li><a href="#835-ordem-dos-commits">8.3.5 Ordem dos commits</a></li></ul></li><li><a href="#84-testes-e-aceite">8.4 Testes e aceite</a><ul><li><a href="#automatizados">Automatizados</a></li><li><a href="#manual-ipad-deitado-ipad-em-pé-desktop-celular">Manual (iPad deitado, iPad em pé, desktop, celular)</a></li></ul></li><li><a href="#85-riscos">8.5 Riscos</a></li><li><a href="#86-definição-de-pronto">8.6 Definição de pronto</a></li></ul></div>
+    <div class="toc"><p class="toc-title">Nesta página</p><ul><li><a href="#81-situação-atual-medida-no-código">8.1 Situação atual (medida no código)</a></li><li><a href="#82-a-proposta">8.2 A proposta</a><ul><li><a href="#821-cliente-projeto-na-mesma-área-drill-down">8.2.1 Cliente → projeto na mesma área (drill-down)</a></li><li><a href="#822-espaço-à-direita-para-o-visualizador">8.2.2 Espaço à direita para o visualizador</a></li><li><a href="#823-decisões-fechadas-com-o-bruno">8.2.3 Decisões fechadas com o Bruno</a></li><li><a href="#824-regra-de-recolhimento-escolhida-pela-usabilidade">8.2.4 Regra de recolhimento (escolhida pela usabilidade)</a></li></ul></li><li><a href="#83-implementação-dev">8.3 Implementação (Dev)</a><ul><li><a href="#831-arquivos">8.3.1 Arquivos</a></li><li><a href="#832-estado-de-navegação">8.3.2 Estado de navegação</a></li><li><a href="#833-recolhimento-automático-sem-mexer-na-preferência-salva">8.3.3 Recolhimento automático (sem mexer na preferência salva)</a></li><li><a href="#834-painel-encaixado">8.3.4 Painel encaixado</a></li><li><a href="#835-ordem-dos-commits">8.3.5 Ordem dos commits</a></li></ul></li><li><a href="#84-testes-e-aceite">8.4 Testes e aceite</a><ul><li><a href="#automatizados">Automatizados</a></li><li><a href="#manual-ipad-deitado-ipad-em-pé-desktop-celular">Manual (iPad deitado, iPad em pé, desktop, celular)</a></li></ul></li><li><a href="#85-riscos">8.5 Riscos</a></li><li><a href="#86-definição-de-pronto">8.6 Definição de pronto</a></li></ul></div>
     <button class="theme-btn" type="button">Tema: sistema</button>
   </aside>
   <main id="top"><article class="doc"><p class="eyebrow">Parte 8 de 8</p><h1 id="parte-8-planejamento-da-fase-n-cliente-projeto-na-sidebar-e-espaço-para-o-visualizador">Parte 8 — Planejamento da Fase N: cliente → projeto na sidebar e espaço para o visualizador</h1>
@@ -226,16 +226,49 @@ visualizador abre.</p>
      mostram <strong>›</strong> e entram mais um nível (o botão de voltar vira
      <strong>← api-pagamentos</strong>, o pai).</li>
 <li>Selecionar um projeto <strong>filtra todas as telas</strong>: lista de chats, Board,
-   Tarefas e Artefatos. A <strong>barra de selects</strong> (<code>ClienteProjetoFilterBar</code>)
-   deixa de ser necessária e sai do Board e de Tarefas (e não entra em Artefatos).</li>
-<li><strong>Sidebar recolhida (68 px):</strong> no nível Projetos, o primeiro item é um
-   botão "←" e os projetos aparecem como avatares com iniciais (mesmo
-   <code>.v2-cliente-avatar</code>), com o nome no <code>title</code>.</li>
-<li><strong>Celular:</strong> o <code>MobileMenuScreen</code> usa o mesmo <code>ClienteList</code> (variante
-   <code>mobile</code>), então ganha o mesmo comportamento, com linhas de 54 px.</li>
-<li><strong>Memória:</strong> cliente, projeto e nível ficam salvos em <code>localStorage</code>
-   (<code>escritorio::v2_nav_scope</code>). Recarregar a página volta para o mesmo lugar.</li>
+   Tarefas e Artefatos.</li>
+<li><strong>A barra de selects continua no Board, em Tarefas e em Artefatos</strong>
+   (decisão do Bruno: "no board ainda tem que ter, principalmente quando
+   estiver em Todos"). Ela passa a <strong>partir</strong> da seleção da sidebar e continua
+   sendo um refinamento <strong>local</strong> da tela, como já é hoje no
+   <code>useClienteProjetoFilter</code>:</li>
 </ol>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sidebar</th>
+<th>Barra de selects na tela</th>
+<th>O que a barra muda</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Todos</strong></td>
+<td>select de <strong>Cliente</strong> + select de <strong>Projeto</strong> (igual a hoje)</td>
+<td>só a tela atual; o chat e a sidebar não mudam</td>
+</tr>
+<tr>
+<td><strong>Cliente</strong> (Todos os projetos)</td>
+<td>select de <strong>Projeto</strong> do cliente (igual a hoje)</td>
+<td>só a tela atual</td>
+</tr>
+<tr>
+<td><strong>Projeto</strong> escolhido</td>
+<td>select de <strong>Projeto</strong> já <strong>preenchido</strong> com ele (mostra também os subprojetos)</td>
+<td>só a tela atual</td>
+</tr>
+</tbody>
+</table></div>
+<p>Sempre que a seleção da sidebar muda, a barra <strong>volta a acompanhá-la</strong>
+   (o refinamento local é descartado). Assim a sidebar é a base e a barra
+   serve para olhar outro cliente/projeto no Board sem perder o contexto do chat.
+6. <strong>Sidebar recolhida (68 px):</strong> no nível Projetos, o primeiro item é um
+   botão "←" e os projetos aparecem como avatares com iniciais (mesmo
+   <code>.v2-cliente-avatar</code>), com o nome no <code>title</code>.
+7. <strong>Celular:</strong> o <code>MobileMenuScreen</code> usa o mesmo <code>ClienteList</code> (variante
+   <code>mobile</code>), então ganha o mesmo comportamento, com linhas de 54 px.
+8. <strong>Memória:</strong> cliente, projeto e nível ficam salvos em <code>localStorage</code>
+   (<code>escritorio::v2_nav_scope</code>). Recarregar a página volta para o mesmo lugar.</p>
 <h3 id="822-espaço-à-direita-para-o-visualizador">8.2.2 Espaço à direita para o visualizador</h3>
 <ul>
 <li>O visualizador da Fase V passa a abrir como <strong>painel à direita</strong> (é o
@@ -280,38 +313,51 @@ visualizador abre.</p>
 </tr>
 </tbody>
 </table></div>
-<h3 id="823-pontos-para-confirmar">8.2.3 Pontos para confirmar</h3>
+<h3 id="823-decisões-fechadas-com-o-bruno">8.2.3 Decisões fechadas com o Bruno</h3>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Ponto</th>
-<th>Adotado</th>
-<th>Alternativa</th>
+<th>Decisão</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Recolher as colunas sozinho ao abrir o visualizador</td>
-<td>Sim, só enquanto ele estiver aberto, sem mudar sua preferência salva</td>
-<td>Não recolher; você recolhe à mão com os botões que já existem</td>
-</tr>
-<tr>
-<td>Barra de selects Cliente/Projeto no Board/Tarefas</td>
-<td>Sai (a sidebar faz o papel dela)</td>
-<td>Manter as duas formas</td>
+<td>Barra de selects Cliente/Projeto</td>
+<td><strong>Continua</strong> no Board (principalmente em "Todos"), em Tarefas e em Artefatos, partindo da seleção da sidebar e agindo só na tela (item 5 acima)</td>
 </tr>
 <tr>
 <td>Cliente sem subprojetos</td>
-<td>Seleciona direto, sem entrar no nível Projetos</td>
-<td>Sempre entrar no nível Projetos</td>
+<td><strong>Só seleciona</strong>, não abre o nível Projetos</td>
+</tr>
+<tr>
+<td>Recolher as colunas ao abrir o visualizador</td>
+<td>"O que for melhor em usabilidade" → regra da seção 8.2.4</td>
 </tr>
 <tr>
 <td>Visualizador no chat</td>
 <td>Painel à direita (substitui o dropdown ancorado no botão da Fase V)</td>
-<td>Manter o dropdown ancorado</td>
 </tr>
 </tbody>
 </table></div>
+<h3 id="824-regra-de-recolhimento-escolhida-pela-usabilidade">8.2.4 Regra de recolhimento (escolhida pela usabilidade)</h3>
+<ol>
+<li><strong>Tela larga (≥ 1100 px):</strong> ao abrir o visualizador, a sidebar e a lista
+   de chats <strong>recolhem sozinhas</strong> para trilhos de 68 px, com a mesma
+   transição de 180 ms de hoje. Motivo: quem abre um arquivo quer ler, e os
+   trilhos mantêm a navegação a um toque (avatares de projetos e de chats).</li>
+<li><strong>Seu controle vale mais:</strong> com o painel aberto, os botões de recolher
+   continuam funcionando. Se você <strong>expandir</strong> uma coluna, ela fica expandida
+   enquanto o painel estiver aberto (o terminal ou a lista encolhem, e o
+   painel mantém a largura mínima de 420 px).</li>
+<li><strong>Ao fechar o painel</strong>, tudo volta exatamente como estava antes de abrir.
+   A preferência salva (<code>localStorage</code>) <strong>nunca</strong> é alterada pelo recolhimento automático.</li>
+<li><strong>Tela média (641–1099 px)</strong> e <strong>celular:</strong> nada recolhe; o painel abre por
+   cima ou em tela cheia.</li>
+<li><strong>Girar o iPad</strong> com o painel aberto: ao passar para retrato, as colunas
+   voltam e o painel vira overlay; ao voltar para paisagem, recolhem de novo.</li>
+<li>Vale igual quando é o <strong>agente</strong> que abre o arquivo (abertura automática da Fase V).</li>
+</ol>
 <hr />
 <h2 id="83-implementação-dev">8.3 Implementação (Dev)</h2>
 <h3 id="831-arquivos">8.3.1 Arquivos</h3>
@@ -323,9 +369,10 @@ frontend/src/layouts/v2/MobileMenuScreen.jsx   # ALTERAR: repassa as props novas
 frontend/src/layouts/v2/AppV2.jsx              # ALTERAR: useNavScope no lugar de selectedClienteId; recolhimento forçado
 frontend/src/layouts/v2/ChatSidebarV2.jsx      # ALTERAR: filtra por subárvore do projeto; título "cliente / projeto"
 frontend/src/layouts/v2/NewChatSheet.jsx       # ALTERAR: já abre com cliente e projeto selecionados
-frontend/src/layouts/v2/BoardV2.jsx            # ALTERAR: usa projetoId global; remove ClienteProjetoFilterBar
+frontend/src/layouts/v2/BoardV2.jsx            # ALTERAR: passa selectedProjetoId ao hook; MANTÉM a ClienteProjetoFilterBar
 frontend/src/layouts/v2/TarefasV2.jsx          # ALTERAR: idem
-frontend/src/layouts/v2/useClienteProjetoFilter.js  # ALTERAR: recebe o escopo global em vez de estado local
+frontend/src/layouts/v2/useClienteProjetoFilter.js  # ALTERAR: aceita selectedProjetoId da sidebar como ponto de partida;
+                                               #          refinamento local reseta quando a sidebar muda
 frontend/src/utils/viewport.js                 # ALTERAR: + WIDE_VIEWPORT_QUERY = '(min-width: 1100px)'
 </code></pre></div>
 <h3 id="832-estado-de-navegação">8.3.2 Estado de navegação</h3>
@@ -349,16 +396,24 @@ frontend/src/utils/viewport.js                 # ALTERAR: + WIDE_VIEWPORT_QUERY 
   filtro é <strong>por prefixo</strong> (<code>collectSubtreeIds</code>, já existente), para o caso de
   3 níveis (<code>cliente/projeto/sub</code>) que já quebrou no Board.</li>
 </ul>
-<h3 id="833-recolhimento-forçado-sem-mexer-na-preferência-salva">8.3.3 Recolhimento forçado (sem mexer na preferência salva)</h3>
+<h3 id="833-recolhimento-automático-sem-mexer-na-preferência-salva">8.3.3 Recolhimento automático (sem mexer na preferência salva)</h3>
 <p><code>useSidebarCollapsed</code> grava em <code>localStorage</code> a cada clique. O recolhimento
-automático <strong>não</strong> pode sobrescrever isso. Então:</p>
+automático <strong>não</strong> pode sobrescrever isso, e o usuário precisa poder
+expandir com o painel aberto (8.2.4). Então:</p>
 <div class="code"><div class="code-head"><span>js</span><button class="copy" type="button">Copiar</button></div><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">viewerDocked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">viewerOpen</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">isWide</span><span class="p">;</span><span class="w">              </span><span class="c1">// WIDE_VIEWPORT_QUERY</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">sidebarEffective</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sidebarCollapsed</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">viewerDocked</span><span class="p">;</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">chatSidebarEffective</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">chatSidebarCollapsed</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">viewerDocked</span><span class="p">;</span>
+<span class="c1">// "expandi à mão com o painel aberto"; zera quando o painel fecha ou deixa de estar encaixado</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">dockOverride</span><span class="p">,</span><span class="w"> </span><span class="nx">setDockOverride</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">({</span><span class="w"> </span><span class="nx">sidebar</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">chat</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">});</span>
+<span class="nx">useEffect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">viewerDocked</span><span class="p">)</span><span class="w"> </span><span class="nx">setDockOverride</span><span class="p">({</span><span class="w"> </span><span class="nx">sidebar</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">chat</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">});</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">[</span><span class="nx">viewerDocked</span><span class="p">]);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">sidebarEffective</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">viewerDocked</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">!</span><span class="nx">dockOverride</span><span class="p">.</span><span class="nx">sidebar</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">sidebarCollapsed</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">chatSidebarEffective</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">viewerDocked</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">!</span><span class="nx">dockOverride</span><span class="p">.</span><span class="nx">chat</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">chatSidebarCollapsed</span><span class="p">;</span>
+
+<span class="c1">// botões de recolher: com o painel encaixado mexem só no override; sem painel, na preferência</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">onToggleSidebar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span>
+<span class="w">  </span><span class="nx">viewerDocked</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">setDockOverride</span><span class="p">((</span><span class="nx">o</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="p">...</span><span class="nx">o</span><span class="p">,</span><span class="w"> </span><span class="nx">sidebar</span><span class="o">:</span><span class="w"> </span><span class="o">!</span><span class="nx">o</span><span class="p">.</span><span class="nx">sidebar</span><span class="w"> </span><span class="p">}))</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">toggleSidebar</span><span class="p">();</span>
 </code></pre></div>
 <ul>
-<li><code>SidebarV2</code>/<code>ChatSidebarV2</code> recebem o valor <strong>efetivo</strong>; os botões de
-  recolher continuam alterando só a preferência.</li>
+<li><code>SidebarV2</code>/<code>ChatSidebarV2</code> recebem o valor <strong>efetivo</strong> e o handler acima.</li>
 <li>Quando <code>viewerDocked</code> muda, <code>AppV2</code> dispara
   <code>window.dispatchEvent(new CustomEvent('escritorio:sidebar-toggled'))</code>, o
   mesmo evento que faz o <code>TerminalPanel</code> reajustar o xterm (ele espera ~250 ms,
@@ -408,12 +463,12 @@ automático <strong>não</strong> pode sobrescrever isso. Então:</p>
 </tr>
 <tr>
 <td>5</td>
-<td><code>BoardV2</code>/<code>TarefasV2</code>/<code>useClienteProjetoFilter</code> sem a barra de selects</td>
+<td><code>BoardV2</code>/<code>TarefasV2</code>/<code>useClienteProjetoFilter</code> partindo do escopo da sidebar, <strong>mantendo a barra</strong></td>
 <td>vitest (testes de Board/Tarefas/filtro atualizados)</td>
 </tr>
 <tr>
 <td>6</td>
-<td><code>WIDE_VIEWPORT_QUERY</code> + recolhimento forçado + evento de refit</td>
+<td><code>WIDE_VIEWPORT_QUERY</code> + recolhimento automático com override + evento de refit</td>
 <td>vitest</td>
 </tr>
 <tr>
@@ -439,15 +494,22 @@ só liga esse valor.</p>
   (projeto que não existe mais → volta para "Todos").</li>
 <li>Chat, Board e Tarefas filtram pela subárvore do projeto selecionado
   (inclui caso de 3 níveis).</li>
-<li>Recolhimento forçado não grava no <code>localStorage</code> e dispara
+<li>Recolhimento automático não grava no <code>localStorage</code> e dispara
   <code>escritorio:sidebar-toggled</code> ao entrar e ao sair.</li>
+<li>Com o painel encaixado, expandir uma coluna mantém ela expandida; fechar o
+  painel devolve o estado anterior; passar a largura abaixo de 1100 px desfaz o recolhimento.</li>
+<li>Barra de selects: em "Todos" mostra Cliente + Projeto e <strong>não</strong> altera a
+  sidebar; com projeto na sidebar, o select já vem preenchido; mudar a sidebar
+  descarta o refinamento local.</li>
 <li><code>fixedPositioningInvariant.test.js</code> continua passando.</li>
 </ul>
 <h3 id="manual-ipad-deitado-ipad-em-pé-desktop-celular">Manual (iPad deitado, iPad em pé, desktop, celular)</h3>
 <ol>
 <li>Tocar em "podesubir": a lista vira os projetos dele com <strong>← Clientes</strong>.</li>
 <li>Tocar em "site-institucional": lista de chats, Board, Tarefas e
-   Artefatos mostram só esse projeto.</li>
+   Artefatos mostram só esse projeto; no Board o select de projeto já vem com ele.
+2b. Com a sidebar em "Todos", o Board continua com os dois selects e trocar
+   o cliente ali não muda a sidebar nem o chat.</li>
 <li><strong>← Clientes</strong> volta; "Todos" limpa o filtro.</li>
 <li>Projeto com subprojetos entra mais um nível e volta para o pai.</li>
 <li>Recarregar a página: continua no mesmo cliente/projeto.</li>
@@ -468,8 +530,8 @@ só liga esse valor.</p>
 </thead>
 <tbody>
 <tr>
-<td>Muitos testes de Board/Tarefas dependem da barra de selects</td>
-<td>Atualizar os testes no mesmo commit do passo 5; a lógica de filtro (prefixo) continua a mesma, só muda a origem do valor</td>
+<td>Barra e sidebar discordarem e confundirem</td>
+<td>A barra sempre parte da sidebar e reseta quando ela muda; o rótulo da barra mostra o que está filtrado</td>
 </tr>
 <tr>
 <td>Terminal com texto desalinhado depois de encolher</td>
@@ -489,8 +551,8 @@ só liga esse valor.</p>
 <h2 id="86-definição-de-pronto">8.6 Definição de pronto</h2>
 <ul>
 <li><input type="checkbox" disabled> Nível Clientes → Projetos → subprojetos com voltar, na sidebar e no celular.</li>
-<li><input type="checkbox" disabled> Chat, Board, Tarefas (e Artefatos, quando existir) filtrados pelo escopo da sidebar; barra de selects removida.</li>
-<li><input type="checkbox" disabled> Recolhimento forçado pronto para o visualizador, sem alterar a preferência salva.</li>
+<li><input type="checkbox" disabled> Chat, Board, Tarefas (e Artefatos, quando existir) filtrados pelo escopo da sidebar; barra de selects mantida no Board/Tarefas/Artefatos, partindo da sidebar.</li>
+<li><input type="checkbox" disabled> Recolhimento automático pronto para o visualizador (com override manual), sem alterar a preferência salva.</li>
 <li><input type="checkbox" disabled> <code>npm test</code> verde; nenhuma mudança visual fora da seção de clientes e das colunas recolhidas com o painel aberto.</li>
 <li><input type="checkbox" disabled> Documentação atualizada se a implementação divergir.</li>
 </ul><div class="pager"><a href="07-planejamento-artefatos.html"><small>Anterior</small>7 · Planejamento da Fase A</a></div></article></main>
