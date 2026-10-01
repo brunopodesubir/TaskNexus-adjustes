@@ -1089,3 +1089,115 @@ describe('AppV2 — colunas em tela larga sem visualizador (Fase N, passo 6)', (
     expect(screen.getByRole('button', { name: 'Mostrar barra lateral' })).toBeTruthy();
   });
 });
+
+// Fase V-2 (06-planejamento-fase-v.md, 6.5.3, e 08, 8.2.4/8.7): o visualizador
+// no casco — botão na topbar do chat, painel ENCAIXADO em tela larga (com as
+// colunas recolhidas só enquanto aberto) e POR CIMA na faixa média.
+describe('AppV2 — visualizador de arquivos (Fase V-2)', () => {
+  let originalMatchMedia;
+  let originalFetch;
+  const SESSION = { sessionKey: 'projA::claude', projectId: 'projA', agentId: 'claude' };
+
+  function withActiveSession() {
+    mockUseTerminal.mockReturnValue({
+      ...mockUseTerminal(),
+      sessions: [SESSION],
+      activeSessionKey: SESSION.sessionKey,
+    });
+  }
+
+  function useWidth(wide) {
+    window.matchMedia = vi.fn((query) => ({
+      matches: wide && query === '(min-width: 1100px)',
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }));
+  }
+
+  const renderApp = async () => {
+    await act(async () => {
+      render(<AppV2 initialAppearance={{ layout_version: 'v2', theme_mode: 'light' }} />);
+    });
+  };
+
+  beforeEach(() => {
+    originalMatchMedia = window.matchMedia;
+    originalFetch = global.fetch;
+    global.fetch = vi.fn(() => Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ items: [] }) }));
+    localStorage.setItem('escritorio::sidebar_collapsed', 'false');
+    localStorage.setItem('escritorio::chat_sidebar_collapsed', 'false');
+    withActiveSession();
+  });
+  afterEach(() => {
+    window.matchMedia = originalMatchMedia;
+    global.fetch = originalFetch;
+    localStorage.removeItem('escritorio::sidebar_collapsed');
+    localStorage.removeItem('escritorio::chat_sidebar_collapsed');
+  });
+
+  it('busca as abas da conversa ativa ao montar', async () => {
+    useWidth(true);
+    await renderApp();
+    expect(global.fetch).toHaveBeenCalledWith('/api/sessions/projA::claude/viewer');
+  });
+
+  it('≥ 1100px: abre encaixado, recolhe as colunas sem gravar a preferência e devolve ao fechar', async () => {
+    useWidth(true);
+    await renderApp();
+    expect(screen.getByRole('button', { name: 'Esconder barra lateral' })).toBeTruthy();
+
+    const handler = vi.fn();
+    window.addEventListener('escritorio:sidebar-toggled', handler);
+    try {
+      fireEvent.click(screen.getByTestId('viewer-button'));
+    } finally {
+      window.removeEventListener('escritorio:sidebar-toggled', handler);
+    }
+    expect(screen.getByTestId('viewer-dock')).toBeTruthy();
+    expect(screen.getByText('Nenhum arquivo aberto ainda')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Mostrar barra lateral' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Mostrar conversas' })).toBeTruthy();
+    // Um evento só (o do useViewerDockCollapse): o painel não dispara outro.
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(localStorage.getItem('escritorio::sidebar_collapsed')).toBe('false');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar visualizador' }));
+    expect(screen.queryByTestId('viewer-dock')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Esconder barra lateral' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Esconder conversas' })).toBeTruthy();
+  });
+
+  it('ir ao Board com o painel aberto devolve as colunas; voltar ao Chat recolhe de novo', async () => {
+    useWidth(true);
+    await renderApp();
+    fireEvent.click(screen.getByTestId('viewer-button'));
+    // Regra 2 da 8.2.4: expandir à mão com o painel aberto vale (e é o que
+    // deixa os rótulos da navegação à vista para o goTo).
+    fireEvent.click(screen.getByRole('button', { name: 'Mostrar barra lateral' }));
+    expect(screen.getByTestId('viewer-dock')).toBeTruthy();
+    goTo('Board');
+    expect(screen.queryByTestId('viewer-button')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Esconder barra lateral' })).toBeTruthy();
+    goTo('Chat');
+    expect(screen.getByTestId('viewer-dock')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Mostrar barra lateral' })).toBeTruthy();
+  });
+
+  it('641–1099px: abre por cima (drawer), nada recolhe, Esc fecha', async () => {
+    useWidth(false);
+    await renderApp();
+    fireEvent.click(screen.getByTestId('viewer-button'));
+    expect(screen.getByTestId('viewer-drawer')).toBeTruthy();
+    expect(screen.queryByTestId('viewer-dock')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Esconder barra lateral' })).toBeTruthy();
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(screen.queryByTestId('viewer-drawer')).toBeNull();
+  });
+
+  it('sem conversa ativa o botão fica desabilitado', async () => {
+    useWidth(true);
+    mockUseTerminal.mockReturnValue({ ...mockUseTerminal(), sessions: [], activeSessionKey: null });
+    await renderApp();
+    expect(screen.getByTestId('viewer-button').disabled).toBe(true);
+  });
+});
