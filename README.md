@@ -194,7 +194,9 @@ README no visualizador".
   destaque e a linha pedida pelo agente destacada, imagens e PDF. Binários e
   arquivos acima de 1 MB aparecem com o botão **Baixar**.
 - **Barra do arquivo:** ⤓ Baixar (vai para Arquivos › Downloads no iPad),
-  ⧉ Copiar, ↗ Abrir no navegador e ⋯ (Copiar caminho, Fechar todas).
+  ⧉ Copiar, ↗ Abrir no navegador e ⋯ (Copiar caminho, Fechar todas). Num
+  `.md`/`.html`/`.pdf` que ainda não está na galeria aparece também
+  **☆ Salvar** (em Artefatos, ver abaixo).
 - **No terminal:** URLs e caminhos de arquivo (`docs/plano.md`,
   `src/app.py:42`) viram links — o caminho abre no visualizador.
 - As abas são **por conversa** (até 15) e ficam guardadas no `sessions.db`:
@@ -206,6 +208,38 @@ README no visualizador".
 
 Detalhes e decisões: `docs/melhorias-tablet/06-planejamento-fase-v.md`
 (seções 6.10 e 6.11).
+
+## Artefatos
+
+A aba **◧ Artefatos** (menu lateral e menu do celular, entre Tarefas e
+Configuração) é a galeria dos entregáveis — relatórios e páginas `.html`,
+documentos `.md` e `.pdf` — **por cliente e projeto**, como a galeria de
+artefatos do Claude.
+
+- **O que entra:** o que o agente publica com a ferramenta MCP
+  `publicar_artefato`; todo `.md`/`.html`/`.pdf` que ele abre com
+  `abrir_no_visualizador`; o que você salva com **☆ Salvar** no visualizador
+  do chat; e o que você traz com **＋ Importar do projeto…** (arquivos que já
+  existiam). A lista é permanente: não some quando a conversa acaba.
+- **Filtro:** parte do cliente/projeto escolhido na sidebar, com a mesma barra
+  de selects do Board e de Tarefas (que muda só esta tela), mais os chips
+  **Todos · MD · HTML · PDF**, a busca (título, caminho e descrição, sem
+  precisar de acento) e a ordem **Recentes/Nome**. Em "Todos os projetos" a
+  lista vem agrupada por projeto.
+- **Abrir:** tocar no cartão abre o arquivo no mesmo visualizador do chat,
+  numa aba (outro cartão = outra aba): encaixado à direita em telas largas (a
+  sidebar vira trilho enquanto ele estiver aberto), por cima no iPad em pé e em
+  tela cheia no celular. As abas sobrevivem a recarregar a página.
+- **Menu ⋯ (ou toque longo no cartão):** Abrir, Baixar, Copiar caminho,
+  **Citar no chat** (cola o caminho no chat ativo, sem enviar), Renomear e
+  **Remover da lista** (dois toques). Remover **não apaga** o arquivo.
+- Arquivo apagado ou movido aparece com borda tracejada e o selo "arquivo não
+  encontrado". A lista se atualiza ao entrar na tela, ao voltar para o app e
+  quando um agente abre um `.md`/`.html`/`.pdf` — sem ficar consultando o
+  servidor o tempo todo.
+
+Detalhes e decisões: `docs/melhorias-tablet/07-planejamento-artefatos.md`
+(seções 7.10 e 7.11).
 
 ## ⚠️ Segurança e escopo de deployment
 
