@@ -26,6 +26,7 @@ const NAV_ITEMS = [
   { id: 'chat', label: 'Chat', icon: '💬' },
   { id: 'board', label: 'Board', icon: '▦' },
   { id: 'tarefas', label: 'Tarefas', icon: '✓' },
+  { id: 'artefatos', label: 'Artefatos', icon: '◧' },
   { id: 'agentes', label: 'Agentes', icon: '◈' },
 ];
 
@@ -60,10 +61,10 @@ describe('MobileMenuScreen — estrutura básica', () => {
 });
 
 describe('MobileMenuScreen — NavTabs (variant="segmented")', () => {
-  it('renderiza as 4 abas como role="tab", com a aba ativa marcada aria-selected', () => {
+  it('renderiza as 5 abas como role="tab", com a aba ativa marcada aria-selected', () => {
     render(<MobileMenuScreen {...baseProps({ activeScreen: 'board' })} />);
     const tabs = screen.getAllByRole('tab');
-    expect(tabs).toHaveLength(4);
+    expect(tabs).toHaveLength(5);
     const boardTab = screen.getByRole('tab', { name: /Board/i });
     expect(boardTab.getAttribute('aria-selected')).toBe('true');
     const chatTab = screen.getByRole('tab', { name: /Chat/i });

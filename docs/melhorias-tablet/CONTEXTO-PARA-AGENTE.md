@@ -115,20 +115,27 @@ WebSocket). No tablet isso é ruim:
 
 ## 7. Estado atual
 
-- **Branch de trabalho da documentação:** `claude/elegant-carson-ehd59f`
-  (a pasta `docs/melhorias-tablet/` foi liberada no `.gitignore`, que ignora `docs/*` por padrão).
-- **Código:** a **Fase N** foi implementada (frontend só) na branch
-  `claude/elegant-carson-ehd59f`: drill-down cliente → projeto no `ClienteList`,
-  escopo global `useNavScope`, filtro por projeto no Chat/Board/Tarefas e o
-  recolhimento automático pronto em `useViewerDockCollapse` (com `viewerOpen`
-  sempre `false` no `AppV2` até a Fase V ligar). O que divergiu do plano e os
-  pontos de integração estão na seção **8.7** da Parte 8.
-- **Próxima ação:** quando o Bruno pedir, entregar o prompt de desenvolvimento
-  da **Fase V** (`06-planejamento-fase-v.md`) e depois o da **Fase A**
-  (`07-planejamento-artefatos.md`), para ele usar numa janela limpa. A Fase V
-  liga `setViewerOpen` no `AppV2` (ver 8.7). O desenvolvimento deve acontecer
-  numa branch própria (a que a sessão de desenvolvimento indicar), com um PR
-  para a fase.
+- **Integração:** as fases **N, V (V-1 backend + V-2 frontend) e A (backend +
+  frontend)** foram desenvolvidas por subagentes, validadas pelo integrador e
+  mergeadas na branch `claude/elegant-carson-ehd59f`, que vai para a `main` num
+  **PR único** com o checklist de teste manual do Bruno. O PR antigo da V-1
+  (`brunopodesubir/TaskNexus-adjustes#2`) foi substituído por esse PR único.
+- **Onde está o "como ficou" de cada fase:** Fase N na seção **8.7**; V-1 na
+  **6.10**; V-2 na **6.11**; Artefatos backend na **7.10** e frontend na **7.11**.
+  Capturas em `docs/melhorias-tablet/capturas/fase-v2/` e `capturas/fase-a/`.
+- **Testes na integração:** frontend 94 arquivos / 1635 testes verdes; backend
+  1212 passaram, 21 pulados (o `test_pty_manager.py::test_terminate_kills_process_group`
+  falha só no contêiner de nuvem, por falta de reaper de zumbis, e já falhava antes).
+- **Próxima ação:** o Bruno testa o PR único no iPad/PC/celular. Depois do merge,
+  as próximas fases do roteiro são **F0** (autenticação + routers + restante dos
+  quick wins do terminal), **F1** (navegador de arquivos), **F2** (chat
+  estruturado), **F3** (layout v3) e **F4** (codex + extras) — Parte 5.
+- **Pendências conhecidas** (estão no PR): aprovação da tool na TUI do claude na
+  1ª chamada; PDF dentro de iframe no Safari pode mostrar só a 1ª página;
+  vídeo sem Range (vira download); CORS `*` e sem autenticação até a F0; teste com
+  o codex real e no Windows; ambiguidade de "artefato" num claude que também tenha
+  a tool de Artifact do claude.ai (dizer "artefato do TaskNexus"); paginação da
+  lista de artefatos; link relativo de artefato para arquivo não publicado abre cru.
 
 ## 8. Regras para quem for desenvolver
 
