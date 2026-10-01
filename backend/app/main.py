@@ -26,6 +26,8 @@ from app.task_store import TaskStore
 from app.agent_store import GlobalAgentStore
 from app.card_store import CardStore, ColumnDeleteError, UnknownColumnError
 from app.settings_store import SettingsStore
+from app.viewer_store import ViewerStore
+from app.viewer_api import ViewerService, create_viewer_router
 from app.push_store import PushSubscriptionStore, TooManySubscriptionsError
 from app.push_payload import build_push_payload
 from app.push_service import send_push_to_all
@@ -134,6 +136,8 @@ agent_store = GlobalAgentStore(db_path=SESSIONS_DB)
 card_store = CardStore(db_path=SESSIONS_DB)
 settings_store = SettingsStore(db_path=SESSIONS_DB)
 push_store = PushSubscriptionStore(db_path=SESSIONS_DB)
+# Abas do visualizador de arquivos (Fase V, Parte 6) — ver viewer_store.py.
+viewer_store = ViewerStore(db_path=SESSIONS_DB)
 pty_manager = PTYManager()
 
 # VAPID keypair provisioned at boot (decision G-1). None = push unavailable
@@ -455,6 +459,7 @@ async def lifespan(app: FastAPI):
     await card_store.initialize()
     await settings_store.initialize()
     await push_store.initialize()
+    await viewer_store.initialize()
     # Generates the VAPID keypair on the very first boot and reuses it from
     # then on (G-1). Never raises — a failure here leaves _vapid_keys as
     # None, which every push path treats as "push unavailable" (R-2).
@@ -480,6 +485,7 @@ async def lifespan(app: FastAPI):
     await card_store.close()
     await settings_store.close()
     await push_store.close()
+    await viewer_store.close()
 
 
 # Two Windows-only workarounds for an abruptly disconnecting client (the
@@ -744,7 +750,7 @@ class _McpServerSpec(TypedDict):
 
 
 def _escritorio_mcp_servers(session_id: str) -> dict[str, _McpServerSpec]:
-    """Especificação (command/args/env) dos dois servidores MCP do Escritório.
+    """Especificação (command/args/env) dos servidores MCP do Escritório.
 
     Fonte única de verdade para os DOIS formatos de registro que existem hoje:
     o `--mcp-config` inline JSON do `claude` (_build_mcp_config_json) e os
@@ -798,16 +804,29 @@ def _escritorio_mcp_servers(session_id: str) -> dict[str, _McpServerSpec]:
                 "PYTHONUTF8": "1",
             },
         },
+        # Fase V (Parte 6, 6.4.6): tool `abrir_no_visualizador`. Registrado
+        # aqui, vale para o `claude` (--mcp-config) e para o `codex`
+        # (-c mcp_servers.*) sem nenhuma outra mudança.
+        "escritorio-visualizador": {
+            "command": sys.executable,
+            "args": [os.path.join(module_dir, "mcp_viewer_adapter.py")],
+            "env": {
+                "ESCRITORIO_CLAUDE_SESSION_ID": session_id,
+                "ESCRITORIO_HOOK_VIEWER_OPEN_URL": f"{base_url}/api/hooks/viewer/open",
+                "PYTHONUTF8": "1",
+            },
+        },
     }
 
 
 def _build_mcp_config_json(session_id: str) -> str:
     """Gera o --mcp-config inline JSON que registra os adaptadores MCP
-    (mcp_task_adapter.py e mcp_card_adapter.py, ver esses arquivos) como
-    servidores stdio do `claude` CLI, expondo `criar_tarefa_validacao`
-    (escritorio-tarefas) e `criar_card`/`mover_card`/`editar_card`/
-    `excluir_card`/`ver_card`/`listar_cards` (escritorio-cards, Tarefa 8 do
-    plano 05-TL.md + Fase 3). Os abspaths são resolvidos a partir de
+    (mcp_task_adapter.py, mcp_card_adapter.py e mcp_viewer_adapter.py, ver
+    esses arquivos) como servidores stdio do `claude` CLI, expondo
+    `criar_tarefa_validacao` (escritorio-tarefas),
+    `criar_card`/`mover_card`/`editar_card`/`excluir_card`/`ver_card`/
+    `listar_cards` (escritorio-cards, Tarefa 8 do plano 05-TL.md + Fase 3) e
+    `abrir_no_visualizador` (escritorio-visualizador, Fase V). Os abspaths são resolvidos a partir de
     __file__ (diretório deste módulo), NÃO do cwd do PTY — o cwd do PTY é o
     diretório do projeto do usuário, onde os scripts não existem.
 
@@ -1712,6 +1731,9 @@ async def terminate_session(session_key: str):
     # Tarefas vivem no escopo da sessão — somem quando a sessão é encerrada
     # (decisão de produto fechada, ver plano do TL).
     await task_store.clear_for_session(session_key)
+    # Abas do visualizador também são por sessão (Fase V, 6.4.5): sem a
+    # conversa, ninguém mais as vê, e o item_id continuaria servindo arquivos.
+    await viewer_store.clear_for_session(session_key)
     _active_connections.pop(session_key, None)
     # Cancel the reader task before discarding the reference, mirroring the
     # eviction pattern in pty_endpoint. Without this, a task blocked on
@@ -2653,6 +2675,65 @@ async def paste_to_session(session_key: str, body: PasteRequest):
     except RuntimeError:
         pass
     return {"status": "sent", "session_key": session_key}
+
+
+# -- Fase V: visualizador de arquivos (Parte 6) -------------------------------
+#
+# As rotas moram em app/viewer_api.py; aqui ficam só as dependências que já
+# vivem neste módulo (stores, raiz dos projetos, conexões WebSocket).
+
+
+def _find_project_path(project_id: str) -> str | None:
+    """`_resolve_project_or_404` sem o 404: o visualizador traduz "projeto não
+    encontrado" para a mensagem do agente/tela. Síncrona (varre os projetos);
+    o ViewerService chama em `asyncio.to_thread`."""
+    try:
+        return _resolve_project_or_404(project_id).path
+    except HTTPException:
+        return None
+
+
+async def notify_viewer_open(
+    session_key: str, item: dict, reused: bool, evicted: list[str] | None = None,
+) -> bool:
+    """Avisa a tela, ao vivo, que uma aba foi aberta (Parte 6, 6.4.4).
+
+    Frame de TEXTO no WebSocket do terminal que já está aberto: `send_text` é
+    o canal dos frames de controle (`resume_failed`, `spawn_failed`) e a saída
+    do PTY vai sempre como bytes, então o frontend separa os dois sem
+    ambiguidade e não há conexão nova.
+
+    Devolve se foi entregue. Nunca levanta: a aba já está gravada, e um socket
+    ausente ou fechando no meio (evicção de leitor único, iPad dormindo) só
+    significa `delivered=false` — o frontend busca as abas pelo GET ao abrir a
+    conversa. `evicted` leva os ids das abas fechadas pelo limite de 15, para a
+    tela tirá-las sem recarregar a lista."""
+    ws = _active_connections.get(session_key)
+    if ws is None:
+        return False
+    try:
+        await ws.send_text(json.dumps({
+            "type": "viewer_open",
+            "item": item,
+            "reused": reused,
+            "evicted": list(evicted or []),
+        }))
+        return True
+    except Exception:
+        return False
+
+
+viewer_service = ViewerService(
+    store=viewer_store,
+    find_project_path=_find_project_path,
+    # Lambda e não o valor: PROJECTS_ROOT muda em runtime pela Configuração
+    # (_reload_projects_root), e o serviço precisa sempre do atual.
+    get_projects_root=lambda: PROJECTS_ROOT,
+    session_key_for_claude_id=store.get_session_key_by_claude_id,
+    notify=notify_viewer_open,
+)
+# Antes do catch-all do SPA no fim do arquivo (ver o comentário de lá).
+app.include_router(create_viewer_router(viewer_service))
 
 
 @app.websocket("/ws/pty/{session_key:path}")
