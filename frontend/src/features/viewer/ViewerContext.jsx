@@ -61,6 +61,17 @@ const EMPTY_SCOPE = Object.freeze({
 });
 const CLOSED_SURFACE = Object.freeze({ open: false, fullscreen: false });
 
+// Fase A (07-planejamento-artefatos.md, 7.10.3): o backend publica como
+// artefato todo .md/.html/.pdf que o AGENTE abre, e grava ANTES de mandar o
+// frame `viewer_open`. O frame não diz se virou artefato, então a regra é a da
+// extensão do `path` — a mesma que o backend usa.
+const ARTIFACT_PATH_RE = /\.(md|markdown|html?|pdf)$/i;
+
+/** O caminho é de um tipo que a aba Artefatos aceita (.md/.html/.pdf)? */
+export function isArtifactPath(path) {
+  return ARTIFACT_PATH_RE.test(String(path || ''));
+}
+
 /** Em que superfície aparece um escopo: as abas de conversa vivem no painel do
  * chat; qualquer outro escopo (ex.: `artefatos`) tem a superfície homônima. */
 export function surfaceForScope(scope) {
@@ -133,6 +144,10 @@ export function ViewerProvider({ children }) {
     surfaces: {},
     unseen: {},
     toast: null,
+    // Fase A (7.5.5): contador que sobe a cada `viewer_open` de .md/.html/.pdf,
+    // de qualquer conversa. A tela Artefatos observa o número e recarrega a
+    // lista — sem polling e sem a tela precisar saber de WebSocket.
+    artifactsSignal: 0,
   }));
 
   // Leitura do estado mais recente dentro de callbacks estáveis (as ações abaixo
@@ -227,11 +242,14 @@ export function ViewerProvider({ children }) {
           itemId: item.id,
           text: `${openerLabel(item, sessionKey)} abriu ${item.title || basenameOf(item.path)}`,
         };
+    const bump = isArtifactPath(item.path) ? 1 : 0;
     setState((prev) => {
       const scopeState = upsertItem(prev.scopes[scope] || EMPTY_SCOPE, item, evicted);
+      const artifactsSignal = prev.artifactsSignal + bump;
       if (visible) {
         return {
           ...prev,
+          artifactsSignal,
           scopes: { ...prev.scopes, [scope]: scopeState },
           surfaces: revealSurface(prev, SURFACE_CHAT),
           unseen: { ...prev.unseen, [scope]: 0 },
@@ -239,6 +257,7 @@ export function ViewerProvider({ children }) {
       }
       return {
         ...prev,
+        artifactsSignal,
         scopes: { ...prev.scopes, [scope]: scopeState },
         unseen: { ...prev.unseen, [scope]: (prev.unseen[scope] || 0) + 1 },
         toast,
@@ -299,6 +318,58 @@ export function ViewerProvider({ children }) {
       },
       surfaces: revealSurface(prev, surfaceForScope(scope)),
     }));
+  }, []);
+
+  /** Fase A (7.5.4): devolve a um escopo LOCAL as abas guardadas (ex.: em
+   * sessionStorage) sem abrir o painel — recarregar a página não deve jogar o
+   * visualizador na cara de quem só voltou à tela. Só age se o escopo ainda não
+   * foi carregado nesta página: depois disso, quem manda é o que está na tela. */
+  const restoreItems = useCallback((scope, rawItems, activeId = null, { source } = {}) => {
+    if (!scope || sessionKeyFromScope(scope)) return;
+    setState((prev) => {
+      if (prev.scopes[scope]?.loaded) return prev;
+      const items = (Array.isArray(rawItems) ? rawItems : [])
+        .map((raw) => normalizeItem(raw, source))
+        .filter(Boolean)
+        .slice(-MAX_TABS);
+      const active = items.some((i) => i.id === activeId) ? activeId : newestItemId(items);
+      return {
+        ...prev,
+        scopes: {
+          ...prev.scopes,
+          [scope]: { ...EMPTY_SCOPE, items, activeId: active, loaded: true },
+        },
+      };
+    });
+  }, []);
+
+  /** Fase A: atualiza no lugar as abas JÁ abertas de um escopo com dados mais
+   * novos (a lista de artefatos recarregou: título renomeado, arquivo alterado
+   * no disco). Nunca abre aba nova nem mexe no painel; sem mudança real, não
+   * troca o estado (evita re-render de todo o app a cada recarga da lista). */
+  const syncItems = useCallback((scope, rawItems, { source } = {}) => {
+    if (!scope || !Array.isArray(rawItems)) return;
+    const fresh = new Map();
+    rawItems.forEach((raw) => {
+      const item = normalizeItem(raw, source);
+      if (item) fresh.set(item.id, item);
+    });
+    setState((prev) => {
+      const current = prev.scopes[scope];
+      if (!current || current.items.length === 0) return prev;
+      let changed = false;
+      const items = current.items.map((old) => {
+        const next = fresh.get(old.id);
+        if (!next) return old;
+        const merged = { ...old, ...next };
+        const differs = Object.keys(merged).some((k) => merged[k] !== old[k]);
+        if (!differs) return old;
+        changed = true;
+        return merged;
+      });
+      if (!changed) return prev;
+      return { ...prev, scopes: { ...prev.scopes, [scope]: { ...current, items } } };
+    });
   }, []);
 
   const closeItem = useCallback((scope, itemId) => {
@@ -391,6 +462,8 @@ export function ViewerProvider({ children }) {
     receiveOpen,
     openByPath,
     openItem,
+    restoreItems,
+    syncItems,
     closeItem,
     closeAll,
     setActive,
@@ -405,6 +478,8 @@ export function ViewerProvider({ children }) {
     receiveOpen,
     openByPath,
     openItem,
+    restoreItems,
+    syncItems,
     closeItem,
     closeAll,
     setActive,
@@ -421,6 +496,7 @@ export function ViewerProvider({ children }) {
     surfaces: state.surfaces,
     unseen: state.unseen,
     toast: state.toast,
+    artifactsSignal: state.artifactsSignal,
     getScope: (scope) => state.scopes[scope] || EMPTY_SCOPE,
     getSurface: (surface) => state.surfaces[surface] || CLOSED_SURFACE,
   }), [actions, state]);

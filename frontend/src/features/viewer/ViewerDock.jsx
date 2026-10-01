@@ -39,8 +39,9 @@ const styles = {
  * @param {string} [props.surface]    padrão: surfaceForScope(scope)
  * @param {boolean} [props.hidden]    reserva a coluna sem desenhar o painel (tela cheia)
  * @param {string} [props.emptyHint]
+ * @param {Function} [props.onOpenPath]  links relativos (ver ViewerPanel)
  */
-export function ViewerDock({ scope, surface, hidden = false, emptyHint }) {
+export function ViewerDock({ scope, surface, hidden = false, emptyHint, onOpenPath }) {
   const viewer = useViewer();
   if (!viewer) return null;
   const target = surface || surfaceForScope(scope);
@@ -51,6 +52,7 @@ export function ViewerDock({ scope, surface, hidden = false, emptyHint }) {
           scope={scope}
           variant="dock"
           emptyHint={emptyHint}
+          onOpenPath={onOpenPath}
           onClose={() => viewer.setOpen(target, false)}
           onFullscreen={() => viewer.setFullscreen(target, true)}
           onKeyDown={(event) => {

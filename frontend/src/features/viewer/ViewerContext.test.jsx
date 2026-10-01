@@ -8,6 +8,7 @@ import {
   MAX_TABS,
   SURFACE_CHAT,
   ViewerProvider,
+  isArtifactPath,
   openerLabel,
   surfaceForScope,
   useViewer,
@@ -207,5 +208,66 @@ describe('ViewerContext', () => {
   it('openerLabel usa o agente da session_key ou "Você"', () => {
     expect(openerLabel({ opened_by: 'agent' }, 'p::codex::x1')).toBe('codex');
     expect(openerLabel({ opened_by: 'user' }, 'p::codex')).toBe('Você');
+  });
+
+  // Fase A (7.5.4/7.5.5): escopo local restaurado, sincronizado e o sinal de
+  // "a lista de artefatos pode ter mudado".
+  it('restoreItems devolve as abas sem abrir o painel e só na primeira vez', async () => {
+    await act(async () => { mount({ activeSessionKey: null, chatVisible: false }); });
+    act(() => {
+      viewer.restoreItems('artefatos', [
+        { artifact_id: 'af_1', path: 'a.md', updated_at: 1 },
+        { artifact_id: 'af_2', path: 'b.md', updated_at: 2 },
+      ], 'af_1', { source: 'artifact' });
+    });
+    let scope = viewer.getScope('artefatos');
+    expect(scope.items.map((i) => i.id)).toEqual(['af_1', 'af_2']);
+    expect(scope.activeId).toBe('af_1');
+    expect(scope.items[0].source).toBe('artifact');
+    expect(viewer.getSurface('artefatos').open).toBe(false);
+    // Já carregado: uma segunda restauração não atropela o que está na tela.
+    act(() => { viewer.restoreItems('artefatos', [{ artifact_id: 'af_9', path: 'z.md' }], null, { source: 'artifact' }); });
+    scope = viewer.getScope('artefatos');
+    expect(scope.items.map((i) => i.id)).toEqual(['af_1', 'af_2']);
+    // Escopo de conversa nunca é restaurado por aqui (quem manda é o backend).
+    act(() => { viewer.restoreItems(SCOPE, [item('x')]); });
+    expect(viewer.getScope(SCOPE).items).toHaveLength(0);
+  });
+
+  it('syncItems atualiza só as abas abertas, no lugar, sem abrir aba nova', async () => {
+    await act(async () => { mount({ activeSessionKey: null, chatVisible: false }); });
+    act(() => {
+      viewer.openItem('artefatos', { artifact_id: 'af_1', path: 'a.md', title: 'Velho', updated_at: 1 }, { source: 'artifact' });
+    });
+    const before = viewer.getScope('artefatos');
+    act(() => {
+      viewer.syncItems('artefatos', [
+        { artifact_id: 'af_1', path: 'a.md', title: 'Novo', updated_at: 5 },
+        { artifact_id: 'af_2', path: 'b.md', title: 'Outro', updated_at: 5 },
+      ], { source: 'artifact' });
+    });
+    const after = viewer.getScope('artefatos');
+    expect(after.items).toHaveLength(1);
+    expect(after.items[0]).toMatchObject({ id: 'af_1', title: 'Novo', updated_at: 5 });
+    // Sem mudança real: o estado do escopo não é trocado.
+    act(() => {
+      viewer.syncItems('artefatos', [{ artifact_id: 'af_1', path: 'a.md', title: 'Novo', updated_at: 5 }], { source: 'artifact' });
+    });
+    expect(viewer.getScope('artefatos')).toBe(after);
+    expect(before).not.toBe(after);
+  });
+
+  it('viewer_open de .md/.html/.pdf sobe o artifactsSignal; de .py não', async () => {
+    await act(async () => { mount({ activeSessionKey: SK, chatVisible: true }); });
+    expect(viewer.artifactsSignal).toBe(0);
+    act(() => { viewer.receiveOpen(SK, item('r', { path: 'docs/r.html' })); });
+    expect(viewer.artifactsSignal).toBe(1);
+    act(() => { viewer.receiveOpen(SK, item('c', { path: 'src/app.py', kind: 'code' })); });
+    expect(viewer.artifactsSignal).toBe(1);
+    act(() => { viewer.receiveOpen(SK, item('p', { path: 'x/Proposta.PDF' })); });
+    expect(viewer.artifactsSignal).toBe(2);
+    expect(isArtifactPath('a.markdown')).toBe(true);
+    expect(isArtifactPath('a.htm')).toBe(true);
+    expect(isArtifactPath('a.txt')).toBe(false);
   });
 });
