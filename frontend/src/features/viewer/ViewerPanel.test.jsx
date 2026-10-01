@@ -169,4 +169,25 @@ describe('ViewerPanel', () => {
     fireEvent.click(screen.getByTestId('viewer-button'));
     expect(screen.getByTestId('viewer-button-badge').getAttribute('data-unseen')).toBe('false');
   });
+
+  it('Fase A: onOpenPath do contêiner substitui o openByPath (escopo local) e recebe a aba ativa', async () => {
+    const onOpenPath = vi.fn();
+    global.fetch = vi.fn((url) => {
+      if (url === '/api/artifacts/af_1/content') {
+        return Promise.resolve(jsonResponse({ kind: 'markdown', text: '[plano](plano.md)', size: 20 }));
+      }
+      return Promise.resolve(jsonResponse({ items: [] }));
+    });
+    function Local() {
+      viewer = useViewer();
+      return <ViewerPanel scope="artefatos" variant="dock" onClose={() => {}} onOpenPath={onOpenPath} />;
+    }
+    await act(async () => { render(<ViewerProvider><Local /></ViewerProvider>); });
+    await act(async () => {
+      viewer.openItem('artefatos', { artifact_id: 'af_1', project_id: 'projA', path: 'docs/a.md', kind: 'markdown', updated_at: 1 }, { source: 'artifact' });
+    });
+    await waitFor(() => expect(screen.getByText('plano')).toBeTruthy());
+    fireEvent.click(screen.getByText('plano'));
+    expect(onOpenPath).toHaveBeenCalledWith('plano.md', { relativoA: 'docs/a.md' }, expect.objectContaining({ id: 'af_1', source: 'artifact' }));
+  });
 });

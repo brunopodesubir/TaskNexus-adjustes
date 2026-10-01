@@ -41,8 +41,12 @@ function StateMessage({ title, children, actions }) {
  *                                        tela cheia, sai dela)
  * @param {() => void} [props.onFullscreen] ⤢ (omitido na própria tela cheia)
  * @param {string} [props.emptyHint]      texto do estado vazio (a Fase A troca)
+ * @param {(caminho: string, options: object, item: object) => void} [props.onOpenPath]
+ *   link relativo dentro de um arquivo aberto. Padrão: `openByPath` do escopo
+ *   (só existe em escopo de conversa). A Fase A passa o próprio tratamento,
+ *   porque um escopo local (`artefatos`) não tem sessão para pedir a aba.
  */
-export function ViewerPanel({ scope, variant = 'dock', onClose, onFullscreen, emptyHint, panelRef, onKeyDown }) {
+export function ViewerPanel({ scope, variant = 'dock', onClose, onFullscreen, emptyHint, onOpenPath, panelRef, onKeyDown }) {
   const viewer = useViewer();
   const scopeState = scope && viewer ? viewer.getScope(scope) : null;
   const items = scopeState?.items || [];
@@ -59,7 +63,9 @@ export function ViewerPanel({ scope, variant = 'dock', onClose, onFullscreen, em
   const fullscreen = variant === 'fullscreen';
   const surface = surfaceForScope(scope);
 
-  const openPath = (caminho, options) => viewer?.openByPath(scope, caminho, options);
+  const openPath = (caminho, options) => (onOpenPath
+    ? onOpenPath(caminho, options || {}, activeItem)
+    : viewer?.openByPath(scope, caminho, options));
 
   let body;
   let flush = false;

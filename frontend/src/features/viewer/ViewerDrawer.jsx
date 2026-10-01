@@ -46,7 +46,7 @@ const styles = {
   },
 };
 
-export function ViewerDrawer({ scope, surface, open, emptyHint }) {
+export function ViewerDrawer({ scope, surface, open, emptyHint, onOpenPath }) {
   const viewer = useViewer();
   const panelRef = useRef(null);
   const target = surface || surfaceForScope(scope);
@@ -82,6 +82,7 @@ export function ViewerDrawer({ scope, surface, open, emptyHint }) {
           scope={scope}
           variant="drawer"
           emptyHint={emptyHint}
+          onOpenPath={onOpenPath}
           onClose={() => viewer.setOpen(target, false)}
           onFullscreen={() => viewer.setFullscreen(target, true)}
         />

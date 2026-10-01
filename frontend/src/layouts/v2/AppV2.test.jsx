@@ -1229,3 +1229,106 @@ describe('AppV2 — visualizador de arquivos (Fase V-2)', () => {
     expect(screen.getByTestId('viewer-button').disabled).toBe(true);
   });
 });
+
+describe('AppV2 — tela Artefatos (Fase A)', () => {
+  let originalMatchMedia;
+  let originalFetch;
+  const ARTIFACT = {
+    artifact_id: 'af_1', project_id: 'projA', cliente_id: 'projA', path: 'docs/plano.md', kind: 'markdown',
+    title: 'Plano', description: null, excerpt: null, size: 10, mtime: 1, exists: true,
+    created_by: 'agent', agent_label: 'claude', created_at: 1, updated_at: 1,
+  };
+
+  function useWidth(wide) {
+    window.matchMedia = vi.fn((query) => ({
+      matches: wide && query === '(min-width: 1100px)',
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }));
+  }
+
+  const renderApp = async () => {
+    await act(async () => {
+      render(<AppV2 initialAppearance={{ layout_version: 'v2', theme_mode: 'light' }} />);
+    });
+  };
+
+  beforeEach(() => {
+    originalMatchMedia = window.matchMedia;
+    originalFetch = global.fetch;
+    global.fetch = vi.fn((url) => {
+      if (String(url).startsWith('/api/artifacts?') || url === '/api/artifacts') {
+        return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ artifacts: [ARTIFACT] }) });
+      }
+      if (url === '/api/artifacts/af_1/content') {
+        return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ kind: 'markdown', text: '# Plano', size: 7 }) });
+      }
+      return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ items: [] }) });
+    });
+    localStorage.setItem('escritorio::sidebar_collapsed', 'false');
+    sessionStorage.removeItem('escritorio::artefatos_viewer_tabs');
+  });
+  afterEach(() => {
+    window.matchMedia = originalMatchMedia;
+    global.fetch = originalFetch;
+    localStorage.removeItem('escritorio::sidebar_collapsed');
+    sessionStorage.removeItem('escritorio::artefatos_viewer_tabs');
+  });
+
+  it('o item "Artefatos" fica entre Tarefas e Configuração e abre a tela com o título', async () => {
+    useWidth(true);
+    await renderApp();
+    const labels = screen.getAllByRole('tab').map((t) => t.getAttribute('title'));
+    expect(labels).toEqual(['Chat', 'Board', 'Tarefas', 'Artefatos', 'Configuração']);
+    await act(async () => { goTo('Artefatos'); });
+    expect(screen.getByTestId('artefatos-v2')).toBeTruthy();
+    // Título da topbar + rótulo do item de navegação.
+    expect(screen.getAllByText('Artefatos', { selector: 'span' }).length).toBeGreaterThanOrEqual(2);
+    expect(screen.getByTestId('artifact-card-af_1')).toBeTruthy();
+  });
+
+  it('o menu do celular também mostra Artefatos e leva à tela', async () => {
+    window.matchMedia = makeControllableMatchMedia(true).matchMediaFn;
+    await renderApp();
+    expect(screen.getAllByRole('tab')).toHaveLength(5);
+    await act(async () => { fireEvent.click(screen.getByRole('tab', { name: /Artefatos/ })); });
+    await act(async () => { fireEvent.click(within(screen.getByTestId('mobile-menu-screen')).getByText('Todos')); });
+    expect(screen.queryByTestId('mobile-menu-screen')).toBeNull();
+    expect(screen.getByTestId('artefatos-v2')).toBeTruthy();
+  });
+
+  it('≥ 1100px: abrir um artefato encaixa o painel e recolhe a sidebar; fechar devolve', async () => {
+    useWidth(true);
+    await renderApp();
+    await act(async () => { goTo('Artefatos'); });
+    expect(screen.getByRole('button', { name: 'Esconder barra lateral' })).toBeTruthy();
+    await act(async () => { fireEvent.click(screen.getByTestId('artifact-card-af_1')); });
+    const dock = screen.getByTestId('viewer-dock');
+    expect(within(screen.getByTestId('artefatos-v2')).getByTestId('viewer-dock')).toBe(dock);
+    expect(screen.getByRole('button', { name: 'Mostrar barra lateral' })).toBeTruthy();
+    expect(localStorage.getItem('escritorio::sidebar_collapsed')).toBe('false');
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar visualizador' }));
+    expect(screen.queryByTestId('viewer-dock')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Esconder barra lateral' })).toBeTruthy();
+  });
+
+  it('o painel de Artefatos só conta na tela dele: no Chat as colunas voltam', async () => {
+    useWidth(true);
+    await renderApp();
+    await act(async () => { goTo('Artefatos'); });
+    await act(async () => { fireEvent.click(screen.getByTestId('artifact-card-af_1')); });
+    fireEvent.click(screen.getByRole('button', { name: 'Mostrar barra lateral' }));
+    await act(async () => { goTo('Chat'); });
+    expect(screen.queryByTestId('viewer-dock')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Esconder barra lateral' })).toBeTruthy();
+  });
+
+  it('641–1099px: o artefato abre por cima (drawer)', async () => {
+    useWidth(false);
+    await renderApp();
+    await act(async () => { goTo('Artefatos'); });
+    await act(async () => { fireEvent.click(screen.getByTestId('artifact-card-af_1')); });
+    expect(screen.getByTestId('viewer-drawer')).toBeTruthy();
+    expect(screen.queryByTestId('viewer-dock')).toBeNull();
+  });
+});

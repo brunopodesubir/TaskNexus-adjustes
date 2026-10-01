@@ -41,8 +41,9 @@ const styles = {
  *   visualizador em vez de voltar ao painel
  * @param {string} [props.surface]
  * @param {string} [props.emptyHint]
+ * @param {Function} [props.onOpenPath]  links relativos (ver ViewerPanel)
  */
-export function ViewerFullscreen({ scope, open, closeEverything = false, surface, emptyHint }) {
+export function ViewerFullscreen({ scope, open, closeEverything = false, surface, emptyHint, onOpenPath }) {
   const viewer = useViewer();
   const panelRef = useRef(null);
   const target = surface || surfaceForScope(scope);
@@ -86,6 +87,7 @@ export function ViewerFullscreen({ scope, open, closeEverything = false, surface
         scope={scope}
         variant="fullscreen"
         emptyHint={emptyHint}
+          onOpenPath={onOpenPath}
         onClose={close}
       />
     </div>,

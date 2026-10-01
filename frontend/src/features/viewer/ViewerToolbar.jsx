@@ -10,11 +10,17 @@
 // `Content-Disposition: attachment` (o `?download=1` do backend) dispara o
 // "Baixar" nativo para Arquivos › Downloads, e o PWA instalado abre o <a
 // target=_blank> no Safari sem ser barrado como pop-up.
+//
+// Fase A (07-planejamento-artefatos.md, 7.5.1): "☆ Salvar" (em Artefatos) para
+// uma aba do CHAT com .md/.html/.pdf que ainda não é artefato — normalmente o
+// que você mesmo abriu, já que o que o agente abre desses tipos vira artefato
+// sozinho. A regra e a consulta moram em features/artifacts/useSaveToArtifacts.
 import { useEffect, useRef, useState } from 'react';
 import { copyTextToClipboard } from '../../utils/clipboard.js';
 import { fileUrl } from './viewerApi.js';
 import { basenameOf, formatBytes, formatRelativeSeconds } from './viewerPaths.js';
-import { openerLabel } from './ViewerContext.jsx';
+import { openerLabel, useViewerActions } from './ViewerContext.jsx';
+import { useSaveToArtifacts } from '../artifacts/useSaveToArtifacts.js';
 
 const FEEDBACK_MS = 1200;
 
@@ -33,7 +39,10 @@ function useFeedback() {
 export function ViewerToolbar({ item, content, onCloseAll }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, showCopied] = useFeedback();
+  const [justSaved, showJustSaved] = useFeedback();
   const menuRef = useRef(null);
+  const actions = useViewerActions();
+  const saver = useSaveToArtifacts(item);
 
   // Menu ⋯ fecha com toque fora e com Esc (padrão dos popovers do v2).
   useEffect(() => {
@@ -74,6 +83,17 @@ export function ViewerToolbar({ item, content, onCloseAll }) {
     showCopied(ok ? 'ok' : 'fail');
   };
 
+  const saveToArtifacts = async () => {
+    const result = await saver.save();
+    if (result.ok) {
+      showJustSaved(true);
+      actions?.showToast(result.created ? 'Salvo em Artefatos' : 'Já estava em Artefatos');
+    } else if (result.error) {
+      actions?.showToast(result.error, 'error');
+    }
+  };
+  const showSave = saver.status === 'available' || saver.status === 'saving' || !!justSaved;
+
   const copyPath = async () => {
     setMenuOpen(false);
     const ok = await copyTextToClipboard(item.path);
@@ -88,6 +108,19 @@ export function ViewerToolbar({ item, content, onCloseAll }) {
         {openedBy ? ` · ${openedBy}` : ''}
       </div>
       <div className="vw-toolbar-actions" ref={menuRef}>
+        {showSave && (
+          <button
+            type="button"
+            className={`vw-btn${justSaved ? ' vw-btn--active' : ''}`}
+            onClick={saveToArtifacts}
+            disabled={saver.status === 'saving' || !!justSaved}
+            aria-label="Salvar em Artefatos"
+            title="Salvar em Artefatos"
+            data-testid="viewer-save-artifact"
+          >
+            {justSaved ? '★ Salvo' : '☆ Salvar'}
+          </button>
+        )}
         <a
           className="vw-btn vw-btn--icon"
           href={fileUrl(item, item.path, { download: true })}
