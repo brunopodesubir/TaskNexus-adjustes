@@ -123,6 +123,12 @@ WebSocket). No tablet isso é ruim:
   recolhimento automático pronto em `useViewerDockCollapse` (com `viewerOpen`
   sempre `false` no `AppV2` até a Fase V ligar). O que divergiu do plano e os
   pontos de integração estão na seção **8.7** da Parte 8.
+- **Fase V-1 (backend do visualizador)** implementada na branch
+  `claude/practical-keller-pdveop`: `file_access.py`, `file_serving.py`,
+  `viewer_store.py`, `viewer_api.py`, `mcp_viewer_adapter.py`, frame
+  `viewer_open` e o servidor MCP `escritorio-visualizador`. Contratos, o que
+  divergiu do plano e pendências estão na seção **6.10** da Parte 6. Falta a
+  **V-2** (frontend, passos 5 a 10 da tabela 6.6).
 - **Próxima ação:** quando o Bruno pedir, entregar o prompt de desenvolvimento
   da **Fase V** (`06-planejamento-fase-v.md`) e depois o da **Fase A**
   (`07-planejamento-artefatos.md`), para ele usar numa janela limpa. A Fase V
