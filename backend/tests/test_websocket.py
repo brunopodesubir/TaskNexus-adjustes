@@ -2282,6 +2282,7 @@ def test_build_codex_config_overrides_drops_whole_mcp_server_if_any_key_unencoda
     keys = [k for k, _ in _dash_c_pairs(m._build_codex_config_overrides("sid-1", None))]
     # tarefas survives, cards is dropped entirely (not just the bad key).
     assert any(k.startswith("mcp_servers.escritorio-tarefas.") for k in keys)
+    assert any(k.startswith("mcp_servers.escritorio-visualizador.") for k in keys)
     assert not any(k.startswith("mcp_servers.escritorio-cards.") for k in keys)
 
 
@@ -2308,7 +2309,7 @@ def test_build_codex_config_overrides_reuses_hook_url_suffixes():
         expected |= suffixes_from(server["env"])
     assert expected == {
         "task", "cards/create", "cards/move", "cards/update",
-        "cards/delete", "cards/get", "cards/list",
+        "cards/delete", "cards/get", "cards/list", "viewer/open",
     }
 
     pairs = _dash_c_pairs(m._build_codex_config_overrides("sid-1", None))
@@ -2476,21 +2477,31 @@ def test_codex_real_binary_registers_both_mcp_servers_from_dash_c_block():
     # stdout may carry a leading non-JSON warning line; slice from the first '['.
     payload = proc.stdout[proc.stdout.index("["):]
     servers = {s["name"]: s for s in json.loads(payload)}
-    assert {"escritorio-tarefas", "escritorio-cards"} <= set(servers)
+    assert {"escritorio-tarefas", "escritorio-cards", "escritorio-visualizador"} <= set(servers)
     cards = servers["escritorio-cards"]["transport"]
     assert cards["command"] == sys.executable
     assert len(cards["args"]) == 1 and cards["args"][0].endswith("mcp_card_adapter.py")
     assert cards["env"]["ESCRITORIO_CLAUDE_SESSION_ID"] == "sid-e2e-qa"
     assert cards["env"]["PYTHONUTF8"] == "1"
     assert cards["env"]["ESCRITORIO_HOOK_GET_URL"].endswith("/api/hooks/cards/get")
+    viewer = servers["escritorio-visualizador"]["transport"]
+    assert viewer["args"][0].endswith("mcp_viewer_adapter.py")
+    assert viewer["env"]["ESCRITORIO_HOOK_VIEWER_OPEN_URL"].endswith("/api/hooks/viewer/open")
 
 
-def test_build_mcp_config_json_still_emits_both_servers():
+def test_build_mcp_config_json_emits_all_escritorio_servers():
     from app.main import _build_mcp_config_json
 
     config = json.loads(_build_mcp_config_json("sid-1"))
     servers = config["mcpServers"]
-    assert set(servers) == {"escritorio-tarefas", "escritorio-cards"}
+    assert set(servers) == {"escritorio-tarefas", "escritorio-cards", "escritorio-visualizador"}
+    viewer = servers["escritorio-visualizador"]
+    assert viewer["command"] == sys.executable
+    assert len(viewer["args"]) == 1 and viewer["args"][0].endswith("mcp_viewer_adapter.py")
+    assert os.path.isabs(viewer["args"][0]) and os.path.isfile(viewer["args"][0])
+    assert viewer["env"]["ESCRITORIO_CLAUDE_SESSION_ID"] == "sid-1"
+    assert viewer["env"]["ESCRITORIO_HOOK_VIEWER_OPEN_URL"].endswith("/api/hooks/viewer/open")
+    assert viewer["env"]["PYTHONUTF8"] == "1"
     assert servers["escritorio-tarefas"]["env"]["ESCRITORIO_HOOK_URL"].endswith("/api/hooks/task")
     assert servers["escritorio-tarefas"]["env"]["ESCRITORIO_CLAUDE_SESSION_ID"] == "sid-1"
     cards_env = servers["escritorio-cards"]["env"]

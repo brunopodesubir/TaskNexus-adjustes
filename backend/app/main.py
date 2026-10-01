@@ -750,7 +750,7 @@ class _McpServerSpec(TypedDict):
 
 
 def _escritorio_mcp_servers(session_id: str) -> dict[str, _McpServerSpec]:
-    """Especificação (command/args/env) dos dois servidores MCP do Escritório.
+    """Especificação (command/args/env) dos servidores MCP do Escritório.
 
     Fonte única de verdade para os DOIS formatos de registro que existem hoje:
     o `--mcp-config` inline JSON do `claude` (_build_mcp_config_json) e os
@@ -804,16 +804,29 @@ def _escritorio_mcp_servers(session_id: str) -> dict[str, _McpServerSpec]:
                 "PYTHONUTF8": "1",
             },
         },
+        # Fase V (Parte 6, 6.4.6): tool `abrir_no_visualizador`. Registrado
+        # aqui, vale para o `claude` (--mcp-config) e para o `codex`
+        # (-c mcp_servers.*) sem nenhuma outra mudança.
+        "escritorio-visualizador": {
+            "command": sys.executable,
+            "args": [os.path.join(module_dir, "mcp_viewer_adapter.py")],
+            "env": {
+                "ESCRITORIO_CLAUDE_SESSION_ID": session_id,
+                "ESCRITORIO_HOOK_VIEWER_OPEN_URL": f"{base_url}/api/hooks/viewer/open",
+                "PYTHONUTF8": "1",
+            },
+        },
     }
 
 
 def _build_mcp_config_json(session_id: str) -> str:
     """Gera o --mcp-config inline JSON que registra os adaptadores MCP
-    (mcp_task_adapter.py e mcp_card_adapter.py, ver esses arquivos) como
-    servidores stdio do `claude` CLI, expondo `criar_tarefa_validacao`
-    (escritorio-tarefas) e `criar_card`/`mover_card`/`editar_card`/
-    `excluir_card`/`ver_card`/`listar_cards` (escritorio-cards, Tarefa 8 do
-    plano 05-TL.md + Fase 3). Os abspaths são resolvidos a partir de
+    (mcp_task_adapter.py, mcp_card_adapter.py e mcp_viewer_adapter.py, ver
+    esses arquivos) como servidores stdio do `claude` CLI, expondo
+    `criar_tarefa_validacao` (escritorio-tarefas),
+    `criar_card`/`mover_card`/`editar_card`/`excluir_card`/`ver_card`/
+    `listar_cards` (escritorio-cards, Tarefa 8 do plano 05-TL.md + Fase 3) e
+    `abrir_no_visualizador` (escritorio-visualizador, Fase V). Os abspaths são resolvidos a partir de
     __file__ (diretório deste módulo), NÃO do cwd do PTY — o cwd do PTY é o
     diretório do projeto do usuário, onde os scripts não existem.
 
