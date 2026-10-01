@@ -19,9 +19,16 @@ vi.mock('@xterm/xterm', () => ({
       this.rows = 24;
       this.textarea = document.createElement('textarea');
       this.write = vi.fn();
+      this.linkProviders = [];
+      this.lines = [];
+      this.buffer = { active: { getLine: (y) => (this.lines[y] === undefined ? undefined : { translateToString: () => this.lines[y] }) } };
       this.constructor.instances.push(this);
     }
     loadAddon() {}
+    registerLinkProvider(provider) {
+      this.linkProviders.push(provider);
+      return { dispose() {} };
+    }
     open(el) {
       if (el) el.appendChild(this.textarea);
     }
@@ -33,6 +40,7 @@ vi.mock('@xterm/xterm', () => ({
 }));
 vi.mock('@xterm/addon-fit', () => ({ FitAddon: class { fit() {} } }));
 vi.mock('@xterm/addon-webgl', () => ({ WebglAddon: class { dispose() {} } }));
+vi.mock('@xterm/addon-web-links', () => ({ WebLinksAddon: class { constructor(handler) { this.handler = handler; } } }));
 
 const ITEM = {
   item_id: 'vw_abc',
@@ -123,5 +131,39 @@ describe('TerminalPanel — frame viewer_open', () => {
     expect(scope.items.map((i) => i.id)).toEqual(['vw_abc']);
     expect(scope.activeId).toBe('vw_abc');
     expect(Terminal.instances[0].write).not.toHaveBeenCalled();
+  });
+
+  it('caminho de arquivo no terminal abre no visualizador (POST com a linha)', async () => {
+    render(
+      <ViewerProvider>
+        <TerminalPanel sessionKey="projA::claude" projectId="projA" agentId="claude" visible />
+      </ViewerProvider>,
+    );
+    const term = Terminal.instances[0];
+    expect(term.linkProviders).toHaveLength(1);
+    term.lines = ['  ⎿ alterei src/app.py:42'];
+    const callback = vi.fn();
+    term.linkProviders[0].provideLinks(1, callback);
+    const [links] = callback.mock.calls[0];
+    expect(links.map((l) => l.text)).toEqual(['src/app.py:42']);
+
+    global.fetch = vi.fn(() => Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ success: true, item: { ...ITEM, item_id: 'vw_app', path: 'src/app.py', kind: 'code', line: 42 }, reused: false, delivered: true, evicted: [] }),
+    }));
+    await act(async () => { links[0].activate(new MouseEvent('click'), links[0].text); });
+    const [url, init] = global.fetch.mock.calls[0];
+    expect(url).toBe('/api/sessions/projA::claude/viewer');
+    expect(JSON.parse(init.body)).toEqual({ caminho: 'src/app.py', linha: 42 });
+  });
+
+  it('sem ViewerProvider o provider não sublinha nada', () => {
+    render(<TerminalPanel sessionKey="projA::claude" projectId="projA" agentId="claude" visible />);
+    const term = Terminal.instances[0];
+    term.lines = ['docs/plano.md'];
+    const callback = vi.fn();
+    term.linkProviders[0].provideLinks(1, callback);
+    expect(callback).toHaveBeenCalledWith(undefined);
   });
 });

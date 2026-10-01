@@ -2,12 +2,15 @@ import { useEffect, useMemo, useRef, useState, useImperativeHandle, forwardRef }
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import { WebglAddon } from '@xterm/addon-webgl';
+import { WebLinksAddon } from '@xterm/addon-web-links';
 import '@xterm/xterm/css/xterm.css';
 import { api } from '../services/api.js';
 import { resolveTerminalSkin } from './terminalSkin.js';
 import { MOBILE_VIEWPORT_QUERY } from '../utils/viewport.js';
 import { useKeyboardSuppressed } from '../hooks/useKeyboardSuppressed.js';
 import { useViewerActions } from '../features/viewer/ViewerContext.jsx';
+import { sessionScope } from '../features/viewer/viewerApi.js';
+import { createFilePathLinkProvider, openWebLink } from '../features/viewer/terminalLinks.js';
 
 // Bug 2 fix: recognized WS text-frame types sent by the backend as control
 // frames (as opposed to PTY output, which always travels as bytes/Blob — see
@@ -343,6 +346,34 @@ export const TerminalPanel = forwardRef(function TerminalPanel({ sessionKey, pro
       webglAddonRef.current = webglAddon;
     } catch (e) {
       console.warn('WebGL addon unavailable, falling back to default renderer', e);
+    }
+
+    // 3c. Fase V-2 (06-planejamento-fase-v.md, 6.5.6): links clicáveis — era o
+    // problema de origem ("não dá para clicar em links no terminal").
+    //  - URLs http(s) pelo addon oficial, abrindo numa aba do navegador sem
+    //    `opener` (openWebLink).
+    //  - Caminhos de arquivo (`docs/plano.md`, `src/app.py:42`) por um link
+    //    provider nosso, que abre no visualizador (POST da tela, 6.10.3). Só
+    //    sublinha quando há visualizador (fora do Provider, ex.: testes
+    //    isolados, não faz nada).
+    // No iPad o xterm ativa link por clique; o toque precisa ser conferido no
+    // aparelho (6.5.6). O caminho garantido continua sendo o agente chamar a
+    // tool abrir_no_visualizador. Os dublês de teste do xterm não têm
+    // registerLinkProvider — daí a checagem.
+    const linkDisposables = [];
+    try {
+      term.loadAddon(new WebLinksAddon(openWebLink));
+    } catch (e) {
+      console.warn('Web links addon unavailable', e);
+    }
+    if (typeof term.registerLinkProvider === 'function') {
+      linkDisposables.push(term.registerLinkProvider(createFilePathLinkProvider(
+        term,
+        (path, line) => {
+          viewerRef.current?.openByPath(sessionScope(sessionKey), path, { linha: line ?? undefined });
+        },
+        () => !!viewerRef.current,
+      )));
     }
 
     // 4. Connect WebSocket (wrapped so onclose can reconnect without recreating the Terminal)
@@ -746,6 +777,7 @@ export const TerminalPanel = forwardRef(function TerminalPanel({ sessionKey, pro
       }
       dataSub.dispose();
       resizeSub.dispose();
+      linkDisposables.forEach((d) => d?.dispose?.());
       if (reconnectTimerRef.current) {
         clearTimeout(reconnectTimerRef.current);
         reconnectTimerRef.current = null;
