@@ -56,11 +56,17 @@ import { ViewerDrawer } from '../../features/viewer/ViewerDrawer.jsx';
 import { ViewerFullscreen } from '../../features/viewer/ViewerFullscreen.jsx';
 import { ViewerMobileButton } from '../../features/viewer/ViewerMobileButton.jsx';
 import { ViewerToast } from '../../features/viewer/ViewerToast.jsx';
+import { ArtefatosV2 } from '../../features/artifacts/ArtefatosV2.jsx';
+import { SCOPE_ARTEFATOS } from '../../features/artifacts/artifactModel.js';
 
 const NAV_ITEMS = [
   { id: 'chat', label: 'Chat', icon: '💬' },
   { id: 'board', label: 'Board', icon: '▦' },
   { id: 'tarefas', label: 'Tarefas', icon: '✓' },
+  // Fase A (07-planejamento-artefatos.md, 7.5.2): só mais uma entrada — a
+  // sidebar, a topbar e a lista de clientes continuam iguais. O menu do
+  // celular (MobileMenuScreen) recebe esta mesma lista.
+  { id: 'artefatos', label: 'Artefatos', icon: '◧' },
   // `id` stays 'agentes' on purpose: it is the internal screen key wired to
   // `v2Screen`/`SCREEN_TITLES` and to the `agentes-v2-card-*` test ids. Only
   // the user-facing label became "Configuração" when the screen grew full
@@ -68,7 +74,13 @@ const NAV_ITEMS = [
   { id: 'agentes', label: 'Configuração', icon: '◈' },
 ];
 
-const SCREEN_TITLES = { chat: 'Chat', board: 'Board', tarefas: 'Tarefas', agentes: 'Configuração' };
+const SCREEN_TITLES = {
+  chat: 'Chat',
+  board: 'Board',
+  tarefas: 'Tarefas',
+  artefatos: 'Artefatos',
+  agentes: 'Configuração',
+};
 
 // Fase V-2 (06-planejamento-fase-v.md, 6.5.2): o ViewerProvider envolve o
 // casco do v2 inteiro — e só ele. Fica AQUI (e não no App.jsx, junto do
@@ -156,9 +168,18 @@ function AppV2Shell({ initialAppearance }) {
   // recolher, respeitar a expansão manual, devolver tudo ao fechar sem tocar na
   // preferência salva e disparar o refit do terminal — continua em
   // `useViewerDockCollapse`. No celular as colunas nem são montadas.
+  //
+  // Fase A: a tela Artefatos tem o PRÓPRIO painel (superfície `artefatos`),
+  // e ele recolhe as colunas do mesmo jeito enquanto aberto nela — na tela
+  // Artefatos não há lista de chats, então quem vira trilho é a sidebar. Cada
+  // painel só conta na própria tela: com os dois abertos, trocar de tela
+  // troca qual deles está encaixado.
   const viewer = useViewer();
   const chatViewer = viewer.getSurface(SURFACE_CHAT);
-  const viewerOpen = chatViewer.open && v2Screen === 'chat';
+  const artefatosViewer = viewer.getSurface(SCOPE_ARTEFATOS);
+  const chatViewerOpen = chatViewer.open && v2Screen === 'chat';
+  const artefatosViewerOpen = artefatosViewer.open && v2Screen === 'artefatos';
+  const viewerOpen = chatViewerOpen || artefatosViewerOpen;
   const chatViewerScope = sessionScope(activeSessionKey);
   const isWide = useMediaQuery(WIDE_VIEWPORT_QUERY);
   const dock = useViewerDockCollapse({
@@ -531,7 +552,7 @@ function AppV2Shell({ initialAppearance }) {
             {/* Fase V-2 + Fase N (8.3.4): painel ENCAIXADO à direita do chat,
                 irmão flex do ChatV2 (o terminal encolhe). Só existe quando o
                 hook diz que está encaixado (≥ 1100px e painel aberto). */}
-            {dock.viewerDocked && (
+            {dock.viewerDocked && chatViewerOpen && (
               <ViewerDock scope={chatViewerScope} hidden={chatViewer.fullscreen} />
             )}
           </div>
@@ -547,6 +568,20 @@ function AppV2Shell({ initialAppearance }) {
               projects={projects}
               selectedClienteId={selectedClienteId}
               selectedProjetoId={selectedProjetoId}
+            />
+          )}
+          {v2Screen === 'artefatos' && (
+            <ArtefatosV2
+              projects={projects}
+              selectedClienteId={selectedClienteId}
+              selectedProjetoId={selectedProjetoId}
+              activeSessionKey={activeSessionKey}
+              isMobile={isMobile}
+              isWide={isWide}
+              viewerDocked={dock.viewerDocked && artefatosViewerOpen}
+              // Celular: com o menu por cima, a tela cheia do visualizador
+              // não pode ficar aberta sobre ele (mesma regra do chat).
+              contentVisible={!isMobile || mobileView === 'content'}
             />
           )}
           {v2Screen === 'agentes' && <ConfiguracaoV2 onAgentsChanged={refreshProjects} />}
@@ -616,7 +651,7 @@ function AppV2Shell({ initialAppearance }) {
       {!isMobile && !isWide && (
         <ViewerDrawer
           scope={chatViewerScope}
-          open={viewerOpen && !chatViewer.fullscreen}
+          open={chatViewerOpen && !chatViewer.fullscreen}
         />
       )}
 

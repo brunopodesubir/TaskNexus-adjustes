@@ -20,6 +20,11 @@
 // by useClienteProjetoFilter). Options deeper than a direct child read as the
 // path below the client ("api-pagamentos / v2") so siblings with the same
 // folder name stay distinguishable, and the client itself reads "Raiz".
+//
+// Fase A (07-planejamento-artefatos.md, 7.2): `children` são controles extras
+// da tela na MESMA linha (a tela Artefatos põe ali os chips de tipo, a busca e
+// a ordem). Sem `children` — Board e Tarefas — nada muda; com eles, a barra
+// aparece mesmo quando nenhum select tem o que mostrar.
 
 import { resolveClienteNome } from '../../utils/taskGroups.js';
 import { relativeProjectPath } from '../../utils/projects.js';
@@ -71,12 +76,13 @@ export function ClienteProjetoFilterBar({
   selectedProjetoId,
   onSelectProjeto,
   projects = [],
+  children = null,
 }) {
   // In "Todos" mode the project select is always part of the bar, even before
   // a client is picked. Outside it, the sidebar already fixed the client, so
   // the select only earns its place when that client has children to offer.
   const showProjetoSelect = clienteSelectEnabled || (effectiveClienteId != null && subProjetoIds.length > 0);
-  if (!clienteSelectEnabled && !showProjetoSelect) return null;
+  if (!clienteSelectEnabled && !showProjetoSelect && !children) return null;
 
   // Native select values are always strings — "" is the "no filter" option and
   // is normalized back to null so downstream `== null` checks stay correct.
@@ -116,6 +122,8 @@ export function ClienteProjetoFilterBar({
           ))}
         </select>
       )}
+
+      {children}
     </div>
   );
 }
