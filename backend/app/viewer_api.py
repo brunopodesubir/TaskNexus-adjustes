@@ -47,6 +47,9 @@ ITEM_NOT_FOUND = "Aba não encontrada"
 
 # (session_key, item, reused, evicted_ids) -> entregue ao vivo?
 NotifyFn = Callable[[str, dict, bool, list], Awaitable[bool]]
+# (session_key, item) -> qualquer coisa; chamado depois que o AGENTE abriu um
+# arquivo pelo hook (Fase A: publicação automática em Artefatos).
+AgentOpenFn = Callable[[str, dict], Awaitable[Any]]
 
 
 class ViewerOpenError(Exception):
@@ -261,7 +264,14 @@ def _resolve_link(caminho: str, relativo_a: str | None) -> tuple[str, int | None
     return path, line
 
 
-def create_viewer_router(service: ViewerService) -> APIRouter:
+def create_viewer_router(
+    service: ViewerService, on_agent_open: AgentOpenFn | None = None,
+) -> APIRouter:
+    """`on_agent_open`: chamado só quando a abertura veio do AGENTE (hook) e
+    deu certo. É por ele que a Fase A publica automaticamente os .md/.html/
+    .pdf que o agente mostra (Parte 7, 7.3). Fica aqui, e não dentro de
+    `ViewerService.open_path`, de propósito: a abertura pelo usuário e a do
+    próprio `publicar_artefato` usam `open_path` e NÃO devem publicar."""
     router = APIRouter()
 
     @router.post("/api/hooks/viewer/open")
@@ -293,7 +303,7 @@ def create_viewer_router(service: ViewerService) -> APIRouter:
             return {"success": False, "error": SESSION_NOT_FOUND}
 
         try:
-            return await service.open_path(
+            result = await service.open_path(
                 session_key,
                 payload.get("caminho"),
                 titulo=_optional_text(payload.get("titulo")),
@@ -302,6 +312,14 @@ def create_viewer_router(service: ViewerService) -> APIRouter:
             )
         except ViewerOpenError as exc:
             return {"success": False, "error": exc.message}
+        if on_agent_open is not None:
+            # A aba já está aberta: o que acontecer daqui em diante é extra e
+            # nunca vira erro para o agente.
+            try:
+                await on_agent_open(session_key, result["item"])
+            except Exception:
+                pass
+        return result
 
     @router.post("/api/sessions/{session_key:path}/viewer")
     async def open_in_session_viewer(session_key: str, body: ViewerOpenRequest):

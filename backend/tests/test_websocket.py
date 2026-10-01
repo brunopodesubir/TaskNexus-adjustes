@@ -2311,6 +2311,8 @@ def test_build_codex_config_overrides_reuses_hook_url_suffixes():
     assert expected == {
         "task", "cards/create", "cards/move", "cards/update",
         "cards/delete", "cards/get", "cards/list", "viewer/open",
+        # Fase A: `publicar_artefato` (mesmo servidor do visualizador).
+        "artifacts/publish",
     }
 
     pairs = _dash_c_pairs(m._build_codex_config_overrides("sid-1", None))
@@ -2488,6 +2490,7 @@ def test_codex_real_binary_registers_both_mcp_servers_from_dash_c_block():
     viewer = servers["escritorio-visualizador"]["transport"]
     assert viewer["args"][0].endswith("mcp_viewer_adapter.py")
     assert viewer["env"]["ESCRITORIO_HOOK_VIEWER_OPEN_URL"].endswith("/api/hooks/viewer/open")
+    assert viewer["env"]["ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL"].endswith("/api/hooks/artifacts/publish")
 
 
 def test_build_mcp_config_json_emits_all_escritorio_servers():
@@ -2502,6 +2505,8 @@ def test_build_mcp_config_json_emits_all_escritorio_servers():
     assert os.path.isabs(viewer["args"][0]) and os.path.isfile(viewer["args"][0])
     assert viewer["env"]["ESCRITORIO_CLAUDE_SESSION_ID"] == "sid-1"
     assert viewer["env"]["ESCRITORIO_HOOK_VIEWER_OPEN_URL"].endswith("/api/hooks/viewer/open")
+    # Fase A: `publicar_artefato` mora no mesmo servidor e tem URL própria.
+    assert viewer["env"]["ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL"].endswith("/api/hooks/artifacts/publish")
     assert viewer["env"]["PYTHONUTF8"] == "1"
     assert servers["escritorio-tarefas"]["env"]["ESCRITORIO_HOOK_URL"].endswith("/api/hooks/task")
     assert servers["escritorio-tarefas"]["env"]["ESCRITORIO_CLAUDE_SESSION_ID"] == "sid-1"

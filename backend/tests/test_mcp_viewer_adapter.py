@@ -18,6 +18,7 @@ ADAPTER_PATH = os.path.join(
     os.path.dirname(os.path.dirname(__file__)), "app", "mcp_viewer_adapter.py"
 )
 HOOK_PATH = "/api/hooks/viewer/open"
+PUBLISH_PATH = "/api/hooks/artifacts/publish"
 
 # Texto EXATO da Parte 6, seção 6.4.6.
 EXPECTED_DESCRIPTION = (
@@ -36,6 +37,28 @@ EXPECTED_SCHEMA = {
         "caminho": {"type": "string", "description": "Caminho do arquivo, relativo à raiz do projeto (ex.: docs/plano.md) ou absoluto dentro do projeto."},
         "titulo": {"type": "string", "description": "Opcional. Nome curto da aba. Padrão: nome do arquivo."},
         "linha": {"type": "integer", "description": "Opcional. Linha para rolar e destacar (arquivos de código)."},
+    },
+    "required": ["caminho"],
+}
+
+
+# Texto EXATO da Parte 7, seção 7.4.5.
+EXPECTED_PUBLISH_DESCRIPTION = (
+    "Publica um arquivo como ARTEFATO do projeto na aba Artefatos do TaskNexus "
+    "(organizada por cliente e projeto) e, por padrão, abre no visualizador do "
+    "usuário. Use ao terminar um entregável que o usuário vai querer reencontrar "
+    "depois: relatórios e páginas .html, documentos, planos e especificações .md, "
+    "e arquivos .pdf. Se o arquivo já foi publicado, as informações são "
+    "atualizadas. Arquivos .md, .html e .pdf abertos com abrir_no_visualizador "
+    "também são publicados automaticamente."
+)
+EXPECTED_PUBLISH_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "caminho": {"type": "string", "description": "Caminho do arquivo .md, .html ou .pdf, relativo à raiz do projeto ou absoluto dentro dele."},
+        "titulo": {"type": "string", "description": "Opcional. Título do artefato. Padrão: título do documento ou nome do arquivo."},
+        "descricao": {"type": "string", "description": "Opcional. Uma frase dizendo o que é o artefato."},
+        "abrir": {"type": "boolean", "description": "Opcional. Abre no visualizador do usuário. Padrão: true."},
     },
     "required": ["caminho"],
 }
@@ -61,13 +84,13 @@ class _Handler(http.server.BaseHTTPRequestHandler):
 
 
 class _Server:
-    def __init__(self, response, status=200):
+    def __init__(self, response, status=200, path=HOOK_PATH):
         _Handler.received = queue_mod.Queue()
         _Handler.response = response
         _Handler.status = status
         self.httpd = http.server.HTTPServer(("127.0.0.1", 0), _Handler)
         threading.Thread(target=self.httpd.serve_forever, daemon=True).start()
-        self.url = "http://127.0.0.1:{0}{1}".format(self.httpd.server_address[1], HOOK_PATH)
+        self.url = "http://127.0.0.1:{0}{1}".format(self.httpd.server_address[1], path)
 
     def __enter__(self):
         return self
@@ -76,9 +99,10 @@ class _Server:
         self.httpd.shutdown()
 
 
-def _env(url, session_id="sid-viewer"):
+def _env(url, session_id="sid-viewer", publish_url="http://127.0.0.1:1" + PUBLISH_PATH):
     env = os.environ.copy()
     env["ESCRITORIO_HOOK_VIEWER_OPEN_URL"] = url
+    env["ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL"] = publish_url
     env["ESCRITORIO_CLAUDE_SESSION_ID"] = session_id
     return env
 
@@ -157,16 +181,16 @@ def test_initialize_announces_the_viewer_server():
         adapter.close()
 
 
-def test_tools_list_has_exactly_the_specified_tool():
+def test_tools_list_has_exactly_the_specified_tools():
     adapter = _adapter("http://127.0.0.1:1" + HOOK_PATH)
     try:
         adapter.send({"jsonrpc": "2.0", "id": 1, "method": "tools/list"})
         tools = adapter.recv()["result"]["tools"]
-        assert len(tools) == 1
-        tool = tools[0]
-        assert tool["name"] == "abrir_no_visualizador"
-        assert tool["description"] == EXPECTED_DESCRIPTION
-        assert tool["inputSchema"] == EXPECTED_SCHEMA
+        assert [tool["name"] for tool in tools] == ["abrir_no_visualizador", "publicar_artefato"]
+        assert tools[0]["description"] == EXPECTED_DESCRIPTION
+        assert tools[0]["inputSchema"] == EXPECTED_SCHEMA
+        assert tools[1]["description"] == EXPECTED_PUBLISH_DESCRIPTION
+        assert tools[1]["inputSchema"] == EXPECTED_PUBLISH_SCHEMA
     finally:
         adapter.close()
 
@@ -291,3 +315,102 @@ def test_accented_path_survives_hostile_windows_encoding():
             assert _Handler.received.get(timeout=3.0)["body"]["caminho"] == "docs/relatório.md"
         finally:
             adapter.close()
+
+
+# -- publicar_artefato (Fase A, Parte 7 seção 7.4.5) ----------------------------
+
+_ARTIFACT = {
+    "artifact_id": "af_x", "project_id": "podesubir/site-institucional",
+    "path": "docs/relatorio.html", "title": "Relatório de testes",
+}
+
+
+def _publish_adapter(server, session_id="sid-viewer"):
+    return _Adapter(_env("http://127.0.0.1:1" + HOOK_PATH, session_id, publish_url=server.url))
+
+
+def _call_publish(adapter, arguments, timeout=5.0):
+    adapter.send({
+        "jsonrpc": "2.0", "id": 1, "method": "tools/call",
+        "params": {"name": "publicar_artefato", "arguments": arguments},
+    })
+    return adapter.recv(timeout=timeout)["result"]["content"][0]["text"]
+
+
+def test_publish_new_artifact_posts_to_its_own_hook():
+    response = {"success": True, "artifact": _ARTIFACT, "created": True, "opened": True, "delivered": True}
+    with _Server(response, path=PUBLISH_PATH) as server:
+        adapter = _publish_adapter(server, session_id="sess-9")
+        try:
+            text = _call_publish(adapter, {
+                "caminho": "docs/relatorio.html", "titulo": "Relatório de testes",
+                "descricao": "Saída do pytest", "abrir": False,
+            })
+            assert text == (
+                'Artefato publicado em Artefatos \u203a podesubir / site-institucional: '
+                '"Relatório de testes" (docs/relatorio.html).'
+            )
+            received = _Handler.received.get(timeout=3.0)
+            assert received["path"] == PUBLISH_PATH
+            assert received["body"] == {
+                "claude_session_id": "sess-9",
+                "caminho": "docs/relatorio.html",
+                "titulo": "Relatório de testes",
+                "descricao": "Saída do pytest",
+                "abrir": False,
+            }
+        finally:
+            adapter.close()
+
+
+def test_publish_optional_arguments_are_omitted_when_absent():
+    response = {"success": True, "artifact": _ARTIFACT, "created": True}
+    with _Server(response, path=PUBLISH_PATH) as server:
+        adapter = _publish_adapter(server)
+        try:
+            _call_publish(adapter, {"caminho": "README.md"})
+            body = _Handler.received.get(timeout=3.0)["body"]
+            assert body == {"claude_session_id": "sid-viewer", "caminho": "README.md"}
+        finally:
+            adapter.close()
+
+
+def test_publish_existing_artifact_says_it_was_updated():
+    artifact = dict(_ARTIFACT, project_id="podesubir", path="plano.md", title="Plano")
+    response = {"success": True, "artifact": artifact, "created": False, "opened": True}
+    with _Server(response, path=PUBLISH_PATH) as server:
+        adapter = _publish_adapter(server)
+        try:
+            assert _call_publish(adapter, {"caminho": "plano.md"}) == (
+                'Artefato publicado em Artefatos \u203a podesubir: "Plano" (plano.md) '
+                "(já existia, foi atualizado)."
+            )
+        finally:
+            adapter.close()
+
+
+def test_publish_backend_error_is_passed_through_verbatim():
+    response = {"success": False, "error": "Artefatos aceitam .md, .html e .pdf"}
+    with _Server(response, path=PUBLISH_PATH) as server:
+        adapter = _publish_adapter(server)
+        try:
+            assert _call_publish(adapter, {"caminho": "app.py"}) == "Artefatos aceitam .md, .html e .pdf"
+        finally:
+            adapter.close()
+
+
+def test_publish_403_body_is_read_and_backend_down_is_generic():
+    response = {"success": False, "error": "O hook de artefatos só aceita chamadas da própria máquina."}
+    with _Server(response, status=403, path=PUBLISH_PATH) as server:
+        adapter = _publish_adapter(server)
+        try:
+            assert "própria máquina" in _call_publish(adapter, {"caminho": "README.md"})
+        finally:
+            adapter.close()
+    adapter = _adapter("http://127.0.0.1:1" + HOOK_PATH)  # publish_url padrão do _env: porta 1
+    try:
+        assert _call_publish(adapter, {"caminho": "README.md"}, timeout=8.0) == (
+            "Não foi possível falar com o TaskNexus agora."
+        )
+    finally:
+        adapter.close()

@@ -28,6 +28,8 @@ from app.card_store import CardStore, ColumnDeleteError, UnknownColumnError
 from app.settings_store import SettingsStore
 from app.viewer_store import ViewerStore
 from app.viewer_api import ViewerService, create_viewer_router
+from app.artifact_store import ArtifactStore
+from app.artifacts_api import ArtifactService, create_artifacts_router
 from app.push_store import PushSubscriptionStore, TooManySubscriptionsError
 from app.push_payload import build_push_payload
 from app.push_service import send_push_to_all
@@ -138,6 +140,8 @@ settings_store = SettingsStore(db_path=SESSIONS_DB)
 push_store = PushSubscriptionStore(db_path=SESSIONS_DB)
 # Abas do visualizador de arquivos (Fase V, Parte 6) — ver viewer_store.py.
 viewer_store = ViewerStore(db_path=SESSIONS_DB)
+# Galeria de artefatos por projeto (Fase A, Parte 7) — ver artifact_store.py.
+artifact_store = ArtifactStore(db_path=SESSIONS_DB)
 pty_manager = PTYManager()
 
 # VAPID keypair provisioned at boot (decision G-1). None = push unavailable
@@ -460,6 +464,7 @@ async def lifespan(app: FastAPI):
     await settings_store.initialize()
     await push_store.initialize()
     await viewer_store.initialize()
+    await artifact_store.initialize()
     # Generates the VAPID keypair on the very first boot and reuses it from
     # then on (G-1). Never raises — a failure here leaves _vapid_keys as
     # None, which every push path treats as "push unavailable" (R-2).
@@ -486,6 +491,7 @@ async def lifespan(app: FastAPI):
     await settings_store.close()
     await push_store.close()
     await viewer_store.close()
+    await artifact_store.close()
 
 
 # Two Windows-only workarounds for an abruptly disconnecting client (the
@@ -804,15 +810,18 @@ def _escritorio_mcp_servers(session_id: str) -> dict[str, _McpServerSpec]:
                 "PYTHONUTF8": "1",
             },
         },
-        # Fase V (Parte 6, 6.4.6): tool `abrir_no_visualizador`. Registrado
-        # aqui, vale para o `claude` (--mcp-config) e para o `codex`
-        # (-c mcp_servers.*) sem nenhuma outra mudança.
+        # Fase V (Parte 6, 6.4.6): tool `abrir_no_visualizador`; Fase A
+        # (Parte 7, 7.4.5): tool `publicar_artefato`, no MESMO servidor (um
+        # processo a menos). Registrado aqui, vale para o `claude`
+        # (--mcp-config) e para o `codex` (-c mcp_servers.*) sem nenhuma
+        # outra mudança.
         "escritorio-visualizador": {
             "command": sys.executable,
             "args": [os.path.join(module_dir, "mcp_viewer_adapter.py")],
             "env": {
                 "ESCRITORIO_CLAUDE_SESSION_ID": session_id,
                 "ESCRITORIO_HOOK_VIEWER_OPEN_URL": f"{base_url}/api/hooks/viewer/open",
+                "ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL": f"{base_url}/api/hooks/artifacts/publish",
                 "PYTHONUTF8": "1",
             },
         },
@@ -826,7 +835,8 @@ def _build_mcp_config_json(session_id: str) -> str:
     `criar_tarefa_validacao` (escritorio-tarefas),
     `criar_card`/`mover_card`/`editar_card`/`excluir_card`/`ver_card`/
     `listar_cards` (escritorio-cards, Tarefa 8 do plano 05-TL.md + Fase 3) e
-    `abrir_no_visualizador` (escritorio-visualizador, Fase V). Os abspaths são resolvidos a partir de
+    `abrir_no_visualizador`/`publicar_artefato` (escritorio-visualizador,
+    Fases V e A). Os abspaths são resolvidos a partir de
     __file__ (diretório deste módulo), NÃO do cwd do PTY — o cwd do PTY é o
     diretório do projeto do usuário, onde os scripts não existem.
 
@@ -2732,8 +2742,51 @@ viewer_service = ViewerService(
     session_key_for_claude_id=store.get_session_key_by_claude_id,
     notify=notify_viewer_open,
 )
+
+
+# -- Fase A: aba Artefatos (Parte 7) ------------------------------------------
+#
+# As rotas moram em app/artifacts_api.py. Artefatos NÃO são apagados no
+# terminate da sessão: a galeria é permanente por projeto (7.1, A6).
+
+
+def _agent_label_for_session(session_key: str) -> str | None:
+    """Rótulo do agente da sessão para o rodapé do cartão ("claude",
+    "codex"…): o `ia` do agente do cadastro global (7.4.3).
+
+    Mesma escolha de `_resolve_agent` (o `agent_id` da session_key, senão o
+    agente padrão, senão o primeiro), mas direto no cache do cadastro: todo
+    projeto elegível recebe a mesma lista global (scan_projects), então não
+    precisa varrer PROJECTS_ROOT só para isto. Sem agente resolvido, o próprio
+    `agent_id` da chave ainda diz alguma coisa."""
+    _, _, agent_id = session_key.partition("::")
+    agents = _global_agents_cache
+    agent = None
+    if agent_id:
+        agent = next((a for a in agents if a.id == agent_id), None)
+    if agent is None and not agent_id and agents:
+        agent = next((a for a in agents if a.default), agents[0])
+    if agent is not None:
+        return agent.ia or agent.nome
+    return agent_id or None
+
+
+artifact_service = ArtifactService(
+    store=artifact_store,
+    find_project_path=_find_project_path,
+    get_projects_root=lambda: PROJECTS_ROOT,
+    session_key_for_claude_id=store.get_session_key_by_claude_id,
+    agent_label_for=_agent_label_for_session,
+    viewer=viewer_service,
+)
+
 # Antes do catch-all do SPA no fim do arquivo (ver o comentário de lá).
-app.include_router(create_viewer_router(viewer_service))
+# `on_agent_open`: todo .md/.html/.pdf que o AGENTE abre com
+# `abrir_no_visualizador` entra em Artefatos (7.3). Abertura pelo usuário não.
+app.include_router(create_viewer_router(
+    viewer_service, on_agent_open=artifact_service.publish_opened_item,
+))
+app.include_router(create_artifacts_router(artifact_service))
 
 
 @app.websocket("/ws/pty/{session_key:path}")
