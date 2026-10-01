@@ -24,6 +24,9 @@ describe('viewerApi — URLs por origem', () => {
     expect(fileUrl(item)).toBe('/api/viewer/vw_1/f/docs/relat%C3%B3rio.html');
     expect(fileUrl(item, item.path, { download: true })).toBe('/api/viewer/vw_1/f/docs/relat%C3%B3rio.html?download=1');
     expect(fileUrl(item, 'docs/style.css')).toBe('/api/viewer/vw_1/f/docs/style.css');
+    // `version` força recarregar <img>/<iframe> quando o agente reabre o arquivo.
+    expect(fileUrl(item, item.path, { version: 12.5 })).toBe('/api/viewer/vw_1/f/docs/relat%C3%B3rio.html?v=12.5');
+    expect(fileUrl(item, 'a.pdf', { download: true, version: 3 })).toBe('/api/viewer/vw_1/f/a.pdf?download=1&v=3');
   });
 
   it('item de artefato (Fase A) usa /api/artifacts/{artifact_id}', () => {

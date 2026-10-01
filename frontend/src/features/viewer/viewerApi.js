@@ -53,9 +53,16 @@ export function contentUrl(item) {
 
 /** URL do arquivo (ou de um vizinho do mesmo projeto, para imagens relativas
  * do markdown). `download` gera `?download=1` (Content-Disposition attachment,
- * que é o que faz o Safari do iPad salvar em Arquivos › Downloads). */
-export function fileUrl(item, path = item.path, { download = false } = {}) {
-  return `${baseUrl(item)}/f/${encodePathForUrl(path)}${download ? '?download=1' : ''}`;
+ * que é o que faz o Safari do iPad salvar em Arquivos › Downloads).
+ * `version` acrescenta `?v=<updated_at>`: o backend manda `no-store`, mas o
+ * Safari reaproveita um <img>/<iframe> com a MESMA URL dentro da página — sem
+ * isso, o agente reabrir um relatório alterado mostraria a versão velha. A
+ * query não muda a resolução de `style.css` relativo (só o caminho conta). */
+export function fileUrl(item, path = item.path, { download = false, version = null } = {}) {
+  const params = [];
+  if (download) params.push('download=1');
+  if (version !== null && version !== undefined) params.push(`v=${encodeURIComponent(version)}`);
+  return `${baseUrl(item)}/f/${encodePathForUrl(path)}${params.length ? `?${params.join('&')}` : ''}`;
 }
 
 /** Erro com status HTTP e mensagem já legível (o backend devolve `error` nas
