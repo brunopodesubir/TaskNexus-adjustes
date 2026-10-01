@@ -18,7 +18,10 @@ export function ViewerTabs({ items, activeId, onSelect, onClose }) {
   // A aba que acabou de ficar ativa (ex.: o agente abriu a 9ª) entra na área
   // visível da faixa.
   useEffect(() => {
-    const el = listRef.current?.querySelector('[aria-selected="true"]');
+    // A aba inteira (rótulo + ×), não só o rótulo: senão o × da última aba
+    // ficava cortado atrás dos botões do cabeçalho.
+    const label = listRef.current?.querySelector('[aria-selected="true"]');
+    const el = label?.closest('.vw-tab') || label;
     if (el && typeof el.scrollIntoView === 'function') {
       el.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
