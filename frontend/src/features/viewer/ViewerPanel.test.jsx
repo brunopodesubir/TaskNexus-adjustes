@@ -140,8 +140,12 @@ describe('ViewerPanel', () => {
     contents.b = { kind: 'markdown', text: 'conteúdo B', is_text: true, truncated: false };
     await mount();
     await waitFor(() => expect(screen.getByText('conteúdo B')).toBeTruthy());
+    const bodyB = screen.getByTestId('viewer-body');
+    bodyB.scrollTop = 300;
     fireEvent.click(screen.getByRole('tab', { name: 'a.md' }));
     await waitFor(() => expect(screen.getByText('conteúdo A')).toBeTruthy());
+    // Corpo novo por aba: a rolagem da aba anterior não vaza para esta.
+    expect(screen.getByTestId('viewer-body')).not.toBe(bodyB);
     await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Fechar aba a.md' })); });
     expect(screen.queryByRole('tab', { name: 'a.md' })).toBeNull();
     expect(screen.getByRole('tab', { name: 'b.md' }).getAttribute('aria-selected')).toBe('true');

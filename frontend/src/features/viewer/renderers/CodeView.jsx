@@ -78,7 +78,11 @@ export function CodeView({ text = '', language, line = null, flashKey = null, sh
           </button>
         </div>
       )}
+      {/* A rolagem horizontal (linhas longas sem quebra) é DESTE bloco, não do
+          corpo do painel: a barra acima continua parada e o painel em si nunca
+          rola para o lado. */}
       <div className={`vw-code${wrap ? ' vw-code--wrap' : ''}`} role="presentation">
+        <div className="vw-code-lines">
         {visibleLines.map((content, index) => {
           const number = index + 1;
           const isTarget = line === number;
@@ -100,6 +104,7 @@ export function CodeView({ text = '', language, line = null, flashKey = null, sh
             </div>
           );
         })}
+        </div>
       </div>
       {clipped && (
         <div className="vw-state">

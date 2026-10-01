@@ -172,7 +172,10 @@ export function ViewerPanel({ scope, variant = 'dock', onClose, onFullscreen, em
           onCloseAll={() => viewer.closeAll(scope)}
         />
       )}
-      <div className={`vw-body${flush ? ' vw-body--flush' : ''}`} data-testid="viewer-body">
+      {/* `key` pela aba: trocar de aba começa do topo. Sem isso a rolagem do
+          corpo (o mesmo nó) passava de um arquivo para o outro — abrir o
+          README depois de um código rolado até a linha 300 caía no meio dele. */}
+      <div key={activeItem?.id || 'vazio'} className={`vw-body${flush ? ' vw-body--flush' : ''}`} data-testid="viewer-body">
         {body}
       </div>
     </section>

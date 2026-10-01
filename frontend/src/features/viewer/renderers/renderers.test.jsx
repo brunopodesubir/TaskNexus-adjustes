@@ -4,6 +4,7 @@
 // BinaryView (Baixar). O Shiki é trocado por um dublê: aqui importa o
 // comportamento da tela, não as cores — e o destaque é progressivo (o texto
 // puro sempre aparece primeiro).
+import { StrictMode } from 'react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup, fireEvent, act } from '@testing-library/react';
 import { MarkdownView } from './MarkdownView.jsx';
@@ -79,6 +80,30 @@ describe('MarkdownView', () => {
     expect(mockCopy).toHaveBeenCalledWith('print("oi")\n');
     expect(screen.getByText('Copiado ✓')).toBeTruthy();
     expect(mockHighlight).toHaveBeenCalledWith('print("oi")', 'python');
+  });
+});
+
+describe('MarkdownView — destaque sob StrictMode', () => {
+  // Regressão achada na verificação visual: o StrictMode roda o efeito duas
+  // vezes; a limpeza da 1ª passada cancelava o destaque e a 2ª, vendo o bloco
+  // já embrulhado, não o refazia — os blocos do markdown ficavam sem cor.
+  it('o bloco recebe as cores mesmo com o efeito montado duas vezes', async () => {
+    mockHighlight.mockImplementation(() => Promise.resolve([[{ content: 'x', color: '#6F42C1', fontStyle: 0 }]]));
+    try {
+      await act(async () => {
+        render(
+          <StrictMode>
+            <MarkdownView item={ITEM} text={'```python\nx\n```'} onOpenPath={vi.fn()} />
+          </StrictMode>,
+        );
+      });
+      const code = document.querySelector('.vw-codeblock pre code');
+      expect(code.dataset.highlighted).toBe('1');
+      expect(code.querySelector('span').style.color).toBe('rgb(111, 66, 193)');
+      expect(document.querySelectorAll('.vw-codeblock-head')).toHaveLength(1);
+    } finally {
+      mockHighlight.mockImplementation(() => Promise.resolve(null));
+    }
   });
 });
 

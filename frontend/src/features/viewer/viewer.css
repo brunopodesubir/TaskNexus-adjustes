@@ -21,6 +21,9 @@
   height: 100%;
   background: var(--v2-surface);
   color: var(--v2-text);
+  /* A gaveta e a tela cheia são portais para o <body>, fora do casco do v2
+   * (que define a fonte inline) — sem isto herdariam a fonte do v1. */
+  font-family: 'Figtree', -apple-system, sans-serif;
 }
 
 .vw-panel:focus-visible {
@@ -301,6 +304,9 @@
   line-height: 1.6;
   overflow-wrap: anywhere;
   max-width: 920px;
+  /* Na tela cheia o texto fica centralizado, com largura de leitura. */
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .vw-markdown > :first-child { margin-top: 0; }
@@ -400,9 +406,14 @@
   font-size: 12.5px;
   line-height: 1.6;
   padding: 8px 0 24px;
-  min-width: min-content;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
-.vw-code--wrap { min-width: 0; }
+/* inline-block com min-width 100%: as linhas têm a largura da MAIOR linha (o
+ * fundo da linha destacada cobre tudo ao rolar para o lado) e nunca menos que
+ * o painel. */
+.vw-code-lines { display: inline-block; min-width: 100%; vertical-align: top; }
+.vw-code--wrap .vw-code-lines { display: block; }
 
 .vw-line { display: flex; min-height: 1.6em; }
 .vw-line-no {
@@ -509,6 +520,7 @@
 
 /* Aviso "claude abriu X · Ver". */
 .vw-toast {
+  font-family: 'Figtree', -apple-system, sans-serif;
   display: flex;
   align-items: center;
   gap: 4px;

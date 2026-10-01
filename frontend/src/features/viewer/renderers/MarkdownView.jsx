@@ -24,46 +24,55 @@ function languageOf(codeEl) {
   return match ? match[1] : '';
 }
 
-/** Monta o cabeçalho de cada bloco de código. DOM direto (o HTML do markdown
- * não é árvore React); só `textContent`, nunca innerHTML. */
+/** Monta o cabeçalho de cada bloco de código e dispara o destaque. DOM direto
+ * (o HTML do markdown não é árvore React); só `textContent`, nunca innerHTML.
+ *
+ * Idempotente, e por isso em duas partes: o efeito pode rodar de novo sobre o
+ * MESMO DOM (o StrictMode do React roda montar → limpar → montar em dev). O
+ * cabeçalho só é criado uma vez (bloco já embrulhado é pulado), mas o destaque
+ * é disparado de novo para todo bloco ainda sem cor — senão a limpeza da 1ª
+ * passada cancelaria o destaque e a 2ª não o refaria. */
 function enhanceCodeBlocks(root) {
   const cleanups = [];
   root.querySelectorAll('pre > code').forEach((codeEl) => {
     const pre = codeEl.parentElement;
-    if (pre.parentElement?.classList.contains('vw-codeblock')) return;
-    const doc = root.ownerDocument;
     const lang = languageOf(codeEl);
-    const source = codeEl.textContent || '';
+    // Texto ORIGINAL do bloco, guardado antes do destaque trocar os filhos.
+    if (codeEl.dataset.source === undefined) codeEl.dataset.source = codeEl.textContent || '';
+    const source = codeEl.dataset.source;
 
-    const wrapper = doc.createElement('div');
-    wrapper.className = 'vw-codeblock';
-    const head = doc.createElement('div');
-    head.className = 'vw-codeblock-head';
-    const label = doc.createElement('span');
-    label.textContent = lang || 'texto';
-    const copy = doc.createElement('button');
-    copy.type = 'button';
-    copy.className = 'vw-codeblock-copy';
-    copy.textContent = 'Copiar';
-    copy.setAttribute('aria-label', `Copiar código${lang ? ` (${lang})` : ''}`);
-    let timer = null;
-    copy.addEventListener('click', async (event) => {
-      event.preventDefault();
-      const ok = await copyTextToClipboard(source);
-      copy.textContent = ok ? 'Copiado ✓' : 'Não copiou';
-      clearTimeout(timer);
-      timer = setTimeout(() => { copy.textContent = 'Copiar'; }, COPY_FEEDBACK_MS);
-    });
-    cleanups.push(() => clearTimeout(timer));
+    if (!pre.parentElement?.classList.contains('vw-codeblock')) {
+      const doc = root.ownerDocument;
+      const wrapper = doc.createElement('div');
+      wrapper.className = 'vw-codeblock';
+      const head = doc.createElement('div');
+      head.className = 'vw-codeblock-head';
+      const label = doc.createElement('span');
+      label.textContent = lang || 'texto';
+      const copy = doc.createElement('button');
+      copy.type = 'button';
+      copy.className = 'vw-codeblock-copy';
+      copy.textContent = 'Copiar';
+      copy.setAttribute('aria-label', `Copiar código${lang ? ` (${lang})` : ''}`);
+      let timer = null;
+      copy.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const ok = await copyTextToClipboard(source);
+        copy.textContent = ok ? 'Copiado ✓' : 'Não copiou';
+        clearTimeout(timer);
+        timer = setTimeout(() => { copy.textContent = 'Copiar'; }, COPY_FEEDBACK_MS);
+      });
+      head.append(label, copy);
+      pre.replaceWith(wrapper);
+      wrapper.append(head, pre);
+    }
 
-    head.append(label, copy);
-    pre.replaceWith(wrapper);
-    wrapper.append(head, pre);
-
-    if (lang) {
+    if (lang && codeEl.dataset.highlighted !== '1') {
       let cancelled = false;
       highlightToTokens(source.replace(/\n$/, ''), lang).then((lines) => {
-        if (!cancelled && lines && codeEl.isConnected) fillCodeElement(codeEl, lines);
+        if (cancelled || !lines || !codeEl.isConnected) return;
+        fillCodeElement(codeEl, lines);
+        codeEl.dataset.highlighted = '1';
       });
       cleanups.push(() => { cancelled = true; });
     }
