@@ -1194,6 +1194,34 @@ describe('AppV2 — visualizador de arquivos (Fase V-2)', () => {
     expect(screen.queryByTestId('viewer-drawer')).toBeNull();
   });
 
+  it('⤢ no painel encaixado abre a tela cheia (portal) e ✕ Fechar volta ao painel', async () => {
+    useWidth(true);
+    await renderApp();
+    fireEvent.click(screen.getByTestId('viewer-button'));
+    fireEvent.click(screen.getByRole('button', { name: 'Tela cheia' }));
+    const modal = screen.getByTestId('viewer-fullscreen');
+    expect(modal.parentElement).toBe(document.body);
+    // A coluna do painel continua reservada (sem refit do terminal por baixo).
+    expect(screen.getByTestId('viewer-dock')).toBeTruthy();
+    expect(screen.queryByTestId('viewer-panel-dock')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: '✕ Fechar' }));
+    expect(screen.queryByTestId('viewer-fullscreen')).toBeNull();
+    expect(screen.getByTestId('viewer-panel-dock')).toBeTruthy();
+  });
+
+  it('celular: sem botão na topbar; o flutuante abre direto em tela cheia e ✕ fecha tudo', async () => {
+    window.matchMedia = makeControllableMatchMedia(true).matchMediaFn;
+    await renderApp();
+    expect(screen.queryByTestId('viewer-button')).toBeNull();
+    fireEvent.click(screen.getByTestId('viewer-mobile-button'));
+    expect(screen.getByTestId('viewer-fullscreen')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: '✕ Fechar' }));
+    expect(screen.queryByTestId('viewer-fullscreen')).toBeNull();
+    // Volta ao menu: o flutuante some junto com o conteúdo.
+    fireEvent.click(screen.getByText('Menu'));
+    expect(screen.queryByTestId('viewer-mobile-button')).toBeNull();
+  });
+
   it('sem conversa ativa o botão fica desabilitado', async () => {
     useWidth(true);
     mockUseTerminal.mockReturnValue({ ...mockUseTerminal(), sessions: [], activeSessionKey: null });

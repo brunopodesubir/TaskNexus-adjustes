@@ -53,6 +53,8 @@ import { sessionScope } from '../../features/viewer/viewerApi.js';
 import { ViewerButton } from '../../features/viewer/ViewerButton.jsx';
 import { ViewerDock } from '../../features/viewer/ViewerDock.jsx';
 import { ViewerDrawer } from '../../features/viewer/ViewerDrawer.jsx';
+import { ViewerFullscreen } from '../../features/viewer/ViewerFullscreen.jsx';
+import { ViewerMobileButton } from '../../features/viewer/ViewerMobileButton.jsx';
 import { ViewerToast } from '../../features/viewer/ViewerToast.jsx';
 
 const NAV_ITEMS = [
@@ -616,6 +618,21 @@ function AppV2Shell({ initialAppearance }) {
           scope={chatViewerScope}
           open={viewerOpen && !chatViewer.fullscreen}
         />
+      )}
+
+      {/* Fase V-2 (6.5.3): TELA CHEIA, o mesmo painel ampliado num portal. No
+          iPad/PC "✕ Fechar" volta ao painel à direita; no celular (onde não
+          há painel) fecha o visualizador. Só com a conversa à vista: com o
+          celular no menu, a abertura do agente vira aviso, não modal. */}
+      <ViewerFullscreen
+        scope={chatViewerScope}
+        open={chatViewer.fullscreen && chatVisible}
+        closeEverything={isMobile}
+      />
+
+      {/* Celular: o botão flutuante do visualizador, na faixa do "☰ Menu". */}
+      {isMobile && mobileView === 'content' && v2Screen === 'chat' && activeSessionKey && (
+        <ViewerMobileButton scope={chatViewerScope} />
       )}
 
       <ViewerToast />

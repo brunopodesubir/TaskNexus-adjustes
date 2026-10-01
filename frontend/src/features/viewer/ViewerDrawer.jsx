@@ -83,6 +83,7 @@ export function ViewerDrawer({ scope, surface, open, emptyHint }) {
           variant="drawer"
           emptyHint={emptyHint}
           onClose={() => viewer.setOpen(target, false)}
+          onFullscreen={() => viewer.setFullscreen(target, true)}
         />
       </div>
     </>,

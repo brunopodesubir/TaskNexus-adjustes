@@ -52,6 +52,7 @@ export function ViewerDock({ scope, surface, hidden = false, emptyHint }) {
           variant="dock"
           emptyHint={emptyHint}
           onClose={() => viewer.setOpen(target, false)}
+          onFullscreen={() => viewer.setFullscreen(target, true)}
           onKeyDown={(event) => {
             if (isPlainEscape(event)) {
               event.preventDefault();
