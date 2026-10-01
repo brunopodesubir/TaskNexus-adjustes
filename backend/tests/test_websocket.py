@@ -1991,12 +1991,14 @@ async def test_session_teardown_cannot_remove_a_lock_a_caller_is_using():
     still there and is still the SAME object, and B has to queue.
     """
     import app.main as main_mod
-    from app.main import (_ensure_pty, store, task_store, pty_manager,
+    from app.main import (_ensure_pty, store, task_store, viewer_store, pty_manager,
                           _session_locks, _session_lock_users)
     import uuid as uuid_mod
 
     await store.initialize()
     await task_store.initialize()
+    # terminate_session também fecha as abas do visualizador (Fase V).
+    await viewer_store.initialize()
     session_key = f"lock-teardown-{uuid_mod.uuid4().hex[:8]}"
     await store.set(session_key, "chat-ja-existente")
 
@@ -2060,6 +2062,7 @@ async def test_session_teardown_cannot_remove_a_lock_a_caller_is_using():
 
     await store.close()
     await task_store.close()
+    await viewer_store.close()
 
 
 @pytest.mark.asyncio

@@ -22,6 +22,7 @@ from app.file_access import (
     is_text_kind,
     is_within_directory,
     language_for,
+    project_dir_from_id,
     resolve_safe_path,
     to_relative_posix,
 )
@@ -373,3 +374,26 @@ def test_is_within_directory_is_strict(tmp_path):
     assert is_within_directory(str(tmp_path / "a"), str(child)) is True
     assert is_within_directory(str(tmp_path / "a"), str(tmp_path / "a")) is False
     assert is_within_directory(str(tmp_path / "a"), str(tmp_path)) is False
+
+
+def test_project_dir_from_id(tmp_path):
+    (tmp_path / "cliente" / "projeto").mkdir(parents=True)
+    (tmp_path / "solto").mkdir()
+    root = str(tmp_path)
+    assert project_dir_from_id(root, "cliente/projeto") == os.path.join(root, "cliente", "projeto")
+    assert project_dir_from_id(root, "solto") == os.path.join(root, "solto")
+
+
+@pytest.mark.parametrize("project_id", [
+    "", "nao-existe", "../fora", "cliente/../..", "cliente//projeto",
+    "./cliente", "cliente\\projeto", "cliente\x00",
+])
+def test_project_dir_from_id_refuses_invalid_ids(tmp_path, project_id):
+    (tmp_path / "cliente" / "projeto").mkdir(parents=True)
+    (tmp_path.parent / "fora").mkdir(exist_ok=True)
+    assert project_dir_from_id(str(tmp_path), project_id) is None
+
+
+def test_project_dir_from_id_refuses_a_file(tmp_path):
+    (tmp_path / "arquivo").write_text("x", encoding="utf-8")
+    assert project_dir_from_id(str(tmp_path), "arquivo") is None

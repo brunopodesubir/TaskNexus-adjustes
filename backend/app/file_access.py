@@ -114,6 +114,33 @@ def _normalize_separators(caminho: str) -> str:
     return caminho.strip()
 
 
+def project_dir_from_id(projects_root: str, project_id: str) -> str | None:
+    """Pasta de um projeto a partir do `project_id` ("cliente/projeto"), sem
+    varrer a árvore. None se o id for inválido ou a pasta não existir.
+
+    É a mesma regra de construção de `scan_projects` (agent_discovery.py:
+    `path = PROJECTS_ROOT / project_id`), só que direta. Existe porque as rotas
+    que servem arquivos (`/api/viewer/{item_id}/f/...`) recebem uma requisição
+    por asset de cada página HTML, e `scan_projects` faz um `os.walk` de
+    PROJECTS_ROOT inteiro a cada chamada.
+
+    O id vem do banco (gravado depois de validado), mas é tratado como
+    não-confiável mesmo assim: segmentos vazios, `.`/`..`, barra invertida e
+    NUL são recusados, e a pasta final precisa estar estritamente dentro de
+    `projects_root` (id vazio apontaria para a raiz de TODOS os projetos)."""
+    if not project_id or "\\" in project_id or "\x00" in project_id:
+        return None
+    parts = project_id.split("/")
+    if any(part in ("", ".", "..") for part in parts):
+        return None
+    candidate = os.path.join(projects_root, *parts)
+    if not is_within_directory(projects_root, candidate):
+        return None
+    if not os.path.isdir(candidate):
+        return None
+    return candidate
+
+
 def to_relative_posix(project_root_real: str, real_path: str) -> str:
     """Caminho relativo à raiz do projeto, sempre com `/` — é o formato que vai
     para o banco, para a tela e para a URL `/f/<caminho>`, igual em todo SO."""

@@ -26,6 +26,8 @@ from app.task_store import TaskStore
 from app.agent_store import GlobalAgentStore
 from app.card_store import CardStore, ColumnDeleteError, UnknownColumnError
 from app.settings_store import SettingsStore
+from app.viewer_store import ViewerStore
+from app.viewer_api import ViewerService, create_viewer_router
 from app.push_store import PushSubscriptionStore, TooManySubscriptionsError
 from app.push_payload import build_push_payload
 from app.push_service import send_push_to_all
@@ -134,6 +136,8 @@ agent_store = GlobalAgentStore(db_path=SESSIONS_DB)
 card_store = CardStore(db_path=SESSIONS_DB)
 settings_store = SettingsStore(db_path=SESSIONS_DB)
 push_store = PushSubscriptionStore(db_path=SESSIONS_DB)
+# Abas do visualizador de arquivos (Fase V, Parte 6) — ver viewer_store.py.
+viewer_store = ViewerStore(db_path=SESSIONS_DB)
 pty_manager = PTYManager()
 
 # VAPID keypair provisioned at boot (decision G-1). None = push unavailable
@@ -455,6 +459,7 @@ async def lifespan(app: FastAPI):
     await card_store.initialize()
     await settings_store.initialize()
     await push_store.initialize()
+    await viewer_store.initialize()
     # Generates the VAPID keypair on the very first boot and reuses it from
     # then on (G-1). Never raises — a failure here leaves _vapid_keys as
     # None, which every push path treats as "push unavailable" (R-2).
@@ -480,6 +485,7 @@ async def lifespan(app: FastAPI):
     await card_store.close()
     await settings_store.close()
     await push_store.close()
+    await viewer_store.close()
 
 
 # Two Windows-only workarounds for an abruptly disconnecting client (the
@@ -1712,6 +1718,9 @@ async def terminate_session(session_key: str):
     # Tarefas vivem no escopo da sessão — somem quando a sessão é encerrada
     # (decisão de produto fechada, ver plano do TL).
     await task_store.clear_for_session(session_key)
+    # Abas do visualizador também são por sessão (Fase V, 6.4.5): sem a
+    # conversa, ninguém mais as vê, e o item_id continuaria servindo arquivos.
+    await viewer_store.clear_for_session(session_key)
     _active_connections.pop(session_key, None)
     # Cancel the reader task before discarding the reference, mirroring the
     # eviction pattern in pty_endpoint. Without this, a task blocked on
@@ -2653,6 +2662,34 @@ async def paste_to_session(session_key: str, body: PasteRequest):
     except RuntimeError:
         pass
     return {"status": "sent", "session_key": session_key}
+
+
+# -- Fase V: visualizador de arquivos (Parte 6) -------------------------------
+#
+# As rotas moram em app/viewer_api.py; aqui ficam só as dependências que já
+# vivem neste módulo (stores, raiz dos projetos, conexões WebSocket).
+
+
+def _find_project_path(project_id: str) -> str | None:
+    """`_resolve_project_or_404` sem o 404: o visualizador traduz "projeto não
+    encontrado" para a mensagem do agente/tela. Síncrona (varre os projetos);
+    o ViewerService chama em `asyncio.to_thread`."""
+    try:
+        return _resolve_project_or_404(project_id).path
+    except HTTPException:
+        return None
+
+
+viewer_service = ViewerService(
+    store=viewer_store,
+    find_project_path=_find_project_path,
+    # Lambda e não o valor: PROJECTS_ROOT muda em runtime pela Configuração
+    # (_reload_projects_root), e o serviço precisa sempre do atual.
+    get_projects_root=lambda: PROJECTS_ROOT,
+    session_key_for_claude_id=store.get_session_key_by_claude_id,
+)
+# Antes do catch-all do SPA no fim do arquivo (ver o comentário de lá).
+app.include_router(create_viewer_router(viewer_service))
 
 
 @app.websocket("/ws/pty/{session_key:path}")
