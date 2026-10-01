@@ -28,6 +28,8 @@ from app.card_store import CardStore, ColumnDeleteError, UnknownColumnError
 from app.settings_store import SettingsStore
 from app.viewer_store import ViewerStore
 from app.viewer_api import ViewerService, create_viewer_router
+from app.artifact_store import ArtifactStore
+from app.artifacts_api import ArtifactService, create_artifacts_router
 from app.push_store import PushSubscriptionStore, TooManySubscriptionsError
 from app.push_payload import build_push_payload
 from app.push_service import send_push_to_all
@@ -138,6 +140,8 @@ settings_store = SettingsStore(db_path=SESSIONS_DB)
 push_store = PushSubscriptionStore(db_path=SESSIONS_DB)
 # Abas do visualizador de arquivos (Fase V, Parte 6) — ver viewer_store.py.
 viewer_store = ViewerStore(db_path=SESSIONS_DB)
+# Galeria de artefatos por projeto (Fase A, Parte 7) — ver artifact_store.py.
+artifact_store = ArtifactStore(db_path=SESSIONS_DB)
 pty_manager = PTYManager()
 
 # VAPID keypair provisioned at boot (decision G-1). None = push unavailable
@@ -460,6 +464,7 @@ async def lifespan(app: FastAPI):
     await settings_store.initialize()
     await push_store.initialize()
     await viewer_store.initialize()
+    await artifact_store.initialize()
     # Generates the VAPID keypair on the very first boot and reuses it from
     # then on (G-1). Never raises — a failure here leaves _vapid_keys as
     # None, which every push path treats as "push unavailable" (R-2).
@@ -486,6 +491,7 @@ async def lifespan(app: FastAPI):
     await settings_store.close()
     await push_store.close()
     await viewer_store.close()
+    await artifact_store.close()
 
 
 # Two Windows-only workarounds for an abruptly disconnecting client (the
@@ -2734,6 +2740,19 @@ viewer_service = ViewerService(
 )
 # Antes do catch-all do SPA no fim do arquivo (ver o comentário de lá).
 app.include_router(create_viewer_router(viewer_service))
+
+
+# -- Fase A: aba Artefatos (Parte 7) ------------------------------------------
+#
+# As rotas moram em app/artifacts_api.py. Artefatos NÃO são apagados no
+# terminate da sessão: a galeria é permanente por projeto (7.1, A6).
+
+artifact_service = ArtifactService(
+    store=artifact_store,
+    find_project_path=_find_project_path,
+    get_projects_root=lambda: PROJECTS_ROOT,
+)
+app.include_router(create_artifacts_router(artifact_service))
 
 
 @app.websocket("/ws/pty/{session_key:path}")
