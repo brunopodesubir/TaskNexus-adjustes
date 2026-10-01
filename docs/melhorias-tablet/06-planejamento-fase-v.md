@@ -688,3 +688,184 @@ de teste:
   junto com a tela.
 - Teste de aceite com o `codex` real (item 12 de 6.7): o registro passa pelos
   testes de contrato do `-c mcp_servers.*`; falta rodar com o binário.
+
+---
+
+## 6.11 Como ficou implementado (V-2, frontend)
+
+A V-2 entregou os passos 5 a 10 da tabela 6.6 (um commit por passo, mais dois
+commits de ajustes achados na verificação visual). Como na 6.10, onde o código
+diverge do texto acima, **vale o código**.
+
+### 6.11.1 Arquivos
+
+| Arquivo | O que faz |
+|---------|-----------|
+| `frontend/src/features/viewer/ViewerContext.jsx` | `ViewerProvider`, `useViewer()` (estado + ações, `null` sem Provider), `useViewerActions()` (só ações, identidade estável), `useViewerHost()` (o casco informa conversa ativa/visível/celular e carrega as abas), `surfaceForScope`, `openerLabel`, `MAX_TABS = 15` |
+| `features/viewer/viewerApi.js` | Escopos (`sessionScope`, `sessionKeyFromScope`), `normalizeItem` (acrescenta `source` e `id`), URLs por origem (`contentUrl`, `fileUrl` com `download` e `version`) e as rotas da 6.10.3 |
+| `features/viewer/viewerPaths.js` | Funções puras de caminho (resolver relativo, normalizar, codificar para URL, formatar tamanho/tempo) |
+| `features/viewer/ViewerPanel.jsx` | Abas + barra + corpo, iguais nos três contêineres; estados vazio/carregando/erro/apagado/grande |
+| `features/viewer/ViewerTabs.jsx`, `ViewerToolbar.jsx` | Abas (toque troca, × fecha, rolagem horizontal só da faixa) e barra (⤓ ⧉ ↗ ⋯) |
+| `features/viewer/ViewerDock.jsx` | Painel encaixado (≥ 1100 px), `clamp(420px, 42vw, 780px)` |
+| `features/viewer/ViewerDrawer.jsx` | Painel por cima (641–1099 px), portal, `min(560px, 92vw)` |
+| `features/viewer/ViewerFullscreen.jsx` | Tela cheia em portal (contrato do `CenteredModal`) |
+| `features/viewer/ViewerButton.jsx`, `ViewerMobileButton.jsx` | Botão da topbar (contador + selo de não vistos) e flutuante do celular |
+| `features/viewer/ViewerToast.jsx` | Aviso "claude abriu X · Ver" e erros de abrir link |
+| `features/viewer/useViewerContent.js` | `GET …/content` com cache por `source:id:updated_at` (30 entradas) |
+| `features/viewer/highlight.js` | Shiki sob demanda (núcleo, motor JS, temas e cada linguagem por `import()`) |
+| `features/viewer/terminalLinks.js` | Caminhos clicáveis no xterm (achar, mapear colunas, link provider) e o handler das URLs |
+| `features/viewer/escape.js` | Regra única do Esc (nunca fecha nada se a tecla veio do terminal) |
+| `features/viewer/renderers/` | `MarkdownView`, `HtmlView`, `CodeView`, `ImageView`, `PdfView`, `BinaryView` e `index.jsx` (escolha pelo `kind`) |
+| `features/viewer/viewer.css` | Estilos do painel (só tokens `--v2-*`) |
+| `frontend/src/utils/markdown.js` | `renderViewerMarkdown` (GFM, links, âncoras, ids de título, imagens relativas); `renderMarkdown` ganhou só `target=_blank` nos links externos |
+| `frontend/src/components/TerminalPanel.jsx` | `viewer_open` em `CONTROL_FRAME_TYPES`, `@xterm/addon-web-links` e o link provider de caminhos |
+| `frontend/src/layouts/v2/AppV2.jsx` | `ViewerProvider` envolvendo o casco, botão na topbar, Dock/Drawer/Fullscreen pela largura, botão do celular, aviso |
+| `frontend/package.json` | `shiki` (4.x) e `@xterm/addon-web-links` (0.11, par do `@xterm/xterm` 5.5) |
+| `README.md` | Seção "Visualizador de arquivos" |
+
+### 6.11.2 Divergências e decisões tomadas na implementação
+
+| # | Ponto | Especificação | Como ficou | Por quê |
+|---|-------|---------------|------------|---------|
+| 1 | `viewerOpen` no `AppV2` | `setViewerOpen` chamado ao abrir/fechar (8.7) | **Derivado**: `viewerOpen = painel do chat aberto && v2Screen === 'chat'`; o `useState` saiu | Sincronizar por efeito daria um quadro com o painel aberto e as colunas ainda largas. Derivado, ir ao Board devolve as colunas e voltar ao Chat recolhe de novo sem código extra. O refit (`escritorio:sidebar-toggled`) continua só no `useViewerDockCollapse` — o painel não dispara um segundo evento (há teste contando um) |
+| 2 | Onde fica o Provider | "junto do TerminalProvider" (App.jsx) | Dentro do `AppV2` (`AppV2` = `ViewerProvider` + `AppV2Shell`) | Tudo que usa o visualizador mora abaixo do `AppV2` (TerminalPanel, topbar, painéis e a futura tela Artefatos); a rota `/tarefas` não paga nada; os testes que montam `<AppV2>` direto já ganham o Provider |
+| 3 | Estado do contexto | `bySession`, `open`, `fullscreen`, `unseen` | `scopes` (por escopo), `surfaces` (`open`/`fullscreen` **por superfície**: `chat` hoje, `artefatos` na Fase A), `unseen` (por escopo), `toast` | Trocar de conversa troca o escopo, mas o painel continua aberto (6.5.3). E a Fase A ganha o próprio painel sem misturar com o do chat |
+| 4 | Assinaturas | `openByPath(sessionKey, …)`, `closeItem(sessionKey, …)` | Recebem o **escopo** (`session:<sk>`) | Os componentes do painel só conhecem o escopo (a Fase A passa `artefatos`) |
+| 5 | Dois contextos | um | `useViewerActions()` (estável) + `useViewer()` (estado) | Cada TerminalPanel montado assina só as ações: abrir uma aba não re-renderiza todos os terminais |
+| 6 | Botões | ⤢ Tela cheia na barra | ⤢ e ✕ no **cabeçalho**, ao lado das abas (como no mockup 13); a barra fica com ⤓ ⧉ ↗ ⋯ | No painel de 420 px a barra não teria espaço para o caminho com mais um botão largo |
+| 7 | ⧉ Copiar | — | Copia o **conteúdo** de texto (md, código, html); em imagem/PDF/binário copia o **caminho** | É o que dá para colar no Notas em cada caso |
+| 8 | Esc | Fecha tela cheia; senão fecha o painel | Igual, mas **nunca** quando a tecla veio do xterm (`.xterm`); no painel encaixado só com o foco dentro dele (sem listener global) | O Esc é do agente (cancelar no `claude`, sair do modo inserção no vim), inclusive quando o painel abriu sozinho enquanto você digitava |
+| 9 | Foco | — | Gaveta e tela cheia focam o painel ao abrir; o encaixado **nunca** rouba o foco do terminal | Os dois primeiros cobrem o terminal; o encaixado fica ao lado e você pode continuar digitando |
+| 10 | Tela cheia no iPad | O painel à direita não renderiza | A **coluna** do encaixado continua reservada (vazia) | Entrar/sair da tela cheia não muda a largura do terminal: nada de refit nem redesenho do `claude` por baixo do modal |
+| 11 | Botão do celular | "ao lado do ☰ Menu" | Canto **superior direito**, na mesma faixa do Menu ("📄 Arquivos" + contador) | A topbar do celular fica vazia; medir a largura do Menu para encostar seria frágil. Em cima pelo mesmo motivo do Menu (teclado do iOS) |
+| 12 | Botão na topbar | Ao lado de Anexos | À **esquerda** de Anexos, desabilitado sem conversa ativa | É o controle que o agente aciona sozinho (selo de não vistos), fica na ponta mais visível |
+| 13 | Arquivo > 1 MB | Cartão de download | Cartão + "Mostrar o começo" (primeiro 1 MB como texto puro, sem destaque, com faixa de aviso). HTML grande continua no iframe | 6.10.2, item 3: a tela escolhe. O iframe carrega o arquivo inteiro pela rota `f/` |
+| 14 | Vídeo | — | `BinaryView` com "baixe para assistir" | 6.10.5: sem `Range` no backend o `<video>` do Safari não toca |
+| 15 | Recarregar `<img>`/`<iframe>` | — | `?v=<updated_at>` nas URLs de exibição (não no Baixar) | Com o mesmo `item_id` reaproveitado, o Safari reutilizaria a imagem/iframe da versão anterior. A query não muda a resolução de `style.css` relativo |
+| 16 | Links no markdown | Relativos → `openByPath` com `relativoA` | Igual; `/x.md` (com barra) = **raiz do projeto**, sem `relativoA` | É o que o GitHub faz num README; o backend trataria `/x.md` como caminho absoluto do disco |
+| 17 | Âncoras | "rolar dentro do painel" | Títulos ganham `id="user-content-<slug>"` (slug do GitHub) e o clique rola o painel | O prefixo impede um título "location" de sombrear `window.location` |
+| 18 | Erros de abrir link | — | Aviso (toast) com a mensagem do backend ("Arquivo não encontrado: …", "Arquivo protegido …") | O mesmo caminho serve para link no markdown e caminho tocado no terminal |
+| 19 | DELETE com erro de rede | — | A aba some na hora; se o DELETE falhar (não 404), a lista é recarregada do backend | Mais honesto que fingir que fechou; 404 = "já fechada" (6.10.2, item 15) |
+| 20 | Quem abriu | "claude abriu X" | Agente = 2º segmento da `session_key` (`projeto::agente[::instância]`); aberto pela tela (`opened_by: user`) → "Você abriu" | — |
+| 21 | Destaque de sintaxe | Shiki sob demanda | Shiki 4 com **motor JavaScript** (`forgiving: true`), sem destaque acima de 200 mil caracteres; o `CodeView` desenha no máximo 20 mil linhas | O WASM do Oniguruma pesa ~600 KB e precisa ser compilado no iPad; o motor JS usa as RegExp do próprio Safari. Arquivos enormes travariam a thread principal |
+| 22 | Linhas longas de código | — | Rolam **dentro do bloco** de código; o corpo do painel nunca rola na horizontal | A barra "N linhas · Quebrar linhas" fica parada; "Quebrar linhas" alterna `pre-wrap` |
+| 23 | Ordem das abas | — | Ordem de criação; aba reaproveitada fica no mesmo lugar e vira ativa | Igual ao que o backend devolve no `GET` |
+| 24 | Links no terminal | Caminhos + URLs | Nome solto só vira link com extensão **conhecida** (`README.md` sim, `github.com` não); URLs ficam com o addon e abrem sem `opener` | Evita sublinhar prosa ("e.g.", versões) e dar "Arquivo não encontrado" ao tocar |
+
+### 6.11.3 Tamanho do bundle (`npm run build`)
+
+| Arquivo | Antes da V-2 | Depois da V-2 |
+|---------|--------------|---------------|
+| `index-*.js` (carregado sempre) | 886,03 kB · gzip 250,69 kB | 930,07 kB · gzip 265,52 kB (+14,8 kB gzip: painel, renderers, contexto, addon de links) |
+| `index-*.css` | 11,65 kB · gzip 3,71 kB | 22,33 kB · gzip 5,91 kB |
+| Shiki, só no 1º destaque | — | núcleo 36,95 kB + motor JS 21,22 kB + tema 2,5 kB (gzip) |
+| Cada linguagem, só quando aparece | — | ex.: python 9,1 kB, bash 6,1 kB, markdown 5,6 kB, html 11,7 kB, javascript 16,5 kB (gzip) |
+
+Abrir o primeiro arquivo Python custa ~70 kB gzip a mais, uma vez. Achou-se
+desnecessário cair para o `highlight.js`.
+
+### 6.11.4 Testes
+
+`npm test`: **90 arquivos, 1584 testes, todos passando** (eram 81/1498).
+Novos: `ViewerContext.test.jsx`, `viewerApi.test.js`, `viewerPaths.test.js`,
+`ViewerPanel.test.jsx`, `ViewerFullscreen.test.jsx`, `terminalLinks.test.js`,
+`renderers/renderers.test.jsx`, `renderers/media.test.jsx`,
+`components/TerminalPanel.viewer.test.jsx`; ampliados: `utils/markdown.test.js`
+e `layouts/v2/AppV2.test.jsx` (encaixe com colunas recolhidas e um só refit,
+Board/Chat, gaveta + Esc, tela cheia, celular). Cobrem os itens "Frontend" de
+6.7: `isControlFrame` reconhece `viewer_open`; abrir com conversa visível ×
+oculta; aba reaproveitada não duplica; fechar a última fecha o painel; link
+externo com `rel="noopener noreferrer"`; link relativo com `relativoA`; imagem
+relativa reescrita; iframe sem `allow-same-origin`; Esc da tela cheia e portal.
+`fixedPositioningInvariant.test.js` continua passando.
+
+### 6.11.5 Verificação visual
+
+Backend real (`uvicorn`) com um projeto de teste (`README.md` com tabela,
+checklist e blocos Python/Bash; `docs/relatorio.html` com `style.css` e imagem
+relativa; `src/app.py` com 155 linhas; `docs/manual.pdf`; `.env`) e um agente
+`claude` do tipo terminal (bash). O "agente" foi simulado com
+`POST /api/sessions/demo::claude/viewer` com a conversa aberta (o frame
+`viewer_open` chega pelo WebSocket do terminal). Playwright/Chromium em
+1180×820, 820×1180 e 390×844, em `capturas/fase-v2/`:
+
+| Tela | 1180×820 (encaixado) | 820×1180 (por cima) | 390×844 (tela cheia) |
+|------|----------------------|---------------------|----------------------|
+| Markdown abriu sozinho | [ver](capturas/fase-v2/ipad-paisagem-1180x820--1-markdown.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--1-markdown.png) | [ver](capturas/fase-v2/celular-390x844--1-markdown.png) |
+| Markdown: blocos de código com destaque e Copiar | [ver](capturas/fase-v2/ipad-paisagem-1180x820--2-markdown-codigo.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--2-markdown-codigo.png) | [ver](capturas/fase-v2/celular-390x844--2-markdown-codigo.png) |
+| HTML (link relativo do README abriu outra aba; CSS e imagem vizinhos) | [ver](capturas/fase-v2/ipad-paisagem-1180x820--3-html.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--3-html.png) | [ver](capturas/fase-v2/celular-390x844--3-html.png) |
+| Código com a linha 42 destacada | [ver](capturas/fase-v2/ipad-paisagem-1180x820--4-codigo-linha-42.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--4-codigo-linha-42.png) | [ver](capturas/fase-v2/celular-390x844--4-codigo-linha-42.png) |
+| Tela cheia | [ver](capturas/fase-v2/ipad-paisagem-1180x820--5-tela-cheia.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--5-tela-cheia.png) | [ver](capturas/fase-v2/celular-390x844--5-tela-cheia.png) |
+| PDF (↗ e ⤓ sempre visíveis) | [ver](capturas/fase-v2/ipad-paisagem-1180x820--6-pdf.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--6-pdf.png) | [ver](capturas/fase-v2/celular-390x844--6-pdf.png) |
+| Imagem | [ver](capturas/fase-v2/ipad-paisagem-1180x820--7-imagem.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--7-imagem.png) | [ver](capturas/fase-v2/celular-390x844--7-imagem.png) |
+| Aviso com a conversa fora de vista (Board) | [ver](capturas/fase-v2/ipad-paisagem-1180x820--8-aviso-fora-de-vista.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--8-aviso-fora-de-vista.png) | — |
+| "Ver" do aviso volta à conversa com a aba ativa | [ver](capturas/fase-v2/ipad-paisagem-1180x820--9-ver-do-aviso.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--9-ver-do-aviso.png) | — |
+| Botão flutuante do celular | — | — | [ver](capturas/fase-v2/celular-390x844--8-botao-flutuante.png) |
+| Caminho no terminal sob o mouse / clicado (abriu `app.py:42`) | [ver](capturas/fase-v2/ipad-paisagem-1180x820--10-terminal-link-hover.png) · [ver](capturas/fase-v2/ipad-paisagem-1180x820--11-terminal-link-abriu.png) | — | — |
+
+O que foi conferido em cada largura (medido no script, não só olhado):
+
+- **Nenhuma rolagem horizontal**: `scrollWidth − clientWidth = 0` na página e
+  no corpo do painel em todas as capturas (as linhas longas de código rolam
+  dentro do bloco delas).
+- 1180×820: com o painel encaixado, sidebar e lista de chats viraram trilhos;
+  ao fechar, voltaram expandidas; a preferência salva não mudou.
+- O script do relatório **rodou** dentro do iframe e `document.cookie` lançou
+  erro (origem opaca: o sandbox sem `allow-same-origin` está valendo).
+- Esc fechou a tela cheia nas três larguras; `.env` foi recusado com
+  "Arquivo protegido (segredos não são exibidos)".
+- Terminal: o caminho `src/app.py:42` impresso pelo bash ganhou cursor de link e
+  o clique abriu a aba `app.py:42`; a URL abriu uma aba nova do navegador.
+
+Achados corrigidos durante a verificação (commits `fix(viewer)`): destaque dos
+blocos do markdown não aparecia no modo de desenvolvimento (StrictMode); fonte
+do v1 na gaveta/tela cheia (portais fora do casco); rolagem passando de uma aba
+para outra; × da aba nova cortado atrás dos botões do cabeçalho.
+
+### 6.11.6 Pontos de integração para a Fase A (frontend)
+
+- **Escopo e origem:** use o escopo `'artefatos'` e itens com
+  `source: 'artifact'` e `artifact_id`. `normalizeItem(raw, 'artifact')` monta
+  `id`; `contentUrl(item)` → `/api/artifacts/{id}/content` e
+  `fileUrl(item, path, { download, version })` → `/api/artifacts/{id}/f/…` já
+  existem (7.4.3). Nenhum renderer muda.
+- **Abrir um artefato:** `const viewer = useViewer();
+  viewer.openItem('artefatos', artifact, { source: 'artifact' })` — insere ou
+  foca a aba (limite de 15), e abre a superfície `artefatos`.
+- **Painel:** `<ViewerDock scope="artefatos" />` (≥ 1100 px),
+  `<ViewerDrawer scope="artefatos" open={…} />` (641–1099 px) e
+  `<ViewerFullscreen scope="artefatos" open={…} closeEverything={isMobile} />`.
+  Props comuns: `scope`, `surface` (padrão `surfaceForScope(scope)`, que dá
+  `'artefatos'`), `emptyHint` (texto do estado vazio). O aberto/tela cheia sai
+  de `viewer.getSurface('artefatos')`; ações `setOpen`/`setFullscreen(surface, bool)`,
+  `closeItem/closeAll/setActive(scope, …)`.
+- **Recolhimento no AppV2:** hoje `viewerOpen` olha só a superfície `chat`. A
+  tela Artefatos deve somar a dela:
+  `viewerOpen = (chat.open && v2Screen === 'chat') || (artefatos.open && v2Screen === 'artefatos')`.
+- **Persistir as abas em `sessionStorage`** (7.5.4): ler na montagem e chamar
+  `openItem` (ou acrescentar ao contexto um `restoreItems(scope, items)`);
+  hoje o escopo local vive só na memória.
+- **Links dentro de um artefato:** `openByPath` só funciona em escopo de
+  sessão (devolve erro amigável fora dele). Para artefatos, decidir se o link
+  relativo abre na conversa ativa ou vira outro artefato.
+- **Lista desatualizada (7.5.5):** o frame `viewer_open` já passa por
+  `receiveOpen`; para recarregar a galeria, observar `viewer.scopes` ou
+  acrescentar um ouvinte no contexto.
+- **"☆ Salvar em Artefatos" (7.5.1):** entra no `ViewerToolbar`, que recebe o
+  `item` (com `source`).
+
+### 6.11.7 Pendências (verificar no iPad)
+
+- **Toque em link do terminal no iPad** (6.5.6): no Chromium o clique funciona
+  com o mouse; no iPad precisa ser conferido. Com o `claude` real o modo de
+  mouse da TUI fica ligado — o xterm ainda detecta o link, mas o toque pode ir
+  para a TUI. O caminho garantido é a tool.
+- **Baixar no Safari/PWA** (aceite 5) e **seleção de linhas com o dedo**
+  (aceite 6): dependem do aparelho.
+- **PDF no iframe do Safari** mostra só a 1ª página — por isso ↗ e ⤓ ficam
+  sempre visíveis no `PdfView`.
+- **Motor JS do Shiki** usa o flag `v` das RegExp quando o navegador tem
+  (iPadOS 17+) e cai para regras ES2018 nos mais antigos (`target: 'auto'`);
+  com `forgiving`, uma regra que não compile deixa só aquele trecho sem cor.
+  Conferir o destaque no aparelho.
+- Itens 1–3, 7–10 e 12 do aceite manual (6.7) com o `claude`/`codex` reais.

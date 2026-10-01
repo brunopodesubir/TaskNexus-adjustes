@@ -175,6 +175,38 @@ celular não silencia o desktop.
 o backend sobe normalmente e apenas reporta o push como indisponível — nenhum
 outro recurso é afetado.
 
+## Visualizador de arquivos
+
+O agente mostra arquivos na sua tela: quando ele chama a ferramenta MCP
+`abrir_no_visualizador` (servidor `escritorio-visualizador`, registrado
+sozinho para o `claude` e o `codex`), o arquivo abre numa **aba** do
+visualizador, à direita do chat. Também dá para pedir direto: "abre o
+README no visualizador".
+
+- **Onde aparece:** botão **Visualizador** no cabeçalho do chat. Em telas
+  largas (≥ 1100 px, iPad deitado e desktop) o painel fica encaixado à
+  direita e a sidebar e a lista de chats viram trilhos enquanto ele estiver
+  aberto; entre 641 e 1099 px abre por cima; no celular, botão **Arquivos**
+  e tela cheia. **⤢** amplia para tela cheia, **✕**/Esc fecha.
+- **O que mostra:** markdown como no GitHub (tabelas, checklists, código com
+  **Copiar**; links para outros arquivos do projeto abrem outra aba), HTML
+  renderizado num `iframe` isolado (com **Preview · Código**), código com
+  destaque e a linha pedida pelo agente destacada, imagens e PDF. Binários e
+  arquivos acima de 1 MB aparecem com o botão **Baixar**.
+- **Barra do arquivo:** ⤓ Baixar (vai para Arquivos › Downloads no iPad),
+  ⧉ Copiar, ↗ Abrir no navegador e ⋯ (Copiar caminho, Fechar todas).
+- **No terminal:** URLs e caminhos de arquivo (`docs/plano.md`,
+  `src/app.py:42`) viram links — o caminho abre no visualizador.
+- As abas são **por conversa** (até 15) e ficam guardadas no `sessions.db`:
+  recarregar a página ou abrir a conversa em outro aparelho mostra as mesmas.
+  Se o agente abrir algo com a conversa fora de vista, o botão ganha um selo e
+  aparece o aviso "claude abriu X · Ver".
+- Segredos (`.env`, chaves, `.git/`…) nunca são exibidos, e só arquivos de
+  dentro do projeto da conversa podem ser abertos.
+
+Detalhes e decisões: `docs/melhorias-tablet/06-planejamento-fase-v.md`
+(seções 6.10 e 6.11).
+
 ## ⚠️ Segurança e escopo de deployment
 
 O backend sobe sem nenhuma autenticação, escutando em `0.0.0.0` (porta 8000 no
