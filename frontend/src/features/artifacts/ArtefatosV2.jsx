@@ -49,6 +49,8 @@ import { ArtifactCard, ArtifactCardSkeleton } from './ArtifactCard.jsx';
 import { ArtifactActionsMenu } from './ArtifactActionsMenu.jsx';
 import { RenameArtifactDialog } from './RenameArtifactDialog.jsx';
 import { removeArtifact } from './artifactsApi.js';
+import { ImportArtifactsModal } from './ImportArtifactsModal.jsx';
+import { isInScope } from '../../utils/projectTree.js';
 
 const EMPTY_HINT = 'Toque num artefato da lista para abri-lo aqui.';
 const SKELETONS = 6;
@@ -143,6 +145,22 @@ export function ArtefatosV2({
     feedback('Artefato renomeado.');
   };
 
+  // "Importar do projeto…": o select do modal oferece os projetos do escopo
+  // atual da tela, já com o projeto escolhido (ou o cliente) marcado.
+  const [importing, setImporting] = useState(false);
+  const importProjects = useMemo(
+    () => projects.filter((p) => isInScope(p.id, effectiveClienteId, selectedProjetoId)),
+    [projects, effectiveClienteId, selectedProjetoId],
+  );
+  const handleImported = ({ created, artifacts: imported }) => {
+    imported.forEach(upsertLocal);
+    if (created > 0) {
+      feedback(created === 1 ? '1 artefato importado.' : `${created} artefatos importados.`);
+    } else if (imported.length > 0) {
+      feedback('Esses arquivos já estavam em Artefatos.');
+    }
+  };
+
   const handleRemove = async (artifact) => {
     try {
       await removeArtifact(artifact.artifact_id);
@@ -221,6 +239,8 @@ export function ArtefatosV2({
       <div className="af-empty" data-testid="artifacts-empty">
         <div className="af-empty-title">Nenhum artefato aqui ainda.</div>
         Quando um agente criar um relatório, documento ou PDF, ele aparece nesta tela.
+        {' '}Você também pode{' '}
+        <button type="button" className="af-link" onClick={() => setImporting(true)}>Importar do projeto</button>.
       </div>
     );
   } else if (grouped) {
@@ -285,6 +305,14 @@ export function ArtefatosV2({
 
         <div className="af-scroll" data-testid="artifacts-scroll">
           {body}
+          {artifacts !== null && visible.length > 0 && (
+            <div className="af-footer">
+              <button type="button" className="af-import" onClick={() => setImporting(true)}>
+                ＋ Importar do projeto…
+              </button>
+              <span className="af-hint">Toque num cartão para abrir no painel lateral.</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -323,6 +351,15 @@ export function ArtefatosV2({
           onRename={setRenaming}
           onRemove={handleRemove}
           onFeedback={feedback}
+        />
+      )}
+      {importing && (
+        <ImportArtifactsModal
+          projects={importProjects}
+          allProjects={projects}
+          initialProjectId={selectedProjetoId ?? effectiveClienteId}
+          onClose={() => setImporting(false)}
+          onImported={handleImported}
         />
       )}
       {renaming && (
