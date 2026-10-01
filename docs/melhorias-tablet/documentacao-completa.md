@@ -145,6 +145,12 @@ WebSocket). No tablet isso é ruim:
   recolhimento automático pronto em `useViewerDockCollapse` (com `viewerOpen`
   sempre `false` no `AppV2` até a Fase V ligar). O que divergiu do plano e os
   pontos de integração estão na seção **8.7** da Parte 8.
+- **Fase V-1 (backend do visualizador)** implementada na branch
+  `claude/practical-keller-pdveop`: `file_access.py`, `file_serving.py`,
+  `viewer_store.py`, `viewer_api.py`, `mcp_viewer_adapter.py`, frame
+  `viewer_open` e o servidor MCP `escritorio-visualizador`. Contratos, o que
+  divergiu do plano e pendências estão na seção **6.10** da Parte 6. Falta a
+  **V-2** (frontend, passos 5 a 10 da tabela 6.6).
 - **Próxima ação:** quando o Bruno pedir, entregar o prompt de desenvolvimento
   da **Fase V** (`06-planejamento-fase-v.md`) e depois o da **Fase A**
   (`07-planejamento-artefatos.md`), para ele usar numa janela limpa. A Fase V
@@ -2651,6 +2657,141 @@ registradas sob demanda; registrar a decisão no PR.
 - [ ] `deploy.sh` e `deploy.ps1` funcionando sem mudança de uso.
 - [ ] README do projeto com uma seção curta "Visualizador de arquivos".
 - [ ] Este documento atualizado se a implementação divergir.
+
+---
+
+### 6.10 Como ficou implementado (V-1, backend)
+
+A Fase V foi dividida em duas entregas: **V-1** (backend, passos 1 a 4 da
+tabela 6.6) e **V-2** (frontend, passos 5 a 10). Esta seção registra a V-1 como
+ela ficou no código. Onde o código diverge do que está acima, **vale o código**.
+
+#### 6.10.1 Arquivos
+
+| Arquivo | O que faz |
+|---------|-----------|
+| `backend/app/file_access.py` | `resolve_safe_path`, `is_denied`, `detect_kind`, `language_for`, `is_within_directory` (extraída de `attachments.py`, que agora importa daqui) e `project_dir_from_id` |
+| `backend/app/file_serving.py` | `read_content` / `build_file_response` (síncronas) e `content_payload` / `file_response` (assíncronas, com `asyncio.to_thread` e erro já em `HTTPException`). Recebem só `(project_root, rel_path, download)`: a Fase A chama as mesmas funções |
+| `backend/app/viewer_store.py` | `ViewerStore` (tabela `viewer_items` exatamente como em 6.4.5) |
+| `backend/app/viewer_api.py` | `ViewerService` (regra de "abrir numa aba", reaproveitável pela Fase A) e `create_viewer_router(service)` com as rotas de 6.4.3 |
+| `backend/app/mcp_viewer_adapter.py` | Servidor MCP `escritorio-visualizador` com a tool `abrir_no_visualizador` (nome, descrição e schema idênticos a 6.4.6) |
+| `backend/app/main.py` | `viewer_store` no `lifespan`, `notify_viewer_open`, `_find_project_path`, `include_router`, entrada `escritorio-visualizador` em `_escritorio_mcp_servers`, `terminate_session` apaga as abas |
+| `backend/tests/test_file_access.py`, `test_file_serving.py`, `test_viewer_store.py`, `test_viewer_endpoints.py`, `test_mcp_viewer_adapter.py` | Novos |
+| `backend/tests/test_websocket.py`, `test_hook_loopback_listener.py` | Frame `viewer_open` e o terceiro servidor MCP nos testes de contrato do spawn |
+
+#### 6.10.2 Divergências e decisões tomadas na implementação
+
+| # | Ponto | Especificação | Como ficou | Por quê |
+|---|-------|---------------|------------|---------|
+| 1 | Campo `evicted` | Frame `{"type","item","reused"}` | Frame e respostas dos `POST` ganham `"evicted": [item_id…]` (quase sempre `[]`) | Quando a 16ª aba fecha a mais antiga, a tela tira a aba certa sem recarregar a lista nem duplicar a regra do limite |
+| 2 | Resposta de `content` | `item_id, path, size, mtime, kind, language, is_text, text?, truncated` | Mais `name` (nome do arquivo) e `mime` (Content-Type que a rota `f/` usa) | O estado "Binário ou > 1 MB" mostra nome e tipo (6.2) |
+| 3 | Arquivo de texto > 1 MB | "texto até 1 MB" | Vem o **primeiro 1 MB** em `text` com `truncated: true`; um caractere UTF-8 partido no limite é descartado | A tela escolhe entre mostrar o começo ou o cartão de download |
+| 4 | CSP da rota `f/` | Só para html/svg/xhtml/xml | Em **toda** resposta, menos PDF; e com `allow-popups-to-escape-sandbox` | O sandbox efetivo é a interseção do atributo do iframe (6.5.4) com o cabeçalho: sem o `escape` aqui, um link `target=_blank` do relatório abriria o site externo sandboxed. PDF fica fora porque o leitor do Chrome não renderiza documento com `sandbox`. CSP em imagem/CSS/JS carregados por página é ignorado, então estender não quebra nada |
+| 5 | `nosniff` | Para html/svg/xml | Em toda resposta | Impede o navegador de "adivinhar" HTML num `.txt` |
+| 6 | Content-Type | (não especificado) | Tabela explícita para os tipos web; markdown e código saem como `text/plain`; binário desconhecido `application/octet-stream` | No Windows o `mimetypes` lê o registro e pode devolver `text/plain` para `.js` — com `nosniff`, o script do relatório não rodaria |
+| 7 | `Content-Disposition` | Só com `download=1` | `attachment` com `download=1`, `inline` sem; os dois com `filename="<ascii>"` e `filename*=UTF-8''<nome>` | O "Salvar" do Safari usa o nome certo também no preview |
+| 8 | Erros da rota do usuário | "mesmo formato" | Mesmo corpo `{"success":false,"error"}`, **com** status HTTP 400/403/404 | A tela trata como erro de fetch comum e ainda lê a mensagem |
+| 9 | Corpo do hook | Modelo com campos | Lido à mão: corpo malformado, `caminho` ausente/não-texto ou `linha` inválida nunca viram 422 | Um 422 viraria "Não foi possível falar com o TaskNexus agora." no adaptador, escondendo o erro do agente. `linha` aceita `"42"`; `<= 0` vira "sem linha" |
+| 10 | Título ao reaproveitar | "atualiza line, title e updated_at" | Atualiza `line`, `kind`, `language`, `updated_at`; o `title` só muda se veio um novo | Reabrir sem `titulo` não apaga o nome curto dado antes |
+| 11 | Projeto ao **servir** arquivo | `_resolve_project_or_404` | Na abertura sim (`_find_project_path`, em thread); nas rotas `content`/`f/` usa `project_dir_from_id(PROJECTS_ROOT, project_id)` | `scan_projects` faz `os.walk` de toda a raiz a cada chamada, e um HTML pede um asset por requisição. O caminho é o mesmo por construção (`PROJECTS_ROOT/project_id`), com contenção e `isdir` |
+| 12 | Link com `#` (rota do usuário) | — | `src/app.py#L10` vira `caminho=src/app.py`, `linha=10`; outro fragmento é descartado; `linha` explícita vence | Links de markdown trazem fragmento |
+| 13 | Contenção de caminho absoluto | realpath + commonpath | Antes do `realpath`, contenção **léxica** (pela raiz como configurada ou pela raiz real) | No Windows, `realpath` de `\\host\share\x` abre conexão SMB e vaza o hash NTLM. Efeito colateral aceito: um caminho absoluto por um atalho qualquer que aponte para dentro do projeto é recusado |
+| 14 | Mensagens | Exemplos | `Caminho fora do projeto`, `Arquivo protegido (segredos não são exibidos)`, `Arquivo não encontrado: <caminho>`, `É uma pasta, não um arquivo: <caminho>`, `Informe o caminho do arquivo.`, `Sessão do TaskNexus não encontrada`, `O hook do visualizador só aceita chamadas da própria máquina.` | — |
+| 15 | `DELETE` de aba inexistente | `{"status":"closed"}` | `404 {"detail":"Aba não encontrada"}` (também para aba de outra sessão) | A tela deve tratar 404 como "já fechada" |
+| 16 | Adaptador MCP | Copiar o de cards | Igual, mais: lê o corpo JSON de respostas 4xx (o 403 de não-loopback chega legível ao agente) e timeout de 5 s | — |
+| 17 | `asyncio.Lock` do `ViewerStore` | — | Criado no `initialize()`, não no `__init__` | No Python 3.9 o Lock se prende ao loop do momento da criação, e o store nasce no import |
+
+Ficaram **como especificado**: tabela `viewer_items` e índice; ids `vw_` +
+`token_urlsafe(16)`; reaproveitar aba do mesmo caminho (`reused: true`); limite
+de 15 por sessão (sai a de `updated_at` mais antigo); hooks
+`/api/hooks/viewer/*` só de loopback, exceto com `HOOK_CALLBACK_BASE_URL`
+definida (os hooks antigos não mudaram); denylist de 6.4.2 (comparação sem
+distinção de maiúsculas); tool `abrir_no_visualizador` com os quatro textos de
+resposta; registro em `_escritorio_mcp_servers` (vale para `claude` e `codex`);
+abas apagadas no `terminate`; todo acesso a disco em `asyncio.to_thread`.
+
+#### 6.10.3 Contratos para a V-2 (frontend)
+
+**Item** (igual em todas as respostas e no frame):
+
+```json
+{
+  "item_id": "vw_kmeSBgUzBNpSMkq8P64XFA",
+  "session_key": "demo::claude",
+  "project_id": "demo",
+  "path": "README.md",
+  "title": "README.md",
+  "line": null,
+  "kind": "markdown",
+  "language": "markdown",
+  "opened_by": "user",
+  "created_at": 1790820458.07,
+  "updated_at": 1790820458.07
+}
+```
+
+- `kind`: `markdown | html | code | image | pdf | video | binary`.
+- `language`: id do Shiki (`python`, `javascript`, `jsx`, `typescript`, `tsx`,
+  `json`, `css`, `html`, `bash`, `powershell`, `yaml`, `toml`, `sql`,
+  `markdown`, `docker`, mais `scss`, `xml`, `go`, `rust`, `java`, `ruby`, `php`,
+  `csharp`, `c`, `cpp`, `ini`, `diff`…), ou `text`.
+- `opened_by`: `agent | user`.
+
+**Frame no `/ws/pty/{session_key}`** (TEXTO; a saída do PTY é sempre binária):
+
+```json
+{"type": "viewer_open", "item": {…}, "reused": false, "evicted": []}
+```
+
+**Rotas**
+
+| Rota | Sucesso | Erros |
+|------|---------|-------|
+| `POST /api/sessions/{session_key}/viewer` `{"caminho","linha"?,"relativo_a"?}` | `200 {"success":true,"item","reused","delivered","evicted"}` | `400/403/404 {"success":false,"error"}` |
+| `GET /api/sessions/{session_key}/viewer` | `{"items":[…]}` em ordem de criação | — |
+| `DELETE /api/sessions/{session_key}/viewer/{item_id}` | `{"status":"closed"}` | `404` |
+| `DELETE /api/sessions/{session_key}/viewer` | `{"status":"closed","count":n}` | — |
+| `GET /api/viewer/{item_id}/content` | `{"item_id","path","name","size","mtime","kind","language","mime","is_text","text"?,"truncated"}` | `404` aba ou arquivo inexistente (`detail`), `403` protegido/fora |
+| `GET /api/viewer/{item_id}/f/{caminho}` | bytes, `Cache-Control: no-store`, `nosniff`, CSP `sandbox` (menos PDF), `Content-Disposition: inline` | `403`, `404`, `400` (pasta) |
+| `GET /api/viewer/{item_id}/f/{caminho}?download=1` | idem com `Content-Disposition: attachment; filename="…"; filename*=UTF-8''…` | idem |
+
+`{caminho}` na rota `f/` é relativo à raiz do projeto (o HTML acha os vizinhos
+por URL relativa). `relativo_a` é o `path` do item onde o link estava.
+
+#### 6.10.4 Teste ponta a ponta (V-1)
+
+Feito com o backend real (`uvicorn`, `HOOK_LOOPBACK_PORT` ligado) e um projeto
+de teste:
+
+1. WebSocket em `/ws/pty/demo::claude` + `POST .../viewer {"caminho":"README.md"}`:
+   resposta com `delivered: true` e o frame `viewer_open` chegou no socket.
+2. `GET /api/viewer/{id}/content` devolveu o markdown; `f/README.md?download=1`
+   veio com `attachment`, `no-store`, `nosniff` e CSP; `f/.env` deu 403; o
+   `style.css` vizinho de um HTML veio como `text/css`.
+3. `POST /api/hooks/viewer/open` pelo IP da rede → 403; pelo `127.0.0.1` → 200.
+4. **`claude` real** (2.1.x, `claude -p` com o `--mcp-config` gerado pelo
+   backend para a sessão registrada): o agente achou e chamou
+   `abrir_no_visualizador`, o frame chegou no WebSocket com `opened_by: agent`,
+   e o agente leu `Aberto no visualizador do usuário: README.md (aba já existia, foi atualizada).`
+   Ao pedir o `.env`, leu `Arquivo protegido (segredos não são exibidos)` e explicou ao usuário.
+   A TUI interativa não foi usada no teste porque o CLI deste ambiente parava no
+   onboarding/login; o caminho (`--mcp-config` → adaptador → hook → WebSocket) é o mesmo.
+
+#### 6.10.5 Pendências deixadas para a V-2 e depois
+
+- **Permissão da tool no `claude` interativo:** na primeira chamada, a TUI pode
+  pedir aprovação de `mcp__escritorio-visualizador__abrir_no_visualizador`
+  (igual às tools de card). Se incomodar no iPad, avaliar `--allowedTools` no
+  spawn (mudança no contrato do spawn, fora desta fase).
+- **Vídeo no Safari:** o Starlette 0.38 não responde `Range`, e o `<video>` do
+  iOS exige. `kind: video` existe, mas o renderer deve tratar como `BinaryView`
+  até haver suporte a `Range`.
+- **CORS `*` sem autenticação** continua permitindo que uma página qualquer (e
+  o HTML sandboxed) chame a API; resolve-se na F0 (4.1), como já previsto em 6.8.
+- **README do projeto** (seção "Visualizador de arquivos"): fica para a V-2,
+  junto com a tela.
+- Teste de aceite com o `codex` real (item 12 de 6.7): o registro passa pelos
+  testes de contrato do `-c mcp_servers.*`; falta rodar com o binário.
 
 ---
 
