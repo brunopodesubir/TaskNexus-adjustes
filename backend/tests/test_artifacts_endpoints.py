@@ -333,3 +333,88 @@ def test_f_pdf_download_and_refusals(client):
     assert client.get(f"/api/artifacts/{artifact_id}/f/.env").status_code == 403
     assert client.get(f"/api/artifacts/{artifact_id}/f/..%2F..%2F..%2Foutro/app/notas.md").status_code in (403, 404)
     assert client.get("/api/artifacts/af_nao_existe/f/README.md").status_code == 404
+
+
+# -- Candidatos e importação --------------------------------------------------
+
+
+def _candidates(client, project_id=PROJ):
+    r = client.get(f"/api/projects/{project_id}/artifact-candidates")
+    assert r.status_code == 200, r.text
+    return r.json()
+
+
+def test_candidates_list_md_html_pdf_and_skip_ignored_folders(client, projects):
+    site = projects / "podesubir" / "site"
+    for folder in ("node_modules/pkg", ".git", ".venv-win/lib", "dist", "build", ".escritorio", "__pycache__"):
+        (site / folder).mkdir(parents=True, exist_ok=True)
+        (site / folder / "lixo.md").write_text("# lixo", encoding="utf-8")
+    (site / "docs" / "antigo.htm").write_text("<title>Antigo</title>", encoding="utf-8")
+    (site / "docs" / "id_rsa.md").write_text("chave", encoding="utf-8")
+    body = _candidates(client)
+    assert body["truncated"] is False
+    paths = [c["path"] for c in body["candidates"]]
+    # Sem pastas ignoradas, sem denylist (.env.md, id_rsa*), sem o projeto
+    # filho (blog/post.md é candidato de podesubir/site/blog), sem .py/.css.
+    assert paths == ["README.md", "docs/antigo.htm", "docs/manual.pdf", "docs/relatorio.html"]
+    first = body["candidates"][0]
+    assert set(first) == {"path", "kind", "size", "mtime"}
+    assert first["kind"] == "markdown"
+    kinds = {c["path"]: c["kind"] for c in body["candidates"]}
+    assert kinds["docs/antigo.htm"] == "html"
+    assert kinds["docs/manual.pdf"] == "pdf"
+    assert [c["path"] for c in _candidates(client, "podesubir/site/blog")["candidates"]] == ["post.md"]
+
+
+def test_candidates_skip_already_published(client):
+    _create(client, "README.md")
+    paths = [c["path"] for c in _candidates(client)["candidates"]]
+    assert "README.md" not in paths
+    assert "docs/relatorio.html" in paths
+
+
+def test_candidates_are_cut_at_300(client, projects):
+    many = projects / "podesubir" / "site" / "muitos"
+    many.mkdir()
+    for index in range(305):
+        (many / "n{0:03d}.md".format(index)).write_text("x", encoding="utf-8")
+    body = _candidates(client)
+    assert body["truncated"] is True
+    assert len(body["candidates"]) == 300
+
+
+def test_candidates_of_unknown_project_is_404(client):
+    r = client.get("/api/projects/nao/existe/artifact-candidates")
+    assert r.status_code == 404
+    assert r.json() == {"success": False, "error": "Projeto não encontrado: nao/existe"}
+
+
+def test_import_creates_artifacts_and_reports_errors_per_path(client):
+    _create(client, "README.md")
+    r = client.post("/api/artifacts/import", json={
+        "project_id": PROJ,
+        "caminhos": ["README.md", "docs/relatorio.html", "docs/manual.pdf", "app.py", "sumiu.md", 7],
+    })
+    assert r.status_code == 200
+    body = r.json()
+    # README.md já existia: entra em artifacts, mas não conta como criado.
+    assert body["created"] == 2
+    assert sorted(a["path"] for a in body["artifacts"]) == ["README.md", "docs/manual.pdf", "docs/relatorio.html"]
+    assert all(a["created_by"] == "user" for a in body["artifacts"])
+    assert body["errors"] == [
+        {"caminho": "app.py", "erro": "Artefatos aceitam .md, .html e .pdf"},
+        {"caminho": "sumiu.md", "erro": "Arquivo não encontrado: sumiu.md"},
+        {"caminho": "7", "erro": "Informe o caminho do arquivo."},
+    ]
+    assert len(_list(client, projeto_id=PROJ)) == 3
+    assert _candidates(client)["candidates"] == []
+
+
+def test_import_refusals(client):
+    r = client.post("/api/artifacts/import", json={"project_id": PROJ, "caminhos": []})
+    assert r.status_code == 400
+    assert r.json() == {"success": False, "error": "Informe a lista de caminhos (caminhos)."}
+    r = client.post("/api/artifacts/import", json={"project_id": PROJ, "caminhos": ["a.md"] * 301})
+    assert r.status_code == 400
+    r = client.post("/api/artifacts/import", json={"project_id": "nao/existe", "caminhos": ["a.md"]})
+    assert r.status_code == 404

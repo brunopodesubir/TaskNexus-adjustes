@@ -35,6 +35,8 @@ from app.agent_discovery import cliente_id_from_projeto_id
 from app.artifact_meta import UNSUPPORTED_KIND_ERROR, artifact_kind_for, extract_meta
 from app.artifact_store import ArtifactStore
 from app.file_access import (
+    is_denied,
+    is_within_directory,
     project_dir_from_id,
     resolve_safe_path,
     to_relative_posix,
@@ -50,6 +52,22 @@ _KIND_FILTERS = {
     "pdf": "pdf",
 }
 _ORDERS = ("recentes", "nome")
+
+# "Importar do projeto" (7.2, item 6): até 300 candidatos, e a importação
+# aceita no máximo o mesmo tanto por pedido.
+MAX_CANDIDATES = 300
+
+# Pastas que nunca têm entregável do usuário: as mesmas que o navegador de
+# arquivos ignora por padrão (Parte 1, `tree`) mais caches comuns. `.venv*`
+# e qualquer pasta oculta (`.git`, `.claude`, `.escritorio`, `.next`…) são
+# tratadas pela regra do nome em `_skip_dir`.
+_IGNORED_DIRS = frozenset({
+    "node_modules", "__pycache__", "dist", "build", "venv", "site-packages",
+    "coverage", "htmlcov",
+})
+# Marcadores de projeto (os mesmos de `scan_projects`): uma subpasta com um
+# deles é OUTRO projeto, e os arquivos dela aparecem nos candidatos dela.
+_PROJECT_MARKERS = (".claude", ".gemini", ".codex")
 
 
 class ArtifactError(Exception):
@@ -151,6 +169,56 @@ def _current_state(projects_root: str, artifacts: list[dict]) -> list[dict]:
     return result
 
 
+def _skip_dir(name: str) -> bool:
+    return name.startswith(".") or name in _IGNORED_DIRS
+
+
+def _find_candidates(project_root: str, published: set) -> tuple[list[dict], bool]:
+    """Arquivos .md/.html/.htm/.pdf do projeto que ainda não são artefatos.
+    Devolve `(candidatos, truncated)`. Síncrona: roda em to_thread.
+
+    - Pastas ocultas e de dependência/build são podadas antes de descer
+      (`node_modules` sozinho pode ter dezenas de milhares de .md).
+    - Subpastas que são projetos próprios ficam de fora: no caso
+      "cliente-como-projeto" (`podesubir` com `podesubir/site` dentro), o
+      README do site é candidato do projeto `podesubir/site`, não de
+      `podesubir` — senão o mesmo arquivo viraria dois artefatos.
+    - Arquivos da denylist e links que apontam para fora do projeto nunca
+      aparecem (a importação recusaria de qualquer jeito).
+    - Ordem estável (pastas e arquivos em ordem alfabética) para o corte em
+      300 ser sempre o mesmo."""
+    root_real = os.path.realpath(project_root)
+    candidates: list[dict] = []
+    for dirpath, dirnames, filenames in os.walk(root_real):
+        kept = []
+        for name in sorted(dirnames, key=str.casefold):
+            if _skip_dir(name):
+                continue
+            full = os.path.join(dirpath, name)
+            if any(os.path.isdir(os.path.join(full, marker)) for marker in _PROJECT_MARKERS):
+                continue
+            kept.append(name)
+        dirnames[:] = kept
+        for name in sorted(filenames, key=str.casefold):
+            kind = artifact_kind_for(name)
+            if kind is None or name.startswith("."):
+                continue
+            full = os.path.join(dirpath, name)
+            rel = to_relative_posix(root_real, full)
+            if rel in published or is_denied(rel):
+                continue
+            if os.path.islink(full) and not is_within_directory(root_real, full):
+                continue
+            try:
+                st = os.stat(full)
+            except OSError:
+                continue
+            if len(candidates) >= MAX_CANDIDATES:
+                return candidates, True
+            candidates.append({"path": rel, "kind": kind, "size": st.st_size, "mtime": st.st_mtime})
+    return candidates, False
+
+
 class ArtifactService:
     """Publicar, listar e enriquecer artefatos.
 
@@ -218,6 +286,41 @@ class ArtifactService:
             session_key=session_key,
         )
         return await self.with_state(artifact), created
+
+    async def candidates(self, project_id: str) -> dict:
+        project_path = await self.find_project_path(project_id)
+        published = await self.store.paths_for_project(project_id.strip())
+        found, truncated = await asyncio.to_thread(_find_candidates, project_path, published)
+        return {"candidates": found, "truncated": truncated}
+
+    async def import_paths(self, project_id: Any, caminhos: Any) -> dict:
+        """Publica vários arquivos como o usuário. Um caminho ruim não
+        derruba os outros: vira uma entrada em `errors`."""
+        if not isinstance(caminhos, list) or not caminhos:
+            raise ArtifactError("Informe a lista de caminhos (caminhos).", 400)
+        if len(caminhos) > MAX_CANDIDATES:
+            raise ArtifactError(
+                "Importe no máximo {0} arquivos por vez.".format(MAX_CANDIDATES), 400,
+            )
+        project_path = await self.find_project_path(project_id)
+        project_id = project_id.strip()
+        created_count = 0
+        artifacts: list[dict] = []
+        errors: list[dict] = []
+        for caminho in caminhos:
+            try:
+                artifact, created = await self.publish(
+                    project_id, caminho, project_path=project_path, created_by="user",
+                )
+            except ArtifactError as exc:
+                errors.append({
+                    "caminho": caminho if isinstance(caminho, str) else str(caminho),
+                    "erro": exc.message,
+                })
+                continue
+            created_count += 1 if created else 0
+            artifacts.append(artifact)
+        return {"created": created_count, "artifacts": artifacts, "errors": errors}
 
     async def with_state(self, artifact: dict) -> dict:
         return (await self.with_state_many([artifact]))[0]
@@ -325,6 +428,27 @@ def create_artifacts_router(service: ArtifactService) -> APIRouter:
         except ArtifactError as exc:
             return _error(exc)
         return JSONResponse(status_code=201 if created else 200, content=artifact)
+
+    @router.post("/api/artifacts/import")
+    async def import_artifacts(request: Request):
+        """"Importar do projeto": `{"created": n, "artifacts": [...],
+        "errors": [{"caminho", "erro"}]}`. `created` conta só os que
+        nasceram agora; `artifacts` traz todos os que deram certo (inclusive
+        os que já existiam e foram atualizados)."""
+        payload = await _read_json_object(request)
+        if payload is None:
+            return _error(_BAD_BODY)
+        try:
+            return await service.import_paths(payload.get("project_id"), payload.get("caminhos"))
+        except ArtifactError as exc:
+            return _error(exc)
+
+    @router.get("/api/projects/{project_id:path}/artifact-candidates")
+    async def artifact_candidates(project_id: str):
+        try:
+            return await service.candidates(project_id)
+        except ArtifactError as exc:
+            return _error(exc)
 
     @router.get("/api/artifacts/{artifact_id}")
     async def get_artifact(artifact_id: str):
