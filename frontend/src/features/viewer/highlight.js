@@ -8,10 +8,10 @@
 //
 // Motor JavaScript (e não o Oniguruma em WASM): o WASM do Oniguruma pesa ~600 KB
 // e precisa ser baixado e compilado no iPad antes do primeiro destaque; o motor
-// JS usa as RegExp do próprio Safari (iPadOS 17+ tem o flag `v` de que ele
-// precisa). `forgiving: true` faz uma regra de gramática que o motor não
-// entenda ser ignorada em vez de derrubar o destaque inteiro — no pior caso
-// sai um trecho sem cor, nunca um erro.
+// JS usa as RegExp do próprio Safari (com o flag `v` quando existe, iPadOS 17+,
+// e regras ES2018 nos anteriores). `forgiving: true` faz uma regra de gramática
+// que o motor não entenda ser ignorada em vez de derrubar o destaque inteiro —
+// no pior caso sai um trecho sem cor, nunca um erro.
 //
 // Tema: `github-light`/`github-dark` conforme `data-theme` do <html>. Trocar
 // de tema recarrega a página (AppearanceSwitch.jsx), então ler o atributo na
