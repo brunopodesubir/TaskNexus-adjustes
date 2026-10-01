@@ -2693,6 +2693,36 @@ def _find_project_path(project_id: str) -> str | None:
         return None
 
 
+async def notify_viewer_open(
+    session_key: str, item: dict, reused: bool, evicted: list[str] | None = None,
+) -> bool:
+    """Avisa a tela, ao vivo, que uma aba foi aberta (Parte 6, 6.4.4).
+
+    Frame de TEXTO no WebSocket do terminal que já está aberto: `send_text` é
+    o canal dos frames de controle (`resume_failed`, `spawn_failed`) e a saída
+    do PTY vai sempre como bytes, então o frontend separa os dois sem
+    ambiguidade e não há conexão nova.
+
+    Devolve se foi entregue. Nunca levanta: a aba já está gravada, e um socket
+    ausente ou fechando no meio (evicção de leitor único, iPad dormindo) só
+    significa `delivered=false` — o frontend busca as abas pelo GET ao abrir a
+    conversa. `evicted` leva os ids das abas fechadas pelo limite de 15, para a
+    tela tirá-las sem recarregar a lista."""
+    ws = _active_connections.get(session_key)
+    if ws is None:
+        return False
+    try:
+        await ws.send_text(json.dumps({
+            "type": "viewer_open",
+            "item": item,
+            "reused": reused,
+            "evicted": list(evicted or []),
+        }))
+        return True
+    except Exception:
+        return False
+
+
 viewer_service = ViewerService(
     store=viewer_store,
     find_project_path=_find_project_path,
@@ -2700,6 +2730,7 @@ viewer_service = ViewerService(
     # (_reload_projects_root), e o serviço precisa sempre do atual.
     get_projects_root=lambda: PROJECTS_ROOT,
     session_key_for_claude_id=store.get_session_key_by_claude_id,
+    notify=notify_viewer_open,
 )
 # Antes do catch-all do SPA no fim do arquivo (ver o comentário de lá).
 app.include_router(create_viewer_router(viewer_service))

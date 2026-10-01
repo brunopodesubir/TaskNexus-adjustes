@@ -6,6 +6,7 @@ import os
 import sys
 import time
 import asyncio
+from contextlib import ExitStack, contextmanager
 from pathlib import Path
 from fastapi import WebSocketDisconnect
 
@@ -2537,3 +2538,116 @@ def test_pty_websocket_codex_project_uses_build_codex_cmd_not_claude(client, tmp
 
     assert spy.called
     assert spy.call_args[0][3] == str(proj_dir)
+
+
+# -- Fase V: frame viewer_open (Parte 6, 6.4.4) --------------------------------
+
+
+def _next_text_frame(ws):
+    """Próximo frame de TEXTO do socket, pulando saída do PTY (bytes)."""
+    while True:
+        message = ws.receive()
+        if message.get("text") is not None:
+            return json.loads(message["text"])
+
+
+@contextmanager
+def _idle_pty(client, session_key, fixed_uuid=None):
+    """/ws/pty aberto com um processo que não imprime nada, para o único
+    frame de texto esperado ser o viewer_open. `fixed_uuid` fixa o
+    claude_session_id gravado (para chamar o hook do agente)."""
+    import app.main as main_mod
+    fake_cmd = [sys.executable, "-c", "import time; time.sleep(10)"]
+    with ExitStack() as stack:
+        stack.enter_context(patch("app.main._build_pty_cmd", return_value=fake_cmd))
+        if fixed_uuid is not None:
+            stack.enter_context(patch("app.main.uuid.uuid4", return_value=fixed_uuid))
+        ws = stack.enter_context(client.websocket_connect(f"/ws/pty/{session_key}"))
+        ws.send_text(json.dumps({
+            "type": "init", "project_id": "meu-projeto", "agent_id": None,
+            "cols": 80, "rows": 24,
+        }))
+        assert _poll_until(lambda: session_key in main_mod.pty_manager.active_sessions())
+        yield ws
+
+
+def test_viewer_open_frame_is_sent_to_the_connected_terminal(client, tmp_path):
+    (tmp_path / "meu-projeto" / "README.md").write_text("# Oi\n", encoding="utf-8")
+    session_key = "meu-projeto::claude"
+    with _idle_pty(client, session_key) as ws:
+        r = client.post(f"/api/sessions/{session_key}/viewer", json={"caminho": "README.md"})
+        assert r.status_code == 200
+        body = r.json()
+        assert body["delivered"] is True
+
+        frame = _next_text_frame(ws)
+        assert frame == {
+            "type": "viewer_open",
+            "item": body["item"],
+            "reused": False,
+            "evicted": [],
+        }
+        assert frame["item"]["path"] == "README.md"
+
+        again = client.post(f"/api/sessions/{session_key}/viewer",
+                            json={"caminho": "README.md", "linha": 1}).json()
+        frame = _next_text_frame(ws)
+        assert frame["reused"] is True
+        assert frame["item"]["item_id"] == body["item"]["item_id"]
+        assert frame["item"] == again["item"]
+
+
+def test_viewer_open_frame_from_the_agent_hook(client, tmp_path, monkeypatch):
+    import uuid as uuid_mod
+    import app.viewer_api as viewer_api
+    monkeypatch.setattr(viewer_api, "_is_loopback_host", lambda host: True)
+    (tmp_path / "meu-projeto" / "plano.md").write_text("# Plano\n", encoding="utf-8")
+    session_key = "meu-projeto::claude"
+    fixed = uuid_mod.uuid4()
+    with _idle_pty(client, session_key, fixed_uuid=fixed) as ws:
+        r = client.post("/api/hooks/viewer/open", json={
+            "claude_session_id": str(fixed), "caminho": "plano.md", "titulo": "Plano",
+        })
+        assert r.json()["success"] is True
+        assert r.json()["delivered"] is True
+        frame = _next_text_frame(ws)
+        assert frame["type"] == "viewer_open"
+        assert frame["item"]["title"] == "Plano"
+        assert frame["item"]["opened_by"] == "agent"
+
+
+def test_viewer_open_without_connected_terminal_is_not_delivered(client, tmp_path):
+    (tmp_path / "meu-projeto" / "README.md").write_text("# Oi\n", encoding="utf-8")
+    r = client.post("/api/sessions/meu-projeto::claude/viewer", json={"caminho": "README.md"})
+    assert r.status_code == 200
+    assert r.json()["success"] is True
+    assert r.json()["delivered"] is False
+    # A aba ficou gravada mesmo assim.
+    items = client.get("/api/sessions/meu-projeto::claude/viewer").json()["items"]
+    assert [i["path"] for i in items] == ["README.md"]
+
+
+@pytest.mark.asyncio
+async def test_notify_viewer_open_unit():
+    from app.main import notify_viewer_open, _active_connections
+
+    _active_connections.clear()
+    assert await notify_viewer_open("ninguem::claude", {"item_id": "vw_a"}, False) is False
+
+    ws = MockWebSocket([])
+    _active_connections["sk::claude"] = ws
+    try:
+        assert await notify_viewer_open("sk::claude", {"item_id": "vw_a"}, True, ["vw_b"]) is True
+        assert json.loads(ws.sent_text[0]) == {
+            "type": "viewer_open", "item": {"item_id": "vw_a"},
+            "reused": True, "evicted": ["vw_b"],
+        }
+        assert ws.sent_bytes == []
+
+        # Socket fechando no meio do envio: não propaga, só não entrega.
+        async def broken_send_text(data):
+            raise RuntimeError("Cannot call send once a close message has been sent.")
+        ws.send_text = broken_send_text
+        assert await notify_viewer_open("sk::claude", {"item_id": "vw_a"}, False) is False
+    finally:
+        _active_connections.clear()
