@@ -137,26 +137,27 @@ WebSocket). No tablet isso é ruim:
 
 ### 7. Estado atual
 
-- **Branch de trabalho da documentação:** `claude/elegant-carson-ehd59f`
-  (a pasta `docs/melhorias-tablet/` foi liberada no `.gitignore`, que ignora `docs/*` por padrão).
-- **Código:** a **Fase N** foi implementada (frontend só) na branch
-  `claude/elegant-carson-ehd59f`: drill-down cliente → projeto no `ClienteList`,
-  escopo global `useNavScope`, filtro por projeto no Chat/Board/Tarefas e o
-  recolhimento automático pronto em `useViewerDockCollapse` (com `viewerOpen`
-  sempre `false` no `AppV2` até a Fase V ligar). O que divergiu do plano e os
-  pontos de integração estão na seção **8.7** da Parte 8.
-- **Fase V-1 (backend do visualizador)** implementada na branch
-  `claude/practical-keller-pdveop`: `file_access.py`, `file_serving.py`,
-  `viewer_store.py`, `viewer_api.py`, `mcp_viewer_adapter.py`, frame
-  `viewer_open` e o servidor MCP `escritorio-visualizador`. Contratos, o que
-  divergiu do plano e pendências estão na seção **6.10** da Parte 6. Falta a
-  **V-2** (frontend, passos 5 a 10 da tabela 6.6).
-- **Próxima ação:** quando o Bruno pedir, entregar o prompt de desenvolvimento
-  da **Fase V** (`06-planejamento-fase-v.md`) e depois o da **Fase A**
-  (`07-planejamento-artefatos.md`), para ele usar numa janela limpa. A Fase V
-  liga `setViewerOpen` no `AppV2` (ver 8.7). O desenvolvimento deve acontecer
-  numa branch própria (a que a sessão de desenvolvimento indicar), com um PR
-  para a fase.
+- **Integração:** as fases **N, V (V-1 backend + V-2 frontend) e A (backend +
+  frontend)** foram desenvolvidas por subagentes, validadas pelo integrador e
+  mergeadas na branch `claude/elegant-carson-ehd59f`, que vai para a `main` num
+  **PR único** com o checklist de teste manual do Bruno. O PR antigo da V-1
+  (`brunopodesubir/TaskNexus-adjustes#2`) foi substituído por esse PR único.
+- **Onde está o "como ficou" de cada fase:** Fase N na seção **8.7**; V-1 na
+  **6.10**; V-2 na **6.11**; Artefatos backend na **7.10** e frontend na **7.11**.
+  Capturas em `docs/melhorias-tablet/capturas/fase-v2/` e `capturas/fase-a/`.
+- **Testes na integração:** frontend 94 arquivos / 1635 testes verdes; backend
+  1212 passaram, 21 pulados (o `test_pty_manager.py::test_terminate_kills_process_group`
+  falha só no contêiner de nuvem, por falta de reaper de zumbis, e já falhava antes).
+- **Próxima ação:** o Bruno testa o PR único no iPad/PC/celular. Depois do merge,
+  as próximas fases do roteiro são **F0** (autenticação + routers + restante dos
+  quick wins do terminal), **F1** (navegador de arquivos), **F2** (chat
+  estruturado), **F3** (layout v3) e **F4** (codex + extras) — Parte 5.
+- **Pendências conhecidas** (estão no PR): aprovação da tool na TUI do claude na
+  1ª chamada; PDF dentro de iframe no Safari pode mostrar só a 1ª página;
+  vídeo sem Range (vira download); CORS `*` e sem autenticação até a F0; teste com
+  o codex real e no Windows; ambiguidade de "artefato" num claude que também tenha
+  a tool de Artifact do claude.ai (dizer "artefato do TaskNexus"); paginação da
+  lista de artefatos; link relativo de artefato para arquivo não publicado abre cru.
 
 ### 8. Regras para quem for desenvolver
 
@@ -2795,6 +2796,187 @@ de teste:
 
 ---
 
+### 6.11 Como ficou implementado (V-2, frontend)
+
+A V-2 entregou os passos 5 a 10 da tabela 6.6 (um commit por passo, mais dois
+commits de ajustes achados na verificação visual). Como na 6.10, onde o código
+diverge do texto acima, **vale o código**.
+
+#### 6.11.1 Arquivos
+
+| Arquivo | O que faz |
+|---------|-----------|
+| `frontend/src/features/viewer/ViewerContext.jsx` | `ViewerProvider`, `useViewer()` (estado + ações, `null` sem Provider), `useViewerActions()` (só ações, identidade estável), `useViewerHost()` (o casco informa conversa ativa/visível/celular e carrega as abas), `surfaceForScope`, `openerLabel`, `MAX_TABS = 15` |
+| `features/viewer/viewerApi.js` | Escopos (`sessionScope`, `sessionKeyFromScope`), `normalizeItem` (acrescenta `source` e `id`), URLs por origem (`contentUrl`, `fileUrl` com `download` e `version`) e as rotas da 6.10.3 |
+| `features/viewer/viewerPaths.js` | Funções puras de caminho (resolver relativo, normalizar, codificar para URL, formatar tamanho/tempo) |
+| `features/viewer/ViewerPanel.jsx` | Abas + barra + corpo, iguais nos três contêineres; estados vazio/carregando/erro/apagado/grande |
+| `features/viewer/ViewerTabs.jsx`, `ViewerToolbar.jsx` | Abas (toque troca, × fecha, rolagem horizontal só da faixa) e barra (⤓ ⧉ ↗ ⋯) |
+| `features/viewer/ViewerDock.jsx` | Painel encaixado (≥ 1100 px), `clamp(420px, 42vw, 780px)` |
+| `features/viewer/ViewerDrawer.jsx` | Painel por cima (641–1099 px), portal, `min(560px, 92vw)` |
+| `features/viewer/ViewerFullscreen.jsx` | Tela cheia em portal (contrato do `CenteredModal`) |
+| `features/viewer/ViewerButton.jsx`, `ViewerMobileButton.jsx` | Botão da topbar (contador + selo de não vistos) e flutuante do celular |
+| `features/viewer/ViewerToast.jsx` | Aviso "claude abriu X · Ver" e erros de abrir link |
+| `features/viewer/useViewerContent.js` | `GET …/content` com cache por `source:id:updated_at` (30 entradas) |
+| `features/viewer/highlight.js` | Shiki sob demanda (núcleo, motor JS, temas e cada linguagem por `import()`) |
+| `features/viewer/terminalLinks.js` | Caminhos clicáveis no xterm (achar, mapear colunas, link provider) e o handler das URLs |
+| `features/viewer/escape.js` | Regra única do Esc (nunca fecha nada se a tecla veio do terminal) |
+| `features/viewer/renderers/` | `MarkdownView`, `HtmlView`, `CodeView`, `ImageView`, `PdfView`, `BinaryView` e `index.jsx` (escolha pelo `kind`) |
+| `features/viewer/viewer.css` | Estilos do painel (só tokens `--v2-*`) |
+| `frontend/src/utils/markdown.js` | `renderViewerMarkdown` (GFM, links, âncoras, ids de título, imagens relativas); `renderMarkdown` ganhou só `target=_blank` nos links externos |
+| `frontend/src/components/TerminalPanel.jsx` | `viewer_open` em `CONTROL_FRAME_TYPES`, `@xterm/addon-web-links` e o link provider de caminhos |
+| `frontend/src/layouts/v2/AppV2.jsx` | `ViewerProvider` envolvendo o casco, botão na topbar, Dock/Drawer/Fullscreen pela largura, botão do celular, aviso |
+| `frontend/package.json` | `shiki` (4.x) e `@xterm/addon-web-links` (0.11, par do `@xterm/xterm` 5.5) |
+| `README.md` | Seção "Visualizador de arquivos" |
+
+#### 6.11.2 Divergências e decisões tomadas na implementação
+
+| # | Ponto | Especificação | Como ficou | Por quê |
+|---|-------|---------------|------------|---------|
+| 1 | `viewerOpen` no `AppV2` | `setViewerOpen` chamado ao abrir/fechar (8.7) | **Derivado**: `viewerOpen = painel do chat aberto && v2Screen === 'chat'`; o `useState` saiu | Sincronizar por efeito daria um quadro com o painel aberto e as colunas ainda largas. Derivado, ir ao Board devolve as colunas e voltar ao Chat recolhe de novo sem código extra. O refit (`escritorio:sidebar-toggled`) continua só no `useViewerDockCollapse` — o painel não dispara um segundo evento (há teste contando um) |
+| 2 | Onde fica o Provider | "junto do TerminalProvider" (App.jsx) | Dentro do `AppV2` (`AppV2` = `ViewerProvider` + `AppV2Shell`) | Tudo que usa o visualizador mora abaixo do `AppV2` (TerminalPanel, topbar, painéis e a futura tela Artefatos); a rota `/tarefas` não paga nada; os testes que montam `<AppV2>` direto já ganham o Provider |
+| 3 | Estado do contexto | `bySession`, `open`, `fullscreen`, `unseen` | `scopes` (por escopo), `surfaces` (`open`/`fullscreen` **por superfície**: `chat` hoje, `artefatos` na Fase A), `unseen` (por escopo), `toast` | Trocar de conversa troca o escopo, mas o painel continua aberto (6.5.3). E a Fase A ganha o próprio painel sem misturar com o do chat |
+| 4 | Assinaturas | `openByPath(sessionKey, …)`, `closeItem(sessionKey, …)` | Recebem o **escopo** (`session:<sk>`) | Os componentes do painel só conhecem o escopo (a Fase A passa `artefatos`) |
+| 5 | Dois contextos | um | `useViewerActions()` (estável) + `useViewer()` (estado) | Cada TerminalPanel montado assina só as ações: abrir uma aba não re-renderiza todos os terminais |
+| 6 | Botões | ⤢ Tela cheia na barra | ⤢ e ✕ no **cabeçalho**, ao lado das abas (como no mockup 13); a barra fica com ⤓ ⧉ ↗ ⋯ | No painel de 420 px a barra não teria espaço para o caminho com mais um botão largo |
+| 7 | ⧉ Copiar | — | Copia o **conteúdo** de texto (md, código, html); em imagem/PDF/binário copia o **caminho** | É o que dá para colar no Notas em cada caso |
+| 8 | Esc | Fecha tela cheia; senão fecha o painel | Igual, mas **nunca** quando a tecla veio do xterm (`.xterm`); no painel encaixado só com o foco dentro dele (sem listener global) | O Esc é do agente (cancelar no `claude`, sair do modo inserção no vim), inclusive quando o painel abriu sozinho enquanto você digitava |
+| 9 | Foco | — | Gaveta e tela cheia focam o painel ao abrir; o encaixado **nunca** rouba o foco do terminal | Os dois primeiros cobrem o terminal; o encaixado fica ao lado e você pode continuar digitando |
+| 10 | Tela cheia no iPad | O painel à direita não renderiza | A **coluna** do encaixado continua reservada (vazia) | Entrar/sair da tela cheia não muda a largura do terminal: nada de refit nem redesenho do `claude` por baixo do modal |
+| 11 | Botão do celular | "ao lado do ☰ Menu" | Canto **superior direito**, na mesma faixa do Menu ("📄 Arquivos" + contador) | A topbar do celular fica vazia; medir a largura do Menu para encostar seria frágil. Em cima pelo mesmo motivo do Menu (teclado do iOS) |
+| 12 | Botão na topbar | Ao lado de Anexos | À **esquerda** de Anexos, desabilitado sem conversa ativa | É o controle que o agente aciona sozinho (selo de não vistos), fica na ponta mais visível |
+| 13 | Arquivo > 1 MB | Cartão de download | Cartão + "Mostrar o começo" (primeiro 1 MB como texto puro, sem destaque, com faixa de aviso). HTML grande continua no iframe | 6.10.2, item 3: a tela escolhe. O iframe carrega o arquivo inteiro pela rota `f/` |
+| 14 | Vídeo | — | `BinaryView` com "baixe para assistir" | 6.10.5: sem `Range` no backend o `<video>` do Safari não toca |
+| 15 | Recarregar `<img>`/`<iframe>` | — | `?v=<updated_at>` nas URLs de exibição (não no Baixar) | Com o mesmo `item_id` reaproveitado, o Safari reutilizaria a imagem/iframe da versão anterior. A query não muda a resolução de `style.css` relativo |
+| 16 | Links no markdown | Relativos → `openByPath` com `relativoA` | Igual; `/x.md` (com barra) = **raiz do projeto**, sem `relativoA` | É o que o GitHub faz num README; o backend trataria `/x.md` como caminho absoluto do disco |
+| 17 | Âncoras | "rolar dentro do painel" | Títulos ganham `id="user-content-<slug>"` (slug do GitHub) e o clique rola o painel | O prefixo impede um título "location" de sombrear `window.location` |
+| 18 | Erros de abrir link | — | Aviso (toast) com a mensagem do backend ("Arquivo não encontrado: …", "Arquivo protegido …") | O mesmo caminho serve para link no markdown e caminho tocado no terminal |
+| 19 | DELETE com erro de rede | — | A aba some na hora; se o DELETE falhar (não 404), a lista é recarregada do backend | Mais honesto que fingir que fechou; 404 = "já fechada" (6.10.2, item 15) |
+| 20 | Quem abriu | "claude abriu X" | Agente = 2º segmento da `session_key` (`projeto::agente[::instância]`); aberto pela tela (`opened_by: user`) → "Você abriu" | — |
+| 21 | Destaque de sintaxe | Shiki sob demanda | Shiki 4 com **motor JavaScript** (`forgiving: true`), sem destaque acima de 200 mil caracteres; o `CodeView` desenha no máximo 20 mil linhas | O WASM do Oniguruma pesa ~600 KB e precisa ser compilado no iPad; o motor JS usa as RegExp do próprio Safari. Arquivos enormes travariam a thread principal |
+| 22 | Linhas longas de código | — | Rolam **dentro do bloco** de código; o corpo do painel nunca rola na horizontal | A barra "N linhas · Quebrar linhas" fica parada; "Quebrar linhas" alterna `pre-wrap` |
+| 23 | Ordem das abas | — | Ordem de criação; aba reaproveitada fica no mesmo lugar e vira ativa | Igual ao que o backend devolve no `GET` |
+| 24 | Links no terminal | Caminhos + URLs | Nome solto só vira link com extensão **conhecida** (`README.md` sim, `github.com` não); URLs ficam com o addon e abrem sem `opener` | Evita sublinhar prosa ("e.g.", versões) e dar "Arquivo não encontrado" ao tocar |
+
+#### 6.11.3 Tamanho do bundle (`npm run build`)
+
+| Arquivo | Antes da V-2 | Depois da V-2 |
+|---------|--------------|---------------|
+| `index-*.js` (carregado sempre) | 886,03 kB · gzip 250,69 kB | 930,07 kB · gzip 265,52 kB (+14,8 kB gzip: painel, renderers, contexto, addon de links) |
+| `index-*.css` | 11,65 kB · gzip 3,71 kB | 22,33 kB · gzip 5,91 kB |
+| Shiki, só no 1º destaque | — | núcleo 36,95 kB + motor JS 21,22 kB + tema 2,5 kB (gzip) |
+| Cada linguagem, só quando aparece | — | ex.: python 9,1 kB, bash 6,1 kB, markdown 5,6 kB, html 11,7 kB, javascript 16,5 kB (gzip) |
+
+Abrir o primeiro arquivo Python custa ~70 kB gzip a mais, uma vez. Achou-se
+desnecessário cair para o `highlight.js`.
+
+#### 6.11.4 Testes
+
+`npm test`: **90 arquivos, 1584 testes, todos passando** (eram 81/1498).
+Novos: `ViewerContext.test.jsx`, `viewerApi.test.js`, `viewerPaths.test.js`,
+`ViewerPanel.test.jsx`, `ViewerFullscreen.test.jsx`, `terminalLinks.test.js`,
+`renderers/renderers.test.jsx`, `renderers/media.test.jsx`,
+`components/TerminalPanel.viewer.test.jsx`; ampliados: `utils/markdown.test.js`
+e `layouts/v2/AppV2.test.jsx` (encaixe com colunas recolhidas e um só refit,
+Board/Chat, gaveta + Esc, tela cheia, celular). Cobrem os itens "Frontend" de
+6.7: `isControlFrame` reconhece `viewer_open`; abrir com conversa visível ×
+oculta; aba reaproveitada não duplica; fechar a última fecha o painel; link
+externo com `rel="noopener noreferrer"`; link relativo com `relativoA`; imagem
+relativa reescrita; iframe sem `allow-same-origin`; Esc da tela cheia e portal.
+`fixedPositioningInvariant.test.js` continua passando.
+
+#### 6.11.5 Verificação visual
+
+Backend real (`uvicorn`) com um projeto de teste (`README.md` com tabela,
+checklist e blocos Python/Bash; `docs/relatorio.html` com `style.css` e imagem
+relativa; `src/app.py` com 155 linhas; `docs/manual.pdf`; `.env`) e um agente
+`claude` do tipo terminal (bash). O "agente" foi simulado com
+`POST /api/sessions/demo::claude/viewer` com a conversa aberta (o frame
+`viewer_open` chega pelo WebSocket do terminal). Playwright/Chromium em
+1180×820, 820×1180 e 390×844, em `capturas/fase-v2/`:
+
+| Tela | 1180×820 (encaixado) | 820×1180 (por cima) | 390×844 (tela cheia) |
+|------|----------------------|---------------------|----------------------|
+| Markdown abriu sozinho | [ver](capturas/fase-v2/ipad-paisagem-1180x820--1-markdown.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--1-markdown.png) | [ver](capturas/fase-v2/celular-390x844--1-markdown.png) |
+| Markdown: blocos de código com destaque e Copiar | [ver](capturas/fase-v2/ipad-paisagem-1180x820--2-markdown-codigo.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--2-markdown-codigo.png) | [ver](capturas/fase-v2/celular-390x844--2-markdown-codigo.png) |
+| HTML (link relativo do README abriu outra aba; CSS e imagem vizinhos) | [ver](capturas/fase-v2/ipad-paisagem-1180x820--3-html.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--3-html.png) | [ver](capturas/fase-v2/celular-390x844--3-html.png) |
+| Código com a linha 42 destacada | [ver](capturas/fase-v2/ipad-paisagem-1180x820--4-codigo-linha-42.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--4-codigo-linha-42.png) | [ver](capturas/fase-v2/celular-390x844--4-codigo-linha-42.png) |
+| Tela cheia | [ver](capturas/fase-v2/ipad-paisagem-1180x820--5-tela-cheia.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--5-tela-cheia.png) | [ver](capturas/fase-v2/celular-390x844--5-tela-cheia.png) |
+| PDF (↗ e ⤓ sempre visíveis) | [ver](capturas/fase-v2/ipad-paisagem-1180x820--6-pdf.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--6-pdf.png) | [ver](capturas/fase-v2/celular-390x844--6-pdf.png) |
+| Imagem | [ver](capturas/fase-v2/ipad-paisagem-1180x820--7-imagem.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--7-imagem.png) | [ver](capturas/fase-v2/celular-390x844--7-imagem.png) |
+| Aviso com a conversa fora de vista (Board) | [ver](capturas/fase-v2/ipad-paisagem-1180x820--8-aviso-fora-de-vista.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--8-aviso-fora-de-vista.png) | — |
+| "Ver" do aviso volta à conversa com a aba ativa | [ver](capturas/fase-v2/ipad-paisagem-1180x820--9-ver-do-aviso.png) | [ver](capturas/fase-v2/ipad-retrato-820x1180--9-ver-do-aviso.png) | — |
+| Botão flutuante do celular | — | — | [ver](capturas/fase-v2/celular-390x844--8-botao-flutuante.png) |
+| Caminho no terminal sob o mouse / clicado (abriu `app.py:42`) | [ver](capturas/fase-v2/ipad-paisagem-1180x820--10-terminal-link-hover.png) · [ver](capturas/fase-v2/ipad-paisagem-1180x820--11-terminal-link-abriu.png) | — | — |
+
+O que foi conferido em cada largura (medido no script, não só olhado):
+
+- **Nenhuma rolagem horizontal**: `scrollWidth − clientWidth = 0` na página e
+  no corpo do painel em todas as capturas (as linhas longas de código rolam
+  dentro do bloco delas).
+- 1180×820: com o painel encaixado, sidebar e lista de chats viraram trilhos;
+  ao fechar, voltaram expandidas; a preferência salva não mudou.
+- O script do relatório **rodou** dentro do iframe e `document.cookie` lançou
+  erro (origem opaca: o sandbox sem `allow-same-origin` está valendo).
+- Esc fechou a tela cheia nas três larguras; `.env` foi recusado com
+  "Arquivo protegido (segredos não são exibidos)".
+- Terminal: o caminho `src/app.py:42` impresso pelo bash ganhou cursor de link e
+  o clique abriu a aba `app.py:42`; a URL abriu uma aba nova do navegador.
+
+Achados corrigidos durante a verificação (commits `fix(viewer)`): destaque dos
+blocos do markdown não aparecia no modo de desenvolvimento (StrictMode); fonte
+do v1 na gaveta/tela cheia (portais fora do casco); rolagem passando de uma aba
+para outra; × da aba nova cortado atrás dos botões do cabeçalho.
+
+#### 6.11.6 Pontos de integração para a Fase A (frontend)
+
+- **Escopo e origem:** use o escopo `'artefatos'` e itens com
+  `source: 'artifact'` e `artifact_id`. `normalizeItem(raw, 'artifact')` monta
+  `id`; `contentUrl(item)` → `/api/artifacts/{id}/content` e
+  `fileUrl(item, path, { download, version })` → `/api/artifacts/{id}/f/…` já
+  existem (7.4.3). Nenhum renderer muda.
+- **Abrir um artefato:** `const viewer = useViewer();
+  viewer.openItem('artefatos', artifact, { source: 'artifact' })` — insere ou
+  foca a aba (limite de 15), e abre a superfície `artefatos`.
+- **Painel:** `<ViewerDock scope="artefatos" />` (≥ 1100 px),
+  `<ViewerDrawer scope="artefatos" open={…} />` (641–1099 px) e
+  `<ViewerFullscreen scope="artefatos" open={…} closeEverything={isMobile} />`.
+  Props comuns: `scope`, `surface` (padrão `surfaceForScope(scope)`, que dá
+  `'artefatos'`), `emptyHint` (texto do estado vazio). O aberto/tela cheia sai
+  de `viewer.getSurface('artefatos')`; ações `setOpen`/`setFullscreen(surface, bool)`,
+  `closeItem/closeAll/setActive(scope, …)`.
+- **Recolhimento no AppV2:** hoje `viewerOpen` olha só a superfície `chat`. A
+  tela Artefatos deve somar a dela:
+  `viewerOpen = (chat.open && v2Screen === 'chat') || (artefatos.open && v2Screen === 'artefatos')`.
+- **Persistir as abas em `sessionStorage`** (7.5.4): ler na montagem e chamar
+  `openItem` (ou acrescentar ao contexto um `restoreItems(scope, items)`);
+  hoje o escopo local vive só na memória.
+- **Links dentro de um artefato:** `openByPath` só funciona em escopo de
+  sessão (devolve erro amigável fora dele). Para artefatos, decidir se o link
+  relativo abre na conversa ativa ou vira outro artefato.
+- **Lista desatualizada (7.5.5):** o frame `viewer_open` já passa por
+  `receiveOpen`; para recarregar a galeria, observar `viewer.scopes` ou
+  acrescentar um ouvinte no contexto.
+- **"☆ Salvar em Artefatos" (7.5.1):** entra no `ViewerToolbar`, que recebe o
+  `item` (com `source`).
+
+#### 6.11.7 Pendências (verificar no iPad)
+
+- **Toque em link do terminal no iPad** (6.5.6): no Chromium o clique funciona
+  com o mouse; no iPad precisa ser conferido. Com o `claude` real o modo de
+  mouse da TUI fica ligado — o xterm ainda detecta o link, mas o toque pode ir
+  para a TUI. O caminho garantido é a tool.
+- **Baixar no Safari/PWA** (aceite 5) e **seleção de linhas com o dedo**
+  (aceite 6): dependem do aparelho.
+- **PDF no iframe do Safari** mostra só a 1ª página — por isso ↗ e ⤓ ficam
+  sempre visíveis no `PdfView`.
+- **Motor JS do Shiki** usa o flag `v` das RegExp quando o navegador tem
+  (iPadOS 17+) e cai para regras ES2018 nos mais antigos (`target: 'auto'`);
+  com `forgiving`, uma regra que não compile deixa só aquele trecho sem cor.
+  Conferir o destaque no aparelho.
+- Itens 1–3, 7–10 e 12 do aceite manual (6.7) com o `claude`/`codex` reais.
+
+---
+
 <!-- ===== 07-planejamento-artefatos.md ===== -->
 
 ## Parte 7 — Planejamento da Fase A: aba Artefatos por cliente e projeto
@@ -3200,6 +3382,296 @@ com `collectSubtreeIds`; escolher **uma** e testar o caso de 3 níveis
 - [ ] Aceite manual 7.7 conferido (itens de aparelho marcados como "verificar" se o agente não tiver iPad).
 - [ ] README do projeto com uma seção curta "Artefatos".
 - [ ] Documentação atualizada se a implementação divergir.
+
+---
+
+### 7.10 Como ficou implementado (backend)
+
+A Fase A foi dividida como a V: **backend** (passos 1 a 4 da tabela 7.6, esta
+seção) e **frontend** (passos 5 a 9). Onde o código diverge do que está acima,
+**vale o código**.
+
+#### 7.10.1 Arquivos
+
+| Arquivo | O que faz |
+|---------|-----------|
+| `backend/app/artifact_meta.py` | `artifact_kind_for`, `extract_meta` (título e trecho de md/html, "N páginas" de PDF), `markdown_meta`, `html_meta`, `pdf_page_count`. Só stdlib, nunca levanta |
+| `backend/app/artifact_store.py` | `ArtifactStore` (tabela `artifacts`, upsert por projeto + caminho, filtros, edição, remoção) |
+| `backend/app/artifacts_api.py` | `ArtifactService` (publicar, listar com estado atual do disco, candidatos, importação, publicação automática) e `create_artifacts_router(service)` com todas as rotas de 7.4.3 |
+| `backend/app/viewer_api.py` | `create_viewer_router(service, on_agent_open=None)`: callback chamado só quando o **agente** abre um arquivo pelo hook |
+| `backend/app/mcp_viewer_adapter.py` | + tool `publicar_artefato` (nome, descrição e schema idênticos a 7.4.5) |
+| `backend/app/main.py` | `artifact_store` no `lifespan`, `_agent_label_for_session`, `artifact_service`, `include_router`, env `ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL` no servidor `escritorio-visualizador` |
+| `backend/tests/test_artifact_meta.py`, `test_artifact_store.py`, `test_artifacts_endpoints.py` | Novos |
+| `backend/tests/test_mcp_viewer_adapter.py`, `test_websocket.py`, `test_hook_loopback_listener.py` | Tool nova e a URL nova nos testes de contrato do spawn (`claude` e `codex`) |
+
+#### 7.10.2 Divergências e decisões tomadas na implementação
+
+| # | Ponto | Especificação | Como ficou | Por quê |
+|---|-------|---------------|------------|---------|
+| 1 | Coluna `title_custom` | Não existia | Coluna interna (`INTEGER`, fora da resposta). `1` quando o título veio de alguém (agente com `titulo`, usuário no PATCH). Com `0`, cada nova publicação troca o título pelo do documento; com `1`, título automático nunca sobrescreve | O agente reescreve o `# título` do `.md` e a galeria acompanha; um nome escolhido não some quando o agente reabre o arquivo |
+| 2 | Upsert | "atualiza título (se veio), descrição, trecho, tamanho, mtime e updated_at" | Igual, e `kind` também. `created_by`, `agent_label`, `session_key` e `created_at` ficam os de quem **criou** | O cartão continua dizendo "você" se o usuário importou e o agente só reabriu |
+| 3 | `POST /api/artifacts` | `201` | `201` quando nasce, `200` quando já era artefato (atualizado, mesmo `artifact_id`) | A tela sabe se foi "salvo" ou "já estava" |
+| 4 | Formato `Artifact` | Com `exists` e `mtime` atuais | Igual, sem `session_key` (é só informativo). `size` também é o atual. Arquivo sumido: `exists:false` e `mtime`/`size` da última publicação. Toda resposta que devolve `Artifact` (lista, GET, POST, PATCH, import, hook) traz o estado atual | Um formato só para a tela |
+| 5 | Checagem de existência | `os.stat` em lote | Em lote numa thread, mas por `resolve_safe_path`: um arquivo trocado por link para fora do projeto (ou que caiu na denylist) aparece como `exists:false`, igual ao que `f/` responderia | Coerência com a rota que serve o arquivo |
+| 6 | Erros das rotas JSON | "400/403/404 com mensagem" | `{"success": false, "error": "…"}` com o status HTTP (400/403/404), como a rota do usuário do visualizador (6.10.2, item 8). `content` e `f/` respondem `{"detail": "…"}`, iguais às do visualizador. `caminho` vazio é **400** (no visualizador vira 403) | A tela trata `content`/`f/` de aba e de artefato com o mesmo código |
+| 7 | `?tipo=` | `tipo` | Aceita `md`/`markdown`, `html`/`htm`, `pdf`, vazio ou `todos` (sem filtro); outro valor → `400 "Tipo inválido. Use md, html ou pdf."` | Os chips dizem MD/HTML/PDF, o `kind` gravado é `markdown` |
+| 8 | `?ordem=` | `recentes` | `recentes` (padrão) ordena pelo **maior entre `updated_at` e o `mtime` atual**, decrescente; `nome` ordena pelo título sem acento e sem caixa; outro valor → `400 "Ordem inválida. Use recentes ou nome."` | Arquivo alterado depois de publicado sobe na lista, coerente com "atualizado há X" (7.2) |
+| 9 | `?q=` | "em título, caminho e descrição" | Igual, **sem acento e sem caixa** ("relatorio" acha "Relatório"), filtrado em Python | O `LIKE` do SQLite só ignora caixa em ASCII; no iPad digitar acento é lento |
+| 10 | `?projeto_id=` | Subárvore por prefixo | `project_id = X OR project_id LIKE 'X/%'` com `_` e `%` escapados | `cliente_projeto_1` tem `_`, que é curinga no LIKE |
+| 11 | Candidatos | Ignorar `.git`, `node_modules`, `.venv*`, `dist`, `build`, `.escritorio`… | Ignora **toda pasta oculta** (`.git`, `.claude`, `.escritorio`, `.venv*`, `.next`…) e `node_modules`, `__pycache__`, `dist`, `build`, `venv`, `site-packages`, `coverage`, `htmlcov`; também **subpastas que são projetos** (têm `.claude/`, `.gemini/` ou `.codex/`), arquivos da denylist, arquivos ocultos e links para fora. Ordem alfabética estável; corta em 300 com `truncated:true` | No cliente-como-projeto (`podesubir` com `podesubir/site` dentro), o README do site é candidato de `podesubir/site`; sem isso o mesmo arquivo viraria dois artefatos |
+| 12 | Importação | `{"created","artifacts","errors"}` | `created` conta só os novos; `artifacts` traz **todos** os que deram certo (novos e atualizados); máximo 300 caminhos por pedido (`400`); um caminho ruim não derruba os outros | — |
+| 13 | Tipo aceito | Pela extensão | Checado duas vezes: no nome pedido (um `app.py` recebe "Artefatos aceitam .md, .html e .pdf" mesmo se não existir) e no arquivo real depois do `resolve_safe_path` (link `notas.md` → `x.py` é recusado) | — |
+| 14 | Resposta do hook | `{"success","artifact","opened"}` | Mais `"created"` (o adaptador escreve "já existia, foi atualizado") e `"delivered"` (a tela recebeu o `viewer_open`). `abrir` aceita `"false"`/`"0"`/`"não"` em texto | Alguns modelos mandam booleano como texto |
+| 15 | Hook fora do loopback | — | `403 {"success":false,"error":"O hook de artefatos só aceita chamadas da própria máquina."}`, mesma regra do visualizador (`hook_request_allowed`, liberado com `HOOK_CALLBACK_BASE_URL`) | — |
+| 16 | `abrir=true` | "reaproveitando a lógica do `abrir_no_visualizador`" | Chama o mesmo `ViewerService.open_path` (aba gravada, reaproveitada pelo caminho, limite de 15, frame `viewer_open`). Se a abertura falhar, a publicação vale e `opened:false` | — |
+| 17 | Publicação automática | "`abrir_no_visualizador` faz upsert" | Callback `on_agent_open` no **hook** `/api/hooks/viewer/open`, depois da aba gravada. O `titulo` do `abrir_no_visualizador` **não** vira título do artefato (é o rótulo curto da aba); vale o título do documento. Falha aqui nunca vira erro para o agente (só log). Abertura pelo usuário e a abertura feita pelo próprio `publicar_artefato` não passam pelo hook, então não publicam (nem duplicam) | Mantém o `ViewerService` sem saber de artefatos |
+| 18 | `agent_label` | "`agent.ia` ou nome do cadastro" | `ia` do agente do cadastro global escolhido como em `_resolve_agent` (o `agent_id` da `session_key`, senão o padrão, senão o primeiro), lido do cache em memória; sem agente resolvido, o próprio `agent_id` da chave (ex.: `claude`); `null` para `created_by='user'` | Não varrer `PROJECTS_ROOT` a cada publicação |
+| 19 | Leitura de metadados | "no máximo 256 KB" | 256 KB para `.md`/`.html`; PDF lê o arquivo inteiro **só até 20 MB** (a contagem precisa dos objetos de página espalhados) | Regra de 7.4.4 para PDF |
+| 20 | Metadados de Markdown/HTML | Básico | Markdown pula front matter YAML, blocos de código, tabelas, réguas e comentários; aceita título setext (`Título\n===`); `_` só sai na borda de palavra (`meu_modulo.py` fica). HTML aceita também `og:description` e ignora `<script>`/`<style>`/`<template>` | Trechos legíveis em docs reais |
+| 21 | `PATCH` | `{"titulo"?,"descricao"?}` | `titulo` vazio → `400 "O título não pode ficar vazio."`; `descricao` `null` ou `""` apaga a descrição; renomear marca o título como explícito (item 1) | — |
+| 22 | Paginação | Se passar de 300 (7.8) | **Não** implementada: a lista devolve tudo | Sem necessidade medida ainda |
+
+Ficaram **como especificado**: tabela e índice de 7.4.2 (mais a coluna do
+item 1); ids `af_` + `token_urlsafe(16)`; `UNIQUE(project_id, path)`; mesmo
+padrão de store (aiosqlite, WAL, `busy_timeout=5000`, `asyncio.Lock` criado
+no `initialize()`); `cliente_id` pela regra de `cliente_id_from_projeto_id`;
+`DELETE` não apaga o arquivo; `content` e `f/` pelo `file_serving` sem cópia
+(CSP, nosniff, `no-store`, download, denylist, limite de 1 MB); artefatos
+**sobrevivem** ao `terminate` da sessão; tool `publicar_artefato` no servidor
+`escritorio-visualizador` com nome, descrição e schema de 7.4.5 e os textos de
+resposta; env `ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL` registrada em
+`_escritorio_mcp_servers` (vale para `claude` e `codex`); todo acesso a disco
+em `asyncio.to_thread`.
+
+#### 7.10.3 Contratos para o frontend da Fase A
+
+**Artifact** (resposta real do teste ponta a ponta):
+
+```json
+{
+  "artifact_id": "af_uCL93UtU8HSXSsMfmzTMFw",
+  "project_id": "cliente-x/site",
+  "cliente_id": "cliente-x",
+  "path": "docs/relatorio.html",
+  "kind": "html",
+  "title": "Relatório E2E",
+  "description": "Relatório do E2E",
+  "excerpt": "Tudo passou.",
+  "size": 125,
+  "mtime": 1790825033.0571904,
+  "created_by": "agent",
+  "agent_label": "claude",
+  "created_at": 1790825100.2932432,
+  "updated_at": 1790825100.2932432,
+  "exists": true
+}
+```
+
+- `kind`: `markdown | html | pdf`. `created_by`: `agent | user`.
+- `excerpt`: até 200 caracteres ou `null`; PDF: `"1 página"` / `"N páginas"` ou `null`.
+- `mtime`/`size`: do disco agora (se `exists`), senão da última publicação.
+
+**Rotas**
+
+| Rota | Sucesso | Erros |
+|------|---------|-------|
+| `GET /api/artifacts?cliente_id=&projeto_id=&tipo=&q=&ordem=` | `200 {"artifacts":[Artifact…]}` | `400` tipo/ordem inválidos |
+| `GET /api/artifacts/{id}` | `200 Artifact` | `404 {"success":false,"error":"Artefato não encontrado"}` |
+| `POST /api/artifacts` `{"project_id","caminho","titulo"?,"descricao"?}` | `201 Artifact` (novo) ou `200 Artifact` (já existia) | `400` corpo/caminho/tipo, `403` fora do projeto/protegido, `404` projeto ou arquivo |
+| `POST /api/artifacts/import` `{"project_id","caminhos":[…]}` | `200 {"created":n,"artifacts":[Artifact…],"errors":[{"caminho","erro"}]}` | `400` lista vazia/> 300, `404` projeto |
+| `GET /api/projects/{project_id}/artifact-candidates` | `200 {"candidates":[{"path","kind","size","mtime"}],"truncated":bool}` | `404` projeto |
+| `PATCH /api/artifacts/{id}` `{"titulo"?,"descricao"?}` | `200 Artifact` | `400` título vazio, `404` |
+| `DELETE /api/artifacts/{id}` | `200 {"status":"removed"}` | `404` (tratar como "já removido") |
+| `GET /api/artifacts/{id}/content` | igual a `/api/viewer/{item_id}/content`, com `artifact_id` no lugar de `item_id` | `404 {"detail"}` artefato/arquivo/projeto, `403 {"detail"}` |
+| `GET /api/artifacts/{id}/f/{caminho}[?download=1]` | igual a `/api/viewer/{item_id}/f/…` | `403`, `404`, `400` (pasta) com `{"detail"}` |
+| `POST /api/hooks/artifacts/publish` (só o adaptador) | `200 {"success":true,"artifact","created","opened","delivered"}` | `200 {"success":false,"error"}`; `403` fora do loopback |
+
+Mensagens de erro: `Artefatos aceitam .md, .html e .pdf`, `Caminho fora do
+projeto`, `Arquivo protegido (segredos não são exibidos)`, `Arquivo não
+encontrado: <caminho>`, `É uma pasta, não um arquivo: <caminho>`, `Informe o
+caminho do arquivo.`, `Informe o projeto (project_id).`, `Projeto não
+encontrado: <id>`, `Artefato não encontrado`, `Corpo da requisição inválido.`,
+`O título não pode ficar vazio.`, `Tipo inválido. Use md, html ou pdf.`,
+`Ordem inválida. Use recentes ou nome.`, `Informe a lista de caminhos
+(caminhos).`, `Importe no máximo 300 arquivos por vez.`
+
+**Para a lista se atualizar sozinha (7.5.5):** quando o agente abre um
+`.md`/`.html`/`.pdf`, o artefato é gravado **antes** da resposta do hook, e o
+frame `viewer_open` (com `opened_by: "agent"`) chega no WebSocket do terminal.
+O frame não diz se virou artefato: a tela recarrega a lista quando o `path`
+do item termina em `.md`/`.markdown`/`.html`/`.htm`/`.pdf`.
+
+**Textos que o agente lê** (`publicar_artefato`):
+`Artefato publicado em Artefatos › cliente-x / site: "Relatório E2E" (docs/relatorio.html).`,
+`… (README.md) (já existia, foi atualizado).` ou a mensagem de erro do backend.
+
+#### 7.10.4 Teste ponta a ponta (backend)
+
+Backend real (`uvicorn`, `HOOK_LOOPBACK_PORT` ligado) com `PROJECTS_ROOT` numa
+pasta temporária e o projeto `cliente-x/site` (com `.claude/`):
+
+1. WebSocket em `/ws/pty/cliente-x/site::claude`; o `--mcp-config` do `claude`
+   no PTY (lido do `/proc`) trazia `ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL =
+   http://127.0.0.1:8766/api/hooks/artifacts/publish`.
+2. Adaptador rodando com esse env: `publicar_artefato` de
+   `docs/relatorio.html` e `README.md` → textos de 7.4.5 e três frames
+   `viewer_open` (o segundo README com `reused: true`); `app.py` → "Artefatos
+   aceitam .md, .html e .pdf"; `.env.md` → "Arquivo protegido…".
+3. Lista por `cliente_id=cliente-x` (2 artefatos), por `projeto_id` + `tipo=md`
+   e por `cliente_id=outro` (vazia).
+4. Candidatos: `docs/antigo.md` e `docs/plano.md` (sem `node_modules`, sem os
+   já publicados); importação de `docs/antigo.md` + `app.py` → 1 criado e 1 erro.
+5. `abrir_no_visualizador` (pelo adaptador) de `docs/plano.md` criou artefato
+   `agent/claude`; de `app.py`, não. Abertura pelo usuário de um `.md` novo não criou.
+6. Apagar `docs/plano.md` → `exists:false`; `content` dele → `404`.
+7. `f/…?download=1` com `attachment`, CSP `sandbox`; `DELETE` → `removed` e o arquivo continuou no disco.
+8. Hook pelo IP da rede → `403`.
+9. **`claude` real** (2.1.x, `claude -p` com o `--mcp-config` gerado pelo
+   backend): pedindo "publique o README.md como artefato do TaskNexus (aba
+   Artefatos), usando a tool publicar_artefato", o agente chamou a tool e
+   respondeu que o README foi publicado em cliente-x / site (já existia,
+   atualizado). Na primeira tentativa, com o pedido curto "publique o
+   README.md como artefato", o `claude` **deste ambiente** escolheu a tool de
+   artefatos do próprio claude.ai, que existe aqui e não no PC do Bruno — ver
+   pendências.
+
+#### 7.10.5 Pendências
+
+- **Frontend da Fase A** (passos 5 a 9 da tabela 7.6), contra os contratos de 7.10.3.
+- **README do projeto** com a seção "Artefatos": junto com a tela.
+- **Paginação** (`limit`/`offset`) só se a lista passar de algumas centenas (7.8).
+- **Permissão da tool no `claude` interativo:** como `abrir_no_visualizador`,
+  `mcp__escritorio-visualizador__publicar_artefato` pode pedir aprovação na
+  primeira chamada (avaliar `--allowedTools` no spawn, fora desta fase).
+- **Ambiguidade da palavra "artefato":** num `claude` que também tenha tools de
+  artefato do claude.ai, um pedido curto pode ir para a tool errada. No CLI
+  local isso não deve acontecer; se acontecer, citar "do TaskNexus" ou o nome da tool.
+- Aceite com o `codex` real: coberto pelos testes de contrato do
+  `-c mcp_servers.*`; falta rodar com o binário.
+- Regenerar os HTML (`build_html.py`) e atualizar o `CONTEXTO-PARA-AGENTE.md`:
+  fica para o integrador.
+
+---
+
+### 7.11 Como ficou implementado (frontend)
+
+O frontend da Fase A entregou os passos 5 a 9 da tabela 7.6 (um commit por
+passo), contra os contratos reais da 7.10.3. Onde o código diverge do texto
+acima, **vale o código**. Backend: **nenhuma mudança** (não apareceu bug real
+na integração).
+
+#### 7.11.1 Arquivos
+
+| Arquivo | O que faz |
+|---------|-----------|
+| `frontend/src/features/artifacts/ArtefatosV2.jsx` | A tela: barra de filtro (selects + chips + busca + ordem), grupos/grade, estados, painel (Dock/Drawer/Fullscreen com `scope="artefatos"`), links relativos, menu, renomear, importar |
+| `features/artifacts/ArtifactCard.jsx` | Cartão (selo, título, caminho, trecho, rodapé, "arquivo não encontrado", ⋯, toque longo, botão direito) e o esqueleto |
+| `features/artifacts/ArtifactActionsMenu.jsx` | Menu em portal: Abrir, Baixar, Copiar caminho, Citar no chat, Renomear, Remover (2 toques); `placeMenu` (embaixo/em cima, dentro da janela) |
+| `features/artifacts/RenameArtifactDialog.jsx` | `CenteredModal` + `PATCH` |
+| `features/artifacts/ImportArtifactsModal.jsx` | `CenteredModal` com projeto, candidatos, "Selecionar todos" e importação |
+| `features/artifacts/useArtifacts.js` | Lista do cliente e quando recarregar (entrar, foco/visibilidade, `artifactsSignal`) |
+| `features/artifacts/useArtifactTabsStorage.js` | Abas do escopo `artefatos` em `sessionStorage` (até 15, try/catch) |
+| `features/artifacts/useSaveToArtifacts.js` | Regra e consulta do "☆ Salvar" no visualizador do chat |
+| `features/artifacts/artifactModel.js` | Regras puras: recorte, busca, ordem, grupos, textos do cartão, links, caminho absoluto |
+| `features/artifacts/artifactsApi.js` | Rotas de 7.10.3 (lista, criar, renomear, remover, candidatos, importar) |
+| `features/artifacts/artifacts.css` | Estilos da tela (só tokens `--v2-*`, sem transform/filter) |
+| `features/viewer/ViewerContext.jsx` | + `restoreItems`, `syncItems`, `artifactsSignal`, `isArtifactPath` |
+| `features/viewer/ViewerPanel.jsx`, `ViewerDock.jsx`, `ViewerDrawer.jsx`, `ViewerFullscreen.jsx` | + prop `onOpenPath` (links relativos em escopo local) |
+| `features/viewer/ViewerToolbar.jsx` | + botão **☆ Salvar** |
+| `layouts/v2/AppV2.jsx` | `NAV_ITEMS`/`SCREEN_TITLES` + `artefatos`; `viewerOpen` soma a superfície `artefatos`; render de `ArtefatosV2` |
+| `layouts/v2/ClienteProjetoFilterBar.jsx` | + `children` (controles extras na mesma linha; Board/Tarefas sem mudança) |
+| Testes | `artifactModel.test.js`, `ArtefatosV2.test.jsx`, `ArtifactActions.test.jsx`, `ImportArtifactsModal.test.jsx`; ampliados `ViewerContext.test.jsx`, `ViewerPanel.test.jsx`, `AppV2.test.jsx`, `MobileMenuScreen.test.jsx` |
+| `README.md` | Seção "Artefatos" e o ☆ Salvar na seção do visualizador |
+
+#### 7.11.2 Divergências e decisões tomadas na implementação
+
+| # | Ponto | Especificação | Como ficou | Por quê |
+|---|-------|---------------|------------|---------|
+| 1 | Filtros | "no backend (`projeto_id`) ou no front; escolher **uma**" (7.5.3) | Busca `GET /api/artifacts?cliente_id=` (ou sem nada em "Todos") **uma vez**; projeto, tipo, busca e ordem são recortes **no front** (`artifactModel.js`), com as MESMAS regras do backend (busca sem acento/caixa, "recentes" pelo maior entre `updated_at` e `mtime`, "nome" sem acento). O projeto usa o `isInScope` da Fase N | Chips e busca respondem na hora, sem uma requisição por letra no iPad. E o `projeto_id` do backend não distingue a "Raiz" (só o cliente), que o `isInScope` já trata. Testado o caso de 3 níveis |
+| 2 | Barra de filtro | "mesma linha" dos selects | `ClienteProjetoFilterBar` ganhou `children`; quebra de linha natural (`flex-wrap`) quando não cabe (iPad em pé com painel, celular) | Reaproveita a barra em vez de copiar; Board e Tarefas não passam `children` e ficam idênticos |
+| 3 | Recolhimento | `viewerOpen` soma a superfície da tela (6.11.6) | `viewerOpen = (chat aberto e tela Chat) || (artefatos aberto e tela Artefatos)`; o Dock do chat só é desenhado com o painel do chat aberto na tela Chat | Cada painel só conta na própria tela. Com os dois abertos, trocar de tela troca qual está encaixado |
+| 4 | Versão da aba | — | A aba do artefato usa como `updated_at` a **versão do arquivo** (maior entre publicação e `mtime`); a publicação fica em `published_at` | É a chave do cache de conteúdo e o `?v=` do iframe/PDF: arquivo alterado no disco sem nova publicação refaz o conteúdo no painel |
+| 5 | Abas abertas × lista | — | `syncItems`: quando a lista recarrega, as abas abertas recebem os dados novos (título renomeado, versão) sem abrir aba nem mexer no painel | Renomear ou o agente regravar o arquivo reflete no painel |
+| 6 | Persistência das abas | `sessionStorage` (7.5.4) | `restoreItems` na 1ª montagem da tela na página (não abre o painel); grava a cada mudança; tudo em try/catch | Recarregar a página não deve jogar o painel na cara de quem só voltou à tela |
+| 7 | Links relativos num artefato | Decidir (6.11.6) | Destino que é **artefato já carregado** (mesmo projeto e caminho) → outra aba; qualquer outro → **aba do navegador** com `fileUrl` do artefato atual (`/api/artifacts/{id}/f/<caminho resolvido>`); fora do projeto → aviso | `openByPath` precisa de sessão. A rota `f/` já serve os vizinhos do projeto com as mesmas regras de segurança. Um `.md` aberto assim aparece como texto puro no navegador; `#L10` não destaca linha |
+| 8 | Lista desatualizada (7.5.5) | "observar `viewer.scopes` ou ouvinte" | Contador `artifactsSignal` no contexto (sobe em `receiveOpen` quando o `path` termina em .md/.markdown/.html/.htm/.pdf); recarga com espera de 300 ms; foco/visibilidade com intervalo mínimo de 2 s | Sem polling; vários arquivos abertos em sequência viram uma busca |
+| 9 | Citar no chat | "cola o caminho" | Cola o caminho **absoluto** (`path` do projeto em `/api/projects` + caminho; no Windows com `\`), sem `\r`; desabilitado ("Abra um chat para citar") sem conversa ativa | O agente ativo pode estar em outro projeto; relativo apontaria para o lugar errado |
+| 10 | Copiar caminho | — | Copia o caminho **relativo** ao projeto | Igual ao ⋯ › Copiar caminho do visualizador |
+| 11 | Menu de arquivo sumido | "ações: Remover da lista" | Abrir (mostra o aviso do painel), Copiar caminho, Renomear e Remover; sem Baixar nem Citar | Baixar/Citar dariam 404 |
+| 12 | Toque longo | — | 500 ms parado (cancela com mais de 10 px de movimento — rolar a lista), via Pointer Events; o clique ao soltar é ignorado; botão direito também abre; `-webkit-touch-callout: none` no cartão | Sem a lupa/seleção do iOS por cima do menu |
+| 13 | "☆ Salvar em Artefatos" | "quando o item veio do chat e ainda não é artefato" | Botão **☆ Salvar** (rótulo acessível "Salvar em Artefatos") na barra, para abas `source: 'viewer'` de .md/.markdown/.html/.htm/.pdf; "ainda não é" = não está em `GET /api/artifacts?projeto_id=<projeto da aba>` (cache de 15 s por projeto, limpo ao salvar). Depois: "★ Salvo" por 1,2 s, aviso "Salvo em Artefatos" (ou "Já estava em Artefatos" no 200) e o botão some | O que o agente abre desses tipos já vira artefato sozinho; o botão serve ao que você abriu (link, terminal) e ao que foi removido da lista. Rótulo curto porque a barra do painel encaixado tem 420 px |
+| 14 | Importar | Candidatos "do projeto escolhido" | O modal tem um select de projeto (os do escopo atual da tela; em "Todos", todos), pré-escolhido com o projeto do filtro (ou o cliente). Sucesso parcial deixa no modal só os que falharam, com o motivo | Importar exige um projeto, e o Bruno pode estar olhando o cliente inteiro |
+| 15 | Renomear | — | `CenteredModal` com o foco no campo de texto (o teclado sobe) | Quem tocou em "Renomear" quer digitar (o contrato do `CenteredModal` evita isso só no "Novo chat") |
+| 16 | Datas do rodapé | "quando" | "agora", "há 5 min", "há 2 h", "ontem", "há 3 d" e, depois de uma semana, "24 set" (com o ano se não for o atual); "atualizado há X" quando o `mtime` passou da publicação em mais de 2 s | 7.2, "Arquivo alterado depois de publicado" |
+| 17 | Subprojeto na grade | — | Com um projeto escolhido que tem subprojetos, o caminho do cartão de um subprojeto vem prefixado ("v2 · README.md") | Dois `README.md` não parecem o mesmo arquivo |
+| 18 | Celular | "lista em uma coluna, abrir vai para tela cheia" | Igual; a tela cheia só aparece com a tela à vista (não por cima do menu); a busca usa 16 px no celular (o iOS dá zoom em campo menor) | — |
+
+#### 7.11.3 Testes e tamanho
+
+`npm test`: **94 arquivos, 1635 testes, todos passando** (eram 90/1584).
+Cobrem os itens "Frontend" de 7.7: agrupa por projeto com "Todos os
+projetos"; grade com projeto escolhido (subárvore de 3 níveis e Raiz);
+chips, busca sem acento e ordem; estados vazio, carregando (6 esqueletos) e
+erro; cartão `exists:false` com selo e borda tracejada; tocar abre o painel
+com a aba e outro cartão abre a segunda; remover exige 2 toques e chama
+`DELETE`; item "Artefatos" na sidebar (entre Tarefas e Configuração) e no menu
+do celular; encaixe com a sidebar recolhida sem gravar a preferência, gaveta em
+641–1099 px; abas no `sessionStorage` (e storage bloqueado não quebra);
+links relativos; recarga no `viewer_open` de `.md` (e não de `.py`); menu,
+citar, renomear, importar e o ☆ Salvar. `fixedPositioningInvariant.test.js`
+continua passando.
+
+`npm run build`: `index-*.js` 957,91 kB · gzip 274,00 kB (+8,5 kB gzip sobre a
+V-2); `index-*.css` 31,48 kB · gzip 7,33 kB (+1,4 kB).
+
+#### 7.11.4 Verificação visual
+
+Backend real (`uvicorn`) com `PROJECTS_ROOT` temporário: `podesubir` (com
+`site-institucional`, `api-pagamentos` e `api-pagamentos/v2`) e `cliente-x`
+(com `site`), todos com `.claude/`; `.md`, `.html` com `style.css` e imagem
+vizinhos, um PDF de 4 páginas, um `node_modules/` (não aparece nos
+candidatos). Os artefatos foram criados por `POST /api/artifacts` e o
+`created_by`/`agent_label`/datas ajustados no banco para simular agentes
+(claude/codex) e idades diferentes; `docs/fluxo.html` foi apagado do disco
+depois de publicado. Frontend com `vite` e Playwright/Chromium em
+1180×820, 820×1180 e 390×844, em `capturas/fase-a/`:
+
+| Tela | 1180×820 (encaixado) | 820×1180 (por cima) | 390×844 (tela cheia) |
+|------|----------------------|---------------------|----------------------|
+| Lista em "Todos" (grupos) | [ver](capturas/fase-a/ipad-paisagem-1180x820--1-lista-todos.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--1-lista-todos.png) | [ver](capturas/fase-a/celular-390x844--1-lista-todos.png) |
+| Projeto escolhido na sidebar (grade) | [ver](capturas/fase-a/ipad-paisagem-1180x820--2-lista-projeto.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--2-lista-projeto.png) | [ver](capturas/fase-a/celular-390x844--2-lista-projeto.png) |
+| Cartão "arquivo não encontrado" | [ver](capturas/fase-a/ipad-paisagem-1180x820--3-arquivo-nao-encontrado.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--3-arquivo-nao-encontrado.png) | [ver](capturas/fase-a/celular-390x844--3-arquivo-nao-encontrado.png) |
+| Painel com o markdown | [ver](capturas/fase-a/ipad-paisagem-1180x820--4-painel-markdown.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--4-painel-markdown.png) | [ver](capturas/fase-a/celular-390x844--4-painel-markdown.png) |
+| Painel com 2 abas (md + html) | [ver](capturas/fase-a/ipad-paisagem-1180x820--5-painel-2-abas-html.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--5-painel-2-abas-html.png) | [ver](capturas/fase-a/celular-390x844--5-painel-2-abas-html.png) |
+| PDF | [ver](capturas/fase-a/ipad-paisagem-1180x820--6-pdf.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--6-pdf.png) | [ver](capturas/fase-a/celular-390x844--6-pdf.png) |
+| Tela cheia | [ver](capturas/fase-a/ipad-paisagem-1180x820--7-tela-cheia.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--7-tela-cheia.png) | [ver](capturas/fase-a/celular-390x844--7-tela-cheia.png) |
+| Menu do cartão | [ver](capturas/fase-a/ipad-paisagem-1180x820--8-menu-do-cartao.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--8-menu-do-cartao.png) | [ver](capturas/fase-a/celular-390x844--8-menu-do-cartao.png) |
+| Importar do projeto | [ver](capturas/fase-a/ipad-paisagem-1180x820--9-importar-do-projeto.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--9-importar-do-projeto.png) | [ver](capturas/fase-a/celular-390x844--9-importar-do-projeto.png) |
+| ☆ Salvar no visualizador do chat | [ver](capturas/fase-a/ipad-paisagem-1180x820--10-chat-salvar-em-artefatos.png) · [salvo](capturas/fase-a/ipad-paisagem-1180x820--11-chat-salvo-em-artefatos.png) | [ver](capturas/fase-a/ipad-retrato-820x1180--10-chat-salvar-em-artefatos.png) · [salvo](capturas/fase-a/ipad-retrato-820x1180--11-chat-salvo-em-artefatos.png) | — |
+
+Conferido no script (medido, não só olhado): **nenhuma rolagem horizontal**
+(`scrollWidth − clientWidth = 0` na página, na lista, na barra de filtro e no
+corpo do painel em todas as capturas). Em 1180×820 a sidebar virou trilho com
+o painel aberto e voltou ao fechar. O PDF aparece em branco nas capturas
+porque o Chromium sem interface não tem leitor de PDF (o mesmo da V-2); ↗ e ⤓
+ficam à vista. Na cena do chat, a conversa foi aberta por WebSocket e o
+arquivo `docs/notas.md` aberto por `POST /api/sessions/{sk}/viewer` (como um
+link tocado); a lista de chats aparece vazia porque o teste não criou a
+conversa pela tela.
+
+#### 7.11.5 Pendências (verificar no aparelho)
+
+- Toque longo no cartão no Safari do iPad (gesto e ausência da lupa/menu do sistema).
+- Baixar pelo menu do cartão no Safari/PWA (Arquivos › Downloads).
+- PDF no painel do Safari (só a 1ª página? — ↗ abre no leitor nativo).
+- Link relativo de um artefato que não está na lista abre o arquivo cru numa
+  aba do navegador (um `.md` aparece como texto). Se incomodar, a evolução
+  natural é abrir pela conversa ativa (`openByPath`) quando houver uma no
+  mesmo projeto.
+- Paginação da lista (7.8) continua não implementada no backend; a tela busca
+  a lista do cliente inteira.
+- Regenerar os HTML (`build_html.py`) e atualizar o `CONTEXTO-PARA-AGENTE.md`:
+  fica para o integrador.
 
 ---
 

@@ -429,26 +429,27 @@ WebSocket). No tablet isso é ruim:</p>
 </table></div>
 <h2 id="7-estado-atual">7. Estado atual</h2>
 <ul>
-<li><strong>Branch de trabalho da documentação:</strong> <code>claude/elegant-carson-ehd59f</code>
-  (a pasta <code>docs/melhorias-tablet/</code> foi liberada no <code>.gitignore</code>, que ignora <code>docs/*</code> por padrão).</li>
-<li><strong>Código:</strong> a <strong>Fase N</strong> foi implementada (frontend só) na branch
-  <code>claude/elegant-carson-ehd59f</code>: drill-down cliente → projeto no <code>ClienteList</code>,
-  escopo global <code>useNavScope</code>, filtro por projeto no Chat/Board/Tarefas e o
-  recolhimento automático pronto em <code>useViewerDockCollapse</code> (com <code>viewerOpen</code>
-  sempre <code>false</code> no <code>AppV2</code> até a Fase V ligar). O que divergiu do plano e os
-  pontos de integração estão na seção <strong>8.7</strong> da Parte 8.</li>
-<li><strong>Fase V-1 (backend do visualizador)</strong> implementada na branch
-  <code>claude/practical-keller-pdveop</code>: <code>file_access.py</code>, <code>file_serving.py</code>,
-  <code>viewer_store.py</code>, <code>viewer_api.py</code>, <code>mcp_viewer_adapter.py</code>, frame
-  <code>viewer_open</code> e o servidor MCP <code>escritorio-visualizador</code>. Contratos, o que
-  divergiu do plano e pendências estão na seção <strong>6.10</strong> da Parte 6. Falta a
-  <strong>V-2</strong> (frontend, passos 5 a 10 da tabela 6.6).</li>
-<li><strong>Próxima ação:</strong> quando o Bruno pedir, entregar o prompt de desenvolvimento
-  da <strong>Fase V</strong> (<code>06-planejamento-fase-v.md</code>) e depois o da <strong>Fase A</strong>
-  (<code>07-planejamento-artefatos.md</code>), para ele usar numa janela limpa. A Fase V
-  liga <code>setViewerOpen</code> no <code>AppV2</code> (ver 8.7). O desenvolvimento deve acontecer
-  numa branch própria (a que a sessão de desenvolvimento indicar), com um PR
-  para a fase.</li>
+<li><strong>Integração:</strong> as fases <strong>N, V (V-1 backend + V-2 frontend) e A (backend +
+  frontend)</strong> foram desenvolvidas por subagentes, validadas pelo integrador e
+  mergeadas na branch <code>claude/elegant-carson-ehd59f</code>, que vai para a <code>main</code> num
+  <strong>PR único</strong> com o checklist de teste manual do Bruno. O PR antigo da V-1
+  (<code>brunopodesubir/TaskNexus-adjustes#2</code>) foi substituído por esse PR único.</li>
+<li><strong>Onde está o "como ficou" de cada fase:</strong> Fase N na seção <strong>8.7</strong>; V-1 na
+  <strong>6.10</strong>; V-2 na <strong>6.11</strong>; Artefatos backend na <strong>7.10</strong> e frontend na <strong>7.11</strong>.
+  Capturas em <code>docs/melhorias-tablet/capturas/fase-v2/</code> e <code>capturas/fase-a/</code>.</li>
+<li><strong>Testes na integração:</strong> frontend 94 arquivos / 1635 testes verdes; backend
+  1212 passaram, 21 pulados (o <code>test_pty_manager.py::test_terminate_kills_process_group</code>
+  falha só no contêiner de nuvem, por falta de reaper de zumbis, e já falhava antes).</li>
+<li><strong>Próxima ação:</strong> o Bruno testa o PR único no iPad/PC/celular. Depois do merge,
+  as próximas fases do roteiro são <strong>F0</strong> (autenticação + routers + restante dos
+  quick wins do terminal), <strong>F1</strong> (navegador de arquivos), <strong>F2</strong> (chat
+  estruturado), <strong>F3</strong> (layout v3) e <strong>F4</strong> (codex + extras) — Parte 5.</li>
+<li><strong>Pendências conhecidas</strong> (estão no PR): aprovação da tool na TUI do claude na
+  1ª chamada; PDF dentro de iframe no Safari pode mostrar só a 1ª página;
+  vídeo sem Range (vira download); CORS <code>*</code> e sem autenticação até a F0; teste com
+  o codex real e no Windows; ambiguidade de "artefato" num claude que também tenha
+  a tool de Artifact do claude.ai (dizer "artefato do TaskNexus"); paginação da
+  lista de artefatos; link relativo de artefato para arquivo não publicado abre cru.</li>
 </ul>
 <h2 id="8-regras-para-quem-for-desenvolver">8. Regras para quem for desenvolver</h2>
 <ol>
