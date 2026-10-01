@@ -423,6 +423,17 @@
 
 /* ---- Modais (dentro do CenteredModal) ------------------------------------- */
 
+/* O modal é portal para document.body, fora do casco do v2: a fonte e a cor
+   não vêm herdadas de lá (mesmo achado da V-2 na gaveta/tela cheia). */
+.af-modal {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  font-family: 'Figtree', -apple-system, sans-serif;
+  color: var(--v2-text);
+}
+
 .af-modal-head {
   display: flex;
   align-items: center;

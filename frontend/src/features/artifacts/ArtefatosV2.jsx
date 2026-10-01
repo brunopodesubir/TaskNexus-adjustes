@@ -25,7 +25,7 @@
 // aba do NAVEGADOR pela rota `f/` do artefato atual (que serve os vizinhos do
 // mesmo projeto, com as mesmas regras de segurança).
 import './artifacts.css';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useViewer } from '../viewer/ViewerContext.jsx';
 import { SOURCE_ARTIFACT, fileUrl } from '../viewer/viewerApi.js';
 import { ViewerDock } from '../viewer/ViewerDock.jsx';
@@ -46,6 +46,9 @@ import {
 import { useArtifacts } from './useArtifacts.js';
 import { useArtifactTabsStorage } from './useArtifactTabsStorage.js';
 import { ArtifactCard, ArtifactCardSkeleton } from './ArtifactCard.jsx';
+import { ArtifactActionsMenu } from './ArtifactActionsMenu.jsx';
+import { RenameArtifactDialog } from './RenameArtifactDialog.jsx';
+import { removeArtifact } from './artifactsApi.js';
 
 const EMPTY_HINT = 'Toque num artefato da lista para abri-lo aqui.';
 const SKELETONS = 6;
@@ -89,7 +92,7 @@ export function ArtefatosV2({
   const [busca, setBusca] = useState('');
   const [ordem, setOrdem] = useState('recentes');
 
-  const { artifacts, error, reload } = useArtifacts({
+  const { artifacts, error, reload, upsertLocal, removeLocal } = useArtifacts({
     clienteId: effectiveClienteId,
     signal: viewer?.artifactsSignal ?? 0,
   });
@@ -123,7 +126,37 @@ export function ArtefatosV2({
     viewer?.openItem(SCOPE_ARTEFATOS, toViewerItem(artifact), { source: SOURCE_ARTIFACT });
   };
 
-  const handleMenu = () => {};
+  // Menu ⋯ / toque longo: guarda o artefato e o retângulo da âncora no
+  // instante do toque (a lista pode rolar depois; o menu fica onde abriu).
+  const [menu, setMenu] = useState(null);
+  const [renaming, setRenaming] = useState(null);
+  const handleMenu = (artifact, anchor) => {
+    const rect = anchor?.getBoundingClientRect?.() || { top: 0, bottom: 0, left: 0, right: 0 };
+    setMenu({ artifact, rect });
+  };
+  const closeMenu = useCallback(() => setMenu(null), []);
+
+  const feedback = (text, kind = 'info') => viewer?.showToast(text, kind);
+
+  const handleRenamed = (updated) => {
+    upsertLocal(updated);
+    feedback('Artefato renomeado.');
+  };
+
+  const handleRemove = async (artifact) => {
+    try {
+      await removeArtifact(artifact.artifact_id);
+    } catch (err) {
+      feedback(err?.message || 'Não consegui remover da lista.', 'error');
+      return;
+    }
+    removeLocal(artifact.artifact_id);
+    // A aba aberta dele também sai (fechar a última fecha o painel).
+    if (scopeState?.items.some((i) => i.id === artifact.artifact_id)) {
+      viewer.closeItem(SCOPE_ARTEFATOS, artifact.artifact_id);
+    }
+    feedback('Removido da lista. O arquivo continua no projeto.');
+  };
 
   // Link relativo num artefato aberto (ver o cabeçalho do arquivo).
   const handleOpenPath = (caminho, options, item) => {
@@ -278,6 +311,27 @@ export function ArtefatosV2({
         emptyHint={EMPTY_HINT}
         onOpenPath={handleOpenPath}
       />
+
+      {menu && (
+        <ArtifactActionsMenu
+          artifact={menu.artifact}
+          anchorRect={menu.rect}
+          projects={projects}
+          activeSessionKey={activeSessionKey}
+          onClose={closeMenu}
+          onOpen={openArtifact}
+          onRename={setRenaming}
+          onRemove={handleRemove}
+          onFeedback={feedback}
+        />
+      )}
+      {renaming && (
+        <RenameArtifactDialog
+          artifact={renaming}
+          onClose={() => setRenaming(null)}
+          onRenamed={handleRenamed}
+        />
+      )}
     </div>
   );
 }
