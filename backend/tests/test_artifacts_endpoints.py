@@ -7,10 +7,12 @@ Mesmo padrão de fixture de test_viewer_endpoints.py (reload de app.main com
 env vars apontando para um tmp_path isolado)."""
 from __future__ import annotations
 
+import json
 import os
 import sys
 import time
 import uuid as uuid_mod
+from contextlib import ExitStack, contextmanager
 from unittest.mock import patch
 
 import pytest
@@ -418,3 +420,208 @@ def test_import_refusals(client):
     assert r.status_code == 400
     r = client.post("/api/artifacts/import", json={"project_id": "nao/existe", "caminhos": ["a.md"]})
     assert r.status_code == 404
+
+
+# -- Hook publicar_artefato e publicação automática --------------------------
+
+
+@pytest.fixture
+def loopback(monkeypatch):
+    """O TestClient se apresenta como host "testclient", que não é IP de
+    loopback. Para o caminho feliz dos hooks, finge que é."""
+    import app.viewer_api as viewer_api
+    monkeypatch.setattr(viewer_api, "_is_loopback_host", lambda host: True)
+
+
+def _poll_until(predicate, timeout=3.0):
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        if predicate():
+            return True
+        time.sleep(0.02)
+    return False
+
+
+@contextmanager
+def _session(client, session_key=SK, project_id=PROJ, keep_open=True):
+    """Registra a sessão de agente (claude_session_id conhecido) com um
+    processo inofensivo no PTY. Com `keep_open`, o WebSocket fica aberto e o
+    teste recebe os frames `viewer_open`."""
+    import app.main as main_mod
+    fixed_uuid = uuid_mod.uuid4()
+    fake_cmd = [sys.executable, "-c", "import time; time.sleep(10)"]
+    with ExitStack() as stack:
+        stack.enter_context(patch("app.main._build_pty_cmd", return_value=fake_cmd))
+        stack.enter_context(patch("app.main.uuid.uuid4", return_value=fixed_uuid))
+        ws = stack.enter_context(client.websocket_connect(f"/ws/pty/{session_key}"))
+        ws.send_text(json.dumps({
+            "type": "init", "project_id": project_id, "agent_id": None,
+            "cols": 80, "rows": 24,
+        }))
+        assert _poll_until(lambda: session_key in main_mod.pty_manager.active_sessions())
+        if not keep_open:
+            stack.close()
+            ws = None
+        yield str(fixed_uuid), ws
+
+
+def _next_text_frame(ws):
+    while True:
+        message = ws.receive()
+        if message.get("text") is not None:
+            return json.loads(message["text"])
+
+
+def _publish(client, sid, **body):
+    return client.post("/api/hooks/artifacts/publish", json={"claude_session_id": sid, **body})
+
+
+def test_publish_hook_with_unknown_session(client, loopback):
+    r = _publish(client, "uuid-que-nao-existe", caminho="README.md")
+    assert r.status_code == 200
+    assert r.json() == {"success": False, "error": "Sessão do TaskNexus não encontrada"}
+
+
+def test_publish_hook_opens_in_the_viewer_and_sends_viewer_open(client, loopback):
+    with _session(client) as (sid, ws):
+        r = _publish(client, sid, caminho="docs/relatorio.html", titulo="Relatório final",
+                     descricao="Resultado dos testes.")
+        assert r.status_code == 200
+        body = r.json()
+        assert body["success"] is True
+        assert body["created"] is True
+        assert body["opened"] is True
+        assert body["delivered"] is True
+        artifact = body["artifact"]
+        assert artifact["path"] == "docs/relatorio.html"
+        assert artifact["title"] == "Relatório final"
+        assert artifact["description"] == "Resultado dos testes."
+        assert artifact["created_by"] == "agent"
+        # Sem cadastro global de agentes no teste, o rótulo é o agent_id
+        # da session_key.
+        assert artifact["agent_label"] == "claude"
+        assert artifact["exists"] is True
+        frame = _next_text_frame(ws)
+        assert frame["type"] == "viewer_open"
+        assert frame["item"]["path"] == "docs/relatorio.html"
+        assert frame["item"]["title"] == "Relatório final"
+        assert frame["item"]["opened_by"] == "agent"
+
+        again = _publish(client, sid, caminho="docs/relatorio.html").json()
+        assert again["created"] is False
+        assert again["artifact"]["artifact_id"] == artifact["artifact_id"]
+        assert again["artifact"]["title"] == "Relatório final"
+        assert _next_text_frame(ws)["reused"] is True
+    # Publicar não duplicou a aba nem o artefato.
+    assert len(client.get(f"/api/sessions/{SK}/viewer").json()["items"]) == 1
+    assert len(_list(client)) == 1
+
+
+def test_publish_hook_with_abrir_false_does_not_open(client, loopback):
+    with _session(client, keep_open=False) as (sid, _):
+        body = _publish(client, sid, caminho="README.md", abrir=False).json()
+        assert body["success"] is True
+        assert body["opened"] is False
+        assert body["delivered"] is False
+        assert body["artifact"]["title"] == "Site institucional"
+        assert body["artifact"]["excerpt"] == "Página da empresa."
+        assert client.get(f"/api/sessions/{SK}/viewer").json()["items"] == []
+        # "false" em texto também vale.
+        assert _publish(client, sid, caminho="docs/manual.pdf", abrir="false").json()["opened"] is False
+
+
+def test_publish_hook_with_screen_closed_still_opens_the_tab(client, loopback):
+    with _session(client, keep_open=False) as (sid, _):
+        body = _publish(client, sid, caminho="README.md").json()
+        assert body["opened"] is True
+        assert body["delivered"] is False
+        items = client.get(f"/api/sessions/{SK}/viewer").json()["items"]
+        assert [i["path"] for i in items] == ["README.md"]
+
+
+@pytest.mark.parametrize("caminho,error", [
+    ("app.py", "Artefatos aceitam .md, .html e .pdf"),
+    (".env.md", "Arquivo protegido (segredos não são exibidos)"),
+    ("../../outro/app/notas.md", "Caminho fora do projeto"),
+    ("sumiu.md", "Arquivo não encontrado: sumiu.md"),
+    (None, "Informe o caminho do arquivo."),
+])
+def test_publish_hook_refusals_are_readable(client, loopback, caminho, error):
+    with _session(client, keep_open=False) as (sid, _):
+        r = _publish(client, sid, caminho=caminho)
+        assert r.status_code == 200
+        assert r.json() == {"success": False, "error": error}
+    assert _list(client) == []
+
+
+def test_publish_hook_bad_body_and_non_loopback(client, loopback, monkeypatch):
+    r = client.post("/api/hooks/artifacts/publish", content=b"[1,2]",
+                    headers={"Content-Type": "application/json"})
+    assert r.status_code == 200
+    assert r.json() == {"success": False, "error": "Corpo da requisição inválido."}
+    import app.viewer_api as viewer_api
+    monkeypatch.setattr(viewer_api, "_is_loopback_host", lambda host: False)
+    r = _publish(client, "x", caminho="README.md")
+    assert r.status_code == 403
+    assert r.json() == {
+        "success": False,
+        "error": "O hook de artefatos só aceita chamadas da própria máquina.",
+    }
+
+
+def test_agent_opening_markdown_publishes_automatically(client, loopback):
+    with _session(client, keep_open=False) as (sid, _):
+        r = client.post("/api/hooks/viewer/open", json={
+            "claude_session_id": sid, "caminho": "README.md", "titulo": "Leia",
+        })
+        assert r.json()["success"] is True
+    [artifact] = _list(client)
+    assert artifact["path"] == "README.md"
+    assert artifact["project_id"] == PROJ
+    assert artifact["created_by"] == "agent"
+    assert artifact["agent_label"] == "claude"
+    # O título da ABA é um rótulo curto; o artefato usa o título do documento.
+    assert artifact["title"] == "Site institucional"
+
+
+@pytest.mark.parametrize("caminho", ["docs/relatorio.html", "docs/manual.pdf"])
+def test_agent_opening_html_and_pdf_publishes(client, loopback, caminho):
+    with _session(client, keep_open=False) as (sid, _):
+        client.post("/api/hooks/viewer/open", json={"claude_session_id": sid, "caminho": caminho})
+    assert [a["path"] for a in _list(client)] == [caminho]
+
+
+def test_agent_opening_python_file_does_not_publish(client, loopback):
+    with _session(client, keep_open=False) as (sid, _):
+        r = client.post("/api/hooks/viewer/open", json={"claude_session_id": sid, "caminho": "app.py"})
+        assert r.json()["success"] is True
+    assert _list(client) == []
+
+
+def test_user_opening_markdown_does_not_publish(client):
+    r = client.post(f"/api/sessions/{SK}/viewer", json={"caminho": "README.md"})
+    assert r.json()["success"] is True
+    assert _list(client) == []
+
+
+def test_artifacts_survive_the_end_of_the_session(client, loopback):
+    with _session(client, keep_open=False) as (sid, _):
+        _publish(client, sid, caminho="README.md")
+    assert client.post(f"/api/sessions/{SK}/terminate").status_code == 200
+    assert [a["path"] for a in _list(client)] == ["README.md"]
+
+
+def test_agent_label_comes_from_the_global_agent_registry(client):
+    import app.main as main_mod
+    from app.models import Agent
+
+    agents = [
+        Agent(id="a1", nome="Revisor", papel="x", ia="codex"),
+        Agent(id="a2", nome="Padrão", papel="x", ia="claude", default=True),
+    ]
+    with patch.object(main_mod, "_global_agents_cache", agents):
+        assert main_mod._agent_label_for_session("p::a1") == "codex"
+        assert main_mod._agent_label_for_session("p") == "claude"
+        assert main_mod._agent_label_for_session("p::sumiu") == "sumiu"
+    with patch.object(main_mod, "_global_agents_cache", []):
+        assert main_mod._agent_label_for_session("p") is None

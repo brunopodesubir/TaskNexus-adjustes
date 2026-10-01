@@ -810,15 +810,18 @@ def _escritorio_mcp_servers(session_id: str) -> dict[str, _McpServerSpec]:
                 "PYTHONUTF8": "1",
             },
         },
-        # Fase V (Parte 6, 6.4.6): tool `abrir_no_visualizador`. Registrado
-        # aqui, vale para o `claude` (--mcp-config) e para o `codex`
-        # (-c mcp_servers.*) sem nenhuma outra mudança.
+        # Fase V (Parte 6, 6.4.6): tool `abrir_no_visualizador`; Fase A
+        # (Parte 7, 7.4.5): tool `publicar_artefato`, no MESMO servidor (um
+        # processo a menos). Registrado aqui, vale para o `claude`
+        # (--mcp-config) e para o `codex` (-c mcp_servers.*) sem nenhuma
+        # outra mudança.
         "escritorio-visualizador": {
             "command": sys.executable,
             "args": [os.path.join(module_dir, "mcp_viewer_adapter.py")],
             "env": {
                 "ESCRITORIO_CLAUDE_SESSION_ID": session_id,
                 "ESCRITORIO_HOOK_VIEWER_OPEN_URL": f"{base_url}/api/hooks/viewer/open",
+                "ESCRITORIO_HOOK_ARTIFACT_PUBLISH_URL": f"{base_url}/api/hooks/artifacts/publish",
                 "PYTHONUTF8": "1",
             },
         },
@@ -832,7 +835,8 @@ def _build_mcp_config_json(session_id: str) -> str:
     `criar_tarefa_validacao` (escritorio-tarefas),
     `criar_card`/`mover_card`/`editar_card`/`excluir_card`/`ver_card`/
     `listar_cards` (escritorio-cards, Tarefa 8 do plano 05-TL.md + Fase 3) e
-    `abrir_no_visualizador` (escritorio-visualizador, Fase V). Os abspaths são resolvidos a partir de
+    `abrir_no_visualizador`/`publicar_artefato` (escritorio-visualizador,
+    Fases V e A). Os abspaths são resolvidos a partir de
     __file__ (diretório deste módulo), NÃO do cwd do PTY — o cwd do PTY é o
     diretório do projeto do usuário, onde os scripts não existem.
 
@@ -2738,8 +2742,6 @@ viewer_service = ViewerService(
     session_key_for_claude_id=store.get_session_key_by_claude_id,
     notify=notify_viewer_open,
 )
-# Antes do catch-all do SPA no fim do arquivo (ver o comentário de lá).
-app.include_router(create_viewer_router(viewer_service))
 
 
 # -- Fase A: aba Artefatos (Parte 7) ------------------------------------------
@@ -2747,11 +2749,43 @@ app.include_router(create_viewer_router(viewer_service))
 # As rotas moram em app/artifacts_api.py. Artefatos NÃO são apagados no
 # terminate da sessão: a galeria é permanente por projeto (7.1, A6).
 
+
+def _agent_label_for_session(session_key: str) -> str | None:
+    """Rótulo do agente da sessão para o rodapé do cartão ("claude",
+    "codex"…): o `ia` do agente do cadastro global (7.4.3).
+
+    Mesma escolha de `_resolve_agent` (o `agent_id` da session_key, senão o
+    agente padrão, senão o primeiro), mas direto no cache do cadastro: todo
+    projeto elegível recebe a mesma lista global (scan_projects), então não
+    precisa varrer PROJECTS_ROOT só para isto. Sem agente resolvido, o próprio
+    `agent_id` da chave ainda diz alguma coisa."""
+    _, _, agent_id = session_key.partition("::")
+    agents = _global_agents_cache
+    agent = None
+    if agent_id:
+        agent = next((a for a in agents if a.id == agent_id), None)
+    if agent is None and not agent_id and agents:
+        agent = next((a for a in agents if a.default), agents[0])
+    if agent is not None:
+        return agent.ia or agent.nome
+    return agent_id or None
+
+
 artifact_service = ArtifactService(
     store=artifact_store,
     find_project_path=_find_project_path,
     get_projects_root=lambda: PROJECTS_ROOT,
+    session_key_for_claude_id=store.get_session_key_by_claude_id,
+    agent_label_for=_agent_label_for_session,
+    viewer=viewer_service,
 )
+
+# Antes do catch-all do SPA no fim do arquivo (ver o comentário de lá).
+# `on_agent_open`: todo .md/.html/.pdf que o AGENTE abre com
+# `abrir_no_visualizador` entra em Artefatos (7.3). Abertura pelo usuário não.
+app.include_router(create_viewer_router(
+    viewer_service, on_agent_open=artifact_service.publish_opened_item,
+))
 app.include_router(create_artifacts_router(artifact_service))
 
 

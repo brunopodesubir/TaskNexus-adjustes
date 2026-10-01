@@ -23,6 +23,7 @@ visualizador (6.10.2, item 8). As rotas `content` e `f/` devolvem o erro do
 from __future__ import annotations
 
 import asyncio
+import logging
 import os
 import unicodedata
 from typing import Any, Awaitable, Callable, Optional
@@ -34,6 +35,12 @@ from app import file_serving
 from app.agent_discovery import cliente_id_from_projeto_id
 from app.artifact_meta import UNSUPPORTED_KIND_ERROR, artifact_kind_for, extract_meta
 from app.artifact_store import ArtifactStore
+from app.viewer_api import (
+    SESSION_NOT_FOUND,
+    ViewerOpenError,
+    ViewerService,
+    hook_request_allowed,
+)
 from app.file_access import (
     is_denied,
     is_within_directory,
@@ -42,7 +49,10 @@ from app.file_access import (
     to_relative_posix,
 )
 
+logger = logging.getLogger(__name__)
+
 ARTIFACT_NOT_FOUND = "Artefato não encontrado"
+HOOK_NOT_LOOPBACK = "O hook de artefatos só aceita chamadas da própria máquina."
 
 # Valores aceitos em `?tipo=`: os chips da tela dizem MD/HTML/PDF, e o `kind`
 # gravado é `markdown`. Vazio e `todos` = sem filtro.
@@ -228,6 +238,13 @@ class ArtifactService:
       rara, e é o que confirma que o projeto existe de fato.
     - `get_projects_root() -> str`: raiz atual dos projetos, para servir
       arquivo e checar existência sem varrer a árvore.
+    - `session_key_for_claude_id(id) -> str | None`: assíncrona, a mesma do
+      visualizador (o hook do agente chega com o id de conversa do CLI).
+    - `agent_label_for(session_key) -> str | None`: síncrona, "claude",
+      "codex"… do agente da sessão (7.4.3, `agent_label`).
+    - `viewer`: o ViewerService, para `publicar_artefato` com `abrir=true`
+      reaproveitar a MESMA abertura de aba do `abrir_no_visualizador`
+      (inclusive o frame `viewer_open`). None = não abre (só testes).
     """
 
     def __init__(
@@ -236,10 +253,88 @@ class ArtifactService:
         store: ArtifactStore,
         find_project_path: Callable[[str], Optional[str]],
         get_projects_root: Callable[[], str],
+        session_key_for_claude_id: Optional[Callable[[str], Awaitable[Optional[str]]]] = None,
+        agent_label_for: Optional[Callable[[str], Optional[str]]] = None,
+        viewer: Optional[ViewerService] = None,
     ):
         self.store = store
         self._find_project_path = find_project_path
         self._get_projects_root = get_projects_root
+        self._session_key_for_claude_id = session_key_for_claude_id
+        self._agent_label_for = agent_label_for
+        self.viewer = viewer
+
+    async def session_key_for_claude_id(self, claude_session_id: Any) -> str | None:
+        if not isinstance(claude_session_id, str) or not claude_session_id:
+            return None
+        if self._session_key_for_claude_id is None:
+            return None
+        return await self._session_key_for_claude_id(claude_session_id)
+
+    def agent_label_for(self, session_key: str) -> str | None:
+        if self._agent_label_for is None:
+            return None
+        try:
+            return self._agent_label_for(session_key)
+        except Exception:
+            # Rótulo é só o rodapé do cartão: nunca impede a publicação.
+            return None
+
+    async def publish_from_session(
+        self,
+        session_key: str,
+        caminho: Any,
+        *,
+        titulo: str | None = None,
+        descricao: str | None = None,
+        project_path: str | None = None,
+    ) -> tuple[dict, bool]:
+        """Publicação feita pelo AGENTE de uma sessão: o projeto é o da
+        `session_key` (mesma regra `partition("::")` do visualizador) e o
+        rótulo é o do agente da sessão."""
+        project_id = session_key.partition("::")[0]
+        if project_path is None:
+            path = None
+            if project_id:
+                path = await asyncio.to_thread(self._find_project_path, project_id)
+            if path is None:
+                raise ArtifactError(f"Projeto da sessão não encontrado: {project_id}", 404)
+            project_path = path
+        return await self.publish(
+            project_id,
+            caminho,
+            project_path=project_path,
+            titulo=titulo,
+            descricao=descricao,
+            created_by="agent",
+            agent_label=self.agent_label_for(session_key),
+            session_key=session_key,
+        )
+
+    async def publish_opened_item(self, session_key: str, item: dict) -> dict | None:
+        """Publicação automática (7.3): o agente abriu um .md/.html/.pdf com
+        `abrir_no_visualizador`. Chamada pelo hook do visualizador DEPOIS da
+        aba gravada; outros tipos são ignorados. Nunca levanta — a aba já foi
+        aberta, e falhar aqui não pode virar erro para o agente.
+
+        O projeto vem do item (já validado pela abertura), pelo caminho
+        rápido `project_dir_from_id`: a abertura acabou de varrer os projetos
+        e não precisa de uma segunda varredura."""
+        if artifact_kind_for(item.get("path") or "") is None:
+            return None
+        try:
+            project_path = await asyncio.to_thread(self.project_root_for, item["project_id"])
+            if project_path is None:
+                return None
+            artifact, _ = await self.publish_from_session(
+                session_key, item["path"], project_path=project_path,
+            )
+            return artifact
+        except ArtifactError as exc:
+            logger.info("Publicação automática de %s recusada: %s", item.get("path"), exc.message)
+        except Exception:
+            logger.exception("Falha na publicação automática de %s", item.get("path"))
+        return None
 
     def project_root_for(self, project_id: str) -> str | None:
         return project_dir_from_id(self._get_projects_root(), project_id)
@@ -389,6 +484,23 @@ async def _read_json_object(request: Request) -> dict | None:
 _BAD_BODY = ArtifactError("Corpo da requisição inválido.", 400)
 
 
+def _parse_bool(value: Any, default: bool) -> bool:
+    """`abrir` vindo do agente: booleano, ou as formas de texto que alguns
+    modelos mandam ("false", "0", "não"). Qualquer outra coisa vale o padrão
+    — abrir é o comportamento esperado (7.4.5)."""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        text = value.strip().lower()
+        if text in ("false", "0", "no", "nao", "não", "n"):
+            return False
+        if text in ("true", "1", "yes", "sim", "s"):
+            return True
+    return default
+
+
 def create_artifacts_router(service: ArtifactService) -> APIRouter:
     router = APIRouter()
 
@@ -428,6 +540,65 @@ def create_artifacts_router(service: ArtifactService) -> APIRouter:
         except ArtifactError as exc:
             return _error(exc)
         return JSONResponse(status_code=201 if created else 200, content=artifact)
+
+    @router.post("/api/hooks/artifacts/publish")
+    async def hook_artifacts_publish(request: Request):
+        """Chamado só pelo mcp_viewer_adapter.py (tool `publicar_artefato`).
+
+        Mesmas regras do hook do visualizador: só loopback (exceto com
+        HOOK_CALLBACK_BASE_URL), corpo lido à mão e SEMPRE `{"success": ...}`
+        legível com 200 — um 422 viraria "não foi possível falar com o
+        TaskNexus" no adaptador e esconderia do agente o que ele errou.
+
+        Sucesso: `{"success": true, "artifact": {...}, "created": bool,
+        "opened": bool, "delivered": bool}`. `opened` diz se a aba foi
+        gravada no visualizador; `delivered`, se a tela estava aberta e
+        recebeu o frame `viewer_open`."""
+        if not hook_request_allowed(request):
+            return JSONResponse(
+                status_code=403,
+                content={"success": False, "error": HOOK_NOT_LOOPBACK},
+            )
+        payload = await _read_json_object(request)
+        if payload is None:
+            return {"success": False, "error": _BAD_BODY.message}
+        session_key = await service.session_key_for_claude_id(payload.get("claude_session_id"))
+        if not session_key:
+            return {"success": False, "error": SESSION_NOT_FOUND}
+
+        titulo = _optional_text(payload.get("titulo"))
+        try:
+            artifact, created = await service.publish_from_session(
+                session_key,
+                payload.get("caminho"),
+                titulo=titulo,
+                descricao=_optional_text(payload.get("descricao")),
+            )
+        except ArtifactError as exc:
+            return {"success": False, "error": exc.message}
+
+        opened = False
+        delivered = False
+        if _parse_bool(payload.get("abrir"), True) and service.viewer is not None:
+            # A MESMA abertura do `abrir_no_visualizador` (aba gravada +
+            # frame `viewer_open`), com o caminho já validado e relativo.
+            # Ela não passa pelo hook do visualizador, então não publica de
+            # novo. Falhar aqui não desfaz a publicação.
+            try:
+                opened_result = await service.viewer.open_path(
+                    session_key, artifact["path"], titulo=titulo, opened_by="agent",
+                )
+                opened = True
+                delivered = bool(opened_result.get("delivered"))
+            except ViewerOpenError as exc:
+                logger.info("Artefato publicado, mas não aberto: %s", exc.message)
+        return {
+            "success": True,
+            "artifact": artifact,
+            "created": created,
+            "opened": opened,
+            "delivered": delivered,
+        }
 
     @router.post("/api/artifacts/import")
     async def import_artifacts(request: Request):
